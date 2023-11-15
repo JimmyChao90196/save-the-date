@@ -22,11 +22,15 @@ extension UIView {
     }
 }
 
-//MARK: - UIButton -
-extension UIButton{
+// MARK: - UIButton -
+extension UIButton {
     
     @discardableResult
-    func customSetup( _ text:String, _ fontName: String, _ fontSize: CGFloat, _ spacing: CGFloat, hexColor: String) -> Self{
+    func customSetup( _ text: String,
+                      _ fontName: String,
+                      _ fontSize: CGFloat,
+                      _ spacing: CGFloat,
+                      hexColor: String) -> Self {
         
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: fontName, size: fontSize) ?? UIFont(),
@@ -47,63 +51,66 @@ extension UIButton{
     }
 }
 
-//MARK: - Setup UIEelements -
-extension UIView{
+// MARK: - Setup UIEelements -
+extension UIView {
     @discardableResult
-    func setbackgroundColor(_ color: UIColor) -> Self{
+    func setbackgroundColor(_ color: UIColor) -> Self {
         self.backgroundColor = color
         return self
     }
     
     @discardableResult
-    func setCornerRadius(_ radius: CGFloat) -> Self{
+    func setCornerRadius(_ radius: CGFloat) -> Self {
         self.layer.cornerRadius = radius
         return self
     }
     
     @discardableResult
-    func setBoarderWidth(_ width: CGFloat) -> Self{
+    func setBoarderWidth(_ width: CGFloat) -> Self {
         self.layer.borderWidth = width
         return self
     }
     
     @discardableResult
-    func setBoarderColor(_ color: UIColor) -> Self{
+    func setBoarderColor(_ color: UIColor) -> Self {
         self.layer.borderColor = color.cgColor
         return self
     }
     
     @discardableResult
-    func setAlpha(_ alpha: CGFloat) -> Self{
+    func setAlpha(_ alpha: CGFloat) -> Self {
         self.alpha = alpha
         return self
     }
     
     @discardableResult
-    func offAutoResize() -> Self{
+    func offAutoResize() -> Self {
         self.translatesAutoresizingMaskIntoConstraints = false
         return self
     }
 }
 
-
-//MARK: - UILabel -
-extension UILabel{
+// MARK: - UILabel -
+extension UILabel {
     
     @discardableResult
-    func setFont(_ font: UIFont) -> Self{
+    func setFont(_ font: UIFont) -> Self {
         self.font = font
         return self
     }
     
     @discardableResult
-    func setTextColor(_ color: UIColor) -> Self{
+    func setTextColor(_ color: UIColor) -> Self {
         self.textColor = color
         return self
     }
     
     @discardableResult
-    func customSetup( _ text:String, _ fontName: String, _ fontSize: CGFloat, _ spacing: CGFloat, hexColor: String) -> Self {
+    func customSetup( _ text: String,
+                      _ fontName: String,
+                      _ fontSize: CGFloat,
+                      _ spacing: CGFloat,
+                      hexColor: String) -> Self {
         
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: fontName, size: fontSize) ?? UIFont(),
@@ -121,7 +128,7 @@ extension UILabel{
 // MARK: - UIColor -
 extension UIColor {
     
-    //The purpose of this function is to convert hex color to rgb.
+    // The purpose of this function is to convert hex color to rgb.
     static func hexToUIColor(hex: String) -> UIColor {
         var inputString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
@@ -144,7 +151,7 @@ extension UIColor {
     }
 }
 
-//MARK: - Short constraint syntax -
+// MARK: - Short constraint syntax -
 extension UIView {
     
     @discardableResult

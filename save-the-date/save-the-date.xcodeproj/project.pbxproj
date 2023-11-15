@@ -14,9 +14,11 @@
 		742CD07C2B04C36E00CA3011 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD07A2B04C36E00CA3011 /* LaunchScreen.storyboard */; };
 		74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */; };
 		74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828512B04DB2300A42850 /* UIColorExtension.swift */; };
-		74B828562B04DB7700A42850 /* NumberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828532B04DB7700A42850 /* NumberTableViewCell.swift */; };
-		74B828572B04DB7700A42850 /* NumberTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828542B04DB7700A42850 /* NumberTableView.swift */; };
-		74B828582B04DB7700A42850 /* NumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828552B04DB7700A42850 /* NumberVC.swift */; };
+		74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */; };
+		74B828572B04DB7700A42850 /* PackageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828542B04DB7700A42850 /* PackageTableView.swift */; };
+		74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828552B04DB7700A42850 /* CreatePackageVC.swift */; };
+		74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8285A2B04DF1900A42850 /* PackageManager.swift */; };
+		74B8285D2B04DF8800A42850 /* ExploreSiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */; };
 		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,9 +33,11 @@
 		742CD07D2B04C36E00CA3011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclaritiveExtension.swift; sourceTree = "<group>"; };
 		74B828512B04DB2300A42850 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
-		74B828532B04DB7700A42850 /* NumberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberTableViewCell.swift; sourceTree = "<group>"; };
-		74B828542B04DB7700A42850 /* NumberTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberTableView.swift; sourceTree = "<group>"; };
-		74B828552B04DB7700A42850 /* NumberVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberVC.swift; sourceTree = "<group>"; };
+		74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTableViewCell.swift; sourceTree = "<group>"; };
+		74B828542B04DB7700A42850 /* PackageTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageTableView.swift; sourceTree = "<group>"; };
+		74B828552B04DB7700A42850 /* CreatePackageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePackageVC.swift; sourceTree = "<group>"; };
+		74B8285A2B04DF1900A42850 /* PackageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageManager.swift; sourceTree = "<group>"; };
+		74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSiteVC.swift; sourceTree = "<group>"; };
 		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
 		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -71,6 +75,7 @@
 		742CD06E2B04C36C00CA3011 /* save-the-date */ = {
 			isa = PBXGroup;
 			children = (
+				74B828592B04DF0D00A42850 /* Manager */,
 				74B8284E2B04DA8B00A42850 /* Extension */,
 				74B8284D2B04D99300A42850 /* VC */,
 				742CD06F2B04C36C00CA3011 /* AppDelegate.swift */,
@@ -86,9 +91,11 @@
 		74B8284D2B04D99300A42850 /* VC */ = {
 			isa = PBXGroup;
 			children = (
-				74B828542B04DB7700A42850 /* NumberTableView.swift */,
-				74B828532B04DB7700A42850 /* NumberTableViewCell.swift */,
-				74B828552B04DB7700A42850 /* NumberVC.swift */,
+				74B8285F2B04DFE200A42850 /* ExploreSite */,
+				74B8285E2B04DFD800A42850 /* CreatePackage */,
+				74B828542B04DB7700A42850 /* PackageTableView.swift */,
+				74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */,
+				74B828552B04DB7700A42850 /* CreatePackageVC.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -100,6 +107,29 @@
 				74B828512B04DB2300A42850 /* UIColorExtension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		74B828592B04DF0D00A42850 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				74B8285A2B04DF1900A42850 /* PackageManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		74B8285E2B04DFD800A42850 /* CreatePackage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CreatePackage;
+			sourceTree = "<group>";
+		};
+		74B8285F2B04DFE200A42850 /* ExploreSite */ = {
+			isa = PBXGroup;
+			children = (
+				74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */,
+			);
+			path = ExploreSite;
 			sourceTree = "<group>";
 		};
 		EC1F0C4677D36EE4ADBC45E2 /* Pods */ = {
@@ -234,12 +264,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74B828562B04DB7700A42850 /* NumberTableViewCell.swift in Sources */,
+				74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */,
 				742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */,
-				74B828582B04DB7700A42850 /* NumberVC.swift in Sources */,
+				74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */,
 				74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */,
-				74B828572B04DB7700A42850 /* NumberTableView.swift in Sources */,
+				74B828572B04DB7700A42850 /* PackageTableView.swift in Sources */,
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,
+				74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */,
+				74B8285D2B04DF8800A42850 /* ExploreSiteVC.swift in Sources */,
 				742CD0722B04C36C00CA3011 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,24 +7,24 @@
 
 import UIKit
 
-class NumberTableView: UITableView {
-
+class PackageTableView: UITableView {
 
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         setupTableView()
     }
     
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    
-    func setupTableView(){
+    func setupTableView() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.register(NumberTableViewCell.self, forCellReuseIdentifier: NumberTableViewCell.reuseIdentifier )
+        self.register(ModuleTableViewCell.self, forCellReuseIdentifier: ModuleTableViewCell.reuseIdentifier )
         
+        // Self sizing row height
+        self.rowHeight = UITableView.automaticDimension
+        self.estimatedRowHeight = 150
+        self.separatorStyle = .none
     }
-    
 }
