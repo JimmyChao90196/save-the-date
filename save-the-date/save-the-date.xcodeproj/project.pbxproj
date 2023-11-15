@@ -13,9 +13,11 @@
 		742CD0772B04C36D00CA3011 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0752B04C36D00CA3011 /* Main.storyboard */; };
 		742CD0792B04C36E00CA3011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0782B04C36E00CA3011 /* Assets.xcassets */; };
 		742CD07C2B04C36E00CA3011 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD07A2B04C36E00CA3011 /* LaunchScreen.storyboard */; };
+		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C21406B870A2F9BBBD75184 /* Pods-save-the-date.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.debug.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.debug.xcconfig"; sourceTree = "<group>"; };
 		742CD06C2B04C36C00CA3011 /* save-the-date.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "save-the-date.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		742CD06F2B04C36C00CA3011 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		742CD0712B04C36C00CA3011 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +26,8 @@
 		742CD0782B04C36E00CA3011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		742CD07B2B04C36E00CA3011 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		742CD07D2B04C36E00CA3011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
+		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				742CD06E2B04C36C00CA3011 /* save-the-date */,
 				742CD06D2B04C36C00CA3011 /* Products */,
+				EC1F0C4677D36EE4ADBC45E2 /* Pods */,
+				F16D00E7425E71BCC6A4AA31 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +74,23 @@
 			path = "save-the-date";
 			sourceTree = "<group>";
 		};
+		EC1F0C4677D36EE4ADBC45E2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0C21406B870A2F9BBBD75184 /* Pods-save-the-date.debug.xcconfig */,
+				976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		F16D00E7425E71BCC6A4AA31 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +98,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 742CD0802B04C36E00CA3011 /* Build configuration list for PBXNativeTarget "save-the-date" */;
 			buildPhases = (
+				031027D8A2233AA78CE56A6C /* [CP] Check Pods Manifest.lock */,
 				742CD0682B04C36C00CA3011 /* Sources */,
 				742CD0692B04C36C00CA3011 /* Frameworks */,
 				742CD06A2B04C36C00CA3011 /* Resources */,
+				742CD0832B04C7C000CA3011 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -132,6 +158,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		031027D8A2233AA78CE56A6C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-save-the-date-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		742CD0832B04C7C000CA3011 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		742CD0682B04C36C00CA3011 /* Sources */ = {
@@ -203,7 +271,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -266,7 +334,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -287,6 +355,7 @@
 		};
 		742CD0812B04C36E00CA3011 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C21406B870A2F9BBBD75184 /* Pods-save-the-date.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -300,6 +369,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,6 +385,7 @@
 		};
 		742CD0822B04C36E00CA3011 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -328,6 +399,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
