@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PackageTableView: UITableView {
+class ModuleTableView: UITableView {
 
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)

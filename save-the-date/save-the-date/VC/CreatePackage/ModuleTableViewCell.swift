@@ -64,7 +64,7 @@ class ModuleTableViewCell: UITableViewCell {
         
         transpIcon.snp.makeConstraints { make in
             make.height.equalTo(30)
-            make.width.equalTo(30)
+            make.width.equalTo(50)
             make.top.equalToSuperview().offset(5)
             make.bottom.equalToSuperview().offset(-5)
             make.centerX.equalToSuperview()

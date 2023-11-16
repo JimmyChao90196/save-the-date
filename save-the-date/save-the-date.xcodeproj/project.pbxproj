@@ -24,7 +24,7 @@
 		74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */; };
 		74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828512B04DB2300A42850 /* UIColorExtension.swift */; };
 		74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */; };
-		74B828572B04DB7700A42850 /* PackageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828542B04DB7700A42850 /* PackageTableView.swift */; };
+		74B828572B04DB7700A42850 /* ModuleTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828542B04DB7700A42850 /* ModuleTableView.swift */; };
 		74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828552B04DB7700A42850 /* CreatePackageVC.swift */; };
 		74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8285A2B04DF1900A42850 /* PackageManager.swift */; };
 		74B8285D2B04DF8800A42850 /* ExploreSiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */; };
@@ -52,7 +52,7 @@
 		74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclaritiveExtension.swift; sourceTree = "<group>"; };
 		74B828512B04DB2300A42850 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTableViewCell.swift; sourceTree = "<group>"; };
-		74B828542B04DB7700A42850 /* PackageTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageTableView.swift; sourceTree = "<group>"; };
+		74B828542B04DB7700A42850 /* ModuleTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTableView.swift; sourceTree = "<group>"; };
 		74B828552B04DB7700A42850 /* CreatePackageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePackageVC.swift; sourceTree = "<group>"; };
 		74B8285A2B04DF1900A42850 /* PackageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageManager.swift; sourceTree = "<group>"; };
 		74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSiteVC.swift; sourceTree = "<group>"; };
@@ -93,9 +93,9 @@
 		742CD06E2B04C36C00CA3011 /* save-the-date */ = {
 			isa = PBXGroup;
 			children = (
+				74B8284E2B04DA8B00A42850 /* Extension */,
 				744B57162B05D7A000B3ABAA /* Model */,
 				74B828592B04DF0D00A42850 /* Manager */,
-				74B8284E2B04DA8B00A42850 /* Extension */,
 				74B8284D2B04D99300A42850 /* VC */,
 				742CD06F2B04C36C00CA3011 /* AppDelegate.swift */,
 				742CD0712B04C36C00CA3011 /* SceneDelegate.swift */,
@@ -131,9 +131,6 @@
 				744B571F2B06089400B3ABAA /* Transp */,
 				74B8285F2B04DFE200A42850 /* ExploreSite */,
 				74B8285E2B04DFD800A42850 /* CreatePackage */,
-				74B828542B04DB7700A42850 /* PackageTableView.swift */,
-				74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */,
-				74B828552B04DB7700A42850 /* CreatePackageVC.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -160,6 +157,9 @@
 		74B8285E2B04DFD800A42850 /* CreatePackage */ = {
 			isa = PBXGroup;
 			children = (
+				74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */,
+				74B828552B04DB7700A42850 /* CreatePackageVC.swift */,
+				74B828542B04DB7700A42850 /* ModuleTableView.swift */,
 			);
 			path = CreatePackage;
 			sourceTree = "<group>";
@@ -354,7 +354,7 @@
 				742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */,
 				74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */,
 				74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */,
-				74B828572B04DB7700A42850 /* PackageTableView.swift in Sources */,
+				74B828572B04DB7700A42850 /* ModuleTableView.swift in Sources */,
 				744B57232B0609AC00B3ABAA /* TransTableView.swift in Sources */,
 				744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */,
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,

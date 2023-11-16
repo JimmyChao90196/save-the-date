@@ -9,7 +9,7 @@ import UIKit
 
 class CreatePackageViewController: UIViewController {
     
-    var tableView = PackageTableView()
+    var tableView = ModuleTableView()
     var packageManager = PackageManager()
     
     // On events
@@ -110,10 +110,8 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
         moveRowAt sourceIndexPath: IndexPath,
         to destinationIndexPath: IndexPath) {
             
-            let movedObject = self.packageManager.packageModules[sourceIndexPath.row]
-            self.packageManager.packageModules.remove(at: sourceIndexPath.row)
-            self.packageManager.packageModules.insert(movedObject, at: destinationIndexPath.row)
-        }
+            self.packageManager.movePackage(from: sourceIndexPath, to: destinationIndexPath)
+        }    
 }
 
 // MARK: - Additional method -
@@ -164,10 +162,10 @@ extension CreatePackageViewController {
             
             switch action {
             case .add:
-                self?.packageManager.packageModules.append(module)
+                self?.packageManager.addPackage(module)
             case .edit(let cell):
                 guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
-                self?.packageManager.packageModules[indexPathToEdit.row] = module
+                self?.packageManager.reviceLocation(replace: indexPathToEdit, with: location)
             }
             
             DispatchQueue.main.async {
@@ -186,7 +184,7 @@ extension CreatePackageViewController {
                 
             case .edit(let cell):
                 guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
-                self?.packageManager.packageModules[indexPathToEdit.row].transportation = transportation
+                self?.packageManager.reviceTransportation(relplace: indexPathToEdit, with: transportation)
             }
             
             DispatchQueue.main.async {
@@ -196,7 +194,8 @@ extension CreatePackageViewController {
         
         onDelete = { [weak self] cell in
             guard let indexPathToDelete = self?.tableView.indexPath(for: cell) else { return }
-            self?.packageManager.packageModules.remove(at: indexPathToDelete.row)
+            
+            self?.packageManager.deletePackage(at: indexPathToDelete)
             
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
