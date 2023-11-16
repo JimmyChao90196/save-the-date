@@ -7,5 +7,6 @@ target 'save-the-date' do
 
   # Pods for save-the-date
   pod 'SwiftLint'
+  pod 'SnapKit'
 
 end

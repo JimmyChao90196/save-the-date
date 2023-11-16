@@ -12,7 +12,8 @@ class CreatePackageViewController: UIViewController {
     var tableView = PackageTableView()
     var packageManager = PackageManager()
     var onDelete: ((UITableViewCell) -> Void)?
-    var onNumberSent: ( (Int) -> Void )?
+    var onAddNewModule: ( (Int) -> Void )?
+    var onLocationTapped: ((UITableViewCell) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,7 @@ class CreatePackageViewController: UIViewController {
     
     func setup() {
         tableView.setEditing(false, animated: true)
+        
     }
     
     func configureConstraint() {
@@ -84,6 +86,7 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
         
         cell.numberLabel.text = "\(packageManager.numbers[indexPath.row])"
         cell.onDelete = onDelete
+        cell.onLocationTapped = self.onLocationTapped
         
         return cell
     }
@@ -107,12 +110,12 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
 
 // MARK: - Additional method -
 extension CreatePackageViewController {
-    
+
     // Add bar button pressed
     @objc func addButtonPressed() {
         // Go to Explore site and choose one
         let exploreVC = ExploreSiteViewController()
-        exploreVC.onNumberSent = onNumberSent
+        exploreVC.onNumberSent = onAddNewModule
         navigationController?.pushViewController(exploreVC, animated: true)
     }
     
@@ -121,11 +124,17 @@ extension CreatePackageViewController {
         tableView.setEditing(!tableView.isEditing, animated: true)
     }
     
-    // Initialize cell event
+    // Initialize onEvent
     func setupOnEvent() {
         
-        // Handle onEvents
-        onNumberSent = { [weak self] num in
+        onLocationTapped = { [weak self] _ in
+            guard let self else { return }
+            
+            let exploreVC = ExploreSiteViewController()
+            self.navigationController?.pushViewController(exploreVC, animated: true)
+        }
+        
+        onAddNewModule = { [weak self] num in
             self?.packageManager.numbers.append(num)
             
             DispatchQueue.main.async {

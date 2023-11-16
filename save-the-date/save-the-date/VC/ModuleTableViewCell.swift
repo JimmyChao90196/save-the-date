@@ -7,14 +7,18 @@
 
 import UIKit
 import Foundation
+import SnapKit
 
 class ModuleTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = String(describing: ModuleTableViewCell.self)
     var deleteButton = UIButton()
     var numberLabel = UILabel()
+    var locationView = UIView()
     var transportationView = UIView()
+    
     var onDelete: ((UITableViewCell) -> Void)?
+    var onLocationTapped: ((UITableViewCell) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,10 +32,8 @@ class ModuleTableViewCell: UITableViewCell {
     }
     
     private func addTo() {
-        contentView.addSubviews([deleteButton,
-                                 numberLabel,
-                                 transportationView])
-        
+        contentView.addSubviews([locationView, transportationView])
+        locationView.addSubviews([deleteButton, numberLabel])
         numberLabel.textAlignment = .center
     }
     
@@ -41,9 +43,11 @@ class ModuleTableViewCell: UITableViewCell {
         
         // Setup transportation view
         transportationView.backgroundColor = .red
-        
-        // Remember to disable when perform add target
         deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(locationTapped))
+        locationView.addGestureRecognizer(tapGesture)
+
     }
     
     @objc func deleteButtonPressed() {
@@ -52,19 +56,35 @@ class ModuleTableViewCell: UITableViewCell {
     
     private func setupConstraint() {
         
-        numberLabel.centerYConstr(to: contentView.centerYAnchor)
-            .leadingConstr(to: contentView.leadingAnchor, 10)
+        locationView.topConstr(to: contentView.topAnchor, 10)
+            .leadingConstr(to: contentView.leadingAnchor, 5)
+            .trailingConstr(to: contentView.trailingAnchor, -5)
+            .centerXConstr(to: contentView.centerXAnchor, 0)
         
-        deleteButton.centerYConstr(to: contentView.centerYAnchor)
+        numberLabel.centerYConstr(to: locationView.centerYAnchor)
+            .leadingConstr(to: locationView.leadingAnchor, 10)
+        
+        deleteButton.centerYConstr(to: locationView.centerYAnchor)
             .heightConstr(50)
-            .trailingConstr(to: contentView.trailingAnchor, -10)
-            .topConstr(to: contentView.topAnchor, 50)
-            .bottomConstr(to: contentView.bottomAnchor, -50)
+            .trailingConstr(to: locationView.trailingAnchor, -10)
+            .topConstr(to: locationView.topAnchor, 50)
+            .bottomConstr(to: locationView.bottomAnchor, -50)
         
-        transportationView.topConstr(to: deleteButton.bottomAnchor, 5)
+        transportationView.topConstr(to: locationView.bottomAnchor, 5)
             .leadingConstr(to: contentView.leadingAnchor, 5)
             .trailingConstr(to: contentView.trailingAnchor, -5)
             .bottomConstr(to: contentView.bottomAnchor, -5)
             .heightConstr(50)
     }
+}
+
+// MARK: - implement additional functions
+
+extension ModuleTableViewCell {
+    
+    // On location tapped
+    @objc func locationTapped() {
+        onLocationTapped?(self)
+    }
+    
 }
