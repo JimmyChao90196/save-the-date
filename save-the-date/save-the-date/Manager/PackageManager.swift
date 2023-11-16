@@ -11,6 +11,5 @@ import UIKit
 class PackageManager {
     
     static let shared = PackageManager()
-    
-    var Places = [2, 3, 4, 5]
+    var locations = [Location]()
 }

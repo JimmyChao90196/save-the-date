@@ -12,7 +12,7 @@ class CreatePackageViewController: UIViewController {
     var tableView = PackageTableView()
     var packageManager = PackageManager()
     var onDelete: ((UITableViewCell) -> Void)?
-    var onAddNewModule: ( (Place) -> Void )?
+    var onAddNewModule: ( (Location) -> Void )?
     var onLocationTapped: ((UITableViewCell) -> Void)?
     
     override func viewDidLoad() {
@@ -67,7 +67,7 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        packageManager.Places.count
+        packageManager.locations.count
         
     }
     
@@ -84,7 +84,7 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
             for: indexPath) as? ModuleTableViewCell else {
              return UITableViewCell() }
         
-        cell.numberLabel.text = "\(packageManager.Places[indexPath.row])"
+        cell.numberLabel.text = "\(packageManager.locations[indexPath.row].shortName)"
         cell.onDelete = onDelete
         cell.onLocationTapped = self.onLocationTapped
         
@@ -102,9 +102,9 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
         moveRowAt sourceIndexPath: IndexPath,
         to destinationIndexPath: IndexPath) {
             
-        let movedObject = self.packageManager.Places[sourceIndexPath.row]
-        self.packageManager.Places.remove(at: sourceIndexPath.row)
-        self.packageManager.Places.insert(movedObject, at: destinationIndexPath.row)
+        let movedObject = self.packageManager.locations[sourceIndexPath.row]
+        self.packageManager.locations.remove(at: sourceIndexPath.row)
+        self.packageManager.locations.insert(movedObject, at: destinationIndexPath.row)
     }
 }
 
@@ -131,11 +131,12 @@ extension CreatePackageViewController {
             guard let self else { return }
             
             let exploreVC = ExploreSiteViewController()
+            exploreVC.onPlaceComfirm = onAddNewModule
             self.navigationController?.pushViewController(exploreVC, animated: true)
         }
         
-        onAddNewModule = { [weak self] num in
-            self?.packageManager.numbers.append(num)
+        onAddNewModule = { [weak self] place in
+            self?.packageManager.locations.append(place)
             
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
@@ -144,7 +145,7 @@ extension CreatePackageViewController {
         
         onDelete = { [weak self] cell in
             guard let indexPathToDelete = self?.tableView.indexPath(for: cell) else { return }
-            self?.packageManager.Places.remove(at: indexPathToDelete.row)
+            self?.packageManager.locations.remove(at: indexPathToDelete.row)
             
             DispatchQueue.main.async {
                 self?.tableView.reloadData()

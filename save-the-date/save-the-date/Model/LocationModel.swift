@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Place {
+struct Location {
     let name: String
     let shortName: String
     let identifier: String

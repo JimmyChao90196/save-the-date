@@ -21,12 +21,12 @@ class ExploreSiteViewController: UIViewController {
     let mapView = MKMapView()
     var placeDetailView = UIView()
     var placeTitle = UILabel()
-    var currentPlace = Place(name: "None", shortName: "None", identifier: "None")
+    var currentPlace = Location(name: "None", shortName: "None", identifier: "None")
     var acceptButton = UIButton()
     let searchVC = UISearchController(searchResultsController: ResultViewController())
     
     // On event closure
-    var onPlaceComfirm: ( (Place) -> Void )?
+    var onPlaceComfirm: ( (Location) -> Void )?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +54,7 @@ class ExploreSiteViewController: UIViewController {
         
         // Customize button
         acceptButton.setTarget(self, action: #selector(acceptButtonPressed), for: .touchUpInside)
+            .setbackgroundColor(.systemPink)
             .setTitle("Comfirm", for: .normal)
     }
     
@@ -80,13 +81,13 @@ class ExploreSiteViewController: UIViewController {
         
         placeTitle.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(50)
+            make.top.equalToSuperview().offset(20)
         }
         
         acceptButton.snp.makeConstraints { make in
             make.top.equalTo(placeTitle.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
-            make.height.equalTo(50)
+            make.height.equalTo(20)
         }
     }
 
@@ -129,7 +130,7 @@ extension ExploreSiteViewController: UISearchResultsUpdating {
 
 extension ExploreSiteViewController: ResultViewControllerDelegate {
     
-    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Place) {
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location) {
         
         self.currentPlace = targetPlace
         placeTitle.text = currentPlace.shortName
