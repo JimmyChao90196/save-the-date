@@ -9,7 +9,7 @@ import UIKit
 import CoreLocation
 
 protocol ResultViewControllerDelegate: AnyObject {
-    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: PackageModule)
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location)
 }
 
 class ResultViewController: UIViewController {
@@ -18,7 +18,7 @@ class ResultViewController: UIViewController {
     var tableView = ResultTableView()
     var googlePlacesManager = GooglePlacesManager.shared
     
-    private var places: [PackageModule] = []
+    private var locations: [Location] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,14 +38,13 @@ class ResultViewController: UIViewController {
     private func addTo() {
         view.addSubviews([tableView])
     }
-    
 }
 
 // MARK: - Delegate and dataSource method -
 extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        places.count
+        locations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,7 +54,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
                 ResultTableViewCell
         else { return UITableViewCell() }
         
-        cell.textLabel?.text = places[indexPath.row].shortName
+        cell.textLabel?.text = locations[indexPath.row].shortName
         return cell
     }
     
@@ -64,13 +63,16 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.isHidden = true
         
-        let place = places[indexPath.row]
-        googlePlacesManager.resolveLocation(for: place) { [weak self] result in
+        // let place = places[indexPath.row]
+        
+        let location = locations[indexPath.row]
+        
+        googlePlacesManager.resolveLocation(for: location) { [weak self] result in
             switch result {
             case .success(let coordinate):
                 
                 DispatchQueue.main.async {
-                    self?.delgate?.didTapPlace(with: coordinate, targetPlace: place)
+                    self?.delgate?.didTapPlace(with: coordinate, targetPlace: location)
                 }
                 
             case .failure(let error): print(error)
@@ -81,9 +83,9 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - Additional function -
 extension ResultViewController {
-    public func update(with places: [PackageModule]) {
+    public func update( with locations: [Location]) {
         self.tableView.isHidden = false
-        self.places = places
+        self.locations = locations
         self.tableView.reloadData()
     }
 }

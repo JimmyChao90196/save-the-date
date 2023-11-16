@@ -132,11 +132,11 @@ extension UIColor {
     static func hexToUIColor(hex: String) -> UIColor {
         var inputString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
-        if (inputString.hasPrefix("#")) {
+        if inputString.hasPrefix("#") {
             inputString.remove(at: inputString.startIndex)
         }
         
-        if ((inputString.count) != 6) {
+        if (inputString.count) != 6 {
             return UIColor.gray
         }
         

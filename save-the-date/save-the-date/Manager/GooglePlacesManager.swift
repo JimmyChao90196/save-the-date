@@ -21,9 +21,9 @@ final class GooglePlacesManager {
     
     private init() {}
     
-    public func findPlaces(
+    public func findLocations(
         query: String,
-        completion: @escaping (Result<[PackageModule], Error>) -> Void
+        completion: @escaping (Result<[Location], Error>) -> Void
     ) {
         let filter = GMSAutocompleteFilter()
         client.findAutocompletePredictions(
@@ -37,12 +37,11 @@ final class GooglePlacesManager {
                     return
                 }
                 
-                let places: [PackageModule] = results.compactMap {
-                    PackageModule(
+                let places: [Location] = results.compactMap {
+                    Location(
                         name: $0.attributedFullText.string,
                         shortName: $0.attributedPrimaryText.string,
-                        identifier: $0.placeID,
-                        transpIcon: UIImage(systemName: "plus.circle")!
+                        identifier: $0.placeID
                     )
                 }
                 // If success then return places
@@ -51,11 +50,11 @@ final class GooglePlacesManager {
     }
     
     public func resolveLocation(
-        for place: PackageModule,
+        for location: Location,
         completion: @escaping (Result<CLLocationCoordinate2D, Error>) -> Void) {
             
             client.fetchPlace(
-                fromPlaceID: place.identifier,
+                fromPlaceID: location.identifier,
                 placeFields: .coordinate,
                 sessionToken: nil) { googlePlace, error in
                     guard let googlePlace, error == nil else {

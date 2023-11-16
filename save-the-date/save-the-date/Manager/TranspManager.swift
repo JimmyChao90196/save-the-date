@@ -18,25 +18,24 @@ enum TranspManager: CaseIterable {
     case bicycle
     case walk
     
-    var transIcon: UIImage {
+    var transIcon: String {
         switch self {
-        case .car:
-            return UIImage(systemName: "car")!
-        case .bus:
-            return UIImage(systemName: "bus")!
-        case .train:
-            return UIImage(systemName: "train.side.front.car")!
-        case .metro:
-            return UIImage(systemName: "tram.fill")!
-        case .plane:
-            return UIImage(systemName: "airplane")!
-        case .ship:
-            return UIImage(systemName: "ferry")!
-        case .bicycle:
-            return UIImage(systemName: "bicycle")!
-        case .walk:
-            return UIImage(systemName: "figure.walk")!
+        case .car: return "car"
+            
+        case .bus: return "bus"
+            
+        case .train: return "train.side.front.car"
+            
+        case .metro: return "tram.fill"
+            
+        case .plane: return "airplane"
+            
+        case .ship: return "ferry"
+            
+        case .bicycle: return "bicycle"
+            
+        case .walk: return "figure.walk"
+            
         }
     }
-    
 }

@@ -11,5 +11,6 @@ import UIKit
 class PackageManager {
     
     static let shared = PackageManager()
+    
     var packageModules = [PackageModule]()
 }

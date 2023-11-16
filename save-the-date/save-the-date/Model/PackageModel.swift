@@ -9,9 +9,16 @@ import Foundation
 import UIKit
 
 struct PackageModule {
-    let name: String
-    let shortName: String
-    let identifier: String
-    
-    var transpIcon: UIImage
+    var location: Location
+    var transportation: Transportation
+}
+
+struct Location {
+    var name: String
+    var shortName: String
+    var identifier: String
+}
+
+struct Transportation {
+    var transpIcon: String
 }

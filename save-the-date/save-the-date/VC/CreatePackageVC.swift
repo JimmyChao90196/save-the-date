@@ -14,7 +14,7 @@ class CreatePackageViewController: UIViewController {
     
     // On events
     var onDelete: ((UITableViewCell) -> Void)?
-    var onLocationComfirm: ( (PackageModule, ActionKind) -> Void )?
+    var onLocationComfirm: ( (Location, ActionKind) -> Void )?
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
     var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
@@ -84,10 +84,14 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ModuleTableViewCell.reuseIdentifier,
             for: indexPath) as? ModuleTableViewCell else {
-             return UITableViewCell() }
+            return UITableViewCell() }
         
-        cell.numberLabel.text = "\(packageManager.packageModules[indexPath.row].shortName)"
-        cell.transpIcon.image = packageManager.packageModules[indexPath.row].transpIcon
+        let iconName = packageManager.packageModules[indexPath.row].transportation.transpIcon
+        let locationTitle = "\(packageManager.packageModules[indexPath.row].location.shortName)"
+        
+        cell.numberLabel.text = locationTitle
+        cell.transpIcon.image = UIImage(systemName: iconName)
+        
         cell.onDelete = onDelete
         cell.onLocationTapped = self.onLocationTapped
         cell.onTranspTapped = self.onTranspTapped
@@ -99,17 +103,17 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         true
     }
-
+    
     // Move row at
     func tableView(
         _ tableView: UITableView,
         moveRowAt sourceIndexPath: IndexPath,
         to destinationIndexPath: IndexPath) {
             
-        let movedObject = self.packageManager.packageModules[sourceIndexPath.row]
-        self.packageManager.packageModules.remove(at: sourceIndexPath.row)
-        self.packageManager.packageModules.insert(movedObject, at: destinationIndexPath.row)
-    }
+            let movedObject = self.packageManager.packageModules[sourceIndexPath.row]
+            self.packageManager.packageModules.remove(at: sourceIndexPath.row)
+            self.packageManager.packageModules.insert(movedObject, at: destinationIndexPath.row)
+        }
 }
 
 // MARK: - Additional method -
@@ -151,8 +155,13 @@ extension CreatePackageViewController {
             self.navigationController?.pushViewController(exploreVC, animated: true)
         }
         
-        onLocationComfirm = { [weak self] module, action in
+        onLocationComfirm = { [weak self] location, action in
             // Dictate action
+            
+            let module = PackageModule(
+                location: location,
+                transportation: Transportation(transpIcon: "plus.viewfinder"))
+            
             switch action {
             case .add:
                 self?.packageManager.packageModules.append(module)
@@ -168,13 +177,16 @@ extension CreatePackageViewController {
         
         onTranspComfirm = { [weak self] transp, action in
             // Dictate action
+            
+            let transportation = Transportation(transpIcon: transp.transIcon)
+            
             switch action {
             case .add:
                 print("this shouldn't be triggered")
                 
             case .edit(let cell):
                 guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
-                self?.packageManager.packageModules[indexPathToEdit.row].transpIcon = transp.transIcon
+                self?.packageManager.packageModules[indexPathToEdit.row].transportation = transportation
             }
             
             DispatchQueue.main.async {

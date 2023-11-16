@@ -24,13 +24,18 @@ class ExploreSiteViewController: UIViewController {
     let mapView = MKMapView()
     var placeDetailView = UIView()
     var placeTitle = UILabel()
-    var currentPlace = PackageModule(name: "None", shortName: "None", identifier: "None", transpIcon: UIImage(systemName: "plus.diamond")!)
+    
+    var currentLocation = Location(
+        name: "None",
+        shortName: "None",
+        identifier: "None")
+    
     var acceptButton = UIButton()
     let searchVC = UISearchController(searchResultsController: ResultViewController())
     var actionKind = ActionKind.add
     
     // On event closure
-    var onLocationComfirm: ( (PackageModule, ActionKind) -> Void )?
+    var onLocationComfirm: ( (Location, ActionKind) -> Void )?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,7 +103,7 @@ class ExploreSiteViewController: UIViewController {
     // MARK: - Accept button pressed
     @objc func acceptButtonPressed() {
         
-        onLocationComfirm?(currentPlace, actionKind)
+        onLocationComfirm?(currentLocation, actionKind)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -115,13 +120,13 @@ extension ExploreSiteViewController: UISearchResultsUpdating {
         
         resultVC.delgate = self
         
-        googlePlacesManager.findPlaces(query: query) { result in
+        googlePlacesManager.findLocations(query: query) { result in
             switch result {
-            case .success(let places):
-                print(places)
+            case .success(let locations):
+                print(locations)
                 
                 DispatchQueue.main.async {
-                    resultVC.update(with: places)
+                    resultVC.update(with: locations)
                 }
                 
             case .failure(let error):
@@ -133,10 +138,10 @@ extension ExploreSiteViewController: UISearchResultsUpdating {
 
 extension ExploreSiteViewController: ResultViewControllerDelegate {
     
-    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: PackageModule) {
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location) {
         
-        self.currentPlace = targetPlace
-        placeTitle.text = currentPlace.shortName
+        self.currentLocation = targetPlace
+        placeTitle.text = currentLocation.shortName
         
         // Hide keyboard and dismiss search VC
         searchVC.searchBar.resignFirstResponder()

@@ -9,7 +9,7 @@ import UIKit
 import CoreLocation
 
 protocol TranspViewControllerDelegate: AnyObject {
-    func didTapTransp(with coordinate: CLLocationCoordinate2D, targetPlace: PackageModule)
+    func didTapTransp(with coordinate: CLLocationCoordinate2D, targetTransp: Transportation)
 }
 
 class TranspViewController: UIViewController {
@@ -22,7 +22,7 @@ class TranspViewController: UIViewController {
     // Set action kind
     var actionKind = ActionKind.edit(UITableViewCell())
     
-    private var places: [PackageModule] = []
+    private var transportation: [Transportation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,6 @@ class TranspViewController: UIViewController {
     private func addTo() {
         view.addSubviews([tableView])
     }
-    
 }
 
 // MARK: - Delegate and dataSource method -
@@ -59,7 +58,8 @@ extension TranspViewController: UITableViewDataSource, UITableViewDelegate {
                 TranspTableViewCell
         else { return UITableViewCell() }
         
-        cell.transIcon.image = TranspManager.allCases[indexPath.row].transIcon
+        let iconName = TranspManager.allCases[indexPath.row].transIcon
+        cell.transIcon.image = UIImage(systemName: iconName)
         
         return cell
     }
