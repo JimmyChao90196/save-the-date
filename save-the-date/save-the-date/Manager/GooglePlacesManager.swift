@@ -23,7 +23,7 @@ final class GooglePlacesManager {
     
     public func findPlaces(
         query: String,
-        completion: @escaping (Result<[Location], Error>) -> Void
+        completion: @escaping (Result<[PackageModule], Error>) -> Void
     ) {
         let filter = GMSAutocompleteFilter()
         client.findAutocompletePredictions(
@@ -37,11 +37,12 @@ final class GooglePlacesManager {
                     return
                 }
                 
-                let places: [Location] = results.compactMap {
-                    Location(
+                let places: [PackageModule] = results.compactMap {
+                    PackageModule(
                         name: $0.attributedFullText.string,
                         shortName: $0.attributedPrimaryText.string,
-                        identifier: $0.placeID
+                        identifier: $0.placeID,
+                        transpIcon: UIImage(systemName: "plus.circle")!
                     )
                 }
                 // If success then return places
@@ -50,24 +51,23 @@ final class GooglePlacesManager {
     }
     
     public func resolveLocation(
-        for place: Location,
+        for place: PackageModule,
         completion: @escaping (Result<CLLocationCoordinate2D, Error>) -> Void) {
             
             client.fetchPlace(
                 fromPlaceID: place.identifier,
                 placeFields: .coordinate,
-                sessionToken: nil)
-             { googlePlace, error in
-                guard let googlePlace, error == nil else {
-                    completion(.failure(PlacesError.faildToGetCoordinate))
-                    return
+                sessionToken: nil) { googlePlace, error in
+                    guard let googlePlace, error == nil else {
+                        completion(.failure(PlacesError.faildToGetCoordinate))
+                        return
+                    }
+                    
+                    let coordinate = CLLocationCoordinate2D(
+                        latitude: googlePlace.coordinate.latitude,
+                        longitude: googlePlace.coordinate.longitude
+                    )
+                    completion(.success(coordinate))
                 }
-                
-                let coordinate = CLLocationCoordinate2D(
-                    latitude: googlePlace.coordinate.latitude,
-                    longitude: googlePlace.coordinate.longitude
-                )
-                completion(.success(coordinate))
-            }
         }
 }

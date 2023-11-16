@@ -14,9 +14,13 @@
 		742CD07C2B04C36E00CA3011 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD07A2B04C36E00CA3011 /* LaunchScreen.storyboard */; };
 		744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57122B05C57800B3ABAA /* ResultVC.swift */; };
 		744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */; };
-		744B57182B05D7AF00B3ABAA /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57172B05D7AF00B3ABAA /* LocationModel.swift */; };
+		744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57172B05D7AF00B3ABAA /* PackageModel.swift */; };
 		744B571C2B05DBA000B3ABAA /* ResultTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B571B2B05DBA000B3ABAA /* ResultTableView.swift */; };
 		744B571E2B05E40B00B3ABAA /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B571D2B05E40B00B3ABAA /* ResultTableViewCell.swift */; };
+		744B57212B06092500B3ABAA /* TranspVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57202B06092500B3ABAA /* TranspVC.swift */; };
+		744B57232B0609AC00B3ABAA /* TransTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57222B0609AC00B3ABAA /* TransTableView.swift */; };
+		744B57252B0609DE00B3ABAA /* TranspTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57242B0609DE00B3ABAA /* TranspTableViewCell.swift */; };
+		744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57262B060C9200B3ABAA /* TranspManager.swift */; };
 		74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */; };
 		74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828512B04DB2300A42850 /* UIColorExtension.swift */; };
 		74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */; };
@@ -38,9 +42,13 @@
 		742CD07D2B04C36E00CA3011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		744B57122B05C57800B3ABAA /* ResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultVC.swift; sourceTree = "<group>"; };
 		744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
-		744B57172B05D7AF00B3ABAA /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
+		744B57172B05D7AF00B3ABAA /* PackageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageModel.swift; sourceTree = "<group>"; };
 		744B571B2B05DBA000B3ABAA /* ResultTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableView.swift; sourceTree = "<group>"; };
 		744B571D2B05E40B00B3ABAA /* ResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
+		744B57202B06092500B3ABAA /* TranspVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspVC.swift; sourceTree = "<group>"; };
+		744B57222B0609AC00B3ABAA /* TransTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransTableView.swift; sourceTree = "<group>"; };
+		744B57242B0609DE00B3ABAA /* TranspTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspTableViewCell.swift; sourceTree = "<group>"; };
+		744B57262B060C9200B3ABAA /* TranspManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspManager.swift; sourceTree = "<group>"; };
 		74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclaritiveExtension.swift; sourceTree = "<group>"; };
 		74B828512B04DB2300A42850 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTableViewCell.swift; sourceTree = "<group>"; };
@@ -102,14 +110,25 @@
 		744B57162B05D7A000B3ABAA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				744B57172B05D7AF00B3ABAA /* LocationModel.swift */,
+				744B57172B05D7AF00B3ABAA /* PackageModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		744B571F2B06089400B3ABAA /* Transp */ = {
+			isa = PBXGroup;
+			children = (
+				744B57202B06092500B3ABAA /* TranspVC.swift */,
+				744B57222B0609AC00B3ABAA /* TransTableView.swift */,
+				744B57242B0609DE00B3ABAA /* TranspTableViewCell.swift */,
+			);
+			path = Transp;
 			sourceTree = "<group>";
 		};
 		74B8284D2B04D99300A42850 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				744B571F2B06089400B3ABAA /* Transp */,
 				74B8285F2B04DFE200A42850 /* ExploreSite */,
 				74B8285E2B04DFD800A42850 /* CreatePackage */,
 				74B828542B04DB7700A42850 /* PackageTableView.swift */,
@@ -133,6 +152,7 @@
 			children = (
 				74B8285A2B04DF1900A42850 /* PackageManager.swift */,
 				744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */,
+				744B57262B060C9200B3ABAA /* TranspManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -324,14 +344,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */,
-				744B57182B05D7AF00B3ABAA /* LocationModel.swift in Sources */,
+				744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */,
+				744B57252B0609DE00B3ABAA /* TranspTableViewCell.swift in Sources */,
+				744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */,
 				744B571E2B05E40B00B3ABAA /* ResultTableViewCell.swift in Sources */,
+				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,
 				744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */,
 				744B571C2B05DBA000B3ABAA /* ResultTableView.swift in Sources */,
 				742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */,
 				74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */,
 				74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */,
 				74B828572B04DB7700A42850 /* PackageTableView.swift in Sources */,
+				744B57232B0609AC00B3ABAA /* TransTableView.swift in Sources */,
 				744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */,
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,
 				74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */,

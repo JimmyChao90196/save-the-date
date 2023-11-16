@@ -9,9 +9,12 @@ import Foundation
 import SnapKit
 import UIKit
 import MapKit
-import GoogleMaps
-import GoogleMapsCore
-import GoogleMapsBase
+import GooglePlaces
+
+enum ActionKind {
+    case edit(UITableViewCell)
+    case add
+}
 
 class ExploreSiteViewController: UIViewController {
     
@@ -21,12 +24,13 @@ class ExploreSiteViewController: UIViewController {
     let mapView = MKMapView()
     var placeDetailView = UIView()
     var placeTitle = UILabel()
-    var currentPlace = Location(name: "None", shortName: "None", identifier: "None")
+    var currentPlace = PackageModule(name: "None", shortName: "None", identifier: "None", transpIcon: UIImage(systemName: "plus.diamond")!)
     var acceptButton = UIButton()
     let searchVC = UISearchController(searchResultsController: ResultViewController())
+    var actionKind = ActionKind.add
     
     // On event closure
-    var onPlaceComfirm: ( (Location) -> Void )?
+    var onLocationComfirm: ( (PackageModule, ActionKind) -> Void )?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,13 +98,12 @@ class ExploreSiteViewController: UIViewController {
     // MARK: - Accept button pressed
     @objc func acceptButtonPressed() {
         
-        onPlaceComfirm?(currentPlace)
+        onLocationComfirm?(currentPlace, actionKind)
         navigationController?.popViewController(animated: true)
     }
 }
 
 // MARK: - Delegate method -
-
 extension ExploreSiteViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -130,7 +133,7 @@ extension ExploreSiteViewController: UISearchResultsUpdating {
 
 extension ExploreSiteViewController: ResultViewControllerDelegate {
     
-    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location) {
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: PackageModule) {
         
         self.currentPlace = targetPlace
         placeTitle.text = currentPlace.shortName

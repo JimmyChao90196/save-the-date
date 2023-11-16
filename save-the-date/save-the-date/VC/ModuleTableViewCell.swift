@@ -15,10 +15,12 @@ class ModuleTableViewCell: UITableViewCell {
     var deleteButton = UIButton()
     var numberLabel = UILabel()
     var locationView = UIView()
-    var transportationView = UIView()
+    var transpView = UIView()
+    var transpIcon = UIImageView(image: UIImage(systemName: "plus.diamond")!)
     
     var onDelete: ((UITableViewCell) -> Void)?
     var onLocationTapped: ((UITableViewCell) -> Void)?
+    var onTranspTapped: ((UITableViewCell) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,8 +34,9 @@ class ModuleTableViewCell: UITableViewCell {
     }
     
     private func addTo() {
-        contentView.addSubviews([locationView, transportationView])
+        contentView.addSubviews([locationView, transpView])
         locationView.addSubviews([deleteButton, numberLabel])
+        transpView.addSubviews([transpIcon])
         numberLabel.textAlignment = .center
     }
     
@@ -42,11 +45,14 @@ class ModuleTableViewCell: UITableViewCell {
         deleteButton.setTitleColor(.red, for: .normal)
         
         // Setup transportation view
-        transportationView.backgroundColor = .red
+        transpView.backgroundColor = .red
         deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(locationTapped))
-        locationView.addGestureRecognizer(tapGesture)
+        // Setup gesture recongnition
+        let locationTapGesture = UITapGestureRecognizer(target: self, action: #selector(locationTapped))
+        let transportationTapGesture = UITapGestureRecognizer(target: self, action: #selector(transportationTapped))
+        locationView.addGestureRecognizer(locationTapGesture)
+        transpView.addGestureRecognizer(transportationTapGesture)
 
     }
     
@@ -55,6 +61,14 @@ class ModuleTableViewCell: UITableViewCell {
     }
     
     private func setupConstraint() {
+        
+        transpIcon.snp.makeConstraints { make in
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+            make.top.equalToSuperview().offset(5)
+            make.bottom.equalToSuperview().offset(-5)
+            make.centerX.equalToSuperview()
+        }
         
         locationView.topConstr(to: contentView.topAnchor, 10)
             .leadingConstr(to: contentView.leadingAnchor, 5)
@@ -70,7 +84,7 @@ class ModuleTableViewCell: UITableViewCell {
             .topConstr(to: locationView.topAnchor, 50)
             .bottomConstr(to: locationView.bottomAnchor, -50)
         
-        transportationView.topConstr(to: locationView.bottomAnchor, 5)
+        transpView.topConstr(to: locationView.bottomAnchor, 5)
             .leadingConstr(to: contentView.leadingAnchor, 5)
             .trailingConstr(to: contentView.trailingAnchor, -5)
             .bottomConstr(to: contentView.bottomAnchor, -5)
@@ -79,12 +93,16 @@ class ModuleTableViewCell: UITableViewCell {
 }
 
 // MARK: - implement additional functions
-
 extension ModuleTableViewCell {
     
     // On location tapped
     @objc func locationTapped() {
         onLocationTapped?(self)
+    }
+    
+    // On transportation tapped
+    @objc func transportationTapped() {
+        onTranspTapped?(self)
     }
     
 }

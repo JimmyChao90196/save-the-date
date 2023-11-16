@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
-struct Location {
+struct PackageModule {
     let name: String
     let shortName: String
     let identifier: String
+    
+    var transpIcon: UIImage
 }

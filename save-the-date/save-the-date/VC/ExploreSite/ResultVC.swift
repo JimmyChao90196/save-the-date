@@ -9,7 +9,7 @@ import UIKit
 import CoreLocation
 
 protocol ResultViewControllerDelegate: AnyObject {
-    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location)
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: PackageModule)
 }
 
 class ResultViewController: UIViewController {
@@ -18,7 +18,7 @@ class ResultViewController: UIViewController {
     var tableView = ResultTableView()
     var googlePlacesManager = GooglePlacesManager.shared
     
-    private var places: [Location] = []
+    private var places: [PackageModule] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +55,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
                 ResultTableViewCell
         else { return UITableViewCell() }
         
-        cell.textLabel?.text = places[indexPath.row].name
+        cell.textLabel?.text = places[indexPath.row].shortName
         return cell
     }
     
@@ -81,7 +81,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - Additional function -
 extension ResultViewController {
-    public func update(with places: [Location]) {
+    public func update(with places: [PackageModule]) {
         self.tableView.isHidden = false
         self.places = places
         self.tableView.reloadData()

@@ -11,9 +11,13 @@ class CreatePackageViewController: UIViewController {
     
     var tableView = PackageTableView()
     var packageManager = PackageManager()
+    
+    // On events
     var onDelete: ((UITableViewCell) -> Void)?
-    var onAddNewModule: ( (Location) -> Void )?
+    var onLocationComfirm: ( (PackageModule, ActionKind) -> Void )?
     var onLocationTapped: ((UITableViewCell) -> Void)?
+    var onTranspTapped: ((UITableViewCell) -> Void)?
+    var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +54,6 @@ class CreatePackageViewController: UIViewController {
     }
     
     func configureConstraint() {
-        
         tableView.topConstr(to: view.safeAreaLayoutGuide.topAnchor, 0)
             .leadingConstr(to: view.safeAreaLayoutGuide.leadingAnchor, 0)
             .trailingConstr(to: view.safeAreaLayoutGuide.trailingAnchor, 0)
@@ -67,8 +70,7 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        packageManager.locations.count
-        
+        packageManager.packageModules.count
     }
     
     // Did select row at
@@ -84,9 +86,11 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
             for: indexPath) as? ModuleTableViewCell else {
              return UITableViewCell() }
         
-        cell.numberLabel.text = "\(packageManager.locations[indexPath.row].shortName)"
+        cell.numberLabel.text = "\(packageManager.packageModules[indexPath.row].shortName)"
+        cell.transpIcon.image = packageManager.packageModules[indexPath.row].transpIcon
         cell.onDelete = onDelete
         cell.onLocationTapped = self.onLocationTapped
+        cell.onTranspTapped = self.onTranspTapped
         
         return cell
     }
@@ -102,9 +106,9 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
         moveRowAt sourceIndexPath: IndexPath,
         to destinationIndexPath: IndexPath) {
             
-        let movedObject = self.packageManager.locations[sourceIndexPath.row]
-        self.packageManager.locations.remove(at: sourceIndexPath.row)
-        self.packageManager.locations.insert(movedObject, at: destinationIndexPath.row)
+        let movedObject = self.packageManager.packageModules[sourceIndexPath.row]
+        self.packageManager.packageModules.remove(at: sourceIndexPath.row)
+        self.packageManager.packageModules.insert(movedObject, at: destinationIndexPath.row)
     }
 }
 
@@ -115,7 +119,8 @@ extension CreatePackageViewController {
     @objc func addButtonPressed() {
         // Go to Explore site and choose one
         let exploreVC = ExploreSiteViewController()
-        exploreVC.onPlaceComfirm = onAddNewModule
+        exploreVC.onLocationComfirm = onLocationComfirm
+        exploreVC.actionKind = .add
         navigationController?.pushViewController(exploreVC, animated: true)
     }
     
@@ -127,16 +132,50 @@ extension CreatePackageViewController {
     // Initialize onEvent
     func setupOnEvent() {
         
-        onLocationTapped = { [weak self] _ in
+        onTranspTapped = { [weak self] cell in
+            guard let self else { return }
+            
+            // Jump to transpVC
+            let transpVC = TranspViewController()
+            transpVC.onTranspComfirm = onTranspComfirm
+            transpVC.actionKind = .edit(cell)
+            self.navigationController?.pushViewController(transpVC, animated: true)
+        }
+        
+        onLocationTapped = { [weak self] cell in
             guard let self else { return }
             
             let exploreVC = ExploreSiteViewController()
-            exploreVC.onPlaceComfirm = onAddNewModule
+            exploreVC.onLocationComfirm = onLocationComfirm
+            exploreVC.actionKind = .edit(cell)
             self.navigationController?.pushViewController(exploreVC, animated: true)
         }
         
-        onAddNewModule = { [weak self] place in
-            self?.packageManager.locations.append(place)
+        onLocationComfirm = { [weak self] module, action in
+            // Dictate action
+            switch action {
+            case .add:
+                self?.packageManager.packageModules.append(module)
+            case .edit(let cell):
+                guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
+                self?.packageManager.packageModules[indexPathToEdit.row] = module
+            }
+            
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        onTranspComfirm = { [weak self] transp, action in
+            // Dictate action
+            switch action {
+            case .add:
+                print("this shouldn't be triggered")
+                
+            case .edit(let cell):
+                guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
+                self?.packageManager.packageModules[indexPathToEdit.row].transpIcon = transp.transIcon
+            }
             
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
@@ -145,12 +184,11 @@ extension CreatePackageViewController {
         
         onDelete = { [weak self] cell in
             guard let indexPathToDelete = self?.tableView.indexPath(for: cell) else { return }
-            self?.packageManager.locations.remove(at: indexPathToDelete.row)
+            self?.packageManager.packageModules.remove(at: indexPathToDelete.row)
             
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
         }
-        
     }
 }
