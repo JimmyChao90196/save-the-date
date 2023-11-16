@@ -6,21 +6,30 @@
 //
 
 import Foundation
+import SnapKit
 import UIKit
+import MapKit
+import GoogleMaps
+import GoogleMapsCore
+import GoogleMapsBase
 
 class ExploreSiteViewController: UIViewController {
     
     var packageManager = PackageManager.shared
-    var numberTextField = UITextField()
+    var googlePlacesManager = GooglePlacesManager.shared
     
+    let mapView = MKMapView()
+    var placeDetailView = UIView()
+    var placeTitle = UILabel()
+    var currentPlace = Place(name: "None", shortName: "None", identifier: "None")
     var acceptButton = UIButton()
-    var onNumberSent: ( (Int) -> Void )?
-    var numberToRevise: Int?
+    let searchVC = UISearchController(searchResultsController: ResultViewController())
+    
+    // On event closure
+    var onPlaceComfirm: ( (Place) -> Void )?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .white
         
         addTo()
         setup()
@@ -28,55 +37,123 @@ class ExploreSiteViewController: UIViewController {
     }
     
     func setup() {
-        numberTextField.placeholder = "Please enter a number"
-        numberTextField.textAlignment = .center
-        numberTextField.layer.borderColor = UIColor.black.cgColor
-        numberTextField.layer.borderWidth = 1
+        view.backgroundColor = .white
+        mapView.frame = view.bounds
         
-        acceptButton.setTitle("Accecpt", for: .normal)
-        acceptButton.setTitleColor(.white, for: .normal)
-        acceptButton.layer.cornerRadius = 20
-        acceptButton.backgroundColor = .black
-        acceptButton.layer.borderColor = UIColor.black.cgColor
-        acceptButton.layer.borderWidth = 1
+        // Customize search VC
+        searchVC.searchBar.backgroundColor = .secondarySystemGroupedBackground
+        searchVC.searchResultsUpdater = self
+        navigationItem.searchController = searchVC
         
-        acceptButton.addTarget(self, action: #selector(acceptButtonPressed), for: .touchUpInside)
+        // Customize detail view
+        placeTitle.text = "請選擇地點"
+        placeDetailView.setCornerRadius(20)
+            .setbackgroundColor(.white)
+            .setBoarderWidth(1)
+            .setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
+        
+        // Customize button
+        acceptButton.setTarget(self, action: #selector(acceptButtonPressed), for: .touchUpInside)
+            .setTitle("Comfirm", for: .normal)
+    }
+    
+    func addTo() {
+        view.addSubviews([mapView])
+        mapView.addSubviews([placeDetailView])
+        placeDetailView.addSubviews([placeTitle, acceptButton])
+    }
+    
+    func setupConstraint() {
+        mapView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        placeDetailView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(-10)
+            make.bottom.equalToSuperview().offset(-5)
+            make.height.equalTo(120)
+        }
+        
+        placeTitle.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(50)
+        }
+        
+        acceptButton.snp.makeConstraints { make in
+            make.top.equalTo(placeTitle.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(50)
+        }
     }
 
     // MARK: - Accept button pressed
     @objc func acceptButtonPressed() {
         
-        guard let number = numberTextField.text else { return }
+        onPlaceComfirm?(currentPlace)
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+// MARK: - Delegate method -
+
+extension ExploreSiteViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        // Get the query argument
+        guard let query = searchController.searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty,
+              let resultVC = searchController.searchResultsController as? ResultViewController
+        else { return }
         
-        if number.isEmpty {
-            let alert = UIAlertController(title: "Error", message: "Please enter a number", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: nil)
-            
-        } else {
-            let numberInt = Int(number) ?? 0
-            onNumberSent?(numberInt)
-            navigationController?.popViewController(animated: true)
+        resultVC.delgate = self
+        
+        googlePlacesManager.findPlaces(query: query) { result in
+            switch result {
+            case .success(let places):
+                print(places)
+                
+                DispatchQueue.main.async {
+                    resultVC.update(with: places)
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
         }
     }
+}
+
+extension ExploreSiteViewController: ResultViewControllerDelegate {
     
-    func addTo() {
-        view.addSubviews([numberTextField, acceptButton])
-    }
-    
-    func setupConstraint() {
-        let screenWidth = UIScreen.main.bounds.size.width
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Place) {
         
-        NSLayoutConstraint.activate([
-            numberTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
-            numberTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            numberTextField.widthAnchor.constraint(equalToConstant: screenWidth * 0.6666),
-            
-            acceptButton.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 20),
-            acceptButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            acceptButton.widthAnchor.constraint(equalToConstant: screenWidth * 0.6666),
-            acceptButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
+        self.currentPlace = targetPlace
+        placeTitle.text = currentPlace.shortName
+        
+        // Hide keyboard and dismiss search VC
+        searchVC.searchBar.resignFirstResponder()
+        searchVC.dismiss(animated: true, completion: nil)
+        
+        // Remove all map pin
+        let annotations = mapView.annotations
+        mapView.removeAnnotations(annotations)
+        
+        // Add a map pin
+        let pin = MKPointAnnotation()
+        pin.coordinate = coordinate
+        mapView.addAnnotation(pin)
+        mapView.setRegion(
+            MKCoordinateRegion(
+                center: coordinate,
+                span: MKCoordinateSpan(
+                    latitudeDelta: 0.05,
+                    longitudeDelta: 0.05
+                )),
+            animated: true
+        )
     }
 }

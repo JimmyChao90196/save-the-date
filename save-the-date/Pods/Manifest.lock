@@ -1,20 +1,32 @@
 PODS:
+  - GoogleMaps (8.3.0):
+    - GoogleMaps/Maps (= 8.3.0)
+  - GoogleMaps/Base (8.3.0)
+  - GoogleMaps/Maps (8.3.0):
+    - GoogleMaps/Base
+  - GooglePlaces (8.3.0)
   - SnapKit (5.6.0)
   - SwiftLint (0.54.0)
 
 DEPENDENCIES:
+  - GoogleMaps
+  - GooglePlaces
   - SnapKit
   - SwiftLint
 
 SPEC REPOS:
   trunk:
+    - GoogleMaps
+    - GooglePlaces
     - SnapKit
     - SwiftLint
 
 SPEC CHECKSUMS:
+  GoogleMaps: 54762190c9741867d03e4e4218672ab5a0a8096b
+  GooglePlaces: b922e192c50994436900ef14d19f84971950250b
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: c9070119fc30c23f5f3935c61ecd3074a1d0711f
+PODFILE CHECKSUM: f08cfed5846b7185206e243d34257d84d0545c51
 
 COCOAPODS: 1.13.0

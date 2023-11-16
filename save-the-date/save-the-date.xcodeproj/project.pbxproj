@@ -12,6 +12,11 @@
 		742CD0772B04C36D00CA3011 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0752B04C36D00CA3011 /* Main.storyboard */; };
 		742CD0792B04C36E00CA3011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0782B04C36E00CA3011 /* Assets.xcassets */; };
 		742CD07C2B04C36E00CA3011 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD07A2B04C36E00CA3011 /* LaunchScreen.storyboard */; };
+		744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57122B05C57800B3ABAA /* ResultVC.swift */; };
+		744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */; };
+		744B57182B05D7AF00B3ABAA /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57172B05D7AF00B3ABAA /* PlaceModel.swift */; };
+		744B571C2B05DBA000B3ABAA /* ResultTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B571B2B05DBA000B3ABAA /* ResultTableView.swift */; };
+		744B571E2B05E40B00B3ABAA /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B571D2B05E40B00B3ABAA /* ResultTableViewCell.swift */; };
 		74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */; };
 		74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828512B04DB2300A42850 /* UIColorExtension.swift */; };
 		74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */; };
@@ -31,6 +36,11 @@
 		742CD0782B04C36E00CA3011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		742CD07B2B04C36E00CA3011 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		742CD07D2B04C36E00CA3011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		744B57122B05C57800B3ABAA /* ResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultVC.swift; sourceTree = "<group>"; };
+		744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
+		744B57172B05D7AF00B3ABAA /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
+		744B571B2B05DBA000B3ABAA /* ResultTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableView.swift; sourceTree = "<group>"; };
+		744B571D2B05E40B00B3ABAA /* ResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclaritiveExtension.swift; sourceTree = "<group>"; };
 		74B828512B04DB2300A42850 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTableViewCell.swift; sourceTree = "<group>"; };
@@ -75,6 +85,7 @@
 		742CD06E2B04C36C00CA3011 /* save-the-date */ = {
 			isa = PBXGroup;
 			children = (
+				744B57162B05D7A000B3ABAA /* Model */,
 				74B828592B04DF0D00A42850 /* Manager */,
 				74B8284E2B04DA8B00A42850 /* Extension */,
 				74B8284D2B04D99300A42850 /* VC */,
@@ -86,6 +97,14 @@
 				742CD07D2B04C36E00CA3011 /* Info.plist */,
 			);
 			path = "save-the-date";
+			sourceTree = "<group>";
+		};
+		744B57162B05D7A000B3ABAA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				744B57172B05D7AF00B3ABAA /* PlaceModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		74B8284D2B04D99300A42850 /* VC */ = {
@@ -113,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				74B8285A2B04DF1900A42850 /* PackageManager.swift */,
+				744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -128,6 +148,9 @@
 			isa = PBXGroup;
 			children = (
 				74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */,
+				744B57122B05C57800B3ABAA /* ResultVC.swift */,
+				744B571B2B05DBA000B3ABAA /* ResultTableView.swift */,
+				744B571D2B05E40B00B3ABAA /* ResultTableViewCell.swift */,
 			);
 			path = ExploreSite;
 			sourceTree = "<group>";
@@ -162,6 +185,7 @@
 				742CD06A2B04C36C00CA3011 /* Resources */,
 				742CD0832B04C7C000CA3011 /* ShellScript */,
 				EEEF02E0966CC6409D5CE58C /* [CP] Embed Pods Frameworks */,
+				133F06EE0C4551EECDDB7D3D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -241,6 +265,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		133F06EE0C4551EECDDB7D3D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-save-the-date/Pods-save-the-date-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-save-the-date/Pods-save-the-date-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-save-the-date/Pods-save-the-date-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		742CD0832B04C7C000CA3011 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -283,10 +324,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */,
+				744B57182B05D7AF00B3ABAA /* PlaceModel.swift in Sources */,
+				744B571E2B05E40B00B3ABAA /* ResultTableViewCell.swift in Sources */,
+				744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */,
+				744B571C2B05DBA000B3ABAA /* ResultTableView.swift in Sources */,
 				742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */,
 				74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */,
 				74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */,
 				74B828572B04DB7700A42850 /* PackageTableView.swift in Sources */,
+				744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */,
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,
 				74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */,
 				74B8285D2B04DF8800A42850 /* ExploreSiteVC.swift in Sources */,

@@ -8,5 +8,7 @@ target 'save-the-date' do
   # Pods for save-the-date
   pod 'SwiftLint'
   pod 'SnapKit'
+  pod 'GoogleMaps'
+  pod 'GooglePlaces'
 
 end

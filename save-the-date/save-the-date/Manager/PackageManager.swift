@@ -12,5 +12,5 @@ class PackageManager {
     
     static let shared = PackageManager()
     
-    var numbers = [2, 3, 4, 5]
+    var Places = [2, 3, 4, 5]
 }
