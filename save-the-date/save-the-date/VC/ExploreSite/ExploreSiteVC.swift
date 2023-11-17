@@ -24,12 +24,21 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     var packageManager = PackageManager.shared
     var googlePlacesManager = GooglePlacesManager.shared
     var manager = CLLocationManager()
+    var updateCount = 0
     
-    let mapView = MKMapView()
+    // Google map
+    var locationManager: CLLocationManager!
+    var currentLocation: CLLocation?
+    var googleMapView: GMSMapView!
+    var placesClient: GMSPlacesClient!
+    var preciseLocationZoomLevel: Float = 15.0
+    var approximateLocationZoomLevel: Float = 10.0
+    
+    // let mapView = MKMapView()
     var placeDetailView = UIView()
     var placeTitle = UILabel()
     
-    var currentLocation = Location(
+    var selectedLocation = Location(
         name: "None",
         shortName: "None",
         identifier: "None")
@@ -52,7 +61,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     
     func setup() {
         view.backgroundColor = .white
-        mapView.frame = view.bounds
+        // mapView.frame = view.bounds
         
         // Customize search VC
         searchVC.searchBar.backgroundColor = .secondarySystemGroupedBackground
@@ -73,18 +82,13 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func addTo() {
-        // view.addSubviews([mapView])
+        
         // mapView.addSubviews([placeDetailView])
         // placeDetailView.addSubviews([placeTitle, acceptButton])
     }
     
     func setupConstraint() {
-//        mapView.snp.makeConstraints { make in
-//            make.left.equalToSuperview()
-//            make.right.equalToSuperview()
-//            make.top.equalTo(view.safeAreaLayoutGuide)
-//            make.bottom.equalTo(view.safeAreaLayoutGuide)
-//        }
+
         
 //        placeDetailView.snp.makeConstraints { make in
 //            make.left.equalToSuperview().offset(10)
@@ -108,7 +112,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Accept button pressed
     @objc func acceptButtonPressed() {
         
-        onLocationComfirm?(currentLocation, actionKind)
+        onLocationComfirm?(selectedLocation, actionKind)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -125,12 +129,7 @@ extension ExploreSiteViewController {
         
         print("License: \(GMSServices.openSourceLicenseInfo())")
         
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
-        
-        let coordinate = location.coordinate
+        let coordinate = CLLocationCoordinate2D(latitude: 25.033964, longitude: 121.5644722)
         
         let options = GMSMapViewOptions()
         
@@ -139,18 +138,38 @@ extension ExploreSiteViewController {
             longitude: coordinate.longitude,
             zoom: 6.0)
         options.frame = self.view.bounds
-
-        let mapView = GMSMapView(options: options)
-        self.view.addSubview(mapView)
-
-        // Creates a marker in the center of the map.
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        marker.title = "Sydney"
-        marker.snippet = "Australia"
-        marker.map = mapView
+        
+        googleMapView = GMSMapView(options: options)
+        self.view.addSubview(googleMapView)
+        
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else { return }
+        
+        let zoomLevel = manager.accuracyAuthorization == .fullAccuracy ?
+        preciseLocationZoomLevel : approximateLocationZoomLevel
+        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
+                                              longitude: location.coordinate.longitude,
+                                              zoom: zoomLevel)
+        if updateCount < 1 {
+            googleMapView.animate(to: camera)
+            
+            // remove marker
+            googleMapView.clear()
+            
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(
+                latitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude)
+            marker.title = "Current"
+            marker.snippet = "Current"
+            marker.map = googleMapView
+            
+            // Add 1 for each update
+            updateCount += 1
+        }
+    }
 }
 
 // MARK: - Search delegate method -
@@ -187,29 +206,30 @@ extension ExploreSiteViewController: ResultViewControllerDelegate {
     
     func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location) {
         
-        self.currentLocation = targetPlace
-        placeTitle.text = currentLocation.shortName
+        self.selectedLocation = targetPlace
+        placeTitle.text = selectedLocation.shortName
         
         // Hide keyboard and dismiss search VC
         searchVC.searchBar.resignFirstResponder()
         searchVC.dismiss(animated: true, completion: nil)
         
-        // Remove all map pin
-        let annotations = mapView.annotations
-        mapView.removeAnnotations(annotations)
+        // Set zoom level
+        let zoomLevel = manager.accuracyAuthorization == .fullAccuracy ?
+        preciseLocationZoomLevel : approximateLocationZoomLevel
+        let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
+                                              longitude: coordinate.longitude,
+                                              zoom: zoomLevel)
+        // Move to target
+        googleMapView.animate(to: camera)
         
-        // Add a map pin
-        let pin = MKPointAnnotation()
-        pin.coordinate = coordinate
-        mapView.addAnnotation(pin)
-        mapView.setRegion(
-            MKCoordinateRegion(
-                center: coordinate,
-                span: MKCoordinateSpan(
-                    latitudeDelta: 0.05,
-                    longitudeDelta: 0.05
-                )),
-            animated: true
-        )
+        // remove marker
+        googleMapView.clear()
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude)
+        marker.title = "Current"
+        marker.snippet = "Current"
+        marker.map = googleMapView
     }
 }
