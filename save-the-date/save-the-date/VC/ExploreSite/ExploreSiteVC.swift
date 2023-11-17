@@ -53,9 +53,9 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initializeGoogleMap()
         addTo()
         setup()
-        initializeGoogleMap()
         setupConstraint()
     }
     
@@ -70,6 +70,9 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
         
         // Customize detail view
         placeTitle.text = "請選擇地點"
+        placeTitle.setTextColor(.black)
+            .setbackgroundColor(.blue)
+        
         placeDetailView.setCornerRadius(20)
             .setbackgroundColor(.white)
             .setBoarderWidth(1)
@@ -82,31 +85,30 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func addTo() {
-        
-        // mapView.addSubviews([placeDetailView])
-        // placeDetailView.addSubviews([placeTitle, acceptButton])
+        googleMapView.addSubviews([placeDetailView])
+        placeDetailView.addSubviews([placeTitle, acceptButton])
     }
     
     func setupConstraint() {
-
         
-//        placeDetailView.snp.makeConstraints { make in
-//            make.left.equalToSuperview().offset(10)
-//            make.right.equalToSuperview().offset(-10)
-//            make.bottom.equalToSuperview().offset(-5)
-//            make.height.equalTo(120)
-//        }
-//        
-//        placeTitle.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.top.equalToSuperview().offset(20)
-//        }
-//        
-//        acceptButton.snp.makeConstraints { make in
-//            make.top.equalTo(placeTitle.snp.bottom).offset(10)
-//            make.centerX.equalToSuperview()
-//            make.height.equalTo(20)
-//        }
+        placeDetailView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(-10)
+            make.bottom.equalToSuperview().offset(-5)
+            make.height.equalTo(120)
+        }
+        
+        placeTitle.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(20)
+            make.height.equalTo(20)
+        }
+        
+        acceptButton.snp.makeConstraints { make in
+            make.top.equalTo(placeTitle.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(20)
+        }
     }
 
     // MARK: - Accept button pressed
@@ -228,8 +230,8 @@ extension ExploreSiteViewController: ResultViewControllerDelegate {
         marker.position = CLLocationCoordinate2D(
             latitude: coordinate.latitude,
             longitude: coordinate.longitude)
-        marker.title = "Current"
-        marker.snippet = "Current"
+        marker.title = targetPlace.shortName
+        marker.snippet = targetPlace.name
         marker.map = googleMapView
     }
 }
