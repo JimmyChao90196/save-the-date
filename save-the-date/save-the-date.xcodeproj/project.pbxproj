@@ -12,6 +12,8 @@
 		742CD0772B04C36D00CA3011 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0752B04C36D00CA3011 /* Main.storyboard */; };
 		742CD0792B04C36E00CA3011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0782B04C36E00CA3011 /* Assets.xcassets */; };
 		742CD07C2B04C36E00CA3011 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD07A2B04C36E00CA3011 /* LaunchScreen.storyboard */; };
+		7439AFED2B074F6700A28C09 /* RouteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7439AFEC2B074F6700A28C09 /* RouteVC.swift */; };
+		7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7439AFEE2B0753FE00A28C09 /* RouteManager.swift */; };
 		744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57122B05C57800B3ABAA /* ResultVC.swift */; };
 		744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */; };
 		744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57172B05D7AF00B3ABAA /* PackageModel.swift */; };
@@ -41,6 +43,8 @@
 		742CD0782B04C36E00CA3011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		742CD07B2B04C36E00CA3011 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		742CD07D2B04C36E00CA3011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7439AFEC2B074F6700A28C09 /* RouteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteVC.swift; sourceTree = "<group>"; };
+		7439AFEE2B0753FE00A28C09 /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 		744B57122B05C57800B3ABAA /* ResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultVC.swift; sourceTree = "<group>"; };
 		744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
 		744B57172B05D7AF00B3ABAA /* PackageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageModel.swift; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 				74B8285A2B04DF1900A42850 /* PackageManager.swift */,
 				744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */,
 				744B57262B060C9200B3ABAA /* TranspManager.swift */,
+				7439AFEE2B0753FE00A28C09 /* RouteManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -163,6 +168,7 @@
 				74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */,
 				74B828552B04DB7700A42850 /* CreatePackageVC.swift */,
 				74B828542B04DB7700A42850 /* ModuleTableView.swift */,
+				7439AFEC2B074F6700A28C09 /* RouteVC.swift */,
 			);
 			path = CreatePackage;
 			sourceTree = "<group>";
@@ -362,6 +368,8 @@
 				744B57232B0609AC00B3ABAA /* TransTableView.swift in Sources */,
 				744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */,
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,
+				7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */,
+				7439AFED2B074F6700A28C09 /* RouteVC.swift in Sources */,
 				74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */,
 				74B8285D2B04DF8800A42850 /* ExploreSiteVC.swift in Sources */,
 				742CD0722B04C36C00CA3011 /* SceneDelegate.swift in Sources */,

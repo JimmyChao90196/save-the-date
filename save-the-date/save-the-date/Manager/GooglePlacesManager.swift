@@ -69,4 +69,34 @@ final class GooglePlacesManager {
                     completion(.success(coordinate))
                 }
         }
+    
+    public func resolveLocations(for locations: [Location], completion: @escaping ([CLLocationCoordinate2D]) -> Void) {
+        var coords = [CLLocationCoordinate2D]()
+        let dispatchGroup = DispatchGroup()
+
+        locations.forEach { location in
+            dispatchGroup.enter() // Enter the group for each location
+
+            client.fetchPlace(
+                fromPlaceID: location.identifier,
+                placeFields: .coordinate,
+                sessionToken: nil) { googlePlace, error in
+                defer { dispatchGroup.leave() } // Ensure we leave the group after handling the response
+
+                if let googlePlace = googlePlace, error == nil {
+                    let coordinate = CLLocationCoordinate2D(
+                        latitude: googlePlace.coordinate.latitude,
+                        longitude: googlePlace.coordinate.longitude)
+                    
+                    print(coordinate)
+                    coords.append(coordinate)
+                }
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            completion(coords) // Call the completion handler once all fetches are done
+        }
+    }
+
 }

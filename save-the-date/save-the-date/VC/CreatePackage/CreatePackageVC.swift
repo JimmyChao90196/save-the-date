@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import Foundation
+import SnapKit
+import CoreLocation
 
 class CreatePackageViewController: UIViewController {
     
     var tableView = ModuleTableView()
     var packageManager = PackageManager()
+    var googlePlaceManager = GooglePlacesManager.shared
+    var routeManager = RouteManager()
     
     // On events
     var onDelete: ((UITableViewCell) -> Void)?
@@ -18,6 +23,15 @@ class CreatePackageViewController: UIViewController {
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
     var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
+    
+    var showRoute: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        
+        button.backgroundColor = .blue
+        button.setTitle("Show route", for: .normal)
+        
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,11 +59,12 @@ class CreatePackageViewController: UIViewController {
     }
     
     func addTo() {
-        view.addSubviews([tableView])
+        view.addSubviews([tableView, showRoute])
     }
     
     func setup() {
         tableView.setEditing(false, animated: true)
+        showRoute.addTarget(self, action: #selector(showRouteButtonPressed), for: .touchUpInside)
         
     }
     
@@ -58,6 +73,13 @@ class CreatePackageViewController: UIViewController {
             .leadingConstr(to: view.safeAreaLayoutGuide.leadingAnchor, 0)
             .trailingConstr(to: view.safeAreaLayoutGuide.trailingAnchor, 0)
             .bottomConstr(to: view.safeAreaLayoutGuide.bottomAnchor, 0)
+        
+        showRoute.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-60)
+            make.width.equalTo(100)
+            make.height.equalTo(50)
+        }
     }
 }
 
@@ -86,16 +108,27 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
             for: indexPath) as? ModuleTableViewCell else {
             return UITableViewCell() }
         
+        let travelTime = packageManager.packageModules[indexPath.row].transportation.travelTime
         let iconName = packageManager.packageModules[indexPath.row].transportation.transpIcon
         let locationTitle = "\(packageManager.packageModules[indexPath.row].location.shortName)"
         
         cell.numberLabel.text = locationTitle
         cell.transpIcon.image = UIImage(systemName: iconName)
+        cell.travelTimeLabel.text = formatTimeInterval(travelTime) == "none" ? "" : formatTimeInterval(travelTime)
         
         cell.onDelete = onDelete
         cell.onLocationTapped = self.onLocationTapped
-        cell.onTranspTapped = self.onTranspTapped
         
+        // Check if it's the last cell
+        if indexPath.row == packageManager.packageModules.count - 1 {
+            // Last cell
+            cell.transpView.isHidden = true
+            cell.onTranspTapped = nil
+        } else {
+            // Not the last cell
+            cell.transpView.isHidden = false
+            cell.onTranspTapped = self.onTranspTapped
+        }
         return cell
     }
     
@@ -116,6 +149,34 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
 
 // MARK: - Additional method -
 extension CreatePackageViewController {
+    
+    func formatTimeInterval(_ interval: TimeInterval) -> String {
+        let hours = Int(interval) / 3600
+        let minutes = Int(interval) % 3600 / 60
+
+        if hours > 0 {
+            return "\(hours)hr \(minutes)min"
+        } else if minutes > 0 {
+            return "\(minutes)min"
+        } else {
+            return "none"
+        }
+    }
+
+    // Show route button pressed
+    @objc func showRouteButtonPressed() {
+        // Go to routeVC
+        
+        let locations = packageManager.packageModules.map { $0.location}
+        print(locations)
+        googlePlaceManager.resolveLocations(for: locations) { coords in
+        
+            let routeVC = RouteViewController()
+            routeVC.coords = coords
+            self.navigationController?.pushViewController(routeVC, animated: true)
+        }
+        
+    }
 
     // Add bar button pressed
     @objc func addButtonPressed() {
@@ -158,7 +219,9 @@ extension CreatePackageViewController {
             
             let module = PackageModule(
                 location: location,
-                transportation: Transportation(transpIcon: "plus.viewfinder"))
+                transportation: Transportation(
+                    transpIcon: "plus.viewfinder",
+                    travelTime: 0.0))
             
             switch action {
             case .add:
@@ -176,19 +239,44 @@ extension CreatePackageViewController {
         onTranspComfirm = { [weak self] transp, action in
             // Dictate action
             
-            let transportation = Transportation(transpIcon: transp.transIcon)
-            
             switch action {
             case .add:
                 print("this shouldn't be triggered")
                 
             case .edit(let cell):
                 guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
-                self?.packageManager.reviceTransportation(relplace: indexPathToEdit, with: transportation)
-            }
-            
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                
+                // Fetch source and dest coord
+                let sourceCoordDic = self?.packageManager.packageModules[indexPathToEdit.row].location.coordinate
+                let destCoordDic = self?.packageManager.packageModules[indexPathToEdit.row + 1].location.coordinate
+                
+                // Fetch travel time
+                let sourceCoord = CLLocationCoordinate2D(
+                    latitude: sourceCoordDic?["lat"] ?? 0,
+                    longitude: sourceCoordDic?["lng"] ?? 0)
+                
+                let destCoord = CLLocationCoordinate2D(
+                    latitude: destCoordDic?["lat"] ?? 0,
+                    longitude: destCoordDic?["lng"] ?? 0)
+                
+                self?.routeManager.fetchTravelTime(
+                    with: transp.transpType,
+                    from: sourceCoord,
+                    to: destCoord,
+                    completion: { travelTime in
+                        print(travelTime)
+                        
+                        let transportation = Transportation(
+                            transpIcon: transp.transIcon,
+                            travelTime: travelTime)
+                        
+                        // Replace with new transporation
+                        self?.packageManager.reviceTransportation(relplace: indexPathToEdit, with: transportation)
+                        
+                        DispatchQueue.main.async {
+                            self?.tableView.reloadData()
+                        }
+                    })
             }
         }
         

@@ -189,7 +189,6 @@ extension ExploreSiteViewController: UISearchResultsUpdating {
         googlePlacesManager.findLocations(query: query) { result in
             switch result {
             case .success(let locations):
-                print(locations)
                 
                 DispatchQueue.main.async {
                     resultVC.update(with: locations)
@@ -209,6 +208,9 @@ extension ExploreSiteViewController: ResultViewControllerDelegate {
     func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location) {
         
         self.selectedLocation = targetPlace
+        self.selectedLocation.coordinate["lat"] = coordinate.latitude
+        self.selectedLocation.coordinate["lng"] = coordinate.longitude
+        
         placeTitle.text = selectedLocation.shortName
         
         // Hide keyboard and dismiss search VC

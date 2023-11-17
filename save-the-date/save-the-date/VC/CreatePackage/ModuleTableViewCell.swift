@@ -17,6 +17,7 @@ class ModuleTableViewCell: UITableViewCell {
     var locationView = UIView()
     var transpView = UIView()
     var transpIcon = UIImageView(image: UIImage(systemName: "plus.diamond")!)
+    var travelTimeLabel = UILabel()
     
     var onDelete: ((UITableViewCell) -> Void)?
     var onLocationTapped: ((UITableViewCell) -> Void)?
@@ -36,7 +37,7 @@ class ModuleTableViewCell: UITableViewCell {
     private func addTo() {
         contentView.addSubviews([locationView, transpView])
         locationView.addSubviews([deleteButton, numberLabel])
-        transpView.addSubviews([transpIcon])
+        transpView.addSubviews([transpIcon, travelTimeLabel])
         numberLabel.textAlignment = .center
     }
     
@@ -68,6 +69,11 @@ class ModuleTableViewCell: UITableViewCell {
             make.top.equalToSuperview().offset(5)
             make.bottom.equalToSuperview().offset(-5)
             make.centerX.equalToSuperview()
+        }
+        
+        travelTimeLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(transpIcon)
+            make.leading.equalTo(transpIcon.snp.trailing).offset(10)
         }
         
         locationView.topConstr(to: contentView.topAnchor, 10)

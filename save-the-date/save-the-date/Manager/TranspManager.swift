@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import MapKit
     
 enum TranspManager: CaseIterable {
     case car
@@ -17,6 +18,10 @@ enum TranspManager: CaseIterable {
     case ship
     case bicycle
     case walk
+    
+    static func from(transIcon: String) -> TranspManager? {
+        return TranspManager.allCases.first { $0.transIcon == transIcon }
+    }
     
     var transIcon: String {
         switch self {
@@ -36,6 +41,27 @@ enum TranspManager: CaseIterable {
             
         case .walk: return "figure.walk"
             
+        }
+    }
+    
+    var transpType: MKDirectionsTransportType {
+        switch self {
+        case .car:
+            return .automobile
+        case .bus:
+            return .automobile
+        case .train:
+            return .automobile
+        case .metro:
+            return .automobile
+        case .plane:
+            return .automobile
+        case .ship:
+            return .automobile
+        case .bicycle:
+            return .walking
+        case .walk:
+            return .walking
         }
     }
 }
