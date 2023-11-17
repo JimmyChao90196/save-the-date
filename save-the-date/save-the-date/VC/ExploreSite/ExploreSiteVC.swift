@@ -9,17 +9,21 @@ import Foundation
 import SnapKit
 import UIKit
 import MapKit
+
+import CoreLocation
 import GooglePlaces
+import GoogleMaps
 
 enum ActionKind {
     case edit(UITableViewCell)
     case add
 }
 
-class ExploreSiteViewController: UIViewController {
+class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     
     var packageManager = PackageManager.shared
     var googlePlacesManager = GooglePlacesManager.shared
+    var manager = CLLocationManager()
     
     let mapView = MKMapView()
     var placeDetailView = UIView()
@@ -42,6 +46,7 @@ class ExploreSiteViewController: UIViewController {
         
         addTo()
         setup()
+        initializeGoogleMap()
         setupConstraint()
     }
     
@@ -68,36 +73,36 @@ class ExploreSiteViewController: UIViewController {
     }
     
     func addTo() {
-        view.addSubviews([mapView])
-        mapView.addSubviews([placeDetailView])
-        placeDetailView.addSubviews([placeTitle, acceptButton])
+        // view.addSubviews([mapView])
+        // mapView.addSubviews([placeDetailView])
+        // placeDetailView.addSubviews([placeTitle, acceptButton])
     }
     
     func setupConstraint() {
-        mapView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
+//        mapView.snp.makeConstraints { make in
+//            make.left.equalToSuperview()
+//            make.right.equalToSuperview()
+//            make.top.equalTo(view.safeAreaLayoutGuide)
+//            make.bottom.equalTo(view.safeAreaLayoutGuide)
+//        }
         
-        placeDetailView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(10)
-            make.right.equalToSuperview().offset(-10)
-            make.bottom.equalToSuperview().offset(-5)
-            make.height.equalTo(120)
-        }
-        
-        placeTitle.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(20)
-        }
-        
-        acceptButton.snp.makeConstraints { make in
-            make.top.equalTo(placeTitle.snp.bottom).offset(10)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(20)
-        }
+//        placeDetailView.snp.makeConstraints { make in
+//            make.left.equalToSuperview().offset(10)
+//            make.right.equalToSuperview().offset(-10)
+//            make.bottom.equalToSuperview().offset(-5)
+//            make.height.equalTo(120)
+//        }
+//        
+//        placeTitle.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.top.equalToSuperview().offset(20)
+//        }
+//        
+//        acceptButton.snp.makeConstraints { make in
+//            make.top.equalTo(placeTitle.snp.bottom).offset(10)
+//            make.centerX.equalToSuperview()
+//            make.height.equalTo(20)
+//        }
     }
 
     // MARK: - Accept button pressed
@@ -108,7 +113,47 @@ class ExploreSiteViewController: UIViewController {
     }
 }
 
-// MARK: - Delegate method -
+// MARK: - Additional methods -
+extension ExploreSiteViewController {
+    
+    func initializeGoogleMap() {
+        
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+        
+        print("License: \(GMSServices.openSourceLicenseInfo())")
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else { return }
+        
+        let coordinate = location.coordinate
+        
+        let options = GMSMapViewOptions()
+        
+        options.camera = GMSCameraPosition.camera(
+            withLatitude: coordinate.latitude,
+            longitude: coordinate.longitude,
+            zoom: 6.0)
+        options.frame = self.view.bounds
+
+        let mapView = GMSMapView(options: options)
+        self.view.addSubview(mapView)
+
+        // Creates a marker in the center of the map.
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        marker.title = "Sydney"
+        marker.snippet = "Australia"
+        marker.map = mapView
+    }
+    
+}
+
+// MARK: - Search delegate method -
 extension ExploreSiteViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -135,6 +180,8 @@ extension ExploreSiteViewController: UISearchResultsUpdating {
         }
     }
 }
+
+// MARK: - Result view controller delegate method -
 
 extension ExploreSiteViewController: ResultViewControllerDelegate {
     
