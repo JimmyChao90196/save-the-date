@@ -9,6 +9,11 @@ import Foundation
 import FirebaseFirestore
 import UIKit
 
+enum PublishError: Error {
+    case encodeError
+    case failedAddToDocument
+}
+
 enum FirestoreError: Error {
     case userNotFound
     case userAlreadyExist
@@ -30,7 +35,7 @@ class FirestoreManager {
         }
     }
     
-    // MARK: - Publish package
+    // MARK: - Publish package -
     func publishPackage(_ package: Package, completion: @escaping (Result<String, Error>) -> Void) {
         var ref: DocumentReference?
         
@@ -42,6 +47,40 @@ class FirestoreManager {
             } else if let documentID = ref?.documentID {
                 completion(.success(documentID))
             }
+        }
+    }
+    
+    // MARK: - Publish package 02 -
+    func publishPackageWithJson(_ package: Package, completion: @escaping (Result<String, Error>) -> Void) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        do {
+            // Encode your package object into JSON
+            let jsonData = try encoder.encode(package)
+            
+            // Convert JSON data to a dictionary
+            guard let dictionary = try JSONSerialization.jsonObject(
+                with: jsonData,
+                options: .allowFragments) as? [String: Any] else {
+                print("Json serialization error")
+                return
+            }
+            
+            var ref: DocumentReference?
+            let packageColl = PackageCollection.publishedColl
+            
+            // Upload the JSON dictionary to Firestore
+            ref = fdb.collection(packageColl.rawValue).addDocument(data: dictionary) { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let documentID = ref?.documentID {
+                    completion(.success(documentID))
+                }
+            }
+        } catch {
+            // Handle encoding errors
+            completion(.failure(error))
         }
     }
     
