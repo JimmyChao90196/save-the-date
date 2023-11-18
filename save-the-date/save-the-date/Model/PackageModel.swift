@@ -8,9 +8,21 @@
 import Foundation
 import UIKit
 
+struct Package {
+    var info: Info
+    var packageModules: [PackageModule]
+}
+
 struct PackageModule {
+    
     var location: Location
     var transportation: Transportation
+    
+    init(location: Location,
+         transportation: Transportation) {
+        self.location = location
+        self.transportation = transportation
+    }
 }
 
 struct Location {
@@ -22,7 +34,7 @@ struct Location {
     init(name: String,
          shortName: String,
          identifier: String,
-         coordinate: [String : Double] = ["lat": 0.0, "lng": 0.0]) {
+         coordinate: [String: Double] = ["lat": 0.0, "lng": 0.0]) {
         self.name = name
         self.shortName = shortName
         self.identifier = identifier
@@ -38,4 +50,11 @@ struct Transportation {
         self.transpIcon = transpIcon
         self.travelTime = travelTime
     }
+}
+
+struct Info {
+    var title: String
+    var author: String
+    var rate: Int
+    var state: String
 }

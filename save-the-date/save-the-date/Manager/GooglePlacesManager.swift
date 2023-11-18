@@ -75,13 +75,13 @@ final class GooglePlacesManager {
         let dispatchGroup = DispatchGroup()
 
         locations.forEach { location in
-            dispatchGroup.enter() // Enter the group for each location
+            dispatchGroup.enter()
 
             client.fetchPlace(
                 fromPlaceID: location.identifier,
                 placeFields: .coordinate,
                 sessionToken: nil) { googlePlace, error in
-                defer { dispatchGroup.leave() } // Ensure we leave the group after handling the response
+                defer { dispatchGroup.leave() }
 
                 if let googlePlace = googlePlace, error == nil {
                     let coordinate = CLLocationCoordinate2D(
@@ -95,7 +95,7 @@ final class GooglePlacesManager {
         }
 
         dispatchGroup.notify(queue: .main) {
-            completion(coords) // Call the completion handler once all fetches are done
+            completion(coords) 
         }
     }
 

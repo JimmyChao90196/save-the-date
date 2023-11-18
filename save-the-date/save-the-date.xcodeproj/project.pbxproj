@@ -31,6 +31,7 @@
 		74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828552B04DB7700A42850 /* CreatePackageVC.swift */; };
 		74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8285A2B04DF1900A42850 /* PackageManager.swift */; };
 		74B8285D2B04DF8800A42850 /* ExploreSiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */; };
+		74DE46372B087B2E00B6F648 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46362B087B2E00B6F648 /* UserModel.swift */; };
 		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		74B828552B04DB7700A42850 /* CreatePackageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePackageVC.swift; sourceTree = "<group>"; };
 		74B8285A2B04DF1900A42850 /* PackageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageManager.swift; sourceTree = "<group>"; };
 		74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSiteVC.swift; sourceTree = "<group>"; };
+		74DE46362B087B2E00B6F648 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
 		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				744B57172B05D7AF00B3ABAA /* PackageModel.swift */,
+				74DE46362B087B2E00B6F648 /* UserModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */,
+				74DE46372B087B2E00B6F648 /* UserModel.swift in Sources */,
 				744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */,
 				744B57252B0609DE00B3ABAA /* TranspTableViewCell.swift in Sources */,
 				744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */,

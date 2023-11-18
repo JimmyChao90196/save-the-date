@@ -24,6 +24,7 @@ class CreatePackageViewController: UIViewController {
     var onTranspTapped: ((UITableViewCell) -> Void)?
     var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
     
+    // Buttons
     var showRoute: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
         
@@ -32,6 +33,16 @@ class CreatePackageViewController: UIViewController {
         
         return button
     }()
+    
+    var publishButton: UIButton {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        
+        // Your logic to customize the button
+        button.backgroundColor = .red
+        button.setTitle("Publish", for: .normal)
+        
+        return button
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,8 +75,15 @@ class CreatePackageViewController: UIViewController {
     
     func setup() {
         tableView.setEditing(false, animated: true)
-        showRoute.addTarget(self, action: #selector(showRouteButtonPressed), for: .touchUpInside)
+        showRoute.addTarget(
+            self,
+            action: #selector(showRouteButtonPressed),
+            for: .touchUpInside)
         
+        publishButton.addTarget(
+            self,
+            action: #selector(publishButtonPressed),
+            for: .touchUpInside)
     }
     
     func configureConstraint() {
@@ -150,6 +168,7 @@ extension CreatePackageViewController: UITableViewDelegate, UITableViewDataSourc
 // MARK: - Additional method -
 extension CreatePackageViewController {
     
+    // Interval formatter
     func formatTimeInterval(_ interval: TimeInterval) -> String {
         let hours = Int(interval) / 3600
         let minutes = Int(interval) % 3600 / 60
@@ -168,13 +187,21 @@ extension CreatePackageViewController {
         // Go to routeVC
         
         let locations = packageManager.packageModules.map { $0.location}
-        print(locations)
-        googlePlaceManager.resolveLocations(for: locations) { coords in
         
-            let routeVC = RouteViewController()
-            routeVC.coords = coords
-            self.navigationController?.pushViewController(routeVC, animated: true)
-        }
+        let coords = locations.map {
+            let coord = CLLocationCoordinate2D(
+                latitude: $0.coordinate["lat"] ?? 0.0,
+                longitude: $0.coordinate["lng"] ?? 0.0)
+            return coord }
+        
+        let routeVC = RouteViewController()
+        routeVC.coords = coords
+        self.navigationController?.pushViewController(routeVC, animated: true)
+    }
+    
+    // Publish button pressed
+    @objc func publishButtonPressed() {
+        // Publish package
         
     }
 
@@ -192,7 +219,7 @@ extension CreatePackageViewController {
         tableView.setEditing(!tableView.isEditing, animated: true)
     }
     
-    // Initialize onEvent
+    // MARK: - Setup onEvents -
     func setupOnEvent() {
         
         onTranspTapped = { [weak self] cell in
