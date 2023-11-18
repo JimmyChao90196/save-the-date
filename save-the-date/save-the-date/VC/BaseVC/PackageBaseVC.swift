@@ -30,6 +30,9 @@ class PackageBaseViewController: UIViewController {
     var onTranspTapped: ((UITableViewCell) -> Void)?
     var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
     
+    // Current package
+    var currentPackage = Package(convertFrom: [:])
+    
     // Buttons
     var showRoute: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
@@ -40,21 +43,10 @@ class PackageBaseViewController: UIViewController {
         return button
     }()
     
-    var publishButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        
-        // Your logic to customize the button
-        button.backgroundColor = .red
-        button.setTitle("Publish", for: .normal)
-        
-        return button
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
-        tableView.dataSource = self
+        setupPackageSource()
         
         addTo()
         setup()
@@ -76,20 +68,24 @@ class PackageBaseViewController: UIViewController {
     }
     
     func addTo() {
-        view.addSubviews([tableView, showRoute, publishButton])
+        view.addSubviews([tableView, showRoute])
     }
     
     func setup() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         tableView.setEditing(false, animated: true)
         showRoute.addTarget(
             self,
             action: #selector(showRouteButtonPressed),
             for: .touchUpInside)
-        
-        publishButton.addTarget(
-            self,
-            action: #selector(publishButtonPressed),
-            for: .touchUpInside)
+    }
+    
+    func setupPackageSource() {
+        currentPackage = Package(
+            info: Info(),
+            packageModules: packageManager.packageModules)
     }
     
     func configureConstraint() {
@@ -97,13 +93,6 @@ class PackageBaseViewController: UIViewController {
             .leadingConstr(to: view.safeAreaLayoutGuide.leadingAnchor, 0)
             .trailingConstr(to: view.safeAreaLayoutGuide.trailingAnchor, 0)
             .bottomConstr(to: view.safeAreaLayoutGuide.bottomAnchor, 0)
-        
-        publishButton.snp.makeConstraints { make in
-            make.centerY.equalTo(showRoute)
-            make.leading.equalTo(showRoute.snp.trailing).offset(10)
-            make.width.equalTo(60)
-            make.height.equalTo(50)
-        }
 
         showRoute.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -123,7 +112,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        packageManager.packageModules.count
+        currentPackage.packageModules.count
     }
     
     // Did select row at
@@ -139,8 +128,8 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             for: indexPath) as? ModuleTableViewCell else {
             return UITableViewCell() }
         
-        let travelTime = packageManager.packageModules[indexPath.row].transportation.travelTime
-        let iconName = packageManager.packageModules[indexPath.row].transportation.transpIcon
+        let travelTime = currentPackage.packageModules[indexPath.row].transportation.travelTime
+        let iconName = currentPackage.packageModules[indexPath.row].transportation.transpIcon
         let locationTitle = "\(packageManager.packageModules[indexPath.row].location.shortName)"
         
         cell.numberLabel.text = locationTitle
@@ -210,27 +199,6 @@ extension PackageBaseViewController {
         let routeVC = RouteViewController()
         routeVC.coords = coords
         self.navigationController?.pushViewController(routeVC, animated: true)
-    }
-    
-    // Publish button pressed
-    @objc func publishButtonPressed() {
-        // Publish package
-        
-        let info = Info()
-        let packageModules = packageManager.packageModules
-        let package = Package(info: info, packageModules: packageModules)
-        firestoreManager.publishPackage(package) { [weak self] result in
-            switch result {
-            case .success(let documentID):
-                self?.firestoreManager.updateUserPackages(
-                    email: "jimmy@gmail.com",
-                    packageType: "publishedPackage",
-                    packageID: documentID) { }
-                
-            case .failure(let error):
-                print("publish failed: \(error)")
-            }
-        }
     }
     
     // Add bar button pressed

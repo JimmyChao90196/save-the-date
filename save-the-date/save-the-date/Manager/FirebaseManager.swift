@@ -15,12 +15,9 @@ enum FirestoreError: Error {
 }
 
 class FirestoreManager {
-    
     static let shared = FirestoreManager()
     
     let fdb =  Firestore.firestore()
-    
-    var collectionId = "packages"
     
     // MARK: - Add user -
     func addUser(_ user: User, completion: @escaping () -> Void) {
@@ -36,7 +33,10 @@ class FirestoreManager {
     // MARK: - Publish package
     func publishPackage(_ package: Package, completion: @escaping (Result<String, Error>) -> Void) {
         var ref: DocumentReference?
-        ref = fdb.collection("packages").addDocument(data: package.dictionary) { error in
+        
+        let packageColl = PackageCollection.publishedColl
+        
+        ref = fdb.collection(packageColl.rawValue).addDocument(data: package.dictionary) { error in
             if let error = error {
                 completion(.failure(error))
             } else if let documentID = ref?.documentID {
@@ -45,7 +45,7 @@ class FirestoreManager {
         }
     }
     
-    // MARK: - Update user package -
+    // MARK: - Update user -
     func updateUserPackages(
         email: String,
         packageType: String,
@@ -60,6 +60,28 @@ class FirestoreManager {
             } else {
                 completion()
             }
+        }
+    }
+    
+    // MARK: - Fetch packaeges
+    func fetchPackages(
+        from packageCollection: PackageCollection,
+        completion: @escaping (Result<[Package], Error>) -> Void) {
+            
+        fdb.collection(packageCollection.rawValue).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            var packages: [Package] = []
+            querySnapshot?.documents.forEach { document in
+                let data = document.data()
+                let package = Package(convertFrom: data)
+                packages.append(package)
+            }
+
+            completion(.success(packages))
         }
     }
 }

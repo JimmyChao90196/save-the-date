@@ -231,6 +231,41 @@ extension UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
     }
+    
+    func presentAlertWithTextField(
+        title: String,
+        message: String,
+        buttonText: String,
+        cancelButtonText: String = "Cancel",
+        textFieldConfiguration: ((UITextField) -> Void)? = nil,
+        completion: @escaping (String?) -> Void) {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+            // Configure text field
+            alert.addTextField { textField in
+                textField.setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
+                    .setBoarderWidth(1)
+                textFieldConfiguration?(textField)
+            }
+
+            // Action for the button
+            let action = UIAlertAction(title: buttonText, style: .default) { _ in
+                let textField = alert.textFields?.first
+                completion(textField?.text)
+            }
+            alert.addAction(action)
+
+            // Cancel action
+            let cancelAction = UIAlertAction(title: cancelButtonText, style: .cancel) { _ in
+                completion(nil)
+            }
+            alert.addAction(cancelAction)
+
+            // Present the alert
+            DispatchQueue.main.async {
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
 }
 
 // MARK: - Formatted extension -

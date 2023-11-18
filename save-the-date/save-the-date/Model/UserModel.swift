@@ -39,11 +39,11 @@ struct User {
         return [
             "name": name,
             "email": email,
-            "draftPackage": draftPackage,
-            "favoritePackage": favoritetPackage,
-            "forkedPackage": forkedPackage,
-            "publishedPackage": publishedPackage,
-            "privatePackage": privatePackage
+            "draftPackages": draftPackage,
+            "favoritePackages": favoritetPackage,
+            "forkedPackages": forkedPackage,
+            "publishedPackages": publishedPackage,
+            "privatePackages": privatePackage
         ]
     }
 }

@@ -8,23 +8,6 @@
 import Foundation
 import UIKit
 
-struct Package {
-    var info: Info
-    var packageModules: [PackageModule]
-    
-    var dictionary: [String: Any] {
-        var dict = [String: Any]()
-        dict["info"] = ["title": info.title,
-                        "author": info.author,
-                        "rate": info.rate,
-                        "state": info.state]
-        
-        dict["packageModules"] = packageModules.map { $0.dictionary }
-        
-        return dict
-    }
-}
-
 struct PackageModule {
     var location: Location
     var transportation: Transportation
@@ -88,5 +71,80 @@ struct Info {
         self.author = author
         self.rate = rate
         self.state = state
+    }
+}
+
+// MARK: - Package state
+enum PackageState: String {
+    case publishedState = "published"
+    case privateState = "private"
+    case forkedState = "forked"
+    case favoriteState = "favorite"
+    case draftState = "draft"
+}
+
+enum PackageCollection: String {
+    case publishedColl = "publishedPackages"
+    case privateColl = "privatePackages"
+    case forkedColl = "forkedPackages"
+    case favoriteColl = "favoritePackages"
+    case draftColl = "draftPackages"
+}
+
+struct Package {
+    var info: Info
+    var packageModules: [PackageModule]
+    
+    var dictionary: [String: Any] {
+        var dict = [String: Any]()
+        dict["info"] = ["title": info.title,
+                        "author": info.author,
+                        "rate": info.rate,
+                        "state": info.state]
+        
+        dict["packageModules"] = packageModules.map { $0.dictionary }
+        
+        return dict
+    }
+    
+    // Original init
+    init(info: Info, packageModules: [PackageModule]) {
+        self.info = info
+        self.packageModules = packageModules
+    }
+    
+    // Package conversion
+    init(convertFrom dictionary: [String: Any]) {
+        let infoDict = dictionary["info"] as? [String: Any] ?? [:]
+        let packageModulesArray = dictionary["packageModules"] as? [[String: Any]] ?? []
+        
+        let info = Info(
+            title: infoDict["title"] as? String ?? "",
+            author: infoDict["author"] as? String ?? "",
+            rate: infoDict["rate"] as? Int ?? 0,
+            state: infoDict["state"] as? String ?? ""
+        )
+        
+        let packageModules = packageModulesArray.map { moduleDict -> PackageModule in
+            let locationDict = moduleDict["location"] as? [String: Any] ?? [:]
+            let transportationDict = moduleDict["transportation"] as? [String: Any] ?? [:]
+            
+            let location = Location(
+                name: locationDict["name"] as? String ?? "",
+                shortName: locationDict["shortName"] as? String ?? "",
+                identifier: locationDict["identifier"] as? String ?? "",
+                coordinate: locationDict["coordinate"] as? [String: Double] ?? ["lat": 0.0, "lng": 0.0]
+            )
+            
+            let transportation = Transportation(
+                transpIcon: transportationDict["transpIcon"] as? String ?? "",
+                travelTime: transportationDict["travelTime"] as? TimeInterval ?? 0.0
+            )
+            
+            return PackageModule(location: location, transportation: transportation)
+        }
+        
+        self.info = info
+        self.packageModules = packageModules
     }
 }
