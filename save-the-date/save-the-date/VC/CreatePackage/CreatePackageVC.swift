@@ -70,7 +70,7 @@ class CreatePackageViewController: UIViewController {
     }
     
     func addTo() {
-        view.addSubviews([tableView, showRoute])
+        view.addSubviews([tableView, showRoute, publishButton])
     }
     
     func setup() {
@@ -97,6 +97,11 @@ class CreatePackageViewController: UIViewController {
             make.bottom.equalToSuperview().offset(-60)
             make.width.equalTo(100)
             make.height.equalTo(50)
+        }
+        
+        publishButton.snp.makeConstraints { make in
+            make.centerX.equalTo(showRoute)
+            make.trailing.equalToSuperview().offset(-20)
         }
     }
 }

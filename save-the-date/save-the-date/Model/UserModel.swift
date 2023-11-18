@@ -34,4 +34,16 @@ struct User {
         self.publishedPackage = publishedPackage
         self.privatePackage = privatePackage
     }
+    
+    var dictionary: [String: Any] {
+        return [
+            "name": name,
+            "email": email,
+            "draftPackage": draftPackage,
+            "favoritePackage": favoritetPackage,
+            "forkedPackage": forkedPackage,
+            "publishedPackage": publishedPackage,
+            "privatePackage": privatePackage
+        ]
+    }
 }

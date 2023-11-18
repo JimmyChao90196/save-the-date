@@ -17,12 +17,6 @@ struct PackageModule {
     
     var location: Location
     var transportation: Transportation
-    
-    init(location: Location,
-         transportation: Transportation) {
-        self.location = location
-        self.transportation = transportation
-    }
 }
 
 struct Location {
