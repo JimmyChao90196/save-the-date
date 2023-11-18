@@ -61,7 +61,6 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     
     func setup() {
         view.backgroundColor = .white
-        // mapView.frame = view.bounds
         
         // Customize search VC
         searchVC.searchBar.backgroundColor = .secondarySystemGroupedBackground
@@ -85,16 +84,24 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func addTo() {
+        view.addSubviews([googleMapView])
         googleMapView.addSubviews([placeDetailView])
         placeDetailView.addSubviews([placeTitle, acceptButton])
     }
     
     func setupConstraint() {
         
+        googleMapView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp_topMargin)
+            make.bottom.equalTo(view.snp_bottomMargin)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        
         placeDetailView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(10)
             make.right.equalToSuperview().offset(-10)
-            make.bottom.equalToSuperview().offset(-5)
+            make.bottom.equalTo(view.snp_bottomMargin).offset(-5)
             make.height.equalTo(120)
         }
         

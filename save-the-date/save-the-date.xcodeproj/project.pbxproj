@@ -58,6 +58,7 @@
 		74DE466A2B089C0200B6F648 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46692B089C0200B6F648 /* ChatVC.swift */; };
 		74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE466C2B089C2400B6F648 /* ProfileVC.swift */; };
 		74DE466F2B089F8000B6F648 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE466E2B089F8000B6F648 /* NavigationController.swift */; };
+		74DE46722B08AD4600B6F648 /* PackageBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46712B08AD4600B6F648 /* PackageBaseVC.swift */; };
 		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +98,7 @@
 		74DE46692B089C0200B6F648 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		74DE466C2B089C2400B6F648 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		74DE466E2B089F8000B6F648 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		74DE46712B08AD4600B6F648 /* PackageBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageBaseVC.swift; sourceTree = "<group>"; };
 		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
 		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -197,6 +199,7 @@
 				74DE46682B089BE400B6F648 /* Chat */,
 				74DE46652B089B6A00B6F648 /* ExplorePackage */,
 				74B8285E2B04DFD800A42850 /* CreatePackage */,
+				74DE46702B08AD1000B6F648 /* BaseVC */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -268,6 +271,14 @@
 				74DE466C2B089C2400B6F648 /* ProfileVC.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		74DE46702B08AD1000B6F648 /* BaseVC */ = {
+			isa = PBXGroup;
+			children = (
+				74DE46712B08AD4600B6F648 /* PackageBaseVC.swift */,
+			);
+			path = BaseVC;
 			sourceTree = "<group>";
 		};
 		EC1F0C4677D36EE4ADBC45E2 /* Pods */ = {
@@ -478,6 +489,7 @@
 				744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */,
 				744B571C2B05DBA000B3ABAA /* ResultTableView.swift in Sources */,
 				74DE466F2B089F8000B6F648 /* NavigationController.swift in Sources */,
+				74DE46722B08AD4600B6F648 /* PackageBaseVC.swift in Sources */,
 				742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */,
 				74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */,
 				74DE46672B089B9800B6F648 /* ExplorePackageVC.swift in Sources */,
