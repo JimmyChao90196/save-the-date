@@ -11,12 +11,28 @@ import UIKit
 struct Package {
     var info: Info
     var packageModules: [PackageModule]
+    
+    var dictionary: [String: Any] {
+        var dict = [String: Any]()
+        dict["info"] = ["title": info.title,
+                        "author": info.author,
+                        "rate": info.rate,
+                        "state": info.state]
+        
+        dict["packageModules"] = packageModules.map { $0.dictionary }
+        
+        return dict
+    }
 }
 
 struct PackageModule {
-    
     var location: Location
     var transportation: Transportation
+    
+    var dictionary: [String: Any] {
+        return ["location": location.dictionary,
+                "transportation": transportation.dictionary]
+    }
 }
 
 struct Location {
@@ -34,6 +50,13 @@ struct Location {
         self.identifier = identifier
         self.coordinate = coordinate
     }
+    
+    var dictionary: [String: Any] {
+        return ["name": name,
+                "shortName": shortName,
+                "identifier": identifier,
+                "coordinate": coordinate]
+    }
 }
 
 struct Transportation {
@@ -44,6 +67,11 @@ struct Transportation {
         self.transpIcon = transpIcon
         self.travelTime = travelTime
     }
+    
+    var dictionary: [String: Any] {
+        return ["transpIcon": transpIcon,
+            "travelTime": travelTime]
+    }
 }
 
 struct Info {
@@ -51,4 +79,14 @@ struct Info {
     var author: String
     var rate: Int
     var state: String
+    
+    init(title: String = "packageTitle",
+         author: String = "Jimmy Chao",
+         rate: Int = 5,
+         state: String = "published") {
+        self.title = title
+        self.author = author
+        self.rate = rate
+        self.state = state
+    }
 }

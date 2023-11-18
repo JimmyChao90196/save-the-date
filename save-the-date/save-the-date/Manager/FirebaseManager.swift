@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 import UIKit
 
-enum FirestoreError: Error{
+enum FirestoreError: Error {
     case userNotFound
     case userAlreadyExist
 }
@@ -18,47 +18,48 @@ class FirestoreManager {
     
     static let shared = FirestoreManager()
     
-    let db =  Firestore.firestore()
+    let fdb =  Firestore.firestore()
     
-    var collectionId = "Packages"
+    var collectionId = "packages"
     
-    var articleRef: DocumentReference {
-        db.collection("Packages").document()
-    }
-    
-    var userRef: DocumentReference {
-        db.collection("Users").document()
-    }
-    
-    func addUser(article: Article, completion: @escaping () -> Void) {
-        // Get a reference to the Firestore database
-        let db = Firestore.firestore()
-        
-        // Reference to the articles collection
-        let articles = db.collection("articles")
-        
-        // Document reference with auto-generated ID
-        let document = articles.document()
-
-        // Prepare data to be added
-        let data: [String: Any] = [
-            "author": article.author,
-            "title": article.title,
-            "content": article.content,
-            "createdTime": article.createdTime,
-            "id": document.documentID,
-            "category": article.category
-        ]
-
-        // Adding data to Firestore
-        document.setData(data) { error in
+    // MARK: - Add user -
+    func addUser(_ user: User, completion: @escaping () -> Void) {
+        fdb.collection("users").document(user.email).setData(user.dictionary) { error in
             if let error = error {
                 print("Error adding document: \(error)")
             } else {
-                print("Document added with ID: \(document.documentID)")
                 completion()
             }
         }
     }
     
+    // MARK: - Publish package
+    func publishPackage(_ package: Package, completion: @escaping (Result<String, Error>) -> Void) {
+        var ref: DocumentReference?
+        ref = fdb.collection("packages").addDocument(data: package.dictionary) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let documentID = ref?.documentID {
+                completion(.success(documentID))
+            }
+        }
+    }
+    
+    // MARK: - Update user package -
+    func updateUserPackages(
+        email: String,
+        packageType: String,
+        packageID: String,
+        completion: @escaping () -> Void) {
+            
+        let userRef = fdb.collection("users").document(email)
+        userRef.updateData([packageType: FieldValue.arrayUnion([packageID])
+        ]) { error in
+            if let error = error {
+                print("Error updating user: \(error)")
+            } else {
+                completion()
+            }
+        }
+    }
 }

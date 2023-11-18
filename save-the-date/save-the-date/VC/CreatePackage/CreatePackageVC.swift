@@ -10,11 +10,16 @@ import Foundation
 import SnapKit
 import CoreLocation
 
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+import FirebaseCore
+
 class CreatePackageViewController: UIViewController {
     
     var tableView = ModuleTableView()
-    var packageManager = PackageManager()
+    var packageManager = PackageManager.shared
     var googlePlaceManager = GooglePlacesManager.shared
+    var firestoreManager = FirestoreManager.shared
     var routeManager = RouteManager()
     
     // On events
@@ -34,7 +39,7 @@ class CreatePackageViewController: UIViewController {
         return button
     }()
     
-    var publishButton: UIButton {
+    var publishButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         
         // Your logic to customize the button
@@ -42,7 +47,7 @@ class CreatePackageViewController: UIViewController {
         button.setTitle("Publish", for: .normal)
         
         return button
-    }
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,16 +97,16 @@ class CreatePackageViewController: UIViewController {
             .trailingConstr(to: view.safeAreaLayoutGuide.trailingAnchor, 0)
             .bottomConstr(to: view.safeAreaLayoutGuide.bottomAnchor, 0)
         
+        publishButton.leadingConstr(to: showRoute.trailingAnchor, 10)
+            .centerYConstr(to: showRoute.centerYAnchor)
+            .widthConstr(50)
+            .heightConstr(50)
+
         showRoute.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-60)
             make.width.equalTo(100)
             make.height.equalTo(50)
-        }
-        
-        publishButton.snp.makeConstraints { make in
-            make.centerX.equalTo(showRoute)
-            make.trailing.equalToSuperview().offset(-20)
         }
     }
 }
@@ -208,6 +213,21 @@ extension CreatePackageViewController {
     @objc func publishButtonPressed() {
         // Publish package
         
+        let info = Info()
+        let packageModules = packageManager.packageModules
+        let package = Package(info: info, packageModules: packageModules)
+        firestoreManager.publishPackage(package) { [weak self] result in
+            switch result {
+            case .success(let documentID):
+                self?.firestoreManager.updateUserPackages(
+                    email: "jimmy@gmail.com",
+                    packageType: "publishedPackage",
+                    packageID: documentID) { }
+                
+            case .failure(let error):
+                print("publish failed: \(error)")
+            }
+        }
     }
 
     // Add bar button pressed
