@@ -36,7 +36,8 @@ class ExplorePackageViewController: ExploreBaseViewController {
 // MARK: - Additional method
 extension ExplorePackageViewController {
     func fetchPackages() {
-        firestoreManager.fetchPackages(from: .publishedColl) { [weak self] result in
+        
+        firestoreManager.fetchJsonPackages(from: .publishedColl) { [weak self] result in
             switch result {
             case .success(let packages):
                 self?.fetchedPackages = packages

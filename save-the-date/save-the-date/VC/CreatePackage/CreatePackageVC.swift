@@ -106,7 +106,6 @@ extension CreatePackageViewController {
                 let packageModules = self.currentPackage.packageModules
                 self.currentPackage.info = info
                 self.currentPackage.packageModules = packageModules
-                let package = Package(info: info, packageModules: packageModules)
                 
                 self.firestoreManager.publishPackageWithJson(self.currentPackage) { [weak self] result in
                     switch result {
@@ -125,24 +124,6 @@ extension CreatePackageViewController {
                         print("publish failed: \(error)")
                     }
                 }
-                
-//                self.firestoreManager.publishPackage(self.currentPackage) { [weak self] result in
-//                    switch result {
-//                    case .success(let documentID):
-//                        self?.firestoreManager.updateUserPackages(
-//                            email: "jimmy@gmail.com",
-//                            packageType: packageColl.rawValue,
-//                            packageID: documentID) {
-//                                self?.currentPackage.packageModules = []
-//                                DispatchQueue.main.async {
-//                                    self?.tableView.reloadData()
-//                                }
-//                            }
-//                        
-//                    case .failure(let error):
-//                        print("publish failed: \(error)")
-//                    }
-//                }
             }
     }
 }

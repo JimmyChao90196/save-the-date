@@ -35,22 +35,7 @@ class FirestoreManager {
         }
     }
     
-    // MARK: - Publish package -
-    func publishPackage(_ package: Package, completion: @escaping (Result<String, Error>) -> Void) {
-        var ref: DocumentReference?
-        
-        let packageColl = PackageCollection.publishedColl
-        
-        ref = fdb.collection(packageColl.rawValue).addDocument(data: package.dictionary) { error in
-            if let error = error {
-                completion(.failure(error))
-            } else if let documentID = ref?.documentID {
-                completion(.success(documentID))
-            }
-        }
-    }
-    
-    // MARK: - Publish package 02 -
+    // MARK: - Publish package with json -
     func publishPackageWithJson(_ package: Package, completion: @escaping (Result<String, Error>) -> Void) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -102,11 +87,11 @@ class FirestoreManager {
         }
     }
     
-    // MARK: - Fetch packaeges
-    func fetchPackages(
+    // MARK: - Fetch json packages -
+    func fetchJsonPackages(
         from packageCollection: PackageCollection,
         completion: @escaping (Result<[Package], Error>) -> Void) {
-            
+        
         fdb.collection(packageCollection.rawValue).getDocuments { (querySnapshot, error) in
             if let error = error {
                 completion(.failure(error))
@@ -114,10 +99,19 @@ class FirestoreManager {
             }
 
             var packages: [Package] = []
+            let decoder = JSONDecoder()
+            
             querySnapshot?.documents.forEach { document in
-                let data = document.data()
-                let package = Package(convertFrom: data)
-                packages.append(package)
+                do {
+                    // Convert the document data to JSON Data
+                    let jsonData = try JSONSerialization.data(withJSONObject: document.data(), options: [])
+                    // Decode the JSON Data to a Package02 object
+                    let package = try decoder.decode(Package.self, from: jsonData)
+                    packages.append(package)
+                } catch {
+                    completion(.failure(error))
+                    return
+                }
             }
 
             completion(.success(packages))
