@@ -12,8 +12,12 @@ class PackageDetailViewController: PackageBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem?.isHidden = true
-        navigationItem.rightBarButtonItem?.isHidden = true
+
+    }
+    
+    override func setup() {
+        super.setup()
+        
     }
 }
 

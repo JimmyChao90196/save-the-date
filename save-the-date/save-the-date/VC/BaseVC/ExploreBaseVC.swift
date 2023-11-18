@@ -17,7 +17,6 @@ import FirebaseCore
 
 class ExploreBaseViewController: UIViewController {
     var tableView = ExploreTableView()
-    var packageManager = PackageManager.shared
     var googlePlaceManager = GooglePlacesManager.shared
     var firestoreManager = FirestoreManager.shared
     var routeManager = RouteManager.shared
@@ -28,6 +27,10 @@ class ExploreBaseViewController: UIViewController {
         setup()
         addTo()
         setupConstraint()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     func setup() {

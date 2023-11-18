@@ -26,6 +26,22 @@ class CreatePackageViewController: PackageBaseViewController {
         return button
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Set bar button
+        let addBarButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addButtonPressed))
+        navigationItem.rightBarButtonItem = addBarButton
+        
+        let editBarButton = UIBarButtonItem(
+            barButtonSystemItem: .edit,
+            target: self,
+            action: #selector(editButtonPressed))
+        navigationItem.leftBarButtonItem = editBarButton
+    }
+    
     // MARK: - Basic function -
     
     override func addTo() {
@@ -56,6 +72,20 @@ class CreatePackageViewController: PackageBaseViewController {
 // MARK: - Additional function -
 
 extension CreatePackageViewController {
+    // Add bar button pressed
+    @objc func addButtonPressed() {
+        // Go to Explore site and choose one
+        let exploreVC = ExploreSiteViewController()
+        exploreVC.onLocationComfirm = onLocationComfirm
+        exploreVC.actionKind = .add
+        navigationController?.pushViewController(exploreVC, animated: true)
+    }
+    
+    // Edit bar button pressed
+    @objc func editButtonPressed() {
+        tableView.setEditing(!tableView.isEditing, animated: true)
+    }
+    
     // Publish button pressed
     @objc func publishButtonPressed() {
         
@@ -73,16 +103,20 @@ extension CreatePackageViewController {
                                 rate: 0,
                                 state: packageState.rawValue)
                 
-                let packageModules = self.packageManager.packageModules
-                let package = Package(info: info, packageModules: packageModules)
-                self.firestoreManager.publishPackage(package) { [weak self] result in
+                let packageModules = self.currentPackage.packageModules
+                self.currentPackage.info = info
+                self.currentPackage.packageModules = packageModules
+                
+                // let package = Package(info: info, packageModules: packageModules)
+                
+                self.firestoreManager.publishPackage(self.currentPackage) { [weak self] result in
                     switch result {
                     case .success(let documentID):
                         self?.firestoreManager.updateUserPackages(
                             email: "jimmy@gmail.com",
                             packageType: packageColl.rawValue,
                             packageID: documentID) {
-                                self?.packageManager.packageModules = []
+                                self?.currentPackage.packageModules = []
                                 DispatchQueue.main.async {
                                     self?.tableView.reloadData()
                                 }

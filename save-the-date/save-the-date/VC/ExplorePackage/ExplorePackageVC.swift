@@ -17,10 +17,11 @@ import FirebaseCore
 
 class ExplorePackageViewController: ExploreBaseViewController {
     
-    var packages = [Package]()
+    var fetchedPackages = [Package]()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchPackages()
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -28,10 +29,17 @@ class ExplorePackageViewController: ExploreBaseViewController {
     
     override func setup() {
         super.setup()
+        fetchPackages()
+    }
+}
+
+// MARK: - Additional method
+extension ExplorePackageViewController {
+    func fetchPackages() {
         firestoreManager.fetchPackages(from: .publishedColl) { [weak self] result in
             switch result {
             case .success(let packages):
-                self?.packages = packages
+                self?.fetchedPackages = packages
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
@@ -48,7 +56,7 @@ extension ExplorePackageViewController {
     override func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int) -> Int {
-            packages.count
+            fetchedPackages.count
     }
     
     override func tableView(
@@ -59,12 +67,14 @@ extension ExplorePackageViewController {
                 withIdentifier: ExploreTableViewCell.reuseIdentifier,
                 for: indexPath) as? ExploreTableViewCell else { return UITableViewCell() }
             
-            cell.packageTitleLabel.text = packages[indexPath.row].info.title
+            cell.packageTitleLabel.text = fetchedPackages[indexPath.row].info.title
             
             return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let packageDetailVC = PackageDetailViewController()
+        packageDetailVC.currentPackage = fetchedPackages[indexPath.row]
+        navigationController?.pushViewController(packageDetailVC, animated: true)
     }
 }

@@ -21,7 +21,6 @@ enum ActionKind {
 
 class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     
-    var packageManager = PackageManager.shared
     var googlePlacesManager = GooglePlacesManager.shared
     var manager = CLLocationManager()
     var updateCount = 0

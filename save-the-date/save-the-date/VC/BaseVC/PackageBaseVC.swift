@@ -17,8 +17,10 @@ import FirebaseCore
 
 class PackageBaseViewController: UIViewController {
     
+    // Current package
+    var currentPackage = Package(info: Info(), packageModules: [])
+    
     var tableView = ModuleTableView()
-    var packageManager = PackageManager.shared
     var googlePlaceManager = GooglePlacesManager.shared
     var firestoreManager = FirestoreManager.shared
     var routeManager = RouteManager.shared
@@ -29,9 +31,6 @@ class PackageBaseViewController: UIViewController {
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
     var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
-    
-    // Current package
-    var currentPackage = Package(convertFrom: [:])
     
     // Buttons
     var showRoute: UIButton = {
@@ -46,25 +45,11 @@ class PackageBaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupPackageSource()
-        
         addTo()
         setup()
         configureConstraint()
         setupOnEvent()
-        
-        // Set bar button
-        let addBarButton = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(addButtonPressed))
-        navigationItem.rightBarButtonItem = addBarButton
-        
-        let editBarButton = UIBarButtonItem(
-            barButtonSystemItem: .edit,
-            target: self,
-            action: #selector(editButtonPressed))
-        navigationItem.leftBarButtonItem = editBarButton
+
     }
     
     func addTo() {
@@ -80,12 +65,6 @@ class PackageBaseViewController: UIViewController {
             self,
             action: #selector(showRouteButtonPressed),
             for: .touchUpInside)
-    }
-    
-    func setupPackageSource() {
-        currentPackage = Package(
-            info: Info(),
-            packageModules: packageManager.packageModules)
     }
     
     func configureConstraint() {
@@ -128,9 +107,11 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             for: indexPath) as? ModuleTableViewCell else {
             return UITableViewCell() }
         
+        
+        
         let travelTime = currentPackage.packageModules[indexPath.row].transportation.travelTime
         let iconName = currentPackage.packageModules[indexPath.row].transportation.transpIcon
-        let locationTitle = "\(packageManager.packageModules[indexPath.row].location.shortName)"
+        let locationTitle = "\(currentPackage.packageModules[indexPath.row].location.shortName)"
         
         cell.numberLabel.text = locationTitle
         cell.transpIcon.image = UIImage(systemName: iconName)
@@ -140,7 +121,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         cell.onLocationTapped = self.onLocationTapped
         
         // Check if it's the last cell
-        if indexPath.row == packageManager.packageModules.count - 1 {
+        if indexPath.row == currentPackage.packageModules.count - 1 {
             // Last cell
             cell.transpView.isHidden = true
             cell.onTranspTapped = nil
@@ -162,13 +143,18 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         _ tableView: UITableView,
         moveRowAt sourceIndexPath: IndexPath,
         to destinationIndexPath: IndexPath) {
-            
-            self.packageManager.movePackage(from: sourceIndexPath, to: destinationIndexPath)
+            movePackage(from: sourceIndexPath, to: destinationIndexPath)
         }
 }
 
 // MARK: - Additional method -
 extension PackageBaseViewController {
+    
+    func movePackage(from source: IndexPath, to destination: IndexPath) {
+        let movedObject = currentPackage.packageModules[source.row]
+        currentPackage.packageModules.remove(at: source.row)
+        currentPackage.packageModules.insert(movedObject, at: destination.row)
+    }
     
     // Interval formatter
     func formatTimeInterval(_ interval: TimeInterval) -> String {
@@ -188,7 +174,7 @@ extension PackageBaseViewController {
     @objc func showRouteButtonPressed() {
         // Go to routeVC
         
-        let locations = packageManager.packageModules.map { $0.location}
+        let locations = currentPackage.packageModules.map { $0.location}
         
         let coords = locations.map {
             let coord = CLLocationCoordinate2D(
@@ -199,20 +185,6 @@ extension PackageBaseViewController {
         let routeVC = RouteViewController()
         routeVC.coords = coords
         self.navigationController?.pushViewController(routeVC, animated: true)
-    }
-    
-    // Add bar button pressed
-    @objc func addButtonPressed() {
-        // Go to Explore site and choose one
-        let exploreVC = ExploreSiteViewController()
-        exploreVC.onLocationComfirm = onLocationComfirm
-        exploreVC.actionKind = .add
-        navigationController?.pushViewController(exploreVC, animated: true)
-    }
-    
-    // Edit bar button pressed
-    @objc func editButtonPressed() {
-        tableView.setEditing(!tableView.isEditing, animated: true)
     }
     
     // MARK: - Setup onEvents -
@@ -248,10 +220,10 @@ extension PackageBaseViewController {
             
             switch action {
             case .add:
-                self?.packageManager.addPackage(module)
+                self?.currentPackage.packageModules.append(module)
             case .edit(let cell):
                 guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
-                self?.packageManager.reviceLocation(replace: indexPathToEdit, with: location)
+                self?.currentPackage.packageModules[indexPathToEdit.row].location = location
             }
             
             DispatchQueue.main.async {
@@ -261,7 +233,6 @@ extension PackageBaseViewController {
         
         onTranspComfirm = { [weak self] transp, action in
             // Dictate action
-            
             switch action {
             case .add:
                 print("this shouldn't be triggered")
@@ -270,8 +241,8 @@ extension PackageBaseViewController {
                 guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
                 
                 // Fetch source and dest coord
-                let sourceCoordDic = self?.packageManager.packageModules[indexPathToEdit.row].location.coordinate
-                let destCoordDic = self?.packageManager.packageModules[indexPathToEdit.row + 1].location.coordinate
+                let sourceCoordDic = self?.currentPackage.packageModules[indexPathToEdit.row].location.coordinate
+                let destCoordDic = self?.currentPackage.packageModules[indexPathToEdit.row + 1].location.coordinate
                 
                 // Fetch travel time
                 let sourceCoord = CLLocationCoordinate2D(
@@ -294,7 +265,8 @@ extension PackageBaseViewController {
                             travelTime: travelTime)
                         
                         // Replace with new transporation
-                        self?.packageManager.reviceTransportation(relplace: indexPathToEdit, with: transportation)
+                    
+                        self?.currentPackage.packageModules[indexPathToEdit.row].transportation = transportation
                         
                         DispatchQueue.main.async {
                             self?.tableView.reloadData()
@@ -306,7 +278,7 @@ extension PackageBaseViewController {
         onDelete = { [weak self] cell in
             guard let indexPathToDelete = self?.tableView.indexPath(for: cell) else { return }
             
-            self?.packageManager.deletePackage(at: indexPathToDelete)
+            self?.currentPackage.packageModules.remove(at: indexPathToDelete.row)
             
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
