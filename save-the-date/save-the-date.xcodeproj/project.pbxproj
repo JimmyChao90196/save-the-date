@@ -53,6 +53,11 @@
 		74DE465E2B0885F900B6F648 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 74DE465D2B0885F900B6F648 /* FirebaseStorage */; };
 		74DE46602B0885F900B6F648 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 74DE465F2B0885F900B6F648 /* FirebaseStorageCombine-Community */; };
 		74DE46622B0886CD00B6F648 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46612B0886CD00B6F648 /* FirebaseManager.swift */; };
+		74DE46642B08995700B6F648 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46632B08995700B6F648 /* TabbarController.swift */; };
+		74DE46672B089B9800B6F648 /* ExplorePackageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46662B089B9800B6F648 /* ExplorePackageVC.swift */; };
+		74DE466A2B089C0200B6F648 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46692B089C0200B6F648 /* ChatVC.swift */; };
+		74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE466C2B089C2400B6F648 /* ProfileVC.swift */; };
+		74DE466F2B089F8000B6F648 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE466E2B089F8000B6F648 /* NavigationController.swift */; };
 		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +92,11 @@
 		74DE46362B087B2E00B6F648 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		74DE46382B08854200B6F648 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		74DE46612B0886CD00B6F648 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		74DE46632B08995700B6F648 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
+		74DE46662B089B9800B6F648 /* ExplorePackageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePackageVC.swift; sourceTree = "<group>"; };
+		74DE46692B089C0200B6F648 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
+		74DE466C2B089C2400B6F648 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		74DE466E2B089F8000B6F648 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
 		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -181,8 +191,11 @@
 		74B8284D2B04D99300A42850 /* VC */ = {
 			isa = PBXGroup;
 			children = (
-				744B571F2B06089400B3ABAA /* Transp */,
-				74B8285F2B04DFE200A42850 /* ExploreSite */,
+				74DE46632B08995700B6F648 /* TabbarController.swift */,
+				74DE466E2B089F8000B6F648 /* NavigationController.swift */,
+				74DE466B2B089C1900B6F648 /* Profile */,
+				74DE46682B089BE400B6F648 /* Chat */,
+				74DE46652B089B6A00B6F648 /* ExplorePackage */,
 				74B8285E2B04DFD800A42850 /* CreatePackage */,
 			);
 			path = VC;
@@ -212,6 +225,8 @@
 		74B8285E2B04DFD800A42850 /* CreatePackage */ = {
 			isa = PBXGroup;
 			children = (
+				744B571F2B06089400B3ABAA /* Transp */,
+				74B8285F2B04DFE200A42850 /* ExploreSite */,
 				74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */,
 				74B828552B04DB7700A42850 /* CreatePackageVC.swift */,
 				74B828542B04DB7700A42850 /* ModuleTableView.swift */,
@@ -229,6 +244,30 @@
 				744B571D2B05E40B00B3ABAA /* ResultTableViewCell.swift */,
 			);
 			path = ExploreSite;
+			sourceTree = "<group>";
+		};
+		74DE46652B089B6A00B6F648 /* ExplorePackage */ = {
+			isa = PBXGroup;
+			children = (
+				74DE46662B089B9800B6F648 /* ExplorePackageVC.swift */,
+			);
+			path = ExplorePackage;
+			sourceTree = "<group>";
+		};
+		74DE46682B089BE400B6F648 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				74DE46692B089C0200B6F648 /* ChatVC.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		74DE466B2B089C1900B6F648 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				74DE466C2B089C2400B6F648 /* ProfileVC.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		EC1F0C4677D36EE4ADBC45E2 /* Pods */ = {
@@ -426,17 +465,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */,
+				74DE46642B08995700B6F648 /* TabbarController.swift in Sources */,
 				74DE46372B087B2E00B6F648 /* UserModel.swift in Sources */,
 				744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */,
 				744B57252B0609DE00B3ABAA /* TranspTableViewCell.swift in Sources */,
 				74DE46622B0886CD00B6F648 /* FirebaseManager.swift in Sources */,
 				744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */,
 				744B571E2B05E40B00B3ABAA /* ResultTableViewCell.swift in Sources */,
+				74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */,
 				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,
+				74DE466A2B089C0200B6F648 /* ChatVC.swift in Sources */,
 				744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */,
 				744B571C2B05DBA000B3ABAA /* ResultTableView.swift in Sources */,
+				74DE466F2B089F8000B6F648 /* NavigationController.swift in Sources */,
 				742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */,
 				74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */,
+				74DE46672B089B9800B6F648 /* ExplorePackageVC.swift in Sources */,
 				74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */,
 				74B828572B04DB7700A42850 /* ModuleTableView.swift in Sources */,
 				744B57232B0609AC00B3ABAA /* TransTableView.swift in Sources */,
