@@ -166,11 +166,11 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         
         var module = weatherState == .sunny ? sunnyModules : rainyModules
         
-        var filterdModule = module.filter { $0.day == indexPath.section }
+        guard let rawIndex = findModuleIndex(modules: sunnyModules, from: indexPath) else {return UITableViewCell()}
         
-        let travelTime = filterdModule[indexPath.row].transportation.travelTime
-        let iconName = filterdModule[indexPath.row].transportation.transpIcon
-        let locationTitle = "\(filterdModule[indexPath.row].location.shortName)"
+        let travelTime = module[rawIndex].transportation.travelTime
+        let iconName = module[rawIndex].transportation.transpIcon
+        let locationTitle = "\(module[rawIndex].location.shortName)"
         
         cell.numberLabel.text = locationTitle
         cell.transpIcon.image = UIImage(systemName: iconName)
@@ -198,7 +198,9 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
     // MARK: - Delegate method -
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerView = DayHeaderView()
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: DayHeaderView.reuseIdentifier) as? DayHeaderView else { return UIView()}
+        
         headerView.section = section
         headerView.onAddModulePressed = self.onAddModulePressed
         headerView.setDay(section)
@@ -220,6 +222,10 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         moveRowAt sourceIndexPath: IndexPath,
         to destinationIndexPath: IndexPath) {
             movePackage(from: sourceIndexPath, to: destinationIndexPath)
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
 }
 
@@ -309,13 +315,25 @@ extension PackageBaseViewController {
     func movePackage(from source: IndexPath, to destination: IndexPath) {
         
         if weatherState == .sunny {
-            let movedObject = sunnyModules[source.row]
-            sunnyModules.remove(at: source.row)
-            sunnyModules.insert(movedObject, at: destination.row)
+            
+            guard let sourceRowIndex = findModuleIndex(
+                modules: sunnyModules,
+                from: source) else {return}
+            guard let destRowIndex = findModuleIndex(
+                modules: sunnyModules,
+                from: destination) else {return}
+            
+            sunnyModules.swapAt(sourceRowIndex, destRowIndex)
+            
         } else {
-            let movedObject = rainyModules[source.row]
-            rainyModules.remove(at: source.row)
-            rainyModules.insert(movedObject, at: destination.row)
+            guard let sourceRowIndex = findModuleIndex(
+                modules: rainyModules,
+                from: source) else {return}
+            guard let destRowIndex = findModuleIndex(
+                modules: rainyModules,
+                from: destination) else {return}
+            
+            sunnyModules.swapAt(sourceRowIndex, destRowIndex)
         }
     }
     

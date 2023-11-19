@@ -33,7 +33,7 @@ class ExplorePackageViewController: ExploreBaseViewController {
     }
 }
 
-// MARK: - Additional method
+// MARK: - Additional method -
 extension ExplorePackageViewController {
     func fetchPackages() {
         

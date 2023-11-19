@@ -9,9 +9,10 @@ import Foundation
 import UIKit
 import SnapKit
 
-class DayHeaderView: UIView {
+class DayHeaderView: UITableViewHeaderFooterView {
     
     var onAddModulePressed: ((Int) -> Void)?
+    static let reuseIdentifier = String(describing: DayHeaderView.self)
     
     let titleLabel = UILabel()
     let addModuleButton = {
@@ -27,9 +28,9 @@ class DayHeaderView: UIView {
             addModuleButton.tag = section
         }
     }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         setup()
         setupConstranit()
     }
@@ -39,6 +40,7 @@ class DayHeaderView: UIView {
     }
 
     private func setup() {
+        self.contentView.backgroundColor = .blue
         addSubviews([titleLabel, addModuleButton])
         titleLabel.textAlignment = .center
         addModuleButton.addTarget(
