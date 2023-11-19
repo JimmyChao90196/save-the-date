@@ -16,7 +16,7 @@ import FirebaseFirestoreSwift
 import FirebaseCore
 
 class CreatePackageViewController: PackageBaseViewController {
- 
+     
     var publishButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         
@@ -78,7 +78,7 @@ class CreatePackageViewController: PackageBaseViewController {
 // MARK: - Additional function -
 
 extension CreatePackageViewController {
-    
+
     // Add empty pressed
     @objc func addNewDayPressed() {
         
@@ -86,15 +86,15 @@ extension CreatePackageViewController {
             
         case .sunny:
             
-            let totalDays = sunnyModules.compactMap { module in module.day }.count
-            let module = PackageModule(day: totalDays)
+            let uniqueSet = Set(sunnyModules.compactMap { $0.day })
+            let module = PackageModule(day: uniqueSet.count)
             
             self.sunnyModules.append(module)
             
         case .rainy:
             
-            let totalDays = rainyModules.compactMap { module in module.day }.count
-            let module = PackageModule(day: totalDays)
+            let uniqueSet = Set(rainyModules.compactMap { $0.day })
+            let module = PackageModule(day: uniqueSet.count)
             
             self.rainyModules.append(module)
         }
@@ -109,7 +109,7 @@ extension CreatePackageViewController {
         // Go to Explore site and choose one
         let exploreVC = ExploreSiteViewController()
         exploreVC.onLocationComfirm = onLocationComfirm
-        exploreVC.actionKind = .add
+        exploreVC.actionKind = .add(1)
         navigationController?.pushViewController(exploreVC, animated: true)
     }
     

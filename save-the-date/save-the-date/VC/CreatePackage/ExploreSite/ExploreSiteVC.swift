@@ -16,7 +16,7 @@ import GoogleMaps
 
 enum ActionKind {
     case edit(UITableViewCell)
-    case add
+    case add(Int)
 }
 
 class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
@@ -44,7 +44,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     
     var acceptButton = UIButton()
     let searchVC = UISearchController(searchResultsController: ResultViewController())
-    var actionKind = ActionKind.add
+    var actionKind = ActionKind.add(1)
     
     // On event closure
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?

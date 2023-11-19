@@ -47,6 +47,7 @@ class PackageBaseViewController: UIViewController {
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
     var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
+    var onAddModulePressed: ((Int) -> Void)?
     
     // Buttons
     var showRoute: UIButton = {
@@ -130,10 +131,12 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         switch weatherState {
         case .sunny:
             let totalDays = sunnyModules.compactMap { module in module.day }
-            return totalDays.count
+            guard let lastDay = totalDays.max() else { return 0 }
+            return lastDay + 1
         case .rainy:
             let totalDays = rainyModules.compactMap { module in module.day }
-            return totalDays.count
+            guard let lastDay = totalDays.max() else { return 0 }
+            return lastDay + 1
         }
     }
     
@@ -162,11 +165,12 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             return UITableViewCell() }
         
         var module = weatherState == .sunny ? sunnyModules : rainyModules
-        module = module.filter { $0.day == indexPath.section }
         
-        let travelTime = module[indexPath.row].transportation.travelTime
-        let iconName = module[indexPath.row].transportation.transpIcon
-        let locationTitle = "\(module[indexPath.row].location.shortName)"
+        var filterdModule = module.filter { $0.day == indexPath.section }
+        
+        let travelTime = filterdModule[indexPath.row].transportation.travelTime
+        let iconName = filterdModule[indexPath.row].transportation.transpIcon
+        let locationTitle = "\(filterdModule[indexPath.row].location.shortName)"
         
         cell.numberLabel.text = locationTitle
         cell.transpIcon.image = UIImage(systemName: iconName)
@@ -175,17 +179,19 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         cell.onDelete = onDelete
         cell.onLocationTapped = self.onLocationTapped
         
-        // Check if it's the last cell
+        // Find last cell
+        let totalSections = tableView.numberOfSections
+        let totalRowsInLastSection = tableView.numberOfRows(inSection: totalSections - 1)
+        let isLastCell = indexPath.section == totalSections - 1 && indexPath.row == totalRowsInLastSection - 1
         
-        if indexPath.row == module.count - 1 {
-            // Last cell
-            cell.transpView.isHidden = true
+        if isLastCell {
             cell.onTranspTapped = nil
+            cell.transpView.isHidden = true
         } else {
-            // Not the last cell
-            cell.transpView.isHidden = false
             cell.onTranspTapped = self.onTranspTapped
+            cell.transpView.isHidden = false
         }
+        
         return cell
     }
     
@@ -193,6 +199,8 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = DayHeaderView()
+        headerView.section = section
+        headerView.onAddModulePressed = self.onAddModulePressed
         headerView.setDay(section)
         return headerView
     }
@@ -218,6 +226,27 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 // MARK: - Additional method -
 extension PackageBaseViewController {
     
+    // Find next indexPath
+    func findNextIndexPath(currentCell: UITableViewCell, in tableView: UITableView) -> IndexPath? {
+        guard let indexPath = tableView.indexPath(for: currentCell) else { return nil }
+
+        let currentSection = indexPath.section
+        let currentRow = indexPath.row
+        let totalSections = tableView.numberOfSections
+
+        // Check if the next cell is in the same section
+        if currentRow < tableView.numberOfRows(inSection: currentSection) - 1 {
+            return IndexPath(row: currentRow + 1, section: currentSection)
+        }
+        // Check if there's another section
+        else if currentSection < totalSections - 1 {
+            return IndexPath(row: 0, section: currentSection + 1)
+        }
+        
+        // No next cell (current cell is the last cell of the last section)
+        return nil
+    }
+    
     // Function to find the correct index
     func findModuleIndex(modules: [PackageModule], day: Int, rowIndex: Int) -> Int? {
         var count = 0
@@ -231,6 +260,50 @@ extension PackageBaseViewController {
             return false
         }
     }
+    
+    func findModuleIndex(modules: [PackageModule], from indexPath: IndexPath) -> Int? {
+        var count = 0
+        let moduleDay = indexPath.section
+        let row = indexPath.row
+        
+        return modules.firstIndex { module in
+            if module.day == moduleDay {
+                if count == row { return true }
+                count += 1
+            }
+            return false
+        }
+    }
+    
+    func findModuleIndecies(
+        modules: [PackageModule],
+        targetModuleDay: Int,
+        rowIndex: Int,
+        nextModuleDay: Int,
+        nextRowIndex: Int,
+        completion: (Int?, Int?) -> Void) {
+            
+            // Target index
+            var targetCount = 0
+            let targetIndext = modules.firstIndex { module in
+                if module.day == targetModuleDay {
+                    if targetCount == rowIndex { return true }
+                    targetCount += 1
+                }
+                return false
+            }
+            
+            // Next index
+            var nextCount = 0
+            let nextIndext = modules.firstIndex { module in
+                if module.day == nextModuleDay {
+                    if nextCount == nextRowIndex { return true }
+                    nextCount += 1
+                }
+                return false
+            }
+            completion(targetIndext, nextIndext)
+        }
     
     // Logic to swap module
     func movePackage(from source: IndexPath, to destination: IndexPath) {
@@ -295,19 +368,25 @@ extension PackageBaseViewController {
     // MARK: - Setup onEvents -
     func setupOnComfirm() {
         onLocationComfirm = { [weak self] location, action in
-            let module = PackageModule(
-                location: location,
-                transportation: Transportation(
-                    transpIcon: "plus.viewfinder",
-                    travelTime: 0.0))
             
             switch action {
-            case .add:
+            case .add(let section):
+                
+                let module = PackageModule(
+                    location: location,
+                    transportation: Transportation(
+                        transpIcon: "plus.viewfinder",
+                        travelTime: 0.0),
+                    day: section)
                 
                 if self?.weatherState == .sunny {
                     self?.sunnyModules.append(module)
                 } else {
                     self?.rainyModules.append(module)
+                }
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
                 }
                 
             case .edit(let cell):
@@ -343,27 +422,56 @@ extension PackageBaseViewController {
                 print("this shouldn't be triggered")
                 
             case .edit(let cell):
-                guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
                 
                 // Fetch source and dest coord
-                let sourceCoordDic = self?.weatherState == .sunny ?
-                self?.sunnyModules[indexPathToEdit.row].location.coordinate:
-                self?.rainyModules[indexPathToEdit.row].location.coordinate
+                guard let self else {return}
+                guard let indexPathToEdit = self.tableView.indexPath(for: cell) else { return }
+                guard let nextIndexPath = self.findNextIndexPath(currentCell: cell, in: self.tableView) else { return }
                 
-                let destCoordDic = self?.weatherState == .sunny ?
-                self?.sunnyModules[indexPathToEdit.row + 1].location.coordinate:
-                self?.rainyModules[indexPathToEdit.row + 1].location.coordinate
+                let targetDay = indexPathToEdit.section
+                let rowIndexForDay = indexPathToEdit.row
+                
+                let nextDay = nextIndexPath.section
+                let nextRowIndexForDay = nextIndexPath.row
+                
+                var sourceCoordDic = [String: Double]()
+                var destCoordDic = [String: Double]()
+                
+                if self.weatherState == .sunny {
+                    
+                    findModuleIndecies(
+                        modules: self.sunnyModules,
+                        targetModuleDay: targetDay,
+                        rowIndex: rowIndexForDay,
+                        nextModuleDay: nextDay,
+                        nextRowIndex: nextRowIndexForDay) { targetIndex, nextIndex in
+                            sourceCoordDic = self.sunnyModules[targetIndex ?? 0].location.coordinate
+                            destCoordDic = self.sunnyModules[nextIndex ?? 0].location.coordinate
+                        }
+                    
+                } else {
+                    
+                    findModuleIndecies(
+                        modules: self.rainyModules,
+                        targetModuleDay: targetDay,
+                        rowIndex: rowIndexForDay,
+                        nextModuleDay: nextDay,
+                        nextRowIndex: nextRowIndexForDay) { targetIndex, nextIndex in
+                        sourceCoordDic = self.sunnyModules[targetIndex ?? 0].location.coordinate
+                        destCoordDic = self.sunnyModules[nextIndex ?? 0].location.coordinate
+                    }
+                }
                 
                 // Fetch travel time
                 let sourceCoord = CLLocationCoordinate2D(
-                    latitude: sourceCoordDic?["lat"] ?? 0,
-                    longitude: sourceCoordDic?["lng"] ?? 0)
+                    latitude: sourceCoordDic["lat"] ?? 0,
+                    longitude: sourceCoordDic["lng"] ?? 0)
                 
                 let destCoord = CLLocationCoordinate2D(
-                    latitude: destCoordDic?["lat"] ?? 0,
-                    longitude: destCoordDic?["lng"] ?? 0)
+                    latitude: destCoordDic["lat"] ?? 0,
+                    longitude: destCoordDic["lng"] ?? 0)
                 
-                self?.routeManager.fetchTravelTime(
+                self.routeManager.fetchTravelTime(
                     with: transp.transpType,
                     from: sourceCoord,
                     to: destCoord,
@@ -375,14 +483,25 @@ extension PackageBaseViewController {
                             travelTime: travelTime)
                         
                         // Replace with new transporation
-                        if self?.weatherState == .sunny {
-                            self?.sunnyModules[indexPathToEdit.row].transportation = transportation
+                        let targetDay = indexPathToEdit.section
+                        let rowIndexForDay = indexPathToEdit.row
+
+                        if self.weatherState == .sunny {
+                            if let index = self.findModuleIndex(
+                                modules: self.sunnyModules,
+                                day: targetDay, rowIndex: rowIndexForDay) {
+                                self.sunnyModules[index].transportation = transportation
+                            }
                         } else {
-                            self?.rainyModules[indexPathToEdit.row].transportation = transportation
+                            if let index = self.findModuleIndex(
+                                modules: self.rainyModules,
+                                day: targetDay, rowIndex: rowIndexForDay) {
+                                self.rainyModules[index].transportation = transportation
+                            }
                         }
                         
                         DispatchQueue.main.async {
-                            self?.tableView.reloadData()
+                            self.tableView.reloadData()
                         }
                     })
             }
@@ -390,6 +509,17 @@ extension PackageBaseViewController {
     }
     
     func setupOnTapped() {
+        onAddModulePressed = { [weak self] section in
+            // Go to Explore site and choose one
+            
+            print("orig: \(section)")
+            
+            let exploreVC = ExploreSiteViewController()
+            exploreVC.onLocationComfirm = self?.onLocationComfirm
+            exploreVC.actionKind = .add(section)
+            self?.navigationController?.pushViewController(exploreVC, animated: true)
+        }
+        
         onTranspTapped = { [weak self] cell in
             guard let self else { return }
             
@@ -409,17 +539,31 @@ extension PackageBaseViewController {
             self.navigationController?.pushViewController(exploreVC, animated: true)
         }
         
-        onDelete = { [weak self] cell in
-            guard let indexPathToDelete = self?.tableView.indexPath(for: cell) else { return }
+        onDelete = { cell in
+            guard let indexPathToDelete = self.tableView.indexPath(for: cell) else { return }
+            let targetDay = indexPathToDelete.section
+            let rowIndexForDay = indexPathToDelete.row
             
-            if self?.weatherState == .sunny {
-                self?.currentPackage.weatherModules.sunny.remove(at: indexPathToDelete.row)
+            if self.weatherState == .sunny {
+                let rowIndexForModule = self.findModuleIndex(
+                    modules: self.sunnyModules,
+                    day: targetDay, rowIndex: rowIndexForDay)
+                
+                print("rowIndexForModule: \(rowIndexForModule)")
+                
+                // self.currentPackage.weatherModules.sunny.remove(at: rowIndexForModule ?? 0)
+                self.sunnyModules.remove(at: rowIndexForModule ?? 0)
             } else {
-                self?.currentPackage.weatherModules.rainy.remove(at: indexPathToDelete.row)
+                let rowIndexForModule = self.findModuleIndex(
+                    modules: self.rainyModules,
+                    day: targetDay,
+                    rowIndex: rowIndexForDay)
+                // self.currentPackage.weatherModules.rainy.remove(at: rowIndexForModule ?? 0)
+                self.sunnyModules.remove(at: rowIndexForModule ?? 0)
             }
                 
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                self.tableView.reloadData()
             }
         }
     }
