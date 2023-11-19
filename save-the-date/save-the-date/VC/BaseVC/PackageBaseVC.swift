@@ -218,6 +218,20 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 // MARK: - Additional method -
 extension PackageBaseViewController {
     
+    // Function to find the correct index
+    func findModuleIndex(modules: [PackageModule], day: Int, rowIndex: Int) -> Int? {
+        var count = 0
+        return modules.firstIndex { module in
+            if module.day == day {
+                if count == rowIndex {
+                    return true
+                }
+                count += 1
+            }
+            return false
+        }
+    }
+    
     // Logic to swap module
     func movePackage(from source: IndexPath, to destination: IndexPath) {
         
@@ -300,30 +314,19 @@ extension PackageBaseViewController {
                 
                 guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
                 let targetDay = indexPathToEdit.section
-                var rowIndexForDay = 0
-                
+                let rowIndexForDay = indexPathToEdit.row
+
                 if self?.weatherState == .sunny {
-                    
-                    self?.sunnyModules.enumerated().forEach { index, module in
-                        if module.day == targetDay {
-                            if rowIndexForDay == indexPathToEdit.row {
-                                self?.sunnyModules[index].location = location
-                                return
-                            }
-                            rowIndexForDay += 1
-                        }
+                    if let index = self?.findModuleIndex(
+                        modules: self?.sunnyModules ?? [],
+                        day: targetDay, rowIndex: rowIndexForDay) {
+                        self?.sunnyModules[index].location = location
                     }
-                    
                 } else {
-                    
-                    self?.rainyModules.enumerated().forEach { index, module in
-                        if module.day == targetDay {
-                            if rowIndexForDay == indexPathToEdit.row {
-                                self?.rainyModules[index].location = location
-                                return
-                            }
-                            rowIndexForDay += 1
-                        }
+                    if let index = self?.findModuleIndex(
+                        modules: self?.rainyModules ?? [],
+                        day: targetDay, rowIndex: rowIndexForDay) {
+                        self?.rainyModules[index].location = location
                     }
                 }
                 

@@ -11,6 +11,7 @@ import SnapKit
 
 class DayHeaderView: UIView {
     let titleLabel = UILabel()
+    let addModuleButton = UIButton()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,7 +24,7 @@ class DayHeaderView: UIView {
     }
 
     private func setupView() {
-        addSubview(titleLabel)
+        addSubviews([titleLabel, addModuleButton])
         titleLabel.textAlignment = .center
     }
     
@@ -31,6 +32,10 @@ class DayHeaderView: UIView {
         titleLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().offset(20)
+        }
+        addModuleButton.snp.makeConstraints { make in
+            make.centerY.equalTo(titleLabel.snp.centerY)
+            make.trailing.equalToSuperview().offset(-20)
         }
     }
 
