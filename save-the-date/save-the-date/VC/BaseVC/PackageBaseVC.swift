@@ -392,19 +392,17 @@ extension PackageBaseViewController {
             case .edit(let cell):
                 
                 guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
-                let targetDay = indexPathToEdit.section
-                let rowIndexForDay = indexPathToEdit.row
 
                 if self?.weatherState == .sunny {
                     if let index = self?.findModuleIndex(
                         modules: self?.sunnyModules ?? [],
-                        day: targetDay, rowIndex: rowIndexForDay) {
+                        from: indexPathToEdit) {
                         self?.sunnyModules[index].location = location
                     }
                 } else {
                     if let index = self?.findModuleIndex(
                         modules: self?.rainyModules ?? [],
-                        day: targetDay, rowIndex: rowIndexForDay) {
+                        from: indexPathToEdit) {
                         self?.rainyModules[index].location = location
                     }
                 }
@@ -483,19 +481,16 @@ extension PackageBaseViewController {
                             travelTime: travelTime)
                         
                         // Replace with new transporation
-                        let targetDay = indexPathToEdit.section
-                        let rowIndexForDay = indexPathToEdit.row
-
                         if self.weatherState == .sunny {
                             if let index = self.findModuleIndex(
                                 modules: self.sunnyModules,
-                                day: targetDay, rowIndex: rowIndexForDay) {
+                                from: indexPathToEdit) {
                                 self.sunnyModules[index].transportation = transportation
                             }
                         } else {
                             if let index = self.findModuleIndex(
                                 modules: self.rainyModules,
-                                day: targetDay, rowIndex: rowIndexForDay) {
+                                from: indexPathToEdit) {
                                 self.rainyModules[index].transportation = transportation
                             }
                         }
@@ -541,24 +536,18 @@ extension PackageBaseViewController {
         
         onDelete = { cell in
             guard let indexPathToDelete = self.tableView.indexPath(for: cell) else { return }
-            let targetDay = indexPathToDelete.section
-            let rowIndexForDay = indexPathToDelete.row
             
             if self.weatherState == .sunny {
                 let rowIndexForModule = self.findModuleIndex(
                     modules: self.sunnyModules,
-                    day: targetDay, rowIndex: rowIndexForDay)
+                    from: indexPathToDelete)
                 
-                print("rowIndexForModule: \(rowIndexForModule)")
-                
-                // self.currentPackage.weatherModules.sunny.remove(at: rowIndexForModule ?? 0)
                 self.sunnyModules.remove(at: rowIndexForModule ?? 0)
             } else {
                 let rowIndexForModule = self.findModuleIndex(
                     modules: self.rainyModules,
-                    day: targetDay,
-                    rowIndex: rowIndexForDay)
-                // self.currentPackage.weatherModules.rainy.remove(at: rowIndexForModule ?? 0)
+                    from: indexPathToDelete)
+                
                 self.sunnyModules.remove(at: rowIndexForModule ?? 0)
             }
                 
