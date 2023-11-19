@@ -17,3 +17,5 @@ type_body_length:
 function_body_length:
   warning: 70
   error: 100
+cyclomatic_complexity:
+  ignores_case_statements: true

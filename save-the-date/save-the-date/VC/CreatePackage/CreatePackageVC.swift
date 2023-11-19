@@ -60,6 +60,7 @@ class CreatePackageViewController: PackageBaseViewController {
     
     override func configureConstraint() {
         super.configureConstraint()
+        
         publishButton.snp.makeConstraints { make in
             make.centerY.equalTo(showRoute)
             make.leading.equalTo(showRoute.snp.trailing).offset(10)
@@ -72,6 +73,7 @@ class CreatePackageViewController: PackageBaseViewController {
 // MARK: - Additional function -
 
 extension CreatePackageViewController {
+    
     // Add bar button pressed
     @objc func addButtonPressed() {
         // Go to Explore site and choose one
@@ -100,12 +102,12 @@ extension CreatePackageViewController {
                 guard let text else { return }
                 let info = Info(title: text,
                                 author: "Jimmy",
-                                rate: 0,
+                                rate: 0.0,
                                 state: packageState.rawValue)
                 
-                let packageModules = self.currentPackage.packageModules
                 self.currentPackage.info = info
-                self.currentPackage.packageModules = packageModules
+                self.currentPackage.weatherModules.sunny = self.sunnyModules
+                self.currentPackage.weatherModules.rainy = self.rainyModules
                 
                 self.firestoreManager.publishPackageWithJson(self.currentPackage) { [weak self] result in
                     switch result {
@@ -114,7 +116,10 @@ extension CreatePackageViewController {
                             email: "jimmy@gmail.com",
                             packageType: packageColl.rawValue,
                             packageID: documentID) {
-                                self?.currentPackage.packageModules = []
+                                self?.sunnyModules = []
+                                self?.rainyModules = []
+                                self?.currentPackage = Package()
+                                
                                 DispatchQueue.main.async {
                                     self?.tableView.reloadData()
                                 }

@@ -20,8 +20,3 @@ class PackageDetailViewController: PackageBaseViewController {
         
     }
 }
-
-// MARK: - Delegate and dataSource method
-extension PackageDetailViewController {
-    
-}
