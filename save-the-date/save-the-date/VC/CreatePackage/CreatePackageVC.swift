@@ -33,7 +33,12 @@ class CreatePackageViewController: PackageBaseViewController {
             barButtonSystemItem: .add,
             target: self,
             action: #selector(addButtonPressed))
-        navigationItem.rightBarButtonItem = addBarButton
+        
+        let addNewDayButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addNewDayPressed))
+        navigationItem.rightBarButtonItems = [addBarButton, addNewDayButton]
         
         let editBarButton = UIBarButtonItem(
             barButtonSystemItem: .edit,
@@ -73,6 +78,31 @@ class CreatePackageViewController: PackageBaseViewController {
 // MARK: - Additional function -
 
 extension CreatePackageViewController {
+    
+    // Add empty pressed
+    @objc func addNewDayPressed() {
+        
+        switch weatherState {
+            
+        case .sunny:
+            
+            let totalDays = sunnyModules.compactMap { module in module.day }.count
+            let module = PackageModule(day: totalDays)
+            
+            self.sunnyModules.append(module)
+            
+        case .rainy:
+            
+            let totalDays = rainyModules.compactMap { module in module.day }.count
+            let module = PackageModule(day: totalDays)
+            
+            self.rainyModules.append(module)
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
     
     // Add bar button pressed
     @objc func addButtonPressed() {

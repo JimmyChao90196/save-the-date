@@ -26,7 +26,15 @@ class PackageBaseViewController: UIViewController {
     var currentPackage = Package()
     var sunnyModules = [PackageModule]()
     var rainyModules = [PackageModule]()
-    var weatherState = WeatherState.sunny
+    
+    // Weather state can be switched
+    var weatherState = WeatherState.sunny {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     var tableView = ModuleTableView()
     var googlePlaceManager = GooglePlacesManager.shared
@@ -66,8 +74,8 @@ class PackageBaseViewController: UIViewController {
         addTo()
         setup()
         configureConstraint()
-        setupOnEvent()
-
+        setupOnTapped()
+        setupOnComfirm()
     }
     
     func addTo() {
@@ -119,15 +127,25 @@ class PackageBaseViewController: UIViewController {
 extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        switch weatherState {
+        case .sunny:
+            let totalDays = sunnyModules.compactMap { module in module.day }
+            return totalDays.count
+        case .rainy:
+            let totalDays = rainyModules.compactMap { module in module.day }
+            return totalDays.count
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        // currentPackage.packageModules.count
-        // currentPackage.weatherModules.sunny.count
+        switch weatherState {
         
-        weatherState == .sunny ? sunnyModules.count : rainyModules.count
+        case .sunny:
+            return sunnyModules.filter { $0.day == section }.count
+        case .rainy:
+            return rainyModules.filter { $0.day == section }.count
+        }
     }
     
     // Did select row at
@@ -143,7 +161,8 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             for: indexPath) as? ModuleTableViewCell else {
             return UITableViewCell() }
         
-        let module = weatherState == .sunny ? sunnyModules : rainyModules
+        var module = weatherState == .sunny ? sunnyModules : rainyModules
+        module = module.filter { $0.day == indexPath.section }
         
         let travelTime = module[indexPath.row].transportation.travelTime
         let iconName = module[indexPath.row].transportation.transpIcon
@@ -170,6 +189,18 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         return cell
     }
     
+    // MARK: - Delegate method -
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let headerView = DayHeaderView()
+        headerView.setDay(section)
+        return headerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 36
+    }
+
     // Can move row at
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         true
@@ -187,6 +218,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 // MARK: - Additional method -
 extension PackageBaseViewController {
     
+    // Logic to swap module
     func movePackage(from source: IndexPath, to destination: IndexPath) {
         
         if weatherState == .sunny {
@@ -247,26 +279,7 @@ extension PackageBaseViewController {
     }
     
     // MARK: - Setup onEvents -
-    func setupOnEvent() {
-        onTranspTapped = { [weak self] cell in
-            guard let self else { return }
-            
-            // Jump to transpVC
-            let transpVC = TranspViewController()
-            transpVC.onTranspComfirm = onTranspComfirm
-            transpVC.actionKind = .edit(cell)
-            self.navigationController?.pushViewController(transpVC, animated: true)
-        }
-        
-        onLocationTapped = { [weak self] cell in
-            guard let self else { return }
-            
-            let exploreVC = ExploreSiteViewController()
-            exploreVC.onLocationComfirm = onLocationComfirm
-            exploreVC.actionKind = .edit(cell)
-            self.navigationController?.pushViewController(exploreVC, animated: true)
-        }
-        
+    func setupOnComfirm() {
         onLocationComfirm = { [weak self] location, action in
             let module = PackageModule(
                 location: location,
@@ -282,20 +295,41 @@ extension PackageBaseViewController {
                 } else {
                     self?.rainyModules.append(module)
                 }
-            
+                
             case .edit(let cell):
                 
                 guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
+                let targetDay = indexPathToEdit.section
+                var rowIndexForDay = 0
                 
                 if self?.weatherState == .sunny {
-                    self?.sunnyModules[indexPathToEdit.row].location = location
+                    
+                    self?.sunnyModules.enumerated().forEach { index, module in
+                        if module.day == targetDay {
+                            if rowIndexForDay == indexPathToEdit.row {
+                                self?.sunnyModules[index].location = location
+                                return
+                            }
+                            rowIndexForDay += 1
+                        }
+                    }
+                    
                 } else {
-                    self?.rainyModules[indexPathToEdit.row].location = location
+                    
+                    self?.rainyModules.enumerated().forEach { index, module in
+                        if module.day == targetDay {
+                            if rowIndexForDay == indexPathToEdit.row {
+                                self?.rainyModules[index].location = location
+                                return
+                            }
+                            rowIndexForDay += 1
+                        }
+                    }
                 }
-            }
-            
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
             }
         }
         
@@ -343,12 +377,33 @@ extension PackageBaseViewController {
                         } else {
                             self?.rainyModules[indexPathToEdit.row].transportation = transportation
                         }
-                            
+                        
                         DispatchQueue.main.async {
                             self?.tableView.reloadData()
                         }
                     })
             }
+        }
+    }
+    
+    func setupOnTapped() {
+        onTranspTapped = { [weak self] cell in
+            guard let self else { return }
+            
+            // Jump to transpVC
+            let transpVC = TranspViewController()
+            transpVC.onTranspComfirm = onTranspComfirm
+            transpVC.actionKind = .edit(cell)
+            self.navigationController?.pushViewController(transpVC, animated: true)
+        }
+        
+        onLocationTapped = { [weak self] cell in
+            guard let self else { return }
+            
+            let exploreVC = ExploreSiteViewController()
+            exploreVC.onLocationComfirm = onLocationComfirm
+            exploreVC.actionKind = .edit(cell)
+            self.navigationController?.pushViewController(exploreVC, animated: true)
         }
         
         onDelete = { [weak self] cell in
