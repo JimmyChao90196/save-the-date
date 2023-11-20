@@ -41,6 +41,8 @@ class PackageBaseViewController: UIViewController {
     var firestoreManager = FirestoreManager.shared
     var routeManager = RouteManager.shared
     
+    var tempImages = ["Site01", "Site02", "Site03"]
+    
     // On events
     var onDelete: ((UITableViewCell) -> Void)?
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?
@@ -188,9 +190,20 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         let iconName = module[rawIndex].transportation.transpIcon
         let locationTitle = "\(module[rawIndex].location.shortName)"
         
-        cell.numberLabel.text = locationTitle
-        cell.transpIcon.image = UIImage(systemName: iconName)
-        cell.travelTimeLabel.text = formatTimeInterval(travelTime) == "none" ? "" : formatTimeInterval(travelTime)
+        // Location title
+        cell.siteTitle.text = locationTitle
+        
+        // Transp Icon
+        let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
+        cell.transpIcon.image = UIImage(systemName: iconName, withConfiguration: config)
+        cell.transpIcon.tintColor = .lightGray
+        cell.transpIcon.contentMode = .scaleAspectFit
+        
+        // Travel time label
+        cell.travelTimeLabel.text = formatTimeInterval(travelTime)
+        
+        // BG
+        cell.bgImageView.image = UIImage(named: tempImages[indexPath.row])
         
         cell.onDelete = onDelete
         cell.onLocationTapped = self.onLocationTapped
@@ -368,7 +381,7 @@ extension PackageBaseViewController {
         } else if minutes > 0 {
             return "\(minutes)min"
         } else {
-            return "none"
+            return "0 min"
         }
     }
     

@@ -26,14 +26,29 @@ class CreatePackageViewController: PackageBaseViewController {
         return button
     }()
     
+    lazy var addNewDayButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 85, height: 30))
+        
+        // Your logic to customize the button
+        button.backgroundColor = .blue
+        button.setTitle("New Day", for: .normal)
+        button.titleLabel?.setFont(UIFont.systemFont(ofSize: 16, weight: .medium))
+        button.setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
+            .setbackgroundColor(.hexToUIColor(hex: "#87D6DD"))
+            .setCornerRadius(5)
+            .setBoarderWidth(2.5)
+        
+        // Adding an action
+        button.addTarget(
+            self,
+            action: #selector(addNewDayPressed),
+            for: .touchUpInside)
+        
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let addNewDayButton = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(addNewDayPressed))
-        navigationItem.rightBarButtonItems = [addNewDayButton]
         
         let editBarButton = UIBarButtonItem(
             barButtonSystemItem: .edit,
@@ -56,6 +71,9 @@ class CreatePackageViewController: PackageBaseViewController {
             self,
             action: #selector(publishButtonPressed),
             for: .touchUpInside)
+
+        let rightBarButton = UIBarButtonItem(customView: addNewDayButton)
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
     
     override func configureConstraint() {

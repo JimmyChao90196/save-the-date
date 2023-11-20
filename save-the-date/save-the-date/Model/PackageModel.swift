@@ -33,7 +33,7 @@ struct PackageModule: Codable {
     var date: TimeInterval
     
     init(location: Location = Location(name: "None", shortName: "None", identifier: "None"),
-         transportation: Transportation = Transportation(transpIcon: "plus.app", travelTime: 0.0),
+         transportation: Transportation = Transportation(transpIcon: "plus.viewfinder", travelTime: 0.0),
          day: Int = 1,
          date: TimeInterval = Date().timeIntervalSince1970) {
         self.location = location
