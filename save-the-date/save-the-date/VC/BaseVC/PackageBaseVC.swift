@@ -91,16 +91,12 @@ class PackageBaseViewController: UIViewController {
         tableView.dataSource = self
         
         tableView.setEditing(false, animated: true)
+        tableView.sectionHeaderTopPadding = 0.0
         
         // Configure buttons
         showRoute.addTarget(
             self,
             action: #selector(showRouteButtonPressed),
-            for: .touchUpInside)
-        
-        switchWeatherButton.addTarget(
-            self,
-            action: #selector(switchWeatherButtonPressed),
             for: .touchUpInside)
         
         segControl.addTarget(
@@ -132,7 +128,7 @@ class PackageBaseViewController: UIViewController {
             make.top.equalTo(view.snp_topMargin).offset(10)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
-            make.width.equalTo(200)
+            make.width.equalTo(140)
         }
 
         showRoute.snp.makeConstraints { make in
@@ -247,6 +243,10 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                 self.tableView.reloadData()
             }
         }
+    // Fix gap
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        CGFloat.leastNormalMagnitude
+    }
 }
 
 // MARK: - Additional method -

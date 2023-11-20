@@ -82,7 +82,7 @@ class ModuleTableViewCell: UITableViewCell {
             make.leading.equalTo(transpIcon.snp.trailing).offset(10)
         }
         
-        locationView.topConstr(to: contentView.topAnchor, 10)
+        locationView.topConstr(to: contentView.topAnchor, 8)
             .leadingConstr(to: contentView.leadingAnchor, 5)
             .trailingConstr(to: contentView.trailingAnchor, -5)
             .centerXConstr(to: contentView.centerXAnchor, 0)
@@ -96,10 +96,10 @@ class ModuleTableViewCell: UITableViewCell {
             .topConstr(to: locationView.topAnchor, 50)
             .bottomConstr(to: locationView.bottomAnchor, -50)
         
-        transpView.topConstr(to: locationView.bottomAnchor, 5)
-            .leadingConstr(to: contentView.leadingAnchor, 5)
-            .trailingConstr(to: contentView.trailingAnchor, -5)
-            .bottomConstr(to: contentView.bottomAnchor, -5)
+        transpView.topConstr(to: locationView.bottomAnchor, 8)
+            .leadingConstr(to: contentView.leadingAnchor, 100)
+            .trailingConstr(to: contentView.trailingAnchor, -100)
+            .bottomConstr(to: contentView.bottomAnchor, 0)
             .heightConstr(50)
     }
 }
