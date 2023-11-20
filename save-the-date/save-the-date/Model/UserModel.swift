@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct User {
+struct User: Codable {
     var name: String
     var email: String
     

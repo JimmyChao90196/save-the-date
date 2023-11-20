@@ -25,6 +25,8 @@
 		744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57262B060C9200B3ABAA /* TranspManager.swift */; };
 		747AF5CE2B08BD0000091CD9 /* ExploreBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */; };
 		748023E82B09EC3C00878B12 /* DayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023E72B09EC3C00878B12 /* DayHeaderView.swift */; };
+		748023EB2B0B38DA00878B12 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EA2B0B38DA00878B12 /* SelectionView.swift */; };
+		748023ED2B0B390100878B12 /* selectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EC2B0B390100878B12 /* selectionModel.swift */; };
 		74918CBD2B072FE700ED7D99 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74918CBC2B072FE700ED7D99 /* CoreLocation.framework */; };
 		74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */; };
 		74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828512B04DB2300A42850 /* UIColorExtension.swift */; };
@@ -89,6 +91,8 @@
 		744B57262B060C9200B3ABAA /* TranspManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspManager.swift; sourceTree = "<group>"; };
 		747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreBaseVC.swift; sourceTree = "<group>"; };
 		748023E72B09EC3C00878B12 /* DayHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayHeaderView.swift; sourceTree = "<group>"; };
+		748023EA2B0B38DA00878B12 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
+		748023EC2B0B390100878B12 /* selectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectionModel.swift; sourceTree = "<group>"; };
 		74918CBC2B072FE700ED7D99 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclaritiveExtension.swift; sourceTree = "<group>"; };
 		74B828512B04DB2300A42850 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
@@ -186,6 +190,7 @@
 			children = (
 				744B57172B05D7AF00B3ABAA /* PackageModel.swift */,
 				74DE46362B087B2E00B6F648 /* UserModel.swift */,
+				748023EC2B0B390100878B12 /* selectionModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				74DE466C2B089C2400B6F648 /* ProfileVC.swift */,
+				748023EA2B0B38DA00878B12 /* SelectionView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -509,12 +515,14 @@
 				744B571E2B05E40B00B3ABAA /* ResultTableViewCell.swift in Sources */,
 				74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */,
 				74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */,
+				748023ED2B0B390100878B12 /* selectionModel.swift in Sources */,
 				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,
 				74DE466A2B089C0200B6F648 /* ChatVC.swift in Sources */,
 				744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */,
 				744B571C2B05DBA000B3ABAA /* ResultTableView.swift in Sources */,
 				74DE466F2B089F8000B6F648 /* NavigationController.swift in Sources */,
 				74DE46722B08AD4600B6F648 /* PackageBaseVC.swift in Sources */,
+				748023EB2B0B38DA00878B12 /* SelectionView.swift in Sources */,
 				742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */,
 				74DE46762B08B4D000B6F648 /* ExploreTableView.swift in Sources */,
 				74DE46782B08B4E500B6F648 /* ExploreTableViewCell.swift in Sources */,

@@ -14,9 +14,9 @@ class ExploreTableViewCell: UITableViewCell {
     
     let packageTitleLabel = UILabel()
     let packageBG = UIView()
-    let heartImageView = UIImageView(image: UIImage(systemName: "heart.fill"))
+    let heartImageView = UIImageView(image: UIImage(systemName: "heart"))
     var onLike: ((UITableViewCell, Bool) -> Void)?
-    var isLike = true
+    var isLike = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,7 +35,7 @@ class ExploreTableViewCell: UITableViewCell {
     }
     
     private func setup() {
-            
+        
         packageBG.setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
             .setCornerRadius(20)
             .setBoarderWidth(1)

@@ -35,6 +35,36 @@ class FirestoreManager {
         }
     }
     
+    // MARK: - Add user with json
+    func addUserWithJson(_ user: User, completion: @escaping () -> Void) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        do {
+            // Encode your user object into JSON
+            let jsonData = try encoder.encode(user)
+
+            // Convert JSON data to a dictionary
+            guard let dictionary = try JSONSerialization.jsonObject(
+                with: jsonData,
+                options: .allowFragments) as? [String: Any] else {
+                return
+            }
+
+            // Upload the JSON dictionary to Firestore
+            fdb.collection("users").document(user.email).setData(dictionary) { error in
+                if let error = error {
+                    print("uploaded failed")
+                } else {
+                    completion()
+                }
+            }
+        } catch {
+            // Handle encoding errors
+            print("error")
+        }
+    }
+    
     // MARK: - Publish package with json -
     func publishPackageWithJson(_ package: Package, completion: @escaping (Result<String, Error>) -> Void) {
         let encoder = JSONEncoder()
@@ -83,7 +113,7 @@ class FirestoreManager {
         completion: @escaping () -> Void
     ) {
         
-        var userRef = fdb.collection("users").document(email)
+        let userRef = fdb.collection("users").document(email)
         var fieldOperation = FieldValue.arrayUnion([packageID])
         
         switch operation {
@@ -108,13 +138,22 @@ class FirestoreManager {
         packageType: PackageCollection,
         packageID: String,
         toPath path: PackageFieldPath,
+        perform operation: PackageOperation,
         completion: @escaping () -> Void
     ) {
         
         let packageRef = fdb.collection(packageType.rawValue).document(packageID)
         let fieldPath = "info.\(path.rawValue)"
-        packageRef.updateData([fieldPath: FieldValue.arrayUnion([userEmail])
-        ]) { error in
+        
+        var fieldOperation = FieldValue.arrayUnion([userEmail])
+        switch operation {
+        case .add:
+            fieldOperation = FieldValue.arrayUnion([userEmail])
+        case .remove:
+            fieldOperation = FieldValue.arrayRemove([userEmail])
+        }
+        
+        packageRef.updateData([fieldPath: fieldOperation ]) { error in
             if let error = error {
                 print("Error updating package: \(error)")
             } else {

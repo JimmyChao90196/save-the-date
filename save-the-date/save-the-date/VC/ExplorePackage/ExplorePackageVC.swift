@@ -76,6 +76,22 @@ extension ExplorePackageViewController {
                 withIdentifier: ExploreTableViewCell.reuseIdentifier,
                 for: indexPath) as? ExploreTableViewCell else { return UITableViewCell() }
             
+            let likedByArray = fetchedPackages[indexPath.row].info.likedBy
+            let isInFavorite = likedByArray.contains { email in
+                email == "jimmy@gmail.com"
+            }
+            
+            // Handle is like logic
+            cell.isLike = isInFavorite
+            
+            switch isInFavorite {
+            case true: cell.heartImageView.image = UIImage(
+                systemName: "heart.fill")
+                
+            case false: cell.heartImageView.image = UIImage(
+                systemName: "heart")
+            }
+            
             cell.packageTitleLabel.text = fetchedPackages[indexPath.row].info.title
             cell.onLike = self.onLike
             return cell
@@ -115,12 +131,14 @@ extension ExplorePackageViewController {
                             message: "Successfully added to favorite",
                             buttonText: "Ok")
                     }
-                
+                // Update package email stack
                 self.firestoreManager.updatePackage(
                     emailToUpdate: "jimmy@gmail.com",
                     packageType: .publishedColl,
                     packageID: packageID,
-                    toPath: .likedBy) {
+                    toPath: .likedBy,
+                    perform: .add
+                ) {
                         print("successfully updated")
                         self.fetchPackages()
                     }
@@ -138,6 +156,17 @@ extension ExplorePackageViewController {
                             title: "Success",
                             message: "Successfully delete",
                             buttonText: "Ok")
+                    }
+                // Update package email stack
+                self.firestoreManager.updatePackage(
+                    emailToUpdate: "jimmy@gmail.com",
+                    packageType: .publishedColl,
+                    packageID: packageID,
+                    toPath: .likedBy,
+                    perform: .remove
+                ) {
+                        print("successfully removed")
+                        self.fetchPackages()
                     }
                 
             }
