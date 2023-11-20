@@ -41,8 +41,16 @@ class FirestoreManager {
         encoder.outputFormatting = .prettyPrinted
 
         do {
+            // Create a document reference first
+            let packageColl = PackageCollection.publishedColl.rawValue
+            let newDocumentRef = fdb.collection(packageColl).document()
+            let newDocumentID = newDocumentRef.documentID
+            
+            var packageCopy = package
+            packageCopy.info.id = newDocumentID
+            
             // Encode your package object into JSON
-            let jsonData = try encoder.encode(package)
+            let jsonData = try encoder.encode(packageCopy)
             
             // Convert JSON data to a dictionary
             guard let dictionary = try JSONSerialization.jsonObject(
@@ -52,15 +60,12 @@ class FirestoreManager {
                 return
             }
             
-            var ref: DocumentReference?
-            let packageColl = PackageCollection.publishedColl
-            
             // Upload the JSON dictionary to Firestore
-            ref = fdb.collection(packageColl.rawValue).addDocument(data: dictionary) { error in
+            newDocumentRef.setData(dictionary) { error in
                 if let error = error {
                     completion(.failure(error))
-                } else if let documentID = ref?.documentID {
-                    completion(.success(documentID))
+                } else {
+                    completion(.success(newDocumentID))
                 }
             }
         } catch {
@@ -72,15 +77,36 @@ class FirestoreManager {
     // MARK: - Update user -
     func updateUserPackages(
         email: String,
-        packageType: String,
+        packageType: PackageCollection,
         packageID: String,
         completion: @escaping () -> Void) {
             
         let userRef = fdb.collection("users").document(email)
-        userRef.updateData([packageType: FieldValue.arrayUnion([packageID])
+            userRef.updateData([packageType.rawValue: FieldValue.arrayUnion([packageID])
         ]) { error in
             if let error = error {
                 print("Error updating user: \(error)")
+            } else {
+                completion()
+            }
+        }
+    }
+    
+    // MARK: - Update package -
+    func updatePackage(
+        emailToUpdate userEmail: String,
+        packageType: PackageCollection,
+        packageID: String,
+        toPath path: PackageFieldPath,
+        completion: @escaping () -> Void
+    ) {
+        
+        let packageRef = fdb.collection(packageType.rawValue).document(packageID)
+        let fieldPath = "info.\(path.rawValue)"
+        packageRef.updateData([fieldPath: FieldValue.arrayUnion([userEmail])
+        ]) { error in
+            if let error = error {
+                print("Error updating package: \(error)")
             } else {
                 completion()
             }

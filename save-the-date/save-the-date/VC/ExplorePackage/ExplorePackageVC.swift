@@ -18,6 +18,13 @@ import FirebaseCore
 class ExplorePackageViewController: ExploreBaseViewController {
     
     var fetchedPackages = [Package]()
+    var onLike: ((UITableViewCell, Bool) -> Void)?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        handelOnEvent()
+ 
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -69,7 +76,7 @@ extension ExplorePackageViewController {
                 for: indexPath) as? ExploreTableViewCell else { return UITableViewCell() }
             
             cell.packageTitleLabel.text = fetchedPackages[indexPath.row].info.title
-            
+            cell.onLike = self.onLike
             return cell
     }
     
@@ -77,5 +84,45 @@ extension ExplorePackageViewController {
         let packageDetailVC = PackageDetailViewController()
         packageDetailVC.currentPackage = fetchedPackages[indexPath.row]
         navigationController?.pushViewController(packageDetailVC, animated: true)
+    }
+}
+
+// MARK: - Additional method -
+extension ExplorePackageViewController {
+    func handelOnEvent() {
+        
+        // On like button tapped
+        onLike = { cell, isLike in
+            
+            guard let indexPathToEdit = self.tableView.indexPath(for: cell)
+            else { return }
+            
+            let packageID = self.fetchedPackages[indexPathToEdit.row].info.id
+            
+            switch isLike {
+            case true:
+                // Update user package stack
+                self.firestoreManager.updateUserPackages(
+                    email: "jimmy@gmail.com",
+                    packageType: .favoriteColl,
+                    packageID: packageID) {
+                        self.presentSimpleAlert(
+                            title: "Success",
+                            message: "Successfully added to favorite",
+                            buttonText: "Ok")
+                    }
+                
+                self.firestoreManager.updatePackage(
+                    emailToUpdate: "jimmy@gmail.com",
+                    packageType: .publishedColl,
+                    packageID: packageID,
+                    toPath: .likedBy) {
+                        print("successfully updated")
+                    }
+                
+            case false: print(" ")
+                
+            }
+        }
     }
 }

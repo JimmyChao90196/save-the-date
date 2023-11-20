@@ -131,7 +131,7 @@ extension CreatePackageViewController {
             buttonText: "Okay") { text in
                 guard let text else { return }
                 let info = Info(title: text,
-                                author: "Jimmy",
+                                authorEmail: "red@gmail.com",
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 
@@ -143,9 +143,10 @@ extension CreatePackageViewController {
                     switch result {
                     case .success(let documentID):
                         self?.firestoreManager.updateUserPackages(
-                            email: "jimmy@gmail.com",
-                            packageType: packageColl.rawValue,
-                            packageID: documentID) {
+                            email: "red@gmail.com",
+                            packageType: .publishedColl,
+                            packageID: documentID
+                        ) {
                                 self?.sunnyModules = []
                                 self?.rainyModules = []
                                 self?.currentPackage = Package()

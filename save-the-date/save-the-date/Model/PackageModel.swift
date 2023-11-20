@@ -76,21 +76,30 @@ struct Transportation: Codable {
 // MARK: - Info -
 struct Info: Codable {
     var title: String
-    var author: String
+    var authorEmail: String
+    var id: String
     var rate: Double
     var state: String
     var forkedFrom: String
+    var forkedBy: [String]
+    var likedBy: [String]
     
     init(title: String = "packageTitle",
-         author: String = "Jimmy Chao",
+         authorEmail: String = "jimmy@gmail.com",
+         id: String = "none",
          rate: Double = 5.0,
          state: String = "published",
-         forkedFrom: String = "none") {
+         forkedFrom: String = "none",
+         forkedBy: [String] = [String](),
+         likedBy: [String] = [String]()) {
         self.title = title
-        self.author = author
+        self.authorEmail = authorEmail
+        self.id = id
         self.rate = rate
         self.state = state
         self.forkedFrom = forkedFrom
+        self.forkedBy = forkedBy
+        self.likedBy = likedBy
     }
 }
 
@@ -109,4 +118,15 @@ enum PackageCollection: String {
     case forkedColl = "forkedPackages"
     case favoriteColl = "favoritePackages"
     case draftColl = "draftPackages"
+}
+
+enum PackageFieldPath: String {
+    case forkedFrom = "forkedFrom"
+    case likedBy = "likedBy"
+    case draft = "draft"
+}
+
+enum PackageOperation: String {
+    case add
+    case remove
 }

@@ -164,7 +164,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             for: indexPath) as? ModuleTableViewCell else {
             return UITableViewCell() }
         
-        var module = weatherState == .sunny ? sunnyModules : rainyModules
+        let module = weatherState == .sunny ? sunnyModules : rainyModules
         
         guard let rawIndex = findModuleIndex(modules: sunnyModules, from: indexPath) else {return UITableViewCell()}
         
@@ -303,6 +303,7 @@ extension PackageBaseViewController {
             var nextCount = 0
             let nextIndext = modules.firstIndex { module in
                 if module.day == nextModuleDay {
+                    
                     if nextCount == nextRowIndex { return true }
                     nextCount += 1
                 }
