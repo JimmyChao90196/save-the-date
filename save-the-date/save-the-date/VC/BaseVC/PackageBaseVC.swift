@@ -166,7 +166,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         
         let module = weatherState == .sunny ? sunnyModules : rainyModules
         
-        guard let rawIndex = findModuleIndex(modules: sunnyModules, from: indexPath) else {return UITableViewCell()}
+        guard let rawIndex = findModuleIndex(modules: module, from: indexPath) else {return UITableViewCell()}
         
         let travelTime = module[rawIndex].transportation.travelTime
         let iconName = module[rawIndex].transportation.transpIcon
@@ -474,8 +474,8 @@ extension PackageBaseViewController {
                         rowIndex: rowIndexForDay,
                         nextModuleDay: nextDay,
                         nextRowIndex: nextRowIndexForDay) { targetIndex, nextIndex in
-                        sourceCoordDic = self.sunnyModules[targetIndex ?? 0].location.coordinate
-                        destCoordDic = self.sunnyModules[nextIndex ?? 0].location.coordinate
+                        sourceCoordDic = self.rainyModules[targetIndex ?? 0].location.coordinate
+                        destCoordDic = self.rainyModules[nextIndex ?? 0].location.coordinate
                     }
                 }
                 
