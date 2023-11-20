@@ -25,15 +25,15 @@ class FirestoreManager {
     let fdb =  Firestore.firestore()
     
     // MARK: - Add user -
-    func addUser(_ user: User, completion: @escaping () -> Void) {
-        fdb.collection("users").document(user.email).setData(user.dictionary) { error in
-            if let error = error {
-                print("Error adding document: \(error)")
-            } else {
-                completion()
-            }
-        }
-    }
+//    func addUser(_ user: User, completion: @escaping () -> Void) {
+//        fdb.collection("users").document(user.email).setData(user.dictionary) { error in
+//            if let error = error {
+//                print("Error adding document: \(error)")
+//            } else {
+//                completion()
+//            }
+//        }
+//    }
     
     // MARK: - Add user with json
     func addUserWithJson(_ user: User, completion: @escaping () -> Void) {
@@ -162,6 +162,61 @@ class FirestoreManager {
         }
     }
     
+    // MARK: - Fetch favorite packages -
+    func fetchUser(_ userEmail: String) async throws -> User {
+        do {
+            let document = try await fdb.collection("users").document(userEmail).getDocument()
+            
+            guard document.exists, let userData = document.data() else {
+                throw FirestoreError.userNotFound
+            }
+            
+            let jsonData = try JSONSerialization.data(withJSONObject: userData, options: [])
+            let user = try JSONDecoder().decode(User.self, from: jsonData)
+            return user
+        } catch {
+            print("fetch user \(error)")
+            throw error // Rethrow the error for handling at the call site
+        }
+    }
+
+    func fetchFavPackages(withIDs packageIDs: [String]) async throws -> [Package] {
+        do {
+            var packages = [Package]()
+            try await withThrowingTaskGroup(of: Package?.self) { group in
+                for packageID in packageIDs {
+                    group.addTask {
+                        return try await self.fetchPackage(withID: packageID)
+                    }
+                }
+                
+                for try await package in group {
+                    if let package = package {
+                        packages.append(package)
+                    }
+                }
+            }
+            return packages
+        } catch {
+            print("fetch Fav \(error)")
+            throw error // Rethrow the error for handling at the call site
+        }
+    }
+
+    // Helper function to fetch a single package
+    private func fetchPackage(withID packageID: String) async throws -> Package? {
+        let documentRef = fdb.collection(PackageCollection.publishedColl.rawValue).document(packageID)
+        let document = try await documentRef.getDocument()
+        
+        guard let packageData = document.data(), document.exists else {
+            return nil
+        }
+        
+        let jsonData = try JSONSerialization.data(withJSONObject: packageData, options: [])
+        let package = try JSONDecoder().decode(Package.self, from: jsonData)
+        return package
+    }
+
     // MARK: - Fetch json packages -
     func fetchJsonPackages(
         from packageCollection: PackageCollection,

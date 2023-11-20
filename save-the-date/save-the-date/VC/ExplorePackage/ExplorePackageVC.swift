@@ -23,7 +23,7 @@ class ExplorePackageViewController: ExploreBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         handelOnEvent()
- 
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

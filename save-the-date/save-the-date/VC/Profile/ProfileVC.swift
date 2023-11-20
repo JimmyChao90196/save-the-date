@@ -17,9 +17,17 @@ class ProfileViewController: ExplorePackageViewController {
     
     var selectionView = SelectionView()
     
+    var favIDs = [String]()
+    var draftIDs = [String]()
+    var pubIDs = [String]()
+    var priIDs = [String]()
+    
+    var favPackages = [Package]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        fetchOperation()
     }
     
     override func setup() {
@@ -43,6 +51,30 @@ class ProfileViewController: ExplorePackageViewController {
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
             make.bottom.equalTo(view.snp_bottomMargin)
+        }
+    }
+}
+
+// MARK: - Fetch operations -
+extension ProfileViewController {
+    
+    func fetchOperation() {
+        Task {
+            do {
+                let userEmail = "jimmy@gmail.com"
+                let user = try await firestoreManager.fetchUser(userEmail)
+                
+                favIDs = user.favoritePackages
+                
+                favPackages = try await firestoreManager.fetchFavPackages(withIDs: favIDs)
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+            } catch {
+                print("Error occurred: \(error)")
+            }
         }
     }
 }
@@ -72,7 +104,7 @@ extension ProfileViewController {
     override func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int) -> Int {
-            10
+            favPackages.count
         }
     
     override func tableView(
@@ -81,6 +113,10 @@ extension ProfileViewController {
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: ExploreTableViewCell.reuseIdentifier,
                 for: indexPath) as? ExploreTableViewCell else { return UITableViewCell() }
+            
+            cell.packageTitleLabel.text = favPackages[indexPath.row].info.title
+            cell.heartImageView.isHidden = true
+            cell.onLike = nil
             
             return cell
         }

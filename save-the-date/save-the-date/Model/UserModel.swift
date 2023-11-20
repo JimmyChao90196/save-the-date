@@ -12,38 +12,26 @@ struct User: Codable {
     var name: String
     var email: String
     
-    var draftPackage: [String]
-    var favoritetPackage: [String]
-    var forkedPackage: [String]
-    var publishedPackage: [String]
-    var privatePackage: [String]
+    var draftPackages: [String]
+    var favoritePackages: [String]
+    var forkedPackages: [String]
+    var publishedPackages: [String]
+    var privatePackages: [String]
     
     init(name: String = "Jimmy Chao",
          email: String = "jimmy@gmail.com",
-         draftPackage: [String] = [],
-         favoritetPackage: [String] = [],
-         forkedPackage: [String] = [],
-         publishedPackage: [String] = [],
-         privatePackage: [String] = []) {
+         draftPackages: [String] = [],
+         favoritePackages: [String] = [],
+         forkedPackages: [String] = [],
+         publishedPackages: [String] = [],
+         privatePackages: [String] = []) {
         
         self.name = name
         self.email = email
-        self.draftPackage = draftPackage
-        self.favoritetPackage = favoritetPackage
-        self.forkedPackage = forkedPackage
-        self.publishedPackage = publishedPackage
-        self.privatePackage = privatePackage
-    }
-    
-    var dictionary: [String: Any] {
-        return [
-            "name": name,
-            "email": email,
-            "draftPackages": draftPackage,
-            "favoritePackages": favoritetPackage,
-            "forkedPackages": forkedPackage,
-            "publishedPackages": publishedPackage,
-            "privatePackages": privatePackage
-        ]
+        self.draftPackages = draftPackages
+        self.favoritePackages = favoritePackages
+        self.forkedPackages = forkedPackages
+        self.publishedPackages = publishedPackages
+        self.privatePackages = privatePackages
     }
 }
