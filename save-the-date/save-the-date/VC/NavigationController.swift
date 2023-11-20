@@ -15,10 +15,10 @@ class NavigationController: UINavigationController {
         navigationBar.tintColor = .hexToUIColor(hex: "#3F3A3A")
 
         let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.backgroundColor = .white
+        navBarAppearance.backgroundColor = .hexToUIColor(hex: "#FF4E4E")
         navBarAppearance.titleTextAttributes = [
-            .foregroundColor: UIColor.hexToUIColor(hex: "#3F3A3A"),
-            .font: UIFont.systemFont(ofSize: 16, weight: .bold)
+            .foregroundColor: UIColor.hexToUIColor(hex: "#FFFFFF"),
+            .font: UIFont.systemFont(ofSize: 20, weight: .bold)
         ]
         navigationBar.standardAppearance = navBarAppearance
         navigationBar.scrollEdgeAppearance = navBarAppearance

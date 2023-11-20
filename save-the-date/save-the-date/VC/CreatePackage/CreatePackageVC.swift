@@ -16,7 +16,7 @@ import FirebaseFirestoreSwift
 import FirebaseCore
 
 class CreatePackageViewController: PackageBaseViewController {
-     
+    
     var publishButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         
@@ -28,17 +28,12 @@ class CreatePackageViewController: PackageBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Set bar button
-        let addBarButton = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(addButtonPressed))
         
         let addNewDayButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(addNewDayPressed))
-        navigationItem.rightBarButtonItems = [addBarButton, addNewDayButton]
+        navigationItem.rightBarButtonItems = [addNewDayButton]
         
         let editBarButton = UIBarButtonItem(
             barButtonSystemItem: .edit,
@@ -102,15 +97,6 @@ extension CreatePackageViewController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-    }
-    
-    // Add bar button pressed
-    @objc func addButtonPressed() {
-        // Go to Explore site and choose one
-        let exploreVC = ExploreSiteViewController()
-        exploreVC.onLocationComfirm = onLocationComfirm
-        exploreVC.actionKind = .add(1)
-        navigationController?.pushViewController(exploreVC, animated: true)
     }
     
     // Edit bar button pressed

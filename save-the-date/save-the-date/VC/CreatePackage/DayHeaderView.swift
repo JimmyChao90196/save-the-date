@@ -14,11 +14,17 @@ class DayHeaderView: UITableViewHeaderFooterView {
     var onAddModulePressed: ((Int) -> Void)?
     static let reuseIdentifier = String(describing: DayHeaderView.self)
     
+    var topDivider = UIView()
+    var bottomDivider = UIView()
+    var sectionBG = UIImageView(image: UIImage(resource: .sectionDot))
+    
     let titleLabel = UILabel()
     let addModuleButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        button.backgroundColor = .blue
-        button.setImage(.add, for: .normal)
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        button.setImage(UIImage(resource: .addNewModuleButton), for: .normal)
+        button.setCornerRadius(20)
+        button.clipsToBounds = true
+        button.contentMode = .scaleToFill
         
         return button
     }()
@@ -40,23 +46,56 @@ class DayHeaderView: UITableViewHeaderFooterView {
     }
 
     private func setup() {
-        self.contentView.backgroundColor = .blue
-        addSubviews([titleLabel, addModuleButton])
+        self.contentView.backgroundColor = .hexToUIColor(hex: "#87D6DD")
+        self.contentView.addSubviews([sectionBG, titleLabel, addModuleButton, topDivider, bottomDivider])
         titleLabel.textAlignment = .center
+        titleLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 30)!)
+            .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
+        
         addModuleButton.addTarget(
             self,
             action: #selector(addModuleButtonPressed),
             for: .touchUpInside)
+        
+        // Setup appearance
+        topDivider.setbackgroundColor(.hexToUIColor(hex: "#3F3A3A"))
+        bottomDivider.setbackgroundColor(.hexToUIColor(hex: "#3F3A3A"))
+        addModuleButton.setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
+            .setBoarderWidth(2.5)
+        sectionBG.contentMode = .scaleAspectFill
+        sectionBG.clipsToBounds = true
     }
     
     private func setupConstranit() {
+        sectionBG.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        bottomDivider.snp.makeConstraints { make in
+            make.bottom.equalTo(contentView.snp.bottom)
+            make.top.equalTo(contentView.snp.bottom).offset(-3)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        
+        topDivider.snp.makeConstraints { make in
+            make.top.equalTo(contentView.snp.top)
+            make.bottom.equalTo(contentView.snp.top).offset(3)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        
         titleLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.top.equalTo(contentView.snp.top).offset(10)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-10)
             make.leading.equalToSuperview().offset(20)
         }
         addModuleButton.snp.makeConstraints { make in
-            make.centerY.equalTo(titleLabel.snp.centerY)
+            make.top.equalTo(contentView.snp.top).offset(10)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-10)
             make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(40)
+            make.width.equalTo(40)
         }
     }
 

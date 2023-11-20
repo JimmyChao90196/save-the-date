@@ -35,7 +35,7 @@ class PackageBaseViewController: UIViewController {
             }
         }
     }
-    
+    var segControl = UISegmentedControl(items: ["Sunny", "Rainy"])
     var tableView = ModuleTableView()
     var googlePlaceManager = GooglePlacesManager.shared
     var firestoreManager = FirestoreManager.shared
@@ -80,7 +80,7 @@ class PackageBaseViewController: UIViewController {
     }
     
     func addTo() {
-        view.addSubviews([tableView, showRoute, switchWeatherButton])
+        view.addSubviews([tableView, showRoute, switchWeatherButton, segControl])
     }
     
     func setup() {
@@ -102,6 +102,24 @@ class PackageBaseViewController: UIViewController {
             self,
             action: #selector(switchWeatherButtonPressed),
             for: .touchUpInside)
+        
+        segControl.addTarget(
+            self,
+            action: #selector(segmentChanged(_:)),
+            for: .valueChanged)
+        
+        // Appearance of segment control
+        let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segControl.setTitleTextAttributes(normalTextAttributes, for: .normal)
+
+        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
+        segControl.selectedSegmentIndex = 0
+        segControl.backgroundColor = UIColor.hexToUIColor(hex: "#FF4E4E")
+        
+        segControl.setBoarderWidth(2)
+            .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
+            .selectedSegmentTintColor = .black
     }
     
     func configureConstraint() {
@@ -110,9 +128,11 @@ class PackageBaseViewController: UIViewController {
             .trailingConstr(to: view.safeAreaLayoutGuide.trailingAnchor, 0)
             .bottomConstr(to: view.safeAreaLayoutGuide.bottomAnchor, 0)
         
-        switchWeatherButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+        segControl.snp.makeConstraints { make in
             make.top.equalTo(view.snp_topMargin).offset(10)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(30)
+            make.width.equalTo(200)
         }
 
         showRoute.snp.makeConstraints { make in
@@ -208,7 +228,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 36
+        return UITableView.automaticDimension
     }
 
     // Can move row at
@@ -351,16 +371,21 @@ extension PackageBaseViewController {
             return "none"
         }
     }
-    // Switch weather button pressed
-    @objc func switchWeatherButtonPressed() {
-        if weatherState == .sunny {
-            switchWeatherButton.setTitle("Rainy", for: .normal)
-            weatherState = .rainy
-        } else {
-            switchWeatherButton.setTitle("Sunny", for: .normal)
+    
+    // Segment control changed
+    @objc func segmentChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            print("It's sunny")
             weatherState = .sunny
+            
+        case 1:
+            weatherState = .rainy
+            print("It's rainy")
+        default:
+            break
         }
-
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

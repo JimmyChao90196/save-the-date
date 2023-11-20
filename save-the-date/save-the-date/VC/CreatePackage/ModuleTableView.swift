@@ -27,6 +27,8 @@ class ModuleTableView: UITableView {
         
         // Self sizing row height
         self.rowHeight = UITableView.automaticDimension
+        self.estimatedSectionHeaderHeight = UITableView.automaticDimension
+        self.sectionHeaderHeight = UITableView.automaticDimension
         self.estimatedRowHeight = 150
         self.separatorStyle = .none
     }

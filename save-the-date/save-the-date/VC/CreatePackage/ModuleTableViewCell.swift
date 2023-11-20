@@ -15,6 +15,7 @@ class ModuleTableViewCell: UITableViewCell {
     var deleteButton = UIButton()
     var numberLabel = UILabel()
     var locationView = UIView()
+    
     var transpView = UIView()
     var transpIcon = UIImageView(image: UIImage(systemName: "plus.diamond")!)
     var travelTimeLabel = UILabel()
@@ -54,6 +55,11 @@ class ModuleTableViewCell: UITableViewCell {
         let transportationTapGesture = UITapGestureRecognizer(target: self, action: #selector(transportationTapped))
         locationView.addGestureRecognizer(locationTapGesture)
         transpView.addGestureRecognizer(transportationTapGesture)
+        
+        // Setup appearance
+        locationView.setCornerRadius(20)
+            .setBoarderWidth(4)
+            .setBoarderColor(.hexToUIColor(hex: "#9E9E9E"))
 
     }
     

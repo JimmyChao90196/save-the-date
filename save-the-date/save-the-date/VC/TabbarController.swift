@@ -17,7 +17,10 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
         case profile = "Profile"
     }
     
-    let tabs: [Tab] = [.explorePackage, .createPackage, .chat, .profile]
+    let tabs: [Tab] = [.explorePackage,
+                       .createPackage,
+                       .chat,
+                       .profile]
     
     // MARK: View Did Load
     override func viewDidLoad() {
