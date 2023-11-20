@@ -145,7 +145,8 @@ extension CreatePackageViewController {
                         self?.firestoreManager.updateUserPackages(
                             email: "red@gmail.com",
                             packageType: .publishedColl,
-                            packageID: documentID
+                            packageID: documentID,
+                            perform: .add
                         ) {
                                 self?.sunnyModules = []
                                 self?.rainyModules = []

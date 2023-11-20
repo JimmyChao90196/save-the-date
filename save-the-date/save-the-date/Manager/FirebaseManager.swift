@@ -79,11 +79,21 @@ class FirestoreManager {
         email: String,
         packageType: PackageCollection,
         packageID: String,
-        completion: @escaping () -> Void) {
-            
-        let userRef = fdb.collection("users").document(email)
-            userRef.updateData([packageType.rawValue: FieldValue.arrayUnion([packageID])
-        ]) { error in
+        perform operation: PackageOperation,
+        completion: @escaping () -> Void
+    ) {
+        
+        var userRef = fdb.collection("users").document(email)
+        var fieldOperation = FieldValue.arrayUnion([packageID])
+        
+        switch operation {
+        case .add:
+            fieldOperation = FieldValue.arrayUnion([packageID])
+        case .remove:
+            fieldOperation = FieldValue.arrayRemove([packageID])
+        }
+        
+        userRef.updateData([packageType.rawValue: fieldOperation ]) { error in
             if let error = error {
                 print("Error updating user: \(error)")
             } else {

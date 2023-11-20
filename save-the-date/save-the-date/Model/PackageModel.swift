@@ -121,9 +121,9 @@ enum PackageCollection: String {
 }
 
 enum PackageFieldPath: String {
-    case forkedFrom = "forkedFrom"
-    case likedBy = "likedBy"
-    case draft = "draft"
+    case forkedFrom
+    case likedBy
+    case draft
 }
 
 enum PackageOperation: String {

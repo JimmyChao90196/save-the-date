@@ -37,6 +37,7 @@ class ExplorePackageViewController: ExploreBaseViewController {
     override func setup() {
         super.setup()
         fetchPackages()
+        
     }
 }
 
@@ -89,6 +90,7 @@ extension ExplorePackageViewController {
 
 // MARK: - Additional method -
 extension ExplorePackageViewController {
+    
     func handelOnEvent() {
         
         // On like button tapped
@@ -105,7 +107,9 @@ extension ExplorePackageViewController {
                 self.firestoreManager.updateUserPackages(
                     email: "jimmy@gmail.com",
                     packageType: .favoriteColl,
-                    packageID: packageID) {
+                    packageID: packageID,
+                    perform: .add
+                ) {
                         self.presentSimpleAlert(
                             title: "Success",
                             message: "Successfully added to favorite",
@@ -118,9 +122,23 @@ extension ExplorePackageViewController {
                     packageID: packageID,
                     toPath: .likedBy) {
                         print("successfully updated")
+                        self.fetchPackages()
                     }
                 
-            case false: print(" ")
+            case false:
+                
+                // Update user package stack
+                self.firestoreManager.updateUserPackages(
+                    email: "jimmy@gmail.com",
+                    packageType: .favoriteColl,
+                    packageID: packageID,
+                    perform: .remove
+                ) {
+                        self.presentSimpleAlert(
+                            title: "Success",
+                            message: "Successfully delete",
+                            buttonText: "Ok")
+                    }
                 
             }
         }
