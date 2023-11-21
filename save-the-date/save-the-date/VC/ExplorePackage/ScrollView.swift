@@ -49,7 +49,7 @@ class HorizontalImageScrollView: UIScrollView {
     
     func addImages(named imageNames: [String]) {
         imageNames.forEach { name in
-            let imageView = UIImageView(image: UIImage(systemName: name))
+            let imageView = UIImageView(image: UIImage(named: name))
             imageView.contentMode = .scaleAspectFit
             stackView.addArrangedSubview(imageView)
             

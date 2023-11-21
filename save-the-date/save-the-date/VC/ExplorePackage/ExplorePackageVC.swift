@@ -27,6 +27,7 @@ class ExplorePackageViewController: ExploreBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         handelOnEvent()
+        view.backgroundColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,14 +48,15 @@ class ExplorePackageViewController: ExploreBaseViewController {
         fetchPackages()
         recommandedScrollView.backgroundColor = .white
         recommandedScrollView.addImages(
-            named: ["square.and.arrow.up",
-                    "square.and.arrow.up.fill",
-                    "square.and.arrow.down.fill",
-                    "square.and.arrow.down.fill",
-                    "square.and.arrow.up",
-                    "square.and.arrow.up.fill",
-                    "square.and.arrow.down.fill",
-                    "square.and.arrow.down.fill"])
+            named: ["Placeholder01",
+                    "Placeholder02",
+                    "Placeholder03",
+                    "Placeholder04",
+                    "Placeholder05",
+                    "Placeholder06",
+                    "Placeholder07",
+                    "Placeholder08"
+                    ])
     }
     
     override func setupConstraint() {
