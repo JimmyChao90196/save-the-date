@@ -17,13 +17,16 @@ import FirebaseCore
 
 class ExplorePackageViewController: ExploreBaseViewController {
     
+    // ScrollView
+    var recommandedScrollView = HorizontalImageScrollView()
+    
     var fetchedPackages = [Package]()
+    var packageAuthorLabel = UILabel()
     var onLike: ((UITableViewCell, Bool) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         handelOnEvent()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,10 +37,41 @@ class ExplorePackageViewController: ExploreBaseViewController {
         }
     }
     
+    override func addTo() {
+        super.addTo()
+        view.addSubviews([recommandedScrollView])
+    }
+    
     override func setup() {
         super.setup()
         fetchPackages()
+        recommandedScrollView.backgroundColor = .white
+        recommandedScrollView.addImages(
+            named: ["square.and.arrow.up",
+                    "square.and.arrow.up.fill",
+                    "square.and.arrow.down.fill",
+                    "square.and.arrow.down.fill",
+                    "square.and.arrow.up",
+                    "square.and.arrow.up.fill",
+                    "square.and.arrow.down.fill",
+                    "square.and.arrow.down.fill"])
+    }
+    
+    override func setupConstraint() {
         
+        recommandedScrollView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp_topMargin)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.height.equalTo(100)
+        }
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(recommandedScrollView.snp.bottom)
+            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view.snp.trailing)
+            make.bottom.equalTo(view.snp_bottomMargin)
+        }
     }
 }
 
@@ -92,8 +126,11 @@ extension ExplorePackageViewController {
                 systemName: "heart")
             }
             
+            let authorName = fetchedPackages[indexPath.row].info.author
+            cell.packageAuthor.text = "by \(authorName)"
             cell.packageTitleLabel.text = fetchedPackages[indexPath.row].info.title
             cell.onLike = self.onLike
+            
             return cell
     }
     

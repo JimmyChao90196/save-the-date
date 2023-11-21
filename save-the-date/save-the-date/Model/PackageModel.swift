@@ -76,6 +76,7 @@ struct Transportation: Codable {
 // MARK: - Info -
 struct Info: Codable {
     var title: String
+    var author: String
     var authorEmail: String
     var id: String
     var rate: Double
@@ -85,6 +86,7 @@ struct Info: Codable {
     var likedBy: [String]
     
     init(title: String = "packageTitle",
+         author: String = "Jimmy",
          authorEmail: String = "jimmy@gmail.com",
          id: String = "none",
          rate: Double = 5.0,
@@ -93,6 +95,7 @@ struct Info: Codable {
          forkedBy: [String] = [String](),
          likedBy: [String] = [String]()) {
         self.title = title
+        self.author = author
         self.authorEmail = authorEmail
         self.id = id
         self.rate = rate

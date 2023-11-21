@@ -22,6 +22,12 @@ class ProfileViewController: ExplorePackageViewController {
     var pubIDs = [String]()
     var priIDs = [String]()
     
+    var profileBGImage = UIImageView(image: UIImage(resource: .profileBG))
+    var profilePicture = UIImageView(image: UIImage(systemName: "person.crop.circle.fill"))
+    var userNameLabel = UILabel()
+    var leftDivider = UIView()
+    var rightDivider = UIView()
+    
     var favPackages = [Package]()
     
     override func viewDidLoad() {
@@ -30,17 +36,76 @@ class ProfileViewController: ExplorePackageViewController {
         fetchOperation()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchOperation()
+    }
+    
     override func setup() {
         super.setup()
-        view.addSubviews([selectionView])
+        view.addSubviews([
+            selectionView,
+            profileBGImage,
+            profilePicture,
+            leftDivider,
+            rightDivider,
+            userNameLabel
+        ])
+        
         self.selectionView.dataSource = self
         self.selectionView.backgroundColor = .blue
+        
+        profilePicture.setCornerRadius(35)
+            .contentMode = .scaleAspectFill
+        profilePicture.tintColor = .hexToUIColor(hex: "#3F3A3A")
+        profilePicture.backgroundColor = .white
+        
+        profileBGImage.contentMode = .scaleToFill
+        leftDivider.backgroundColor = .darkGray
+        rightDivider.backgroundColor = .darkGray
+        
+        userNameLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 24)!)
+            .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
+            .text = "Jimmy Chao"
     }
     
     override func setupConstraint() {
         
-        selectionView.snp.makeConstraints { make in
+        userNameLabel.snp.makeConstraints { make in
+            make.top.equalTo(profilePicture.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(15)
+        }
+        
+        profileBGImage.snp.makeConstraints { make in
             make.top.equalTo(view.snp_topMargin)
+            make.height.equalTo(190)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+        }
+        
+        profilePicture.snp.makeConstraints { make in
+            make.centerY.equalTo(profileBGImage.snp.bottom)
+            make.leading.equalToSuperview().offset(100)
+            make.height.equalTo(70)
+            make.width.equalTo(70)
+        }
+        
+        leftDivider.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalTo(profilePicture.snp.leading).offset(-10)
+            make.top.equalTo(profileBGImage.snp.bottom).offset(-15)
+            make.height.equalTo(2.5)
+        }
+        
+        rightDivider.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-10)
+            make.leading.equalTo(profilePicture.snp.trailing).offset(10)
+            make.top.equalTo(profileBGImage.snp.bottom).offset(-15)
+            make.height.equalTo(2.5)
+        }
+        
+        selectionView.snp.makeConstraints { make in
+            make.top.equalTo(profilePicture.snp.bottom).offset(50)
             make.height.equalTo(50)
             make.left.equalToSuperview()
             make.right.equalToSuperview()

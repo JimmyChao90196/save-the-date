@@ -67,6 +67,7 @@
 		74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46732B08B35300B6F648 /* PackageDetailVC.swift */; };
 		74DE46762B08B4D000B6F648 /* ExploreTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46752B08B4D000B6F648 /* ExploreTableView.swift */; };
 		74DE46782B08B4E500B6F648 /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46772B08B4E500B6F648 /* ExploreTableViewCell.swift */; };
+		74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F796BE2B0CA4E40055E72F /* ScrollView.swift */; };
 		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
 
@@ -115,6 +116,7 @@
 		74DE46732B08B35300B6F648 /* PackageDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageDetailVC.swift; sourceTree = "<group>"; };
 		74DE46752B08B4D000B6F648 /* ExploreTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableView.swift; sourceTree = "<group>"; };
 		74DE46772B08B4E500B6F648 /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
+		74F796BE2B0CA4E40055E72F /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
 		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -283,6 +285,7 @@
 				74DE46732B08B35300B6F648 /* PackageDetailVC.swift */,
 				74DE46752B08B4D000B6F648 /* ExploreTableView.swift */,
 				74DE46772B08B4E500B6F648 /* ExploreTableViewCell.swift */,
+				74F796BE2B0CA4E40055E72F /* ScrollView.swift */,
 			);
 			path = ExplorePackage;
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 				74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */,
 				74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */,
 				748023ED2B0B390100878B12 /* selectionModel.swift in Sources */,
+				74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */,
 				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,
 				74DE466A2B089C0200B6F648 /* ChatVC.swift in Sources */,
 				744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */,
