@@ -16,7 +16,7 @@ class ModuleTableViewCell: UITableViewCell {
     var deleteButton = UIButton()
     var siteTitle = UILabel()
     var locationView = UIView()
-    var bgImageView = UIImageView(image: UIImage(resource: .site01))
+    var bgImageView = UIImageView(image: UIImage(resource: .site04))
     var gradientView = GradientView()
     var arrivedTimeLabel = UILabel()
     
@@ -52,12 +52,12 @@ class ModuleTableViewCell: UITableViewCell {
     }
     
     private func setup() {
-        deleteButton.setTitle("delete", for: .normal)
-        deleteButton.setTitleColor(.red, for: .normal)
+        
+        // Background
+        self.backgroundColor = .clear
         
         // Setup transportation view
         transpView.backgroundColor = .clear
-        deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         
         // Setup gesture recongnition
         let locationTapGesture = UITapGestureRecognizer(target: self, action: #selector(locationTapped))
@@ -71,10 +71,10 @@ class ModuleTableViewCell: UITableViewCell {
             .setBoarderColor(.hexToUIColor(hex: "#9E9E9E"))
         
         let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
-        transpIcon.tintColor = .lightGray
+        transpIcon.tintColor = .darkGray
         transpIcon.image = UIImage(systemName: "plus.diamond", withConfiguration: config)
         transpIcon.contentMode = .scaleAspectFit
-        travelTimeLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 18)!).setTextColor(.lightGray)
+        travelTimeLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 18)!).setTextColor(.darkGray)
         
         // Site title appearance
         siteTitle.setFont(UIFont(name: "ChalkboardSE-Regular", size: 18)!)
@@ -86,8 +86,8 @@ class ModuleTableViewCell: UITableViewCell {
             .setTextColor(.darkGray)
         
         // Divider view appearance
-        leftDivider.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
-        rightDivider.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
+        leftDivider.backgroundColor = .lightGray
+        rightDivider.backgroundColor = .lightGray
         
         // BgImageView
         bgImageView.clipsToBounds = true
@@ -150,12 +150,6 @@ class ModuleTableViewCell: UITableViewCell {
             .leadingConstr(to: contentView.leadingAnchor, 5)
             .trailingConstr(to: contentView.trailingAnchor, -5)
             .centerXConstr(to: contentView.centerXAnchor, 0)
-        
-        deleteButton.centerYConstr(to: locationView.centerYAnchor)
-            .heightConstr(50)
-            .trailingConstr(to: locationView.trailingAnchor, -10)
-            .topConstr(to: locationView.topAnchor, 20)
-            .bottomConstr(to: locationView.bottomAnchor, -20)
         
         transpView.topConstr(to: locationView.bottomAnchor, 8)
             .leadingConstr(to: contentView.leadingAnchor, 20)

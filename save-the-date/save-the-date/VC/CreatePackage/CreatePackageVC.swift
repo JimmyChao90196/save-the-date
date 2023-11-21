@@ -18,10 +18,16 @@ import FirebaseCore
 class CreatePackageViewController: PackageBaseViewController {
     
     var publishButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         
-        button.backgroundColor = .red
+        button.setbackgroundColor(.hexToUIColor(hex: "#FF4E4E"))
+            .setCornerRadius(40)
+            .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
+            .setBoarderWidth(2.5)
+        
         button.setTitle("Publish", for: .normal)
+        button.titleLabel?.setFont(UIFont(name: "ChalkboardSE-Bold", size: 18)!)
+        button.setTitleColor(.white, for: .normal)
         
         return button
     }()
@@ -67,6 +73,8 @@ class CreatePackageViewController: PackageBaseViewController {
     override func setup() {
         super.setup()
         
+        tableView.backgroundColor = .clear
+        
         publishButton.addTarget(
             self,
             action: #selector(publishButtonPressed),
@@ -80,10 +88,10 @@ class CreatePackageViewController: PackageBaseViewController {
         super.configureConstraint()
         
         publishButton.snp.makeConstraints { make in
-            make.centerY.equalTo(showRoute)
-            make.leading.equalTo(showRoute.snp.trailing).offset(10)
-            make.width.equalTo(60)
-            make.height.equalTo(50)
+            make.trailing.equalToSuperview().offset(-15)
+            make.bottom.equalTo(view.snp_bottomMargin).offset(-10)
+            make.width.equalTo(80)
+            make.height.equalTo(80)
         }
     }
 }

@@ -37,6 +37,7 @@ class GradientView: UIView {
         super.layoutSubviews()
         if let gradientLayer = layer.sublayers?.first as? CAGradientLayer {
             gradientLayer.frame = bounds
+            gradientLayer.cornerRadius = 20
         }
     }
 }

@@ -23,10 +23,4 @@ class NavigationController: UINavigationController {
         navigationBar.standardAppearance = navBarAppearance
         navigationBar.scrollEdgeAppearance = navBarAppearance
     }
-    
-    /*
-    func activateBadge() {
-        tabBarItem.badgeColor = .init(hexcode: "845932")
-        tabBarItem.badgeValue = "\(CartItem.myCart.count)"
-    }*/
 }

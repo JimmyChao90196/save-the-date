@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 import SnapKit
 import CoreLocation
@@ -24,8 +25,16 @@ class PackageBaseViewController: UIViewController {
     
     // Current package
     var currentPackage = Package()
-    var sunnyModules = [PackageModule]()
-    var rainyModules = [PackageModule]()
+    var sunnyModules = [PackageModule]() {
+        didSet {
+            changeBGImage()
+        }
+    }
+    var rainyModules = [PackageModule]() {
+        didSet {
+            changeBGImage()
+        }
+    }
     
     // Weather state can be switched
     var weatherState = WeatherState.sunny {
@@ -37,11 +46,11 @@ class PackageBaseViewController: UIViewController {
     }
     var segControl = UISegmentedControl(items: ["Sunny", "Rainy"])
     var tableView = ModuleTableView()
+    var bgImageView = UIImageView(image: UIImage(resource: .createBG02))
+    var bgView = UIView()
     var googlePlaceManager = GooglePlacesManager.shared
     var firestoreManager = FirestoreManager.shared
     var routeManager = RouteManager.shared
-    
-    var tempImages = ["Site01", "Site02", "Site03"]
     
     // On events
     var onDelete: ((UITableViewCell) -> Void)?
@@ -53,9 +62,13 @@ class PackageBaseViewController: UIViewController {
     
     // Buttons
     var showRoute: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 25))
         
-        button.backgroundColor = .blue
+        button.backgroundColor = .white
+        button.setCornerRadius(12.5)
+            .setBoarderWidth(2.5)
+            .setBoarderColor(.lightGray)
+            .setTitleColor(.black, for: .normal)
         button.setTitle("Show route", for: .normal)
         
         return button
@@ -82,7 +95,13 @@ class PackageBaseViewController: UIViewController {
     }
     
     func addTo() {
-        view.addSubviews([tableView, showRoute, switchWeatherButton, segControl])
+        view.addSubviews([
+            bgView,
+            bgImageView,
+            tableView,
+            showRoute,
+            switchWeatherButton,
+            segControl])
     }
     
     func setup() {
@@ -118,6 +137,8 @@ class PackageBaseViewController: UIViewController {
         segControl.setBoarderWidth(2)
             .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
             .selectedSegmentTintColor = .black
+        
+        changeBGImage()
     }
     
     func configureConstraint() {
@@ -125,6 +146,14 @@ class PackageBaseViewController: UIViewController {
             .leadingConstr(to: view.safeAreaLayoutGuide.leadingAnchor, 0)
             .trailingConstr(to: view.safeAreaLayoutGuide.trailingAnchor, 0)
             .bottomConstr(to: view.safeAreaLayoutGuide.bottomAnchor, 0)
+        
+        bgView.snp.makeConstraints { make in
+            make.edges.equalTo(self.tableView)
+        }
+        
+        bgImageView.snp.makeConstraints { make in
+            make.edges.equalTo(self.tableView)
+        }
         
         segControl.snp.makeConstraints { make in
             make.top.equalTo(view.snp_topMargin).offset(10)
@@ -137,7 +166,7 @@ class PackageBaseViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(view.snp_bottomMargin).offset(-10)
             make.width.equalTo(100)
-            make.height.equalTo(50)
+            make.height.equalTo(25)
         }
     }
 }
@@ -201,12 +230,18 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         
         // Travel time label
         cell.travelTimeLabel.text = formatTimeInterval(travelTime)
-        
-        // BG
-        cell.bgImageView.image = UIImage(named: tempImages[indexPath.row])
-        
         cell.onDelete = onDelete
         cell.onLocationTapped = self.onLocationTapped
+        
+        // ImageBG
+        switch weatherState {
+        case .sunny:
+            cell.bgImageView.image = UIImage(resource: .site04)
+            cell.bgImageView.contentMode = .scaleAspectFit
+        case .rainy:
+            cell.bgImageView.image = UIImage(resource: .site05)
+            cell.bgImageView.contentMode = .scaleAspectFit
+        }
         
         // Find last cell
         let totalSections = tableView.numberOfSections
@@ -239,6 +274,33 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    // Delete logic
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Perform deletion of the item from your data source
+            
+            if self.weatherState == .sunny {
+                let rowIndexForModule = self.findModuleIndex(
+                    modules: self.sunnyModules,
+                    from: indexPath)
+                
+                self.sunnyModules.remove(at: rowIndexForModule ?? 0)
+            } else {
+                let rowIndexForModule = self.findModuleIndex(
+                    modules: self.rainyModules,
+                    from: indexPath)
+                
+                self.sunnyModules.remove(at: rowIndexForModule ?? 0)
+            }
+                
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
 
     // Can move row at
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -264,6 +326,28 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 
 // MARK: - Additional method -
 extension PackageBaseViewController {
+    
+    func changeBGImage() {
+        
+        bgImageView.contentMode = .scaleAspectFit
+        
+        bgView.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
+        
+        switch weatherState {
+        case .sunny:
+            if sunnyModules.isEmpty {
+                bgImageView.image = UIImage(resource: .createBG02)
+            } else {
+                bgImageView.image = UIImage(resource: .createBG03)
+            }
+        case .rainy:
+            if rainyModules.isEmpty {
+                bgImageView.image = UIImage(resource: .createBG02)
+            } else {
+                bgImageView.image = UIImage(resource: .createBG03)
+            }
+        }
+    }
     
     // Find next indexPath
     func findNextIndexPath(currentCell: UITableViewCell, in tableView: UITableView) -> IndexPath? {
@@ -612,5 +696,29 @@ extension PackageBaseViewController {
                 self.tableView.reloadData()
             }
         }
+    }
+}
+
+// MARK: - Preview -
+struct ViewControllerRepresentable: UIViewControllerRepresentable {
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+    }
+    
+    func makeUIViewController(context: Context) -> UIViewController {
+        
+        let viewController = PackageBaseViewController()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        
+        // Customize the navigation controller's appearance if needed
+        // navigationController.navigationBar.prefersLargeTitles = true
+        // ...
+        
+        return navigationController
+    }
+}
+
+struct ViewControllerPreview: PreviewProvider {
+    static var previews: some View {
+        ViewControllerRepresentable()
     }
 }
