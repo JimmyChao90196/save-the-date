@@ -24,17 +24,6 @@ class FirestoreManager {
     
     let fdb =  Firestore.firestore()
     
-    // MARK: - Add user -
-//    func addUser(_ user: User, completion: @escaping () -> Void) {
-//        fdb.collection("users").document(user.email).setData(user.dictionary) { error in
-//            if let error = error {
-//                print("Error adding document: \(error)")
-//            } else {
-//                completion()
-//            }
-//        }
-//    }
-    
     // MARK: - Add user with json
     func addUserWithJson(_ user: User, completion: @escaping () -> Void) {
         let encoder = JSONEncoder()
@@ -54,7 +43,7 @@ class FirestoreManager {
             // Upload the JSON dictionary to Firestore
             fdb.collection("users").document(user.email).setData(dictionary) { error in
                 if let error = error {
-                    print("uploaded failed")
+                    print("uploaded failed: \(error)")
                 } else {
                     completion()
                 }
@@ -66,16 +55,19 @@ class FirestoreManager {
     }
     
     // MARK: - Publish package with json -
-    func publishPackageWithJson(_ package: Package, completion: @escaping (Result<String, Error>) -> Void) {
+    func uploadPackage(
+        _ package: Package,
+        _ packageColl: PackageCollection = PackageCollection.publishedColl,
+        completion: @escaping (Result<String, Error>) -> Void) {
+            
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
         do {
             // Create a document reference first
-            let packageColl = PackageCollection.publishedColl.rawValue
+            let packageColl = packageColl.rawValue
             let newDocumentRef = fdb.collection(packageColl).document()
             let newDocumentID = newDocumentRef.documentID
-            
             var packageCopy = package
             packageCopy.info.id = newDocumentID
             
@@ -204,17 +196,38 @@ class FirestoreManager {
     }
 
     // Helper function to fetch a single package
-    private func fetchPackage(withID packageID: String) async throws -> Package? {
-        let documentRef = fdb.collection(PackageCollection.publishedColl.rawValue).document(packageID)
-        let document = try await documentRef.getDocument()
-        
-        guard let packageData = document.data(), document.exists else {
-            return nil
+    func fetchPackage(
+        in packageColl: PackageCollection = PackageCollection.publishedColl,
+        withID packageID: String) async throws -> Package? {
+        do {
+            let documentRef = fdb.collection(packageColl.rawValue).document(packageID)
+            let document = try await documentRef.getDocument()
+            
+            guard let packageData = document.data(), document.exists else {
+                // Handle the case where the document doesn't exist or has no data
+                throw NSError(
+                    domain: "PackageError",
+                    code: 0,
+                    userInfo: [NSLocalizedDescriptionKey : "No data found for package"])
+            }
+            
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: packageData, options: [])
+                let package = try JSONDecoder().decode(Package.self, from: jsonData)
+                print("\(package)")
+                return package
+            } catch {
+                // Handle JSON serialization or decoding error
+                print("JSON: \(error)")
+                
+                throw error
+            }
+        } catch {
+            print("Firestore: \(error)")
+            
+            // Handle Firestore document fetch error
+            throw error
         }
-        
-        let jsonData = try JSONSerialization.data(withJSONObject: packageData, options: [])
-        let package = try JSONDecoder().decode(Package.self, from: jsonData)
-        return package
     }
 
     // MARK: - Fetch json packages -

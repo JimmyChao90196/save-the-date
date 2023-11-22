@@ -113,6 +113,7 @@ enum PackageState: String {
     case forkedState = "forked"
     case favoriteState = "favorite"
     case draftState = "draft"
+    case sessitonState = "session"
 }
 
 enum PackageCollection: String {
@@ -121,6 +122,7 @@ enum PackageCollection: String {
     case forkedColl = "forkedPackages"
     case favoriteColl = "favoritePackages"
     case draftColl = "draftPackages"
+    case sessionColl = "sessionPackages"
 }
 
 enum PackageFieldPath: String {

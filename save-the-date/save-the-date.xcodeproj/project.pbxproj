@@ -209,6 +209,34 @@
 			path = Transp;
 			sourceTree = "<group>";
 		};
+		747EDCB22B0DF9C900B0FA58 /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				747EDCB42B0DF9DE00B0FA58 /* VC */,
+				747EDCB32B0DF9D800B0FA58 /* View */,
+			);
+			path = Create;
+			sourceTree = "<group>";
+		};
+		747EDCB32B0DF9D800B0FA58 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */,
+				74B828542B04DB7700A42850 /* ModuleTableView.swift */,
+				748023E72B09EC3C00878B12 /* DayHeaderView.swift */,
+				74C013242B0BD60700569897 /* GradientView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		747EDCB42B0DF9DE00B0FA58 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				74B828552B04DB7700A42850 /* CreatePackageVC.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
 		748023E92B0A124700878B12 /* Route */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,14 +283,10 @@
 		74B8285E2B04DFD800A42850 /* CreatePackage */ = {
 			isa = PBXGroup;
 			children = (
+				747EDCB22B0DF9C900B0FA58 /* Create */,
 				748023E92B0A124700878B12 /* Route */,
 				744B571F2B06089400B3ABAA /* Transp */,
 				74B8285F2B04DFE200A42850 /* ExploreSite */,
-				74B828532B04DB7700A42850 /* ModuleTableViewCell.swift */,
-				74B828542B04DB7700A42850 /* ModuleTableView.swift */,
-				74B828552B04DB7700A42850 /* CreatePackageVC.swift */,
-				748023E72B09EC3C00878B12 /* DayHeaderView.swift */,
-				74C013242B0BD60700569897 /* GradientView.swift */,
 			);
 			path = CreatePackage;
 			sourceTree = "<group>";
