@@ -131,7 +131,7 @@ extension ProfileViewController {
                 
                 favIDs = user.favoritePackages
                 
-                favPackages = try await firestoreManager.fetchFavPackages(withIDs: favIDs)
+                favPackages = try await firestoreManager.fetchPackages(withIDs: favIDs)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()

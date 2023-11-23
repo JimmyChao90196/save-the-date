@@ -21,7 +21,6 @@ enum FirestoreError: Error {
 
 class FirestoreManager {
     static let shared = FirestoreManager()
-    
     let fdb =  Firestore.firestore()
     
     // MARK: - Add user with json
@@ -172,7 +171,7 @@ class FirestoreManager {
         }
     }
 
-    func fetchFavPackages(withIDs packageIDs: [String]) async throws -> [Package] {
+    func fetchPackages(withIDs packageIDs: [String]) async throws -> [Package] {
         do {
             var packages = [Package]()
             try await withThrowingTaskGroup(of: Package?.self) { group in
@@ -208,7 +207,7 @@ class FirestoreManager {
                 throw NSError(
                     domain: "PackageError",
                     code: 0,
-                    userInfo: [NSLocalizedDescriptionKey : "No data found for package"])
+                    userInfo: [NSLocalizedDescriptionKey: "No data found for package"])
             }
             
             do {
@@ -261,3 +260,17 @@ class FirestoreManager {
         }
     }
 }
+
+
+
+// MARK: - Convert to dictionary -
+extension Encodable {
+    func toDictionary() throws -> [String: Any] {
+        let data = try JSONEncoder().encode(self)
+        guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+            throw NSError(domain: "", code: 100, userInfo: [NSLocalizedDescriptionKey: "Could not convert JSON data to dictionary"])
+        }
+        return dictionary
+    }
+}
+

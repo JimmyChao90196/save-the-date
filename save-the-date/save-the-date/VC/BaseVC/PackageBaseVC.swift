@@ -23,6 +23,9 @@ enum WeatherState {
 
 class PackageBaseViewController: UIViewController {
     
+    // State
+    var isMultiUser = false
+    
     // Current package
     var currentPackage = Package()
     var sunnyModules = [PackageModule]() {
@@ -59,6 +62,10 @@ class PackageBaseViewController: UIViewController {
     var onTranspTapped: ((UITableViewCell) -> Void)?
     var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
     var onAddModulePressed: ((Int) -> Void)?
+    
+    // after events
+    var afterLocationComfirmed: ((Int) -> Void)?
+
     
     // Buttons
     var showRoute: UIButton = {
@@ -539,6 +546,11 @@ extension PackageBaseViewController {
                         modules: self?.sunnyModules ?? [],
                         from: indexPathToEdit) {
                         self?.sunnyModules[index].location = location
+                        
+                        if self?.isMultiUser == true {
+                            self?.afterLocationComfirmed?(index)
+                        }
+                        
                     }
                 } else {
                     if let index = self?.findModuleIndex(
@@ -696,29 +708,5 @@ extension PackageBaseViewController {
                 self.tableView.reloadData()
             }
         }
-    }
-}
-
-// MARK: - Preview -
-struct ViewControllerRepresentable: UIViewControllerRepresentable {
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-    }
-    
-    func makeUIViewController(context: Context) -> UIViewController {
-        
-        let viewController = PackageBaseViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
-        
-        // Customize the navigation controller's appearance if needed
-        // navigationController.navigationBar.prefersLargeTitles = true
-        // ...
-        
-        return navigationController
-    }
-}
-
-struct ViewControllerPreview: PreviewProvider {
-    static var previews: some View {
-        ViewControllerRepresentable()
     }
 }

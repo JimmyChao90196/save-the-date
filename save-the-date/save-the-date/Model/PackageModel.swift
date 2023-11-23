@@ -31,16 +31,29 @@ struct PackageModule: Codable {
     var transportation: Transportation
     var day: Int
     var date: TimeInterval
+    var version: Int
+    var memberLocation: MemberLocation
     
     init(location: Location = Location(name: "None", shortName: "None", identifier: "None"),
          transportation: Transportation = Transportation(transpIcon: "plus.viewfinder", travelTime: 0.0),
          day: Int = 1,
-         date: TimeInterval = Date().timeIntervalSince1970) {
+         date: TimeInterval = Date().timeIntervalSince1970,
+         version: Int = 0,
+         lockInfo: MemberLocation = MemberLocation(userId: "", timestamp: Date().timeIntervalSince1970)
+    ) {
         self.location = location
         self.transportation = transportation
         self.day = day
         self.date = date
+        self.version = version
+        self.memberLocation = lockInfo
     }
+}
+
+// MARK: - Lock Info -
+struct MemberLocation: Codable {
+    var userId: String
+    var timestamp: TimeInterval
 }
 
 // MARK: - WeatherModules

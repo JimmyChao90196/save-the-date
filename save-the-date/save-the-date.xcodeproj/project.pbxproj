@@ -67,6 +67,8 @@
 		74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46732B08B35300B6F648 /* PackageDetailVC.swift */; };
 		74DE46762B08B4D000B6F648 /* ExploreTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46752B08B4D000B6F648 /* ExploreTableView.swift */; };
 		74DE46782B08B4E500B6F648 /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46772B08B4E500B6F648 /* ExploreTableViewCell.swift */; };
+		74E453A12B0F16780017BDCD /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E453A02B0F16780017BDCD /* TransactionManager.swift */; };
+		74E453A42B0F22CB0017BDCD /* MultiUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */; };
 		74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F796BE2B0CA4E40055E72F /* ScrollView.swift */; };
 		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
@@ -116,6 +118,8 @@
 		74DE46732B08B35300B6F648 /* PackageDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageDetailVC.swift; sourceTree = "<group>"; };
 		74DE46752B08B4D000B6F648 /* ExploreTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableView.swift; sourceTree = "<group>"; };
 		74DE46772B08B4E500B6F648 /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
+		74E453A02B0F16780017BDCD /* TransactionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
+		74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiUserVC.swift; sourceTree = "<group>"; };
 		74F796BE2B0CA4E40055E72F /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
 		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -276,6 +280,7 @@
 				744B57262B060C9200B3ABAA /* TranspManager.swift */,
 				7439AFEE2B0753FE00A28C09 /* RouteManager.swift */,
 				74DE46612B0886CD00B6F648 /* FirebaseManager.swift */,
+				74E453A02B0F16780017BDCD /* TransactionManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 		74B8285E2B04DFD800A42850 /* CreatePackage */ = {
 			isa = PBXGroup;
 			children = (
+				74E453A22B0F22AC0017BDCD /* Multi-user */,
 				747EDCB22B0DF9C900B0FA58 /* Create */,
 				748023E92B0A124700878B12 /* Route */,
 				744B571F2B06089400B3ABAA /* Transp */,
@@ -338,6 +344,14 @@
 				747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */,
 			);
 			path = BaseVC;
+			sourceTree = "<group>";
+		};
+		74E453A22B0F22AC0017BDCD /* Multi-user */ = {
+			isa = PBXGroup;
+			children = (
+				74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */,
+			);
+			path = "Multi-user";
 			sourceTree = "<group>";
 		};
 		EC1F0C4677D36EE4ADBC45E2 /* Pods */ = {
@@ -546,6 +560,7 @@
 				74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */,
 				74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */,
 				748023ED2B0B390100878B12 /* selectionModel.swift in Sources */,
+				74E453A12B0F16780017BDCD /* TransactionManager.swift in Sources */,
 				74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */,
 				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,
 				74DE466A2B089C0200B6F648 /* ChatVC.swift in Sources */,
@@ -564,6 +579,7 @@
 				74C013252B0BD60700569897 /* GradientView.swift in Sources */,
 				74B828572B04DB7700A42850 /* ModuleTableView.swift in Sources */,
 				744B57232B0609AC00B3ABAA /* TransTableView.swift in Sources */,
+				74E453A42B0F22CB0017BDCD /* MultiUserVC.swift in Sources */,
 				744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */,
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,
 				7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */,
