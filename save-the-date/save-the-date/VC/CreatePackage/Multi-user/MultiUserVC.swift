@@ -93,20 +93,22 @@ class MultiUserViewController: CreatePackageViewController {
     
     // MARK: - Additional function -
     
-    // toggle edit mode
-    override func toggleEditMode() {
-        isMultiUser = true
-    }
-    
     // after Event
     func setupAfterEvent(packageId: String) {
+        
         afterLocationComfirmed = { rawIndex in
             self.firestoreManager.updateModulesWithTrans(
                 packageId: packageId,
                 moduleIndex: rawIndex,
                 userId: self.userID,
-                currentModules: self.sunnyModules
-            )
+                currentModules: self.sunnyModules)
+        }
+        
+        afterAppendLocationComfirmed = { targetModule in
+            self.firestoreManager.appendModuleWithTrans(
+                packageId: packageId,
+                userId: self.userID,
+                with: targetModule)
         }
     }
     
@@ -190,6 +192,7 @@ class MultiUserViewController: CreatePackageViewController {
                         }
                     }
                     
+                    self.isMultiUser = true
                     self.setupAfterEvent(packageId: text)
                     
                     DispatchQueue.main.async {

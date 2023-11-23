@@ -24,7 +24,11 @@ enum WeatherState {
 class PackageBaseViewController: UIViewController {
     
     // State
-    var isMultiUser = false
+    var isMultiUser = false {
+        didSet{
+            print("isMulti-user: \(isMultiUser)")
+        }
+    }
     
     // Current package
     var currentPackage = Package()
@@ -65,7 +69,7 @@ class PackageBaseViewController: UIViewController {
     
     // after events
     var afterLocationComfirmed: ((Int) -> Void)?
-
+    var afterAppendLocationComfirmed: ((PackageModule) -> Void)?
     
     // Buttons
     var showRoute: UIButton = {
@@ -325,8 +329,11 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                 self.tableView.reloadData()
             }
         }
+    
     // Fix gap
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForFooterInSection section: Int) -> CGFloat {
         CGFloat.leastNormalMagnitude
     }
 }
@@ -441,24 +448,36 @@ extension PackageBaseViewController {
         
         if weatherState == .sunny {
             
-            guard let sourceRowIndex = findModuleIndex(
-                modules: sunnyModules,
-                from: source) else {return}
-            guard let destRowIndex = findModuleIndex(
-                modules: sunnyModules,
-                from: destination) else {return}
-            
-            sunnyModules.swapAt(sourceRowIndex, destRowIndex)
+            // is in multi-user mode?
+            if isMultiUser == true {
+                
+            } else {
+                
+                guard let sourceRowIndex = findModuleIndex(
+                    modules: sunnyModules,
+                    from: source) else {return}
+                guard let destRowIndex = findModuleIndex(
+                    modules: sunnyModules,
+                    from: destination) else {return}
+                
+                sunnyModules.swapAt(sourceRowIndex, destRowIndex)
+            }
             
         } else {
-            guard let sourceRowIndex = findModuleIndex(
-                modules: rainyModules,
-                from: source) else {return}
-            guard let destRowIndex = findModuleIndex(
-                modules: rainyModules,
-                from: destination) else {return}
             
-            sunnyModules.swapAt(sourceRowIndex, destRowIndex)
+            if isMultiUser == true {
+                
+            } else {
+                
+                guard let sourceRowIndex = findModuleIndex(
+                    modules: rainyModules,
+                    from: source) else {return}
+                guard let destRowIndex = findModuleIndex(
+                    modules: rainyModules,
+                    from: destination) else {return}
+                
+                sunnyModules.swapAt(sourceRowIndex, destRowIndex)
+            }
         }
     }
     
@@ -529,6 +548,12 @@ extension PackageBaseViewController {
                 
                 if self?.weatherState == .sunny {
                     self?.sunnyModules.append(module)
+                    
+                    // When in multi-user mode
+                    if self?.isMultiUser == true {
+                        self?.afterAppendLocationComfirmed?(module)
+                    }
+                    
                 } else {
                     self?.rainyModules.append(module)
                 }
@@ -557,6 +582,11 @@ extension PackageBaseViewController {
                         modules: self?.rainyModules ?? [],
                         from: indexPathToEdit) {
                         self?.rainyModules[index].location = location
+                        
+                        // When in multi-user mode
+                        if self?.isMultiUser == true {
+                            self?.afterLocationComfirmed?(index)
+                        }
                     }
                 }
                 
