@@ -101,7 +101,11 @@ class MultiUserViewController: CreatePackageViewController {
                 packageId: packageId,
                 moduleIndex: rawIndex,
                 userId: self.userID,
-                currentModules: self.sunnyModules)
+                currentModules: self.sunnyModules,
+                localPackage: self.currentPackage) { newPackage in
+                    self.currentPackage = newPackage
+                    self.sunnyModules = newPackage.weatherModules.sunny
+                }
         }
         
         afterAppendLocationComfirmed = { targetModule in

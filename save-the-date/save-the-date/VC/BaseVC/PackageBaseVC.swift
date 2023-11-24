@@ -751,11 +751,12 @@ extension PackageBaseViewController {
             self.navigationController?.pushViewController(exploreVC, animated: true)
         }
         
+        // The following code should be removed
         onDelete = { cell in
             guard let indexPathToDelete = self.tableView.indexPath(for: cell) else { return }
             
             if self.weatherState == .sunny {
-                //Find raw indext first
+                // Find raw indext first
                 let rawIndexForModule = self.findModuleIndex(
                     modules: self.sunnyModules,
                     from: indexPathToDelete)

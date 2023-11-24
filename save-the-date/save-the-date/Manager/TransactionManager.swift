@@ -40,7 +40,10 @@ extension FirestoreManager {
         packageId: String,
         moduleIndex: Int,
         userId: String,
-        currentModules: [PackageModule]) {
+        currentModules: [PackageModule],
+        localPackage: Package,
+        completion: ((Package) -> Void)?
+    ) {
             
             let packageDocument = fdb.collection("sessionPackages").document(packageId)
             
@@ -64,13 +67,20 @@ extension FirestoreManager {
                     return nil
                 }
                 
-                // Lock the module for editing
-                var sunnyModules = currentModules
-                print("sunnyModules: \(sunnyModules)")
-                sunnyModules[moduleIndex].memberLocation = MemberLocation(
-                    userId: userId,
-                    timestamp: Date().timeIntervalSince1970)
-                package.weatherModules.sunny = sunnyModules
+                // Check for version consistency
+                let fetchedVersion = package.info.version
+                print("remote package version: \(fetchedVersion)")
+                print("local package version: \(localPackage.info.version)")
+                
+                // Version inconsistency, abort swap action if needed
+                if fetchedVersion != localPackage.info.version {
+                    completion?(package)
+                } else {
+                    // Swap the modules
+                    package.weatherModules.sunny = currentModules
+                    package.info.version += 1
+                    completion?(package)
+                }
                 
                 // Commit the changes
                 transaction.updateData([
