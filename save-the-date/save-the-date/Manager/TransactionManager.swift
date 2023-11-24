@@ -34,72 +34,121 @@ extension FirestoreManager {
             }
         }
     }
-
+    
     // Lock the module
     func updateModulesWithTrans(
         packageId: String,
         moduleIndex: Int,
         userId: String,
         currentModules: [PackageModule]) {
-        
-        let packageDocument = fdb.collection("sessionPackages").document(packageId)
-
-        fdb.runTransaction({ (transaction, errorPointer) -> Any? in
-            let packageSnapshot: DocumentSnapshot
-            do {
-                try packageSnapshot = transaction.getDocument(packageDocument)
-            } catch let fetchError as NSError {
-                errorPointer?.pointee = fetchError
+            
+            let packageDocument = fdb.collection("sessionPackages").document(packageId)
+            
+            fdb.runTransaction({ (transaction, errorPointer) -> Any? in
+                let packageSnapshot: DocumentSnapshot
+                do {
+                    try packageSnapshot = transaction.getDocument(packageDocument)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                
+                // Convert Firestore data to JSON and then deserialize
+                guard let packageData = packageSnapshot.data(),
+                      let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
+                      var package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to deserialize package data."
+                    ])
+                    errorPointer?.pointee = error
+                    return nil
+                }
+                
+                // Lock the module for editing
+                var sunnyModules = currentModules
+                print("sunnyModules: \(sunnyModules)")
+                sunnyModules[moduleIndex].memberLocation = MemberLocation(
+                    userId: userId,
+                    timestamp: Date().timeIntervalSince1970)
+                package.weatherModules.sunny = sunnyModules
+                
+                // Commit the changes
+                transaction.updateData([
+                    "weatherModules.sunny": package.weatherModules.sunny.map({ try? $0.toDictionary()
+                    })], forDocument: packageDocument)
                 return nil
-            }
-
-            // Convert Firestore data to JSON and then deserialize
-            guard let packageData = packageSnapshot.data(),
-                  let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
-                  var package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
-                let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
-                    NSLocalizedDescriptionKey: "Unable to deserialize package data."
-                ])
-                errorPointer?.pointee = error
-                return nil
-            }
-
-            // Check if the module is already locked by someone else
-//            let memberlocation = package.weatherModules.sunny[moduleIndex].memberLocation
-//            if memberlocation.userId != "" && memberlocation.userId != userId {
-//                // Module is locked by someone else
-//                return
-//            }
-
-            // Lock the module for editing
-            var sunnyModules = currentModules
-            print("sunnyModules: \(sunnyModules)")
-            sunnyModules[moduleIndex].memberLocation = MemberLocation(
-                userId: userId,
-                timestamp: Date().timeIntervalSince1970)
-            package.weatherModules.sunny = sunnyModules
-
-            // Commit the changes
-            transaction.updateData([
-                "weatherModules.sunny": package.weatherModules.sunny.map({ try? $0.toDictionary()
-                })], forDocument: packageDocument)
-            return nil
-        }) { _, error in
-            if let error = error {
-                print("Transaction failed: \(error)")
-            } else {
-                print("Transaction successfully committed!")
-            }
+            }, completion: { _, error in
+                if let error = error {
+                    print("Transaction failed: \(error)")
+                } else {
+                    print("Transaction successfully committed!")
+                }
+            })
         }
-    }
     
     func appendModuleWithTrans(
         packageId: String,
         userId: String,
         with targetModule: PackageModule) {
-        
+            
+            let packageDocument = fdb.collection("sessionPackages").document(packageId)
+            
+            fdb.runTransaction({ (transaction, errorPointer) -> Any? in
+                let packageSnapshot: DocumentSnapshot
+                do {
+                    try packageSnapshot = transaction.getDocument(packageDocument)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                
+                // Convert Firestore data to JSON and then deserialize
+                guard let packageData = packageSnapshot.data(),
+                      let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
+                      var package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
+                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to deserialize package data."
+                    ])
+                    errorPointer?.pointee = error
+                    return nil
+                }
+                
+                // Check if the module is already locked by someone else
+                //            let memberlocation = package.weatherModules.sunny[moduleIndex].memberLocation
+                //            if memberlocation.userId != "" && memberlocation.userId != userId {
+                //                // Module is locked by someone else
+                //                return
+                //            }
+                
+                // Lock the module for editing
+                package.weatherModules.sunny.append(targetModule)
+                
+                // Commit the changes
+                transaction.updateData([
+                    "weatherModules.sunny": package.weatherModules.sunny.map {
+                        try? $0.toDictionary()
+                    }], forDocument: packageDocument)
+                
+                return nil
+            }, completion: { _, error in
+                if let error = error {
+                    print("Transaction failed: \(error)")
+                } else {
+                    print("Transaction successfully committed!")
+                }
+            })
+        }
+    
+    // MARK: - Swap modules with trans -
+    func swapModulesWithTrans(
+        packageId: String,
+        sourceIndex: Int,
+        destIndex: Int,
+        with localPackage: Package,
+        completion: ((Package) -> Void)?
+    ) {
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
-
+        
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
             do {
@@ -108,8 +157,7 @@ extension FirestoreManager {
                 errorPointer?.pointee = fetchError
                 return nil
             }
-
-            // Convert Firestore data to JSON and then deserialize
+            
             guard let packageData = packageSnapshot.data(),
                   let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
                   var package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
@@ -119,29 +167,95 @@ extension FirestoreManager {
                 errorPointer?.pointee = error
                 return nil
             }
-
-            // Check if the module is already locked by someone else
-//            let memberlocation = package.weatherModules.sunny[moduleIndex].memberLocation
-//            if memberlocation.userId != "" && memberlocation.userId != userId {
-//                // Module is locked by someone else
-//                return
-//            }
-
-            // Lock the module for editing
-            package.weatherModules.sunny.append(targetModule)
-
+            
+            // Check for version consistency
+            let fetchedVersion = package.info.version
+            print("remote package version: \(fetchedVersion)")
+            print("local package version: \(localPackage.info.version)")
+            
+            // Version inconsistency, abort swap action if needed
+            if fetchedVersion != localPackage.info.version {
+                completion?(package)
+            } else {
+                // Swap the modules
+                package.weatherModules.sunny.swapAt(sourceIndex, destIndex)
+                package.info.version += 1
+                completion?(package)
+            }
+            
             // Commit the changes
             transaction.updateData([
-                "weatherModules.sunny": package.weatherModules.sunny.map({ try? $0.toDictionary()})], forDocument: packageDocument)
-            
+                "weatherModules.sunny": package.weatherModules.sunny.map({ try? $0.toDictionary() }),
+                "info.version": package.info.version
+            ], forDocument: packageDocument)
             return nil
-        }) { _, error in
+            
+        }, completion: { _, error in
             if let error = error {
                 print("Transaction failed: \(error)")
             } else {
                 print("Transaction successfully committed!")
             }
-        }
+        })
     }
-
+    
+    // MARK: - Delete with transaction
+    func deleteModuleWithTrans(
+        packageId: String,
+        targetIndex: Int,
+        with localPackage: Package,
+        completion: ((Package) -> Void)?
+    ) {
+        let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        
+        fdb.runTransaction({ (transaction, errorPointer) -> Any? in
+            let packageSnapshot: DocumentSnapshot
+            do {
+                try packageSnapshot = transaction.getDocument(packageDocument)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            guard let packageData = packageSnapshot.data(),
+                  let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
+                  var package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
+                let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                    NSLocalizedDescriptionKey: "Unable to deserialize package data."
+                ])
+                errorPointer?.pointee = error
+                return nil
+            }
+            
+            // Check for version consistency
+            let fetchedVersion = package.info.version
+            print("remote package version: \(fetchedVersion)")
+            print("local package version: \(localPackage.info.version)")
+            
+            // Version inconsistency, abort delete action if needed
+            if fetchedVersion != localPackage.info.version {
+                completion?(package)
+                
+            } else {
+                // delete the modules
+                package.weatherModules.sunny.remove(at: targetIndex)
+                package.info.version += 1
+                completion?(package)
+            }
+            
+            // Commit the changes
+            transaction.updateData([
+                "weatherModules.sunny": package.weatherModules.sunny.map { try? $0.toDictionary() },
+                "info.version": package.info.version
+            ], forDocument: packageDocument)
+            return nil
+            
+        }, completion: { _, error in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            } else {
+                print("Transaction successfully committed!")
+            }
+        })
+    }
 }

@@ -146,6 +146,7 @@ class MultiUserViewController: CreatePackageViewController {
                 self.currentPackage.weatherModules.sunny = self.sunnyModules
                 self.currentPackage.weatherModules.rainy = self.rainyModules
                 self.firestoreManager.uploadPackage(self.currentPackage, packageColl) { [weak self] result in
+                    
                     switch result {
                     case .success(let documentID):
                         self?.firestoreManager.updateUserPackages(
@@ -154,13 +155,25 @@ class MultiUserViewController: CreatePackageViewController {
                             packageID: documentID,
                             perform: .add
                         ) {
+                            
+                            // Setup listener
+                            self?.firestoreManager.modulesListener(packageId: documentID) { modules in
+                                self?.sunnyModules = modules
+                                
+                                DispatchQueue.main.async {
+                                    self?.tableView.reloadData()
+                                }
+                            }
+                            
+                            self?.sessionID = documentID
+                            self?.isMultiUser = true
+                            self?.setupAfterEvent(packageId: documentID)
+                            
                             DispatchQueue.main.async {
                                 self?.tableView.reloadData()
                             }
                         }
-                        
-                        self?.setupAfterEvent(packageId: documentID)
-                        
+
                     case .failure(let error):
                         print("publish failed: \(error)")
                     }
@@ -192,6 +205,7 @@ class MultiUserViewController: CreatePackageViewController {
                         }
                     }
                     
+                    self.sessionID = text
                     self.isMultiUser = true
                     self.setupAfterEvent(packageId: text)
                     

@@ -10,7 +10,7 @@ identifier_name:
     - app
 file_length:
   warning: 500
-  error: 800
+  error: 1000
 type_body_length:
   - 500 # warning
   - 700 # error
@@ -19,3 +19,4 @@ cyclomatic_complexity:
 function_body_length:
   warning: 150
   error: 300
+

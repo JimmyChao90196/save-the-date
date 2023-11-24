@@ -11,7 +11,6 @@ import UIKit
 // MARK: - Overall package -
 struct Package: Codable {
     var info: Info
-    // var packageModules: [PackageModule]
     var weatherModules: WeatherModules
     var proxyLocatinon: String
     
@@ -97,6 +96,7 @@ struct Info: Codable {
     var forkedFrom: String
     var forkedBy: [String]
     var likedBy: [String]
+    var version: Int
     
     init(title: String = "packageTitle",
          author: String = "Jimmy",
@@ -106,7 +106,9 @@ struct Info: Codable {
          state: String = "published",
          forkedFrom: String = "none",
          forkedBy: [String] = [String](),
-         likedBy: [String] = [String]()) {
+         likedBy: [String] = [String](),
+         version: Int = 0
+    ) {
         self.title = title
         self.author = author
         self.authorEmail = authorEmail
@@ -116,6 +118,7 @@ struct Info: Codable {
         self.forkedFrom = forkedFrom
         self.forkedBy = forkedBy
         self.likedBy = likedBy
+        self.version = version
     }
 }
 

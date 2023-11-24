@@ -261,16 +261,21 @@ class FirestoreManager {
     }
 }
 
-
-
 // MARK: - Convert to dictionary -
 extension Encodable {
     func toDictionary() throws -> [String: Any] {
+        
         let data = try JSONEncoder().encode(self)
-        guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-            throw NSError(domain: "", code: 100, userInfo: [NSLocalizedDescriptionKey: "Could not convert JSON data to dictionary"])
+        
+        guard let dictionary = try JSONSerialization.jsonObject(
+            with: data,
+            options: .allowFragments) as? [String: Any] else {
+            
+            throw NSError(
+                domain: "",
+                code: 100,
+                userInfo: [NSLocalizedDescriptionKey: "Could not convert JSON data to dictionary"])
         }
         return dictionary
     }
 }
-

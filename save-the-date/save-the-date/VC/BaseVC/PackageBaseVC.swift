@@ -23,9 +23,10 @@ enum WeatherState {
 
 class PackageBaseViewController: UIViewController {
     
-    // State
+    // Session
+    var sessionID = ""
     var isMultiUser = false {
-        didSet{
+        didSet {
             print("isMulti-user: \(isMultiUser)")
         }
     }
@@ -51,6 +52,8 @@ class PackageBaseViewController: UIViewController {
             }
         }
     }
+    
+    // UI
     var segControl = UISegmentedControl(items: ["Sunny", "Rainy"])
     var tableView = ModuleTableView()
     var bgImageView = UIImageView(image: UIImage(resource: .createBG02))
@@ -294,17 +297,36 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             // Perform deletion of the item from your data source
             
             if self.weatherState == .sunny {
-                let rowIndexForModule = self.findModuleIndex(
+                let rawIndexForModule = self.findModuleIndex(
                     modules: self.sunnyModules,
                     from: indexPath)
                 
-                self.sunnyModules.remove(at: rowIndexForModule ?? 0)
+                // Is in multi-user mode or not
+                if self.isMultiUser {
+                    self.firestoreManager.deleteModuleWithTrans(
+                        packageId: self.sessionID,
+                        targetIndex: rawIndexForModule ?? 0,
+                        with: self.currentPackage) { newPackage in
+                            self.currentPackage = newPackage
+                            self.sunnyModules = newPackage.weatherModules.sunny
+                        }
+                    
+                } else {
+                    
+                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
+                }
+                
             } else {
-                let rowIndexForModule = self.findModuleIndex(
+                let rawIndexForModule = self.findModuleIndex(
                     modules: self.rainyModules,
                     from: indexPath)
                 
-                self.sunnyModules.remove(at: rowIndexForModule ?? 0)
+                // Is in multi-user mode or not
+                if self.isMultiUser {
+                    
+                } else {
+                    self.rainyModules.remove(at: rawIndexForModule ?? 0)
+                }
             }
                 
             DispatchQueue.main.async {
@@ -342,23 +364,23 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 extension PackageBaseViewController {
     
     func changeBGImage() {
-        
-        bgImageView.contentMode = .scaleAspectFit
-        
-        bgView.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
-        
-        switch weatherState {
-        case .sunny:
-            if sunnyModules.isEmpty {
-                bgImageView.image = UIImage(resource: .createBG02)
-            } else {
-                bgImageView.image = UIImage(resource: .createBG03)
-            }
-        case .rainy:
-            if rainyModules.isEmpty {
-                bgImageView.image = UIImage(resource: .createBG02)
-            } else {
-                bgImageView.image = UIImage(resource: .createBG03)
+        DispatchQueue.main.async {
+            self.bgImageView.contentMode = .scaleAspectFit
+            self.bgView.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
+            
+            switch self.weatherState {
+            case .sunny:
+                if self.sunnyModules.isEmpty {
+                    self.bgImageView.image = UIImage(resource: .createBG02)
+                } else {
+                    self.bgImageView.image = UIImage(resource: .createBG03)
+                }
+            case .rainy:
+                if self.rainyModules.isEmpty {
+                    self.bgImageView.image = UIImage(resource: .createBG02)
+                } else {
+                    self.bgImageView.image = UIImage(resource: .createBG03)
+                }
             }
         }
     }
@@ -448,18 +470,30 @@ extension PackageBaseViewController {
         
         if weatherState == .sunny {
             
+            // First find out the "raw" index of the module
+            guard let sourceRowIndex = findModuleIndex(
+                modules: sunnyModules,
+                from: source) else {return}
+            guard let destRowIndex = findModuleIndex(
+                modules: sunnyModules,
+                from: destination) else {return}
+            
             // is in multi-user mode?
             if isMultiUser == true {
                 
+                currentPackage.weatherModules.sunny = sunnyModules
+                
+                self.firestoreManager.swapModulesWithTrans(
+                    packageId: sessionID,
+                    sourceIndex: sourceRowIndex,
+                    destIndex: destRowIndex,
+                    with: currentPackage) { currentPackage in
+                        
+                        self.currentPackage = currentPackage
+                        self.sunnyModules = currentPackage.weatherModules.sunny
+                    }
+                
             } else {
-                
-                guard let sourceRowIndex = findModuleIndex(
-                    modules: sunnyModules,
-                    from: source) else {return}
-                guard let destRowIndex = findModuleIndex(
-                    modules: sunnyModules,
-                    from: destination) else {return}
-                
                 sunnyModules.swapAt(sourceRowIndex, destRowIndex)
             }
             
@@ -721,17 +755,44 @@ extension PackageBaseViewController {
             guard let indexPathToDelete = self.tableView.indexPath(for: cell) else { return }
             
             if self.weatherState == .sunny {
-                let rowIndexForModule = self.findModuleIndex(
+                //Find raw indext first
+                let rawIndexForModule = self.findModuleIndex(
                     modules: self.sunnyModules,
                     from: indexPathToDelete)
                 
-                self.sunnyModules.remove(at: rowIndexForModule ?? 0)
+                // Is in mult-user mode or not
+                if self.isMultiUser {
+                    self.firestoreManager.deleteModuleWithTrans(
+                        packageId: self.sessionID,
+                        targetIndex: rawIndexForModule ?? 0,
+                        with: self.currentPackage) { newPackage in
+                            self.currentPackage = newPackage
+                            self.sunnyModules = newPackage.weatherModules.sunny
+                        }
+                    
+                } else {
+                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
+                }
+                
             } else {
-                let rowIndexForModule = self.findModuleIndex(
+                // Find raw indext first
+                let rawIndexForModule = self.findModuleIndex(
                     modules: self.rainyModules,
                     from: indexPathToDelete)
                 
-                self.sunnyModules.remove(at: rowIndexForModule ?? 0)
+                // Is in mult-user mode or not
+                if self.isMultiUser {
+                    self.firestoreManager.deleteModuleWithTrans(
+                        packageId: self.sessionID,
+                        targetIndex: rawIndexForModule ?? 0,
+                        with: self.currentPackage) { newPackage in
+                            self.currentPackage = newPackage
+                            self.sunnyModules = newPackage.weatherModules.sunny
+                        }
+                    
+                } else {
+                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
+                }
             }
                 
             DispatchQueue.main.async {
