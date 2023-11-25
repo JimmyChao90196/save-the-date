@@ -15,11 +15,15 @@ import GooglePlaces
 import GoogleMaps
 
 enum ActionKind {
-    case edit(UITableViewCell)
+    case edit(IndexPath)
     case add(Int)
 }
 
 class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
+    
+    
+    var id = ""
+    var time = TimeInterval()
     
     var googlePlacesManager = GooglePlacesManager.shared
     var manager = CLLocationManager()
@@ -48,6 +52,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     
     // On event closure
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?
+    var onComfirmWithMultiUser: ( (Location, String, TimeInterval) -> Void )?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,7 +124,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
 
     // MARK: - Accept button pressed
     @objc func acceptButtonPressed() {
-        
+        onComfirmWithMultiUser?(selectedLocation, id, time)
         onLocationComfirm?(selectedLocation, actionKind)
         navigationController?.popViewController(animated: true)
     }

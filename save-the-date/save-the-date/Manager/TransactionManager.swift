@@ -72,12 +72,25 @@ extension FirestoreManager {
                 print("remote package version: \(fetchedVersion)")
                 print("local package version: \(localPackage.info.version)")
                 
-                // Version inconsistency, abort swap action if needed
+                // Version inconsistency, abort update action if needed
                 if fetchedVersion != localPackage.info.version {
                     completion?(package)
+                    
                 } else {
-                    // Swap the modules
-                    package.weatherModules.sunny = currentModules
+                    
+                    // update module
+                    let newModules = currentModules.map { module in
+                        if moduleIndex == currentModules.firstIndex(of: module) {
+                            var newModule = module
+                            newModule.lockInfo.userId = ""
+                            newModule.lockInfo.timestamp = Date().timeIntervalSince1970
+                            return newModule
+                        } else {
+                            return module
+                        }
+                    }
+                    package.weatherModules.sunny = newModules
+                    
                     package.info.version += 1
                     completion?(package)
                 }

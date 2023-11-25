@@ -68,7 +68,7 @@ class ModuleTableViewCell: UITableViewCell {
         // Setup appearance
         locationView.setCornerRadius(20)
             .setBoarderWidth(4)
-            .setBoarderColor(.hexToUIColor(hex: "#9E9E9E"))
+            .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
         
         let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         transpIcon.tintColor = .darkGray

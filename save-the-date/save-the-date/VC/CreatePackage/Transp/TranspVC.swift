@@ -20,7 +20,7 @@ class TranspViewController: UIViewController {
     var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
     
     // Set action kind
-    var actionKind = ActionKind.edit(UITableViewCell())
+    var actionKind = ActionKind.edit(IndexPath())
     
     private var transportation: [Transportation] = []
     

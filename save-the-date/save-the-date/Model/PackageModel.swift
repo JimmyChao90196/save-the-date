@@ -25,7 +25,12 @@ struct Package: Codable {
 }
 
 // MARK: - Package module -
-struct PackageModule: Codable {
+struct PackageModule: Codable, Equatable {
+    
+    static func == (lhs: PackageModule, rhs: PackageModule) -> Bool {
+        lhs.date == rhs.date
+    }
+    
     var location: Location
     var transportation: Transportation
     var day: Int

@@ -68,6 +68,8 @@ class PackageBaseViewController: UIViewController {
     // On events
     var onDelete: ((UITableViewCell) -> Void)?
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?
+    var onComfirmWithMultiUser: ( (Location, String, TimeInterval) -> Void )?
+    
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
     var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
@@ -231,7 +233,6 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         let module = weatherState == .sunny ? sunnyModules : rainyModules
         
         guard let rawIndex = findModuleIndex(modules: module, from: indexPath) else {return UITableViewCell()}
-        
         let travelTime = module[rawIndex].transportation.travelTime
         let iconName = module[rawIndex].transportation.transpIcon
         let locationTitle = "\(module[rawIndex].location.shortName)"
@@ -246,7 +247,6 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         cell.transpIcon.contentMode = .scaleAspectFit
         
         let cellUserId = module[rawIndex].lockInfo.userId
-        
         if cellUserId == userID {
             // Claimed by me already
             cell.locationView.setBoarderColor(.green)
@@ -255,6 +255,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         } else if cellUserId == "" {
             // Unclaimed
             cell.onLocationTapped = self.onLocationTapped
+            cell.locationView.setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
             
         } else {
             // Claimed by others
@@ -407,6 +408,28 @@ extension PackageBaseViewController {
     func findNextIndexPath(currentCell: UITableViewCell, in tableView: UITableView) -> IndexPath? {
         guard let indexPath = tableView.indexPath(for: currentCell) else { return nil }
 
+        let currentSection = indexPath.section
+        let currentRow = indexPath.row
+        let totalSections = tableView.numberOfSections
+
+        // Check if the next cell is in the same section
+        if currentRow < tableView.numberOfRows(inSection: currentSection) - 1 {
+            return IndexPath(row: currentRow + 1, section: currentSection)
+        }
+        // Check if there's another section
+        else if currentSection < totalSections - 1 {
+            return IndexPath(row: 0, section: currentSection + 1)
+        }
+        
+        // No next cell (current cell is the last cell of the last section)
+        return nil
+    }
+    
+    // Find next
+    func findNextIndexPath(
+        currentIndex indexPath: IndexPath,
+        in tableView: UITableView) -> IndexPath? {
+        
         let currentSection = indexPath.section
         let currentRow = indexPath.row
         let totalSections = tableView.numberOfSections
@@ -586,6 +609,35 @@ extension PackageBaseViewController {
     
     // MARK: - Setup onEvents -
     func setupOnComfirm() {
+        
+        onComfirmWithMultiUser = { [weak self] location, id, time in
+            
+            if self?.weatherState == .sunny {
+                
+                if let rawIndex = self?.sunnyModules.firstIndex(where: {
+                    if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
+                        return true
+                    } else { return false }
+                    
+                }) {
+                    self?.sunnyModules[rawIndex].location = location
+                    self?.afterLocationComfirmed?(rawIndex)
+                }
+                
+            } else {
+                
+                if let rawIndex = self?.rainyModules.firstIndex(where: {
+                    if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
+                        return true
+                    } else { return false }
+                    
+                }) {
+                    self?.rainyModules[rawIndex].location = location
+                    self?.afterLocationComfirmed?(rawIndex)
+                }
+            }
+        }
+        
         onLocationComfirm = { [weak self] location, action in
             
             switch action {
@@ -614,14 +666,13 @@ extension PackageBaseViewController {
                     self?.tableView.reloadData()
                 }
                 
-            case .edit(let cell):
+            case .edit(let targetIndex):
 
                 if self?.weatherState == .sunny {
-                    guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
                     
                     if let index = self?.findModuleIndex(
                         modules: self?.sunnyModules ?? [],
-                        from: indexPathToEdit) {
+                        from: targetIndex) {
                         self?.sunnyModules[index].location = location
                         
                         if self?.isMultiUser == true {
@@ -630,11 +681,10 @@ extension PackageBaseViewController {
                     }
                     
                 } else {
-                    guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
                     
                     if let index = self?.findModuleIndex(
                         modules: self?.rainyModules ?? [],
-                        from: indexPathToEdit) {
+                        from: targetIndex) {
                         self?.rainyModules[index].location = location
                         
                         // When in multi-user mode
@@ -656,15 +706,14 @@ extension PackageBaseViewController {
             case .add:
                 print("this shouldn't be triggered")
                 
-            case .edit(let cell):
+            case .edit(let targetIndex):
                 
                 // Fetch source and dest coord
                 guard let self else {return}
-                guard let indexPathToEdit = self.tableView.indexPath(for: cell) else { return }
-                guard let nextIndexPath = self.findNextIndexPath(currentCell: cell, in: self.tableView) else { return }
+                guard let nextIndexPath = self.findNextIndexPath(currentIndex: targetIndex, in: self.tableView) else { return }
                 
-                let targetDay = indexPathToEdit.section
-                let rowIndexForDay = indexPathToEdit.row
+                let targetDay = targetIndex.section
+                let rowIndexForDay = targetIndex.row
                 
                 let nextDay = nextIndexPath.section
                 let nextRowIndexForDay = nextIndexPath.row
@@ -721,13 +770,13 @@ extension PackageBaseViewController {
                         if self.weatherState == .sunny {
                             if let index = self.findModuleIndex(
                                 modules: self.sunnyModules,
-                                from: indexPathToEdit) {
+                                from: targetIndex) {
                                 self.sunnyModules[index].transportation = transportation
                             }
                         } else {
                             if let index = self.findModuleIndex(
                                 modules: self.rainyModules,
-                                from: indexPathToEdit) {
+                                from: targetIndex) {
                                 self.rainyModules[index].transportation = transportation
                             }
                         }
@@ -753,20 +802,24 @@ extension PackageBaseViewController {
         }
         
         onTranspTapped = { [weak self] cell in
-            guard let self else { return }
+            
+            guard let indexPath = self?.tableView.indexPath(for: cell),
+            let self = self else { return }
             
             // Jump to transpVC
             let transpVC = TranspViewController()
             transpVC.onTranspComfirm = onTranspComfirm
-            transpVC.actionKind = .edit(cell)
+            transpVC.actionKind = .edit(indexPath)
             self.navigationController?.pushViewController(transpVC, animated: true)
         }
         
         onLocationTapped = { [weak self] cell in
-            guard let self else { return }
+            
+            guard let indexPath = self?.tableView.indexPath(for: cell),
+            let self = self else { return }
             
             if isMultiUser {
-                let indexPath = self.tableView.indexPath(for: cell) ?? IndexPath()
+                
                 guard let rawIndex = findModuleIndex(
                     modules: sunnyModules,
                     from: indexPath) else { return }
@@ -778,20 +831,31 @@ extension PackageBaseViewController {
                     with: self.currentPackage) { newPackage in
                         self.currentPackage = newPackage
                         self.sunnyModules = newPackage.weatherModules.sunny
+                        
+                        let id = self.sunnyModules[rawIndex].lockInfo.userId
+                        let time = self.sunnyModules[rawIndex].lockInfo.timestamp
+                        
+                        print("id \(id)")
+                        print("time \(time)")
+                        
+                        // Go to explore
+                        DispatchQueue.main.async {
+                            let exploreVC = ExploreSiteViewController()
+                            // exploreVC.onLocationComfirm = self.onLocationComfirm
+                            exploreVC.onComfirmWithMultiUser = self.onComfirmWithMultiUser
+                            exploreVC.actionKind = .edit(indexPath)
+                            exploreVC.id = id
+                            exploreVC.time = time
+                            self.navigationController?.pushViewController(exploreVC, animated: true)
+                        }
                     }
-                
-                // Go to explore
-                let exploreVC = ExploreSiteViewController()
-                exploreVC.onLocationComfirm = self.onLocationComfirm
-                exploreVC.actionKind = .edit(cell)
-                self.navigationController?.pushViewController(exploreVC, animated: true)
                 
             } else {
                 
                 // Go to explore
                 let exploreVC = ExploreSiteViewController()
                 exploreVC.onLocationComfirm = self.onLocationComfirm
-                exploreVC.actionKind = .edit(cell)
+                exploreVC.actionKind = .edit(indexPath)
                 self.navigationController?.pushViewController(exploreVC, animated: true)
             }
         }
