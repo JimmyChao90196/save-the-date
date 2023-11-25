@@ -17,8 +17,6 @@ import FirebaseCore
 
 class MultiUserViewController: CreatePackageViewController {
     
-    var userID = "red@gamil.com"
-    
     var switchUserID: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         
@@ -50,6 +48,14 @@ class MultiUserViewController: CreatePackageViewController {
     }()
     
     // MARK: - Common function -
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     override func addTo() {
         super.addTo()
         view.addSubviews([createSession, enterSession, switchUserID])

@@ -31,6 +31,9 @@ class PackageBaseViewController: UIViewController {
         }
     }
     
+    // User
+    var userID = "red@gamil.com"
+    
     // Current package
     var currentPackage = Package()
     var sunnyModules = [PackageModule]() {
@@ -242,10 +245,25 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         cell.transpIcon.tintColor = .lightGray
         cell.transpIcon.contentMode = .scaleAspectFit
         
+        let cellUserId = module[rawIndex].lockInfo.userId
+        
+        if cellUserId == userID {
+            // Claimed by me already
+            cell.locationView.setBoarderColor(.green)
+            cell.onLocationTapped = self.onLocationTapped
+            
+        } else if cellUserId == "" {
+            // Unclaimed
+            cell.onLocationTapped = self.onLocationTapped
+            
+        } else {
+            // Claimed by others
+            cell.locationView.setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
+            cell.onLocationTapped = nil
+        }
+        
         // Travel time label
         cell.travelTimeLabel.text = formatTimeInterval(travelTime)
-        cell.onDelete = onDelete
-        cell.onLocationTapped = self.onLocationTapped
         
         // ImageBG
         switch weatherState {
@@ -597,10 +615,10 @@ extension PackageBaseViewController {
                 }
                 
             case .edit(let cell):
-                
-                guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
 
                 if self?.weatherState == .sunny {
+                    guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
+                    
                     if let index = self?.findModuleIndex(
                         modules: self?.sunnyModules ?? [],
                         from: indexPathToEdit) {
@@ -609,9 +627,11 @@ extension PackageBaseViewController {
                         if self?.isMultiUser == true {
                             self?.afterLocationComfirmed?(index)
                         }
-                        
                     }
+                    
                 } else {
+                    guard let indexPathToEdit = self?.tableView.indexPath(for: cell) else { return }
+                    
                     if let index = self?.findModuleIndex(
                         modules: self?.rainyModules ?? [],
                         from: indexPathToEdit) {
@@ -745,59 +765,34 @@ extension PackageBaseViewController {
         onLocationTapped = { [weak self] cell in
             guard let self else { return }
             
-            let exploreVC = ExploreSiteViewController()
-            exploreVC.onLocationComfirm = onLocationComfirm
-            exploreVC.actionKind = .edit(cell)
-            self.navigationController?.pushViewController(exploreVC, animated: true)
-        }
-        
-        // The following code should be removed
-        onDelete = { cell in
-            guard let indexPathToDelete = self.tableView.indexPath(for: cell) else { return }
-            
-            if self.weatherState == .sunny {
-                // Find raw indext first
-                let rawIndexForModule = self.findModuleIndex(
-                    modules: self.sunnyModules,
-                    from: indexPathToDelete)
+            if isMultiUser {
+                let indexPath = self.tableView.indexPath(for: cell) ?? IndexPath()
+                guard let rawIndex = findModuleIndex(
+                    modules: sunnyModules,
+                    from: indexPath) else { return }
                 
-                // Is in mult-user mode or not
-                if self.isMultiUser {
-                    self.firestoreManager.deleteModuleWithTrans(
-                        packageId: self.sessionID,
-                        targetIndex: rawIndexForModule ?? 0,
-                        with: self.currentPackage) { newPackage in
-                            self.currentPackage = newPackage
-                            self.sunnyModules = newPackage.weatherModules.sunny
-                        }
-                    
-                } else {
-                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
-                }
+                self.firestoreManager.lockModuleWithTrans(
+                    packageId: self.sessionID,
+                    userId: userID,
+                    targetIndex: rawIndex,
+                    with: self.currentPackage) { newPackage in
+                        self.currentPackage = newPackage
+                        self.sunnyModules = newPackage.weatherModules.sunny
+                    }
+                
+                // Go to explore
+                let exploreVC = ExploreSiteViewController()
+                exploreVC.onLocationComfirm = self.onLocationComfirm
+                exploreVC.actionKind = .edit(cell)
+                self.navigationController?.pushViewController(exploreVC, animated: true)
                 
             } else {
-                // Find raw indext first
-                let rawIndexForModule = self.findModuleIndex(
-                    modules: self.rainyModules,
-                    from: indexPathToDelete)
                 
-                // Is in mult-user mode or not
-                if self.isMultiUser {
-                    self.firestoreManager.deleteModuleWithTrans(
-                        packageId: self.sessionID,
-                        targetIndex: rawIndexForModule ?? 0,
-                        with: self.currentPackage) { newPackage in
-                            self.currentPackage = newPackage
-                            self.sunnyModules = newPackage.weatherModules.sunny
-                        }
-                    
-                } else {
-                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
-                }
-            }
-                
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+                // Go to explore
+                let exploreVC = ExploreSiteViewController()
+                exploreVC.onLocationComfirm = self.onLocationComfirm
+                exploreVC.actionKind = .edit(cell)
+                self.navigationController?.pushViewController(exploreVC, animated: true)
             }
         }
     }

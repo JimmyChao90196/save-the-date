@@ -84,8 +84,9 @@ extension FirestoreManager {
                 
                 // Commit the changes
                 transaction.updateData([
-                    "weatherModules.sunny": package.weatherModules.sunny.map({ try? $0.toDictionary()
-                    })], forDocument: packageDocument)
+                    "weatherModules.sunny": package.weatherModules.sunny.map({ try? $0.toDictionary() }),
+                    "info.version": package.info.version
+                ], forDocument: packageDocument)
                 return nil
             }, completion: { _, error in
                 if let error = error {
@@ -122,13 +123,6 @@ extension FirestoreManager {
                     errorPointer?.pointee = error
                     return nil
                 }
-                
-                // Check if the module is already locked by someone else
-                //            let memberlocation = package.weatherModules.sunny[moduleIndex].memberLocation
-                //            if memberlocation.userId != "" && memberlocation.userId != userId {
-                //                // Module is locked by someone else
-                //                return
-                //            }
                 
                 // Lock the module for editing
                 package.weatherModules.sunny.append(targetModule)
@@ -249,6 +243,68 @@ extension FirestoreManager {
             } else {
                 // delete the modules
                 package.weatherModules.sunny.remove(at: targetIndex)
+                package.info.version += 1
+                completion?(package)
+            }
+            
+            // Commit the changes
+            transaction.updateData([
+                "weatherModules.sunny": package.weatherModules.sunny.map { try? $0.toDictionary() },
+                "info.version": package.info.version
+            ], forDocument: packageDocument)
+            return nil
+            
+        }, completion: { _, error in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            } else {
+                print("Transaction successfully committed!")
+            }
+        })
+    }
+    
+    // MARK: - Lock module with trans
+    func lockModuleWithTrans(
+        packageId: String,
+        userId: String,
+        targetIndex: Int,
+        with localPackage: Package,
+        completion: ((Package) -> Void)?
+    ) {
+        let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        
+        fdb.runTransaction({ (transaction, errorPointer) -> Any? in
+            let packageSnapshot: DocumentSnapshot
+            do {
+                try packageSnapshot = transaction.getDocument(packageDocument)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            guard let packageData = packageSnapshot.data(),
+                  let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
+                  var package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
+                let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                    NSLocalizedDescriptionKey: "Unable to deserialize package data."
+                ])
+                errorPointer?.pointee = error
+                return nil
+            }
+            
+            // Check for version consistency
+            let fetchedVersion = package.info.version
+            print("remote package version: \(fetchedVersion)")
+            print("local package version: \(localPackage.info.version)")
+            
+            // Version inconsistency, fetch newest data and apply to local
+            if fetchedVersion != localPackage.info.version {
+                completion?(package)
+                
+            } else {
+                // update the modules
+                package.weatherModules.sunny[targetIndex].lockInfo.userId = userId
+                package.weatherModules.sunny[targetIndex].lockInfo.timestamp = Date().timeIntervalSince1970
                 package.info.version += 1
                 completion?(package)
             }

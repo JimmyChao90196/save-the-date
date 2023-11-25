@@ -96,7 +96,7 @@ class ModuleTableViewCell: UITableViewCell {
     }
     
     @objc func deleteButtonPressed() {
-        onDelete?(self)
+        // onDelete?(self)
     }
     
     private func setupConstraint() {
