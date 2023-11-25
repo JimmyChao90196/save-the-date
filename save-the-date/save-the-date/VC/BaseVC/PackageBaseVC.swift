@@ -330,6 +330,13 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                 // Is in multi-user mode or not
                 if self.isMultiUser {
                     
+                    // Delete first
+                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                    
                     self.firestoreManager.deleteModuleWithTrans(
                         userId: self.userID,
                         packageId: self.sessionID,
@@ -541,6 +548,12 @@ extension PackageBaseViewController {
             if isMultiUser == true {
                 
                 currentPackage.weatherModules.sunny = sunnyModules
+                
+                // Swap first
+                sunnyModules.swapAt(sourceRowIndex, destRowIndex)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
                 
                 self.firestoreManager.swapModulesWithTrans(
                     packageId: sessionID,
@@ -842,29 +855,35 @@ extension PackageBaseViewController {
                     modules: sunnyModules,
                     from: indexPath) else { return }
                 
+                let time = self.sunnyModules[rawIndex].lockInfo.timestamp
+                
                 self.firestoreManager.lockModuleWithTrans(
                     packageId: self.sessionID,
                     userId: userID,
+                    time: time,
                     targetIndex: rawIndex,
-                    with: self.currentPackage) { newPackage in
+                    with: self.currentPackage) { newPackage, newIndex, isLate in
                         self.currentPackage = newPackage
                         self.sunnyModules = newPackage.weatherModules.sunny
                         
-                        let id = self.sunnyModules[rawIndex].lockInfo.userId
-                        let time = self.sunnyModules[rawIndex].lockInfo.timestamp
+                        let id = self.sunnyModules[newIndex].lockInfo.userId
+                        let time = self.sunnyModules[newIndex].lockInfo.timestamp
                         
-                        print("id \(id)")
-                        print("time \(time)")
-                        
-                        // Go to explore
-                        DispatchQueue.main.async {
-                            let exploreVC = ExploreSiteViewController()
-                            // exploreVC.onLocationComfirm = self.onLocationComfirm
-                            exploreVC.onComfirmWithMultiUser = self.onComfirmWithMultiUser
-                            exploreVC.actionKind = .edit(indexPath)
-                            exploreVC.id = id
-                            exploreVC.time = time
-                            self.navigationController?.pushViewController(exploreVC, animated: true)
+                        if isLate {
+                            return
+                            
+                        } else {
+                            
+                            // Go to explore
+                            DispatchQueue.main.async {
+                                let exploreVC = ExploreSiteViewController()
+                                // exploreVC.onLocationComfirm = self.onLocationComfirm
+                                exploreVC.onComfirmWithMultiUser = self.onComfirmWithMultiUser
+                                exploreVC.actionKind = .edit(indexPath)
+                                exploreVC.id = id
+                                exploreVC.time = time
+                                self.navigationController?.pushViewController(exploreVC, animated: true)
+                            }
                         }
                     }
                 

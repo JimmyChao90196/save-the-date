@@ -80,13 +80,10 @@ extension FirestoreManager {
             // Only change target module
             newPackage.weatherModules.sunny[newIndex ?? 0] = currentModules[localIndex ?? 0]
             newPackage.weatherModules.sunny[newIndex ?? 0].lockInfo.userId = ""
-            newPackage.info.version += 1
             
             // Commit the changes
             transaction.updateData([
-                "weatherModules.sunny": newPackage.weatherModules.sunny.map({ try? $0.toDictionary() }),
-                "info.version": newPackage.info.version
-            ], forDocument: packageDocument)
+                "weatherModules.sunny": newPackage.weatherModules.sunny.map({ try? $0.toDictionary() })], forDocument: packageDocument)
             return nil
         }, completion: { _, error in
             if let error = error {
@@ -234,14 +231,17 @@ extension FirestoreManager {
                 return nil
             }
             
-            // Fetch correct index first
+            // Check for version consistency
+            let fetchedVersion = package.info.version
+            print("remote package version: \(fetchedVersion)")
+            print("local package version: \(localPackage.info.version)")
             newPackage = package
-            let newIndex = newPackage.weatherModules.sunny.firstIndex {
-                $0.lockInfo.timestamp == time
-            }
+            
+            guard let newIndex = newPackage.weatherModules.sunny.firstIndex(where: {
+                $0.lockInfo.timestamp == time }) else { return }
             
             // delete the modules
-            newPackage.weatherModules.sunny.remove(at: newIndex ?? 0)
+            newPackage.weatherModules.sunny.remove(at: newIndex)
             newPackage.info.version += 1
             
             // Commit the changes
@@ -259,19 +259,21 @@ extension FirestoreManager {
                 completion?(newPackage)
             }
         })
-        
     }
     
     // MARK: - Lock module with trans
     func lockModuleWithTrans(
         packageId: String,
         userId: String,
+        time: TimeInterval,
         targetIndex: Int,
         with localPackage: Package,
-        completion: ((Package) -> Void)?
+        completion: ((Package, Int, Bool) -> Void)?
     ) {
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
-        
+        var newPackage = Package()
+        var rawIndex = 0
+        var isLate = false
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
             do {
@@ -290,28 +292,28 @@ extension FirestoreManager {
                 errorPointer?.pointee = error
                 return nil
             }
+
+            // New package
+            newPackage = package
+            guard let newIndex = newPackage.weatherModules.sunny.firstIndex(where: {
+                $0.lockInfo.timestamp == time }) else { return }
+            rawIndex = newIndex
             
-            // Check for version consistency
-            let fetchedVersion = package.info.version
-            print("remote package version: \(fetchedVersion)")
-            print("local package version: \(localPackage.info.version)")
+            // update the modules
+            let oldID = newPackage.weatherModules.sunny[newIndex].lockInfo.userId
             
-            // Version inconsistency, fetch newest data and apply to local
-            if fetchedVersion != localPackage.info.version {
-                completion?(package)
-                
+            if oldID != "" && oldID != userId {
+                isLate = true
+                return
             } else {
-                // update the modules
-                package.weatherModules.sunny[targetIndex].lockInfo.userId = userId
-                 package.weatherModules.sunny[targetIndex].lockInfo.timestamp = Date().timeIntervalSince1970
-                package.info.version += 1
-                completion?(package)
+                newPackage.weatherModules.sunny[newIndex].lockInfo.userId = userId
+                newPackage.info.version += 1
             }
-            
+
             // Commit the changes
             transaction.updateData([
-                "weatherModules.sunny": package.weatherModules.sunny.map { try? $0.toDictionary() },
-                "info.version": package.info.version
+                "weatherModules.sunny": newPackage.weatherModules.sunny.map { try? $0.toDictionary() },
+                "info.version": newPackage.info.version
             ], forDocument: packageDocument)
             return nil
             
@@ -320,6 +322,7 @@ extension FirestoreManager {
                 print("Transaction failed: \(error)")
             } else {
                 print("Transaction successfully committed!")
+                completion?(newPackage, rawIndex, isLate)
             }
         })
     }
