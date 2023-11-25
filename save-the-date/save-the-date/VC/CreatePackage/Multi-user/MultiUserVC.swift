@@ -102,11 +102,11 @@ class MultiUserViewController: CreatePackageViewController {
     // after Event
     func setupAfterEvent(packageId: String) {
         
-        afterLocationComfirmed = { rawIndex in
+        afterLocationComfirmed = { rawIndex, time in
             self.firestoreManager.updateModulesWithTrans(
                 packageId: packageId,
                 moduleIndex: rawIndex,
-                userId: self.userID,
+                time: time,
                 currentModules: self.sunnyModules,
                 localPackage: self.currentPackage) { newPackage in
                     self.currentPackage = newPackage

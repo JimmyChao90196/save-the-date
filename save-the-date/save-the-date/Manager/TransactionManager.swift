@@ -39,76 +39,64 @@ extension FirestoreManager {
     func updateModulesWithTrans(
         packageId: String,
         moduleIndex: Int,
-        userId: String,
+        time: TimeInterval,
         currentModules: [PackageModule],
         localPackage: Package,
         completion: ((Package) -> Void)?
     ) {
-            
-            let packageDocument = fdb.collection("sessionPackages").document(packageId)
-            
-            fdb.runTransaction({ (transaction, errorPointer) -> Any? in
-                let packageSnapshot: DocumentSnapshot
-                do {
-                    try packageSnapshot = transaction.getDocument(packageDocument)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                
-                // Convert Firestore data to JSON and then deserialize
-                guard let packageData = packageSnapshot.data(),
-                      let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
-                      var package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
-                    let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to deserialize package data."
-                    ])
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                // Check for version consistency
-                let fetchedVersion = package.info.version
-                print("remote package version: \(fetchedVersion)")
-                print("local package version: \(localPackage.info.version)")
-                
-                // Version inconsistency, abort update action if needed
-                if fetchedVersion != localPackage.info.version {
-                    completion?(package)
-                    
-                } else {
-                    
-                    // update module
-                    let newModules = currentModules.map { module in
-                        if moduleIndex == currentModules.firstIndex(of: module) {
-                            var newModule = module
-                            newModule.lockInfo.userId = ""
-                            newModule.lockInfo.timestamp = Date().timeIntervalSince1970
-                            return newModule
-                        } else {
-                            return module
-                        }
-                    }
-                    package.weatherModules.sunny = newModules
-                    
-                    package.info.version += 1
-                    completion?(package)
-                }
-                
-                // Commit the changes
-                transaction.updateData([
-                    "weatherModules.sunny": package.weatherModules.sunny.map({ try? $0.toDictionary() }),
-                    "info.version": package.info.version
-                ], forDocument: packageDocument)
+        
+        let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        var newPackage = Package()
+        fdb.runTransaction({ (transaction, errorPointer) -> Any? in
+            let packageSnapshot: DocumentSnapshot
+            do {
+                try packageSnapshot = transaction.getDocument(packageDocument)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
                 return nil
-            }, completion: { _, error in
-                if let error = error {
-                    print("Transaction failed: \(error)")
-                } else {
-                    print("Transaction successfully committed!")
-                }
-            })
-        }
+            }
+            
+            // Convert Firestore data to JSON and then deserialize
+            guard let packageData = packageSnapshot.data(),
+                  let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
+                  
+                    let package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
+                let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
+                    NSLocalizedDescriptionKey: "Unable to deserialize package data."
+                ])
+                errorPointer?.pointee = error
+                return nil
+            }
+            
+            newPackage = package
+            
+            let newIndex = newPackage.weatherModules.sunny.firstIndex {
+                $0.lockInfo.timestamp == time
+            }
+            
+            let localIndex = currentModules.firstIndex {
+                $0.lockInfo.timestamp == time
+            }
+            
+            // Only change target module
+            newPackage.weatherModules.sunny[newIndex ?? 0] = currentModules[localIndex ?? 0]
+            newPackage.weatherModules.sunny[newIndex ?? 0].lockInfo.userId = ""
+            
+            // Commit the changes
+            transaction.updateData([
+                "weatherModules.sunny": newPackage.weatherModules.sunny.map({ try? $0.toDictionary() }),
+                "info.version": package.info.version
+            ], forDocument: packageDocument)
+            return nil
+        }, completion: { _, error in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            } else {
+                print("Transaction successfully committed!")
+                completion?(newPackage)
+            }
+        })
+    }
     
     func appendModuleWithTrans(
         packageId: String,
@@ -317,7 +305,7 @@ extension FirestoreManager {
             } else {
                 // update the modules
                 package.weatherModules.sunny[targetIndex].lockInfo.userId = userId
-                package.weatherModules.sunny[targetIndex].lockInfo.timestamp = Date().timeIntervalSince1970
+                // package.weatherModules.sunny[targetIndex].lockInfo.timestamp = Date().timeIntervalSince1970
                 package.info.version += 1
                 completion?(package)
             }

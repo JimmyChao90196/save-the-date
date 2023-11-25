@@ -76,7 +76,7 @@ class PackageBaseViewController: UIViewController {
     var onAddModulePressed: ((Int) -> Void)?
     
     // after events
-    var afterLocationComfirmed: ((Int) -> Void)?
+    var afterLocationComfirmed: ((Int, TimeInterval) -> Void)?
     var afterAppendLocationComfirmed: ((PackageModule) -> Void)?
     
     // Buttons
@@ -621,7 +621,7 @@ extension PackageBaseViewController {
                     
                 }) {
                     self?.sunnyModules[rawIndex].location = location
-                    self?.afterLocationComfirmed?(rawIndex)
+                    self?.afterLocationComfirmed?(rawIndex, time)
                 }
                 
             } else {
@@ -633,7 +633,7 @@ extension PackageBaseViewController {
                     
                 }) {
                     self?.rainyModules[rawIndex].location = location
-                    self?.afterLocationComfirmed?(rawIndex)
+                    self?.afterLocationComfirmed?(rawIndex, time)
                 }
             }
         }
@@ -675,9 +675,9 @@ extension PackageBaseViewController {
                         from: targetIndex) {
                         self?.sunnyModules[index].location = location
                         
-                        if self?.isMultiUser == true {
-                            self?.afterLocationComfirmed?(index)
-                        }
+//                        if self?.isMultiUser == true {
+//                            self?.afterLocationComfirmed?(index)
+//                        }
                     }
                     
                 } else {
@@ -688,9 +688,9 @@ extension PackageBaseViewController {
                         self?.rainyModules[index].location = location
                         
                         // When in multi-user mode
-                        if self?.isMultiUser == true {
-                            self?.afterLocationComfirmed?(index)
-                        }
+//                        if self?.isMultiUser == true {
+//                            self?.afterLocationComfirmed?(index)
+//                        }
                     }
                 }
                 
