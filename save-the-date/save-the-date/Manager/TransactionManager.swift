@@ -38,7 +38,6 @@ extension FirestoreManager {
     // Lock the module
     func updateModulesWithTrans(
         packageId: String,
-        moduleIndex: Int,
         time: TimeInterval,
         currentModules: [PackageModule],
         localPackage: Package,
@@ -81,11 +80,12 @@ extension FirestoreManager {
             // Only change target module
             newPackage.weatherModules.sunny[newIndex ?? 0] = currentModules[localIndex ?? 0]
             newPackage.weatherModules.sunny[newIndex ?? 0].lockInfo.userId = ""
+            newPackage.info.version += 1
             
             // Commit the changes
             transaction.updateData([
                 "weatherModules.sunny": newPackage.weatherModules.sunny.map({ try? $0.toDictionary() }),
-                "info.version": package.info.version
+                "info.version": newPackage.info.version
             ], forDocument: packageDocument)
             return nil
         }, completion: { _, error in
@@ -206,13 +206,15 @@ extension FirestoreManager {
     
     // MARK: - Delete with transaction
     func deleteModuleWithTrans(
+        userId: String,
         packageId: String,
+        time: TimeInterval,
         targetIndex: Int,
         with localPackage: Package,
         completion: ((Package) -> Void)?
     ) {
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
-        
+        var newPackage = Package()
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
             do {
@@ -224,7 +226,7 @@ extension FirestoreManager {
             
             guard let packageData = packageSnapshot.data(),
                   let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
-                  var package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
+                  let package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
                 let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
                     NSLocalizedDescriptionKey: "Unable to deserialize package data."
                 ])
@@ -232,26 +234,20 @@ extension FirestoreManager {
                 return nil
             }
             
-            // Check for version consistency
-            let fetchedVersion = package.info.version
-            print("remote package version: \(fetchedVersion)")
-            print("local package version: \(localPackage.info.version)")
-            
-            // Version inconsistency, abort delete action if needed
-            if fetchedVersion != localPackage.info.version {
-                completion?(package)
-                
-            } else {
-                // delete the modules
-                package.weatherModules.sunny.remove(at: targetIndex)
-                package.info.version += 1
-                completion?(package)
+            // Fetch correct index first
+            newPackage = package
+            let newIndex = newPackage.weatherModules.sunny.firstIndex {
+                $0.lockInfo.timestamp == time
             }
+            
+            // delete the modules
+            newPackage.weatherModules.sunny.remove(at: newIndex ?? 0)
+            newPackage.info.version += 1
             
             // Commit the changes
             transaction.updateData([
-                "weatherModules.sunny": package.weatherModules.sunny.map { try? $0.toDictionary() },
-                "info.version": package.info.version
+                "weatherModules.sunny": newPackage.weatherModules.sunny.map { try? $0.toDictionary() },
+                "info.version": newPackage.info.version
             ], forDocument: packageDocument)
             return nil
             
@@ -260,8 +256,10 @@ extension FirestoreManager {
                 print("Transaction failed: \(error)")
             } else {
                 print("Transaction successfully committed!")
+                completion?(newPackage)
             }
         })
+        
     }
     
     // MARK: - Lock module with trans
@@ -305,7 +303,7 @@ extension FirestoreManager {
             } else {
                 // update the modules
                 package.weatherModules.sunny[targetIndex].lockInfo.userId = userId
-                // package.weatherModules.sunny[targetIndex].lockInfo.timestamp = Date().timeIntervalSince1970
+                 package.weatherModules.sunny[targetIndex].lockInfo.timestamp = Date().timeIntervalSince1970
                 package.info.version += 1
                 completion?(package)
             }

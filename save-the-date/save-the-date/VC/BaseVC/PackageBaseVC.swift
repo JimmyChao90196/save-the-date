@@ -313,17 +313,27 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Perform deletion of the item from your data source
             
+            let rawIndex = findModuleIndex(modules: self.sunnyModules, from: indexPath)
+            let id = self.sunnyModules[rawIndex ?? 0].lockInfo.userId
+            if id != "" && id != "none" && id != "None" && id != userID {
+                return
+            }
+            
+            // Perform deletion of the item from your data source
             if self.weatherState == .sunny {
                 let rawIndexForModule = self.findModuleIndex(
                     modules: self.sunnyModules,
                     from: indexPath)
+                let time = self.sunnyModules[rawIndexForModule ?? 0].lockInfo.timestamp
                 
                 // Is in multi-user mode or not
                 if self.isMultiUser {
+                    
                     self.firestoreManager.deleteModuleWithTrans(
+                        userId: self.userID,
                         packageId: self.sessionID,
+                        time: time,
                         targetIndex: rawIndexForModule ?? 0,
                         with: self.currentPackage) { newPackage in
                             self.currentPackage = newPackage
@@ -356,7 +366,15 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 
     // Can move row at
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        true
+        let rawIndex = findModuleIndex(modules: self.sunnyModules, from: indexPath)
+        let id = self.sunnyModules[rawIndex ?? 0].lockInfo.userId
+        
+        if id != "" && id != "none" && id != "None" && id != userID {
+            return false
+        } else {
+            return true
+        }
+        
     }
     
     // Move row at
