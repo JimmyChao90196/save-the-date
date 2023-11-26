@@ -813,7 +813,7 @@ extension PackageBaseViewController {
             case .add:
                 print("this shouldn't be triggered")
                 
-            case .edit(_):
+            case .edit( let targetIndex ):
                 
                 guard let self else { return }
 
@@ -821,29 +821,63 @@ extension PackageBaseViewController {
                 var sourceCoordDic = [String: Double]()
                 var destCoordDic = [String: Double]()
                 
+                var sunnySourceRawIndex = 0
+                var sunnyDestRawIndex = 0
+                
+                var rainySourceRawIndex = 0
+                var rainyDestRawIndex = 0
+                
                 if self.weatherState == .sunny {
                     // In sunny state
-                    if let rawIndex = self.sunnyModules.firstIndex(where: {
-                        if $0.lockInfo.timestamp == time {
-                            return true
-                        } else { return false }
-                        
-                    }) {
-                        sourceCoordDic = self.sunnyModules[rawIndex].location.coordinate
-                        destCoordDic = self.sunnyModules[rawIndex + 1].location.coordinate
-                    }
+//                    if let rawIndex = self.sunnyModules.firstIndex(where: {
+//                        if $0.lockInfo.timestamp == time {
+//                            return true
+//                        } else { return false }
+//                        
+//                    }) {
+//                        sourceCoordDic = self.sunnyModules[rawIndex].location.coordinate
+//                        destCoordDic = self.sunnyModules[rawIndex + 1].location.coordinate
+//                    }
+                    
+                    let rawDestIndexPath = findNextIndexPath(currentIndex: targetIndex, in: self.tableView)
+                    
+                    sunnySourceRawIndex = findModuleIndex(
+                        modules: self.sunnyModules,
+                        from: targetIndex) ?? 0
+                    
+                    sunnyDestRawIndex = findModuleIndex(
+                        modules: self.sunnyModules,
+                        from: rawDestIndexPath ?? IndexPath()) ?? 0
+                    
+                    sourceCoordDic = self.sunnyModules[sunnySourceRawIndex].location.coordinate
+                    destCoordDic = self.sunnyModules[sunnyDestRawIndex].location.coordinate
+                    
                     
                 } else {
+                    
                     // In rainy state
-                    if let rawIndex = self.rainyModules.firstIndex(where: {
-                        if $0.lockInfo.timestamp == time {
-                            return true
-                        } else { return false }
-                        
-                    }) {
-                        sourceCoordDic = self.rainyModules[rawIndex].location.coordinate
-                        destCoordDic = self.rainyModules[rawIndex + 1].location.coordinate
-                    }
+//                    if let rawIndex = self.rainyModules.firstIndex(where: {
+//                        if $0.lockInfo.timestamp == time {
+//                            return true
+//                        } else { return false }
+//                        
+//                    }) {
+//                        sourceCoordDic = self.rainyModules[rawIndex].location.coordinate
+//                        destCoordDic = self.rainyModules[rawIndex + 1].location.coordinate
+//                    }
+                    
+                    let rawDestIndexPath = findNextIndexPath(currentIndex: targetIndex, in: self.tableView)
+                    
+                    rainySourceRawIndex = findModuleIndex(
+                        modules: self.rainyModules,
+                        from: targetIndex) ?? 0
+                    
+                    rainyDestRawIndex = findModuleIndex(
+                        modules: self.rainyModules,
+                        from: rawDestIndexPath ?? IndexPath()) ?? 0
+                    
+                    sourceCoordDic = self.rainyModules[rainySourceRawIndex].location.coordinate
+                    destCoordDic = self.rainyModules[rainyDestRawIndex].location.coordinate
                 }
                 
                 // Fetch travel time
@@ -869,30 +903,30 @@ extension PackageBaseViewController {
                         // Replace with new transporation
                         if self.weatherState == .sunny {
                             
-                            guard let rawIndex = self.sunnyModules.firstIndex(where: {
-                                if $0.lockInfo.timestamp == time {
-                                    return true
-                                } else { return false }}) else { return }
+//                            guard let rawIndex = self.sunnyModules.firstIndex(where: {
+//                                if $0.lockInfo.timestamp == time {
+//                                    return true
+//                                } else { return false }}) else { return }
                             
-                            self.sunnyModules[rawIndex].transportation = transportation
+                            self.sunnyModules[sunnySourceRawIndex].transportation = transportation
                             
                             // When in multi-user
                             if self.isMultiUser {
-                                self.afterEditComfirmed?(rawIndex, time)
+                                self.afterEditComfirmed?(sunnySourceRawIndex, time)
                             }
                             
                         } else {
                             
-                            guard let rawIndex = self.rainyModules.firstIndex(where: {
-                                if $0.lockInfo.timestamp == time {
-                                    return true
-                                } else { return false }}) else { return }
+//                            guard let rawIndex = self.rainyModules.firstIndex(where: {
+//                                if $0.lockInfo.timestamp == time {
+//                                    return true
+//                                } else { return false }}) else { return }
                             
-                            self.rainyModules[rawIndex].transportation = transportation
+                            self.rainyModules[rainySourceRawIndex].transportation = transportation
                             
                             // When in multi-user
                             if self.isMultiUser {
-                                self.afterEditComfirmed?(rawIndex, time)
+                                self.afterEditComfirmed?(rainySourceRawIndex, time)
                             }
                         }
                         
