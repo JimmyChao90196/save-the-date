@@ -12,7 +12,7 @@ import UIKit
 extension FirestoreManager {
     
     // Listener
-    func modulesListener(packageId: String, onChange: @escaping ([PackageModule]) -> Void) {
+    func modulesListener(packageId: String, onChange: @escaping (Package) -> Void) {
         
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
         
@@ -27,8 +27,9 @@ extension FirestoreManager {
             }
             do {
                 let package = try Firestore.Decoder().decode(Package.self, from: data)
-                print("Current data: \(package.weatherModules.sunny)")
-                onChange(package.weatherModules.sunny)
+                
+                onChange(package)
+                
             } catch let error {
                 print("Error decoding package: \(error)")
             }
@@ -99,6 +100,7 @@ extension FirestoreManager {
         packageId: String,
         userId: String,
         isNewDay: Bool,
+        when weatherState: WeatherState,
         with targetModule: PackageModule) {
             
             let packageDocument = fdb.collection("sessionPackages").document(packageId)
@@ -123,20 +125,37 @@ extension FirestoreManager {
                     return nil
                 }
                 
-                // Lock the module for editing
-                if isNewDay {
-                    let uniqueSet = Set(package.weatherModules.sunny.compactMap { $0.day })
-                    let module = PackageModule(day: uniqueSet.count)
-                    package.weatherModules.sunny.append(module)
+                if weatherState == .sunny {
+                    
+                    if isNewDay {
+                        let uniqueSet = Set(package.weatherModules.sunny.compactMap { $0.day })
+                        let module = PackageModule(day: uniqueSet.count)
+                        package.weatherModules.sunny.append(module)
+                    } else {
+                        package.weatherModules.sunny.append(targetModule)
+                    }
+                    
+                    // Commit the changes
+                    transaction.updateData([
+                        "weatherModules.sunny": package.weatherModules.sunny.map {
+                            try? $0.toDictionary()
+                        }], forDocument: packageDocument)
                 } else {
-                    package.weatherModules.sunny.append(targetModule)
+                    
+                    if isNewDay {
+                        let uniqueSet = Set(package.weatherModules.rainy.compactMap { $0.day })
+                        let module = PackageModule(day: uniqueSet.count)
+                        package.weatherModules.rainy.append(module)
+                    } else {
+                        package.weatherModules.rainy.append(targetModule)
+                    }
+                    
+                    // Commit the changes
+                    transaction.updateData([
+                        "weatherModules.rainy": package.weatherModules.rainy.map {
+                            try? $0.toDictionary()
+                        }], forDocument: packageDocument)
                 }
-                
-                // Commit the changes
-                transaction.updateData([
-                    "weatherModules.sunny": package.weatherModules.sunny.map {
-                        try? $0.toDictionary()
-                    }], forDocument: packageDocument)
                 
                 return nil
             }, completion: { _, error in

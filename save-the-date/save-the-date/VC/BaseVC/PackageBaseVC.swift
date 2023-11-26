@@ -837,7 +837,6 @@ extension PackageBaseViewController {
     func setupOnTapped() {
         onAddModulePressed = { section in
             // Go to Explore site and choose one
-            
             print("orig: \(section)")
             
             let exploreVC = ExploreSiteViewController()

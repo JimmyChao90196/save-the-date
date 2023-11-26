@@ -119,6 +119,7 @@ class MultiUserViewController: CreatePackageViewController {
                 packageId: packageId,
                 userId: self.userID,
                 isNewDay: false,
+                when: self.weatherState,
                 with: targetModule)
         }
     }
@@ -168,8 +169,9 @@ class MultiUserViewController: CreatePackageViewController {
                         ) {
                             
                             // Setup listener
-                            self?.firestoreManager.modulesListener(packageId: documentID) { modules in
-                                self?.sunnyModules = modules
+                            self?.firestoreManager.modulesListener(packageId: documentID) { newPackage in
+                                self?.sunnyModules = newPackage.weatherModules.sunny
+                                self?.rainyModules = newPackage.weatherModules.rainy
                                 
                                 DispatchQueue.main.async {
                                     self?.tableView.reloadData()
@@ -209,8 +211,11 @@ class MultiUserViewController: CreatePackageViewController {
                     self.rainyModules = self.currentPackage.weatherModules.rainy
                     
                     // Setup listener
-                    self.firestoreManager.modulesListener(packageId: text) { modules in
-                        self.sunnyModules = modules
+                    self.firestoreManager.modulesListener(packageId: text) { newPackage in
+                        
+                        self.sunnyModules = newPackage.weatherModules.sunny
+                        self.rainyModules = newPackage.weatherModules.rainy
+                        
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }

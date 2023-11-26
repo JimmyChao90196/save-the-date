@@ -157,6 +157,7 @@ extension CreatePackageViewController {
                     packageId: sessionID,
                     userId: userID,
                     isNewDay: true,
+                    when: weatherState,
                     with: module)
             }
             
@@ -165,6 +166,15 @@ extension CreatePackageViewController {
             let uniqueSet = Set(rainyModules.compactMap { $0.day })
             let module = PackageModule(day: uniqueSet.count)
             self.rainyModules.append(module)
+            
+            if isMultiUser {
+                firestoreManager.appendModuleWithTrans(
+                    packageId: sessionID,
+                    userId: userID,
+                    isNewDay: true,
+                    when: weatherState,
+                    with: module)
+            }
             
         }
         
