@@ -409,7 +409,7 @@ extension FirestoreManager {
                 }
                 
                 path = "weatherModules.sunny"
-                value = newPackage.weatherModules.rainy.map { try? $0.toDictionary() }
+                value = newPackage.weatherModules.sunny.map { try? $0.toDictionary() }
                 
             case .rainy:
                 guard let newIndex = newPackage.weatherModules.rainy.firstIndex(where: {
@@ -432,7 +432,6 @@ extension FirestoreManager {
                 
             }
             
-
             // Commit the changes
             transaction.updateData([
                 path: value,

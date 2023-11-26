@@ -932,7 +932,9 @@ extension PackageBaseViewController {
             let self = self else { return }
             
             var rawIndex = 0
-            var time = TimeInterval()
+            var time = 0.0
+            var id = ""
+            
             // Find time first
             if weatherState == .sunny {
                 rawIndex = findModuleIndex(modules: sunnyModules, from: indexPath) ?? 0
@@ -948,23 +950,30 @@ extension PackageBaseViewController {
                     userId: userID,
                     time: time,
                     when: weatherState) { newPackage, newIndex, isLate in
-                        self.currentPackage = newPackage
                         
+                        self.currentPackage = newPackage
                         self.sunnyModules = newPackage.weatherModules.sunny
-                        let id = self.sunnyModules[newIndex].lockInfo.userId
-                        let time = self.sunnyModules[newIndex].lockInfo.timestamp
+                        self.rainyModules = newPackage.weatherModules.rainy
+                        
+                        if self.weatherState == .sunny {
+                            id = self.sunnyModules[newIndex].lockInfo.userId
+                            time = self.sunnyModules[newIndex].lockInfo.timestamp
+                        } else {
+                            id = self.rainyModules[newIndex].lockInfo.userId
+                            time = self.rainyModules[newIndex].lockInfo.timestamp
+                        }
                         
                         if isLate {
                             return
                             
                         } else {
-                            
                             // Jump to transpVC
                             let transpVC = TranspViewController()
                             transpVC.onTranspComfirm = self.onTranspComfirm
                             transpVC.timeStamp = time
                             transpVC.actionKind = .edit(indexPath)
                             self.navigationController?.pushViewController(transpVC, animated: true)
+                            
                         }
                     }
                 
