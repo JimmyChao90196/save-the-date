@@ -258,11 +258,11 @@ extension FirestoreManager {
     
     // MARK: - Delete with transaction
     func deleteModuleWithTrans(
-        userId: String,
         packageId: String,
         time: TimeInterval,
         targetIndex: Int,
         with localPackage: Package,
+        when weatherState: WeatherState,
         completion: ((Package) -> Void)?
     ) {
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
@@ -288,22 +288,40 @@ extension FirestoreManager {
             
             // Check for version consistency
             let fetchedVersion = package.info.version
-            print("remote package version: \(fetchedVersion)")
-            print("local package version: \(localPackage.info.version)")
             newPackage = package
+            var path = ""
+            var value = [[String: Any]?]()
             
-            guard let newIndex = newPackage.weatherModules.sunny.firstIndex(where: {
-                $0.lockInfo.timestamp == time }) else { return }
-            
-            // delete the modules
-            newPackage.weatherModules.sunny.remove(at: newIndex)
-            newPackage.info.version += 1
+            switch weatherState {
+            case .sunny:
+                guard let newIndex = newPackage.weatherModules.sunny.firstIndex(where: {
+                    $0.lockInfo.timestamp == time }) else { return }
+                
+                // delete the modules
+                newPackage.weatherModules.sunny.remove(at: newIndex)
+                newPackage.info.version += 1
+                
+                path = "weatherModules.sunny"
+                value = newPackage.weatherModules.sunny.map {try? $0.toDictionary()}
+                
+            case .rainy:
+                guard let newIndex = newPackage.weatherModules.rainy.firstIndex(where: {
+                    $0.lockInfo.timestamp == time }) else { return }
+                
+                // delete the modules
+                newPackage.weatherModules.rainy.remove(at: newIndex)
+                newPackage.info.version += 1
+                
+                path = "weatherModules.rainy"
+                value = newPackage.weatherModules.rainy.map {try? $0.toDictionary()}
+            }
             
             // Commit the changes
             transaction.updateData([
-                "weatherModules.sunny": newPackage.weatherModules.sunny.map { try? $0.toDictionary() },
+                path: value,
                 "info.version": newPackage.info.version
             ], forDocument: packageDocument)
+            
             return nil
             
         }, completion: { _, error in
@@ -350,7 +368,7 @@ extension FirestoreManager {
             // New package
             newPackage = package
             var path = ""
-            var value = [[String : Any]?]()
+            var value = [[String: Any]?]()
             
             switch weatherState {
             case .sunny:

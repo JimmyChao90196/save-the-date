@@ -337,6 +337,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             
             // Perform deletion of the item from your data source
             if self.weatherState == .sunny {
+                
                 let rawIndexForModule = self.findModuleIndex(
                     modules: self.sunnyModules,
                     from: indexPath)
@@ -353,11 +354,13 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                     }
                     
                     self.firestoreManager.deleteModuleWithTrans(
-                        userId: self.userID,
+                        
                         packageId: self.sessionID,
                         time: time,
                         targetIndex: rawIndexForModule ?? 0,
-                        with: self.currentPackage) { newPackage in
+                        with: self.currentPackage,
+                        when: .sunny
+                    ) { newPackage in
                             self.currentPackage = newPackage
                             self.sunnyModules = newPackage.weatherModules.sunny
                         }
@@ -368,14 +371,36 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                 }
                 
             } else {
+                
                 let rawIndexForModule = self.findModuleIndex(
                     modules: self.rainyModules,
                     from: indexPath)
+                let time = self.rainyModules[rawIndexForModule ?? 0].lockInfo.timestamp
                 
                 // Is in multi-user mode or not
                 if self.isMultiUser {
                     
+                    // Delete first
+                    self.rainyModules.remove(at: rawIndexForModule ?? 0)
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                    
+                    self.firestoreManager.deleteModuleWithTrans(
+                        
+                        packageId: self.sessionID,
+                        time: time,
+                        targetIndex: rawIndexForModule ?? 0,
+                        with: self.currentPackage,
+                        when: .rainy
+                    ) { newPackage in
+                            self.currentPackage = newPackage
+                            self.sunnyModules = newPackage.weatherModules.sunny
+                        }
+                    
                 } else {
+                    
                     self.rainyModules.remove(at: rawIndexForModule ?? 0)
                 }
             }
