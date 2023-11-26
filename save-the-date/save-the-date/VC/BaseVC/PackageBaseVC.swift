@@ -857,15 +857,16 @@ extension PackageBaseViewController {
     }
     
     func setupOnTapped() {
-        onAddModulePressed = { [weak self] section in
+        onAddModulePressed = { section in
             // Go to Explore site and choose one
             
             print("orig: \(section)")
             
             let exploreVC = ExploreSiteViewController()
-            exploreVC.onLocationComfirm = self?.onLocationComfirm
+            exploreVC.onLocationComfirm = self.onLocationComfirm
             exploreVC.actionKind = .add(section)
-            self?.navigationController?.pushViewController(exploreVC, animated: true)
+            self.navigationController?.pushViewController(exploreVC, animated: true)
+            
         }
         
         onTranspTapped = { [weak self] cell in

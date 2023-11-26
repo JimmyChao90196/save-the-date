@@ -59,10 +59,6 @@ class MultiUserViewController: CreatePackageViewController {
         
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        isMultiUser = false
-    }
-    
     override func addTo() {
         super.addTo()
         view.addSubviews([createSession, enterSession, switchUserID])
