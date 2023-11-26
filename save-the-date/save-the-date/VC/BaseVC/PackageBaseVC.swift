@@ -866,7 +866,7 @@ extension PackageBaseViewController {
             if self.isMultiUser {
                 
                 exploreVC.actionKind = .add(section)
-                exploreVC.onComfirmWithMultiUser = self.onLocationComfirmMU
+                exploreVC.onLocationComfirmMU = self.onLocationComfirmMU
                 
             } else {
                 
@@ -938,7 +938,8 @@ extension PackageBaseViewController {
             
             if isMultiUser {
                 
-                var time = TimeInterval()
+                var time = 0.0
+                var id = ""
                 if weatherState == .sunny {
                     
                     guard let rawIndex = findModuleIndex(
@@ -950,7 +951,7 @@ extension PackageBaseViewController {
                 } else {
                     
                     guard let rawIndex = findModuleIndex(
-                        modules: sunnyModules,
+                        modules: rainyModules,
                         from: indexPath) else { return }
                     
                     time = self.rainyModules[rawIndex].lockInfo.timestamp
@@ -962,28 +963,35 @@ extension PackageBaseViewController {
                     time: time,
                     when: weatherState
                 ) { newPackage, newIndex, isLate in
-                        self.currentPackage = newPackage
-                        self.sunnyModules = newPackage.weatherModules.sunny
+                    
+                    self.currentPackage = newPackage
+                    self.sunnyModules = newPackage.weatherModules.sunny
+                    self.rainyModules = newPackage.weatherModules.rainy
+                    
+                    if self.weatherState == .sunny {
+                        id = self.sunnyModules[newIndex].lockInfo.userId
+                        time = self.sunnyModules[newIndex].lockInfo.timestamp
+                    } else {
+                        id = self.rainyModules[newIndex].lockInfo.userId
+                        time = self.rainyModules[newIndex].lockInfo.timestamp
+                    }
                         
-                        let id = self.sunnyModules[newIndex].lockInfo.userId
-                        let time = self.sunnyModules[newIndex].lockInfo.timestamp
+                    if isLate {
+                        return
                         
-                        if isLate {
-                            return
-                            
-                        } else {
-                            
-                            // Go to explore
-                            DispatchQueue.main.async {
-                                let exploreVC = ExploreSiteViewController()
-                                exploreVC.onComfirmWithMultiUser = self.onLocationComfirmMU
-                                exploreVC.actionKind = .edit(indexPath)
-                                exploreVC.id = id
-                                exploreVC.time = time
-                                self.navigationController?.pushViewController(exploreVC, animated: true)
-                            }
+                    } else {
+                        
+                        // Go to explore
+                        DispatchQueue.main.async {
+                            let exploreVC = ExploreSiteViewController()
+                            exploreVC.onLocationComfirmMU = self.onLocationComfirmMU
+                            exploreVC.actionKind = .edit(indexPath)
+                            exploreVC.id = id
+                            exploreVC.time = time
+                            self.navigationController?.pushViewController(exploreVC, animated: true)
                         }
                     }
+                }
                 
             } else {
                 

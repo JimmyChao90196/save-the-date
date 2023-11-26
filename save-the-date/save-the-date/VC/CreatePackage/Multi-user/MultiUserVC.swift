@@ -104,11 +104,17 @@ class MultiUserViewController: CreatePackageViewController {
     func setupAfterEvent(packageId: String) {
         
         afterEditComfirmed = { rawIndex, time in
+            
+            self.currentPackage.weatherModules.sunny = self.sunnyModules
+            self.currentPackage.weatherModules.rainy = self.rainyModules
+            
             self.firestoreManager.updateModulesWithTrans(
                 packageId: packageId,
                 time: time,
-                currentModules: self.sunnyModules,
-                localPackage: self.currentPackage) { newPackage in
+                when: self.weatherState,
+                localSunnyModules: self.currentPackage.weatherModules.sunny,
+                localRainyModules: self.currentPackage.weatherModules.rainy
+                ) { newPackage in
                     self.currentPackage = newPackage
                     self.sunnyModules = newPackage.weatherModules.sunny
                 }

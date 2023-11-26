@@ -40,8 +40,9 @@ extension FirestoreManager {
     func updateModulesWithTrans(
         packageId: String,
         time: TimeInterval,
-        currentModules: [PackageModule],
-        localPackage: Package,
+        when weatherState: WeatherState,
+        localSunnyModules: [PackageModule],
+        localRainyModules: [PackageModule],
         completion: ((Package) -> Void)?
     ) {
         
@@ -69,23 +70,51 @@ extension FirestoreManager {
             }
             
             newPackage = package
+            var path = ""
+            var value = [[String : Any]?]()
             
-            let newIndex = newPackage.weatherModules.sunny.firstIndex {
-                $0.lockInfo.timestamp == time
+            if weatherState == .sunny {
+                
+                let newIndex = newPackage.weatherModules.sunny.firstIndex {
+                    $0.lockInfo.timestamp == time
+                }
+                
+                let localIndex = localSunnyModules.firstIndex {
+                    $0.lockInfo.timestamp == time
+                }
+                
+                // Only change target module
+                newPackage.weatherModules.sunny[newIndex ?? 0] =
+                localSunnyModules[localIndex ?? 0]
+                newPackage.weatherModules.sunny[newIndex ?? 0].lockInfo.userId = ""
+                
+                path = "weatherModules.sunny"
+                value = newPackage.weatherModules.sunny.map({ try? $0.toDictionary() })
+                
+            } else {
+                
+                let newIndex = newPackage.weatherModules.rainy.firstIndex {
+                    $0.lockInfo.timestamp == time
+                }
+                
+                let localIndex = localRainyModules.firstIndex {
+                    $0.lockInfo.timestamp == time
+                }
+                
+                // Only change target module
+                newPackage.weatherModules.rainy[newIndex ?? 0] =
+                localRainyModules[localIndex ?? 0]
+                newPackage.weatherModules.rainy[newIndex ?? 0].lockInfo.userId = ""
+                
+                path = "weatherModules.rainy"
+                value = newPackage.weatherModules.rainy.map({ try? $0.toDictionary() })
             }
-            
-            let localIndex = currentModules.firstIndex {
-                $0.lockInfo.timestamp == time
-            }
-            
-            // Only change target module
-            newPackage.weatherModules.sunny[newIndex ?? 0] = currentModules[localIndex ?? 0]
-            newPackage.weatherModules.sunny[newIndex ?? 0].lockInfo.userId = ""
             
             // Commit the changes
-            transaction.updateData([
-                "weatherModules.sunny": newPackage.weatherModules.sunny.map({ try? $0.toDictionary() })], forDocument: packageDocument)
+            transaction.updateData([path: value], forDocument: packageDocument)
+            
             return nil
+            
         }, completion: { _, error in
             if let error = error {
                 print("Transaction failed: \(error)")
@@ -292,7 +321,7 @@ extension FirestoreManager {
         packageId: String,
         userId: String,
         time: TimeInterval,
-        when: WeatherState,
+        when weatherState: WeatherState,
         completion: ((Package, Int, Bool) -> Void)?
     ) {
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
@@ -320,24 +349,54 @@ extension FirestoreManager {
 
             // New package
             newPackage = package
-            guard let newIndex = newPackage.weatherModules.sunny.firstIndex(where: {
-                $0.lockInfo.timestamp == time }) else { return }
-            rawIndex = newIndex
+            var path = ""
+            var value = [[String : Any]?]()
             
-            // update the modules
-            let oldID = newPackage.weatherModules.sunny[newIndex].lockInfo.userId
-            
-            if oldID != "" && oldID != userId {
-                isLate = true
-                return
-            } else {
-                newPackage.weatherModules.sunny[newIndex].lockInfo.userId = userId
-                newPackage.info.version += 1
+            switch weatherState {
+            case .sunny:
+                guard let newIndex = newPackage.weatherModules.sunny.firstIndex(where: {
+                    $0.lockInfo.timestamp == time }) else { return }
+                rawIndex = newIndex
+                
+                // update the modules
+                let oldID = newPackage.weatherModules.sunny[newIndex].lockInfo.userId
+                
+                if oldID != "" && oldID != userId {
+                    isLate = true
+                    return
+                } else {
+                    newPackage.weatherModules.sunny[newIndex].lockInfo.userId = userId
+                    newPackage.info.version += 1
+                }
+                
+                path = "weatherModules.sunny"
+                value = newPackage.weatherModules.rainy.map { try? $0.toDictionary() }
+                
+            case .rainy:
+                guard let newIndex = newPackage.weatherModules.rainy.firstIndex(where: {
+                    $0.lockInfo.timestamp == time }) else { return }
+                rawIndex = newIndex
+                
+                // update the modules
+                let oldID = newPackage.weatherModules.rainy[newIndex].lockInfo.userId
+                
+                if oldID != "" && oldID != userId {
+                    isLate = true
+                    return
+                } else {
+                    newPackage.weatherModules.rainy[newIndex].lockInfo.userId = userId
+                    newPackage.info.version += 1
+                }
+                
+                path = "weatherModules.rainy"
+                value = newPackage.weatherModules.rainy.map { try? $0.toDictionary()}
+                
             }
+            
 
             // Commit the changes
             transaction.updateData([
-                "weatherModules.sunny": newPackage.weatherModules.sunny.map { try? $0.toDictionary() },
+                path: value,
                 "info.version": newPackage.info.version
             ], forDocument: packageDocument)
             return nil
