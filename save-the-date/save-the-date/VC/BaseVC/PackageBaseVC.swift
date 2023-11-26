@@ -828,16 +828,6 @@ extension PackageBaseViewController {
                 var rainyDestRawIndex = 0
                 
                 if self.weatherState == .sunny {
-                    // In sunny state
-//                    if let rawIndex = self.sunnyModules.firstIndex(where: {
-//                        if $0.lockInfo.timestamp == time {
-//                            return true
-//                        } else { return false }
-//                        
-//                    }) {
-//                        sourceCoordDic = self.sunnyModules[rawIndex].location.coordinate
-//                        destCoordDic = self.sunnyModules[rawIndex + 1].location.coordinate
-//                    }
                     
                     let rawDestIndexPath = findNextIndexPath(currentIndex: targetIndex, in: self.tableView)
                     
@@ -852,19 +842,7 @@ extension PackageBaseViewController {
                     sourceCoordDic = self.sunnyModules[sunnySourceRawIndex].location.coordinate
                     destCoordDic = self.sunnyModules[sunnyDestRawIndex].location.coordinate
                     
-                    
                 } else {
-                    
-                    // In rainy state
-//                    if let rawIndex = self.rainyModules.firstIndex(where: {
-//                        if $0.lockInfo.timestamp == time {
-//                            return true
-//                        } else { return false }
-//                        
-//                    }) {
-//                        sourceCoordDic = self.rainyModules[rawIndex].location.coordinate
-//                        destCoordDic = self.rainyModules[rawIndex + 1].location.coordinate
-//                    }
                     
                     let rawDestIndexPath = findNextIndexPath(currentIndex: targetIndex, in: self.tableView)
                     
@@ -903,11 +881,6 @@ extension PackageBaseViewController {
                         // Replace with new transporation
                         if self.weatherState == .sunny {
                             
-//                            guard let rawIndex = self.sunnyModules.firstIndex(where: {
-//                                if $0.lockInfo.timestamp == time {
-//                                    return true
-//                                } else { return false }}) else { return }
-                            
                             self.sunnyModules[sunnySourceRawIndex].transportation = transportation
                             
                             // When in multi-user
@@ -916,11 +889,6 @@ extension PackageBaseViewController {
                             }
                             
                         } else {
-                            
-//                            guard let rawIndex = self.rainyModules.firstIndex(where: {
-//                                if $0.lockInfo.timestamp == time {
-//                                    return true
-//                                } else { return false }}) else { return }
                             
                             self.rainyModules[rainySourceRawIndex].transportation = transportation
                             

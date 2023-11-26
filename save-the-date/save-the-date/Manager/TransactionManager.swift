@@ -405,7 +405,7 @@ extension FirestoreManager {
                     return
                 } else {
                     newPackage.weatherModules.sunny[newIndex].lockInfo.userId = userId
-                    newPackage.info.version += 1
+                    // newPackage.info.version += 1
                 }
                 
                 path = "weatherModules.sunny"
@@ -424,7 +424,7 @@ extension FirestoreManager {
                     return
                 } else {
                     newPackage.weatherModules.rainy[newIndex].lockInfo.userId = userId
-                    newPackage.info.version += 1
+                    // newPackage.info.version += 1
                 }
                 
                 path = "weatherModules.rainy"
