@@ -202,9 +202,11 @@ extension FirestoreManager {
         sourceIndex: Int,
         destIndex: Int,
         with localPackage: Package,
+        when weatherState: WeatherState ,
         completion: ((Package) -> Void)?
     ) {
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        var newPackage = Package()
         
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
@@ -227,22 +229,41 @@ extension FirestoreManager {
             
             // Check for version consistency
             let fetchedVersion = package.info.version
-            print("remote package version: \(fetchedVersion)")
-            print("local package version: \(localPackage.info.version)")
+            newPackage = package
             
-            // Version inconsistency, abort swap action if needed
-            if fetchedVersion != localPackage.info.version {
-                completion?(package)
-            } else {
-                // Swap the modules
-                package.weatherModules.sunny.swapAt(sourceIndex, destIndex)
-                package.info.version += 1
-                completion?(package)
+            var path = ""
+            var value = [[String: Any]?]()
+            
+            switch weatherState {
+            case .sunny:
+                // Version inconsistency, abort swap action if needed
+                if fetchedVersion != localPackage.info.version {
+                    completion?(package)
+                } else {
+                    // Swap the modules
+                    package.weatherModules.sunny.swapAt(sourceIndex, destIndex)
+                    package.info.version += 1
+                    completion?(package)
+                }
+                path = "weatherModules.sunny"
+                value = package.weatherModules.sunny.map {try? $0.toDictionary()}
+            case .rainy:
+                // Version inconsistency, abort swap action if needed
+                if fetchedVersion != localPackage.info.version {
+                    completion?(package)
+                } else {
+                    // Swap the modules
+                    package.weatherModules.rainy.swapAt(sourceIndex, destIndex)
+                    package.info.version += 1
+                    completion?(package)
+                }
+                path = "weatherModules.rainy"
+                value = package.weatherModules.rainy.map {try? $0.toDictionary()}
             }
             
             // Commit the changes
             transaction.updateData([
-                "weatherModules.sunny": package.weatherModules.sunny.map({ try? $0.toDictionary() }),
+                path: value,
                 "info.version": package.info.version
             ], forDocument: packageDocument)
             return nil

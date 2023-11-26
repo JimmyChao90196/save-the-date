@@ -599,7 +599,9 @@ extension PackageBaseViewController {
                     packageId: sessionID,
                     sourceIndex: sourceRowIndex,
                     destIndex: destRowIndex,
-                    with: currentPackage) { currentPackage in
+                    with: currentPackage,
+                    when: .sunny
+                ) { currentPackage in
                         
                         self.currentPackage = currentPackage
                         self.sunnyModules = currentPackage.weatherModules.sunny
@@ -611,17 +613,38 @@ extension PackageBaseViewController {
             
         } else {
             
+            // First find out the "raw" index of the module
+            guard let sourceRowIndex = findModuleIndex(
+                modules: rainyModules,
+                from: source) else {return}
+            guard let destRowIndex = findModuleIndex(
+                modules: rainyModules,
+                from: destination) else {return}
+            
+            // is in multi-user mode?
             if isMultiUser == true {
                 
+                currentPackage.weatherModules.rainy = rainyModules
+                
+                // Swap first
+                rainyModules.swapAt(sourceRowIndex, destRowIndex)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+                self.firestoreManager.swapModulesWithTrans(
+                    packageId: sessionID,
+                    sourceIndex: sourceRowIndex,
+                    destIndex: destRowIndex,
+                    with: currentPackage,
+                    when: .rainy
+                ) { currentPackage in
+                        
+                        self.currentPackage = currentPackage
+                        self.rainyModules = currentPackage.weatherModules.rainy
+                    }
+                
             } else {
-                
-                guard let sourceRowIndex = findModuleIndex(
-                    modules: rainyModules,
-                    from: source) else {return}
-                guard let destRowIndex = findModuleIndex(
-                    modules: rainyModules,
-                    from: destination) else {return}
-                
                 rainyModules.swapAt(sourceRowIndex, destRowIndex)
             }
         }
