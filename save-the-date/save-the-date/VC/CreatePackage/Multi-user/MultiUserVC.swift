@@ -136,7 +136,7 @@ class MultiUserViewController: CreatePackageViewController {
     
     // Create session pressed
     @objc func createSessionTapped() {
-        addNewDayPressed()
+        // addNewDayPressed()
         
         let packageColl = PackageCollection.sessionColl
         let packageState = PackageState.sessitonState

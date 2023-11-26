@@ -907,11 +907,23 @@ extension PackageBaseViewController {
             
             if isMultiUser {
                 
-                guard let rawIndex = findModuleIndex(
-                    modules: sunnyModules,
-                    from: indexPath) else { return }
-                
-                let time = self.sunnyModules[rawIndex].lockInfo.timestamp
+                var time = TimeInterval()
+                if weatherState == .sunny {
+                    
+                    guard let rawIndex = findModuleIndex(
+                        modules: sunnyModules,
+                        from: indexPath) else { return }
+                    
+                    time = self.sunnyModules[rawIndex].lockInfo.timestamp
+                    
+                } else {
+                    
+                    guard let rawIndex = findModuleIndex(
+                        modules: sunnyModules,
+                        from: indexPath) else { return }
+                    
+                    time = self.rainyModules[rawIndex].lockInfo.timestamp
+                }
                 
                 self.firestoreManager.lockModuleWithTrans(
                     packageId: self.sessionID,
