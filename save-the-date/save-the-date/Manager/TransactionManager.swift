@@ -98,6 +98,7 @@ extension FirestoreManager {
     func appendModuleWithTrans(
         packageId: String,
         userId: String,
+        isNewDay: Bool,
         with targetModule: PackageModule) {
             
             let packageDocument = fdb.collection("sessionPackages").document(packageId)
@@ -123,7 +124,13 @@ extension FirestoreManager {
                 }
                 
                 // Lock the module for editing
-                package.weatherModules.sunny.append(targetModule)
+                if isNewDay {
+                    let uniqueSet = Set(package.weatherModules.sunny.compactMap { $0.day })
+                    let module = PackageModule(day: uniqueSet.count)
+                    package.weatherModules.sunny.append(module)
+                } else {
+                    package.weatherModules.sunny.append(targetModule)
+                }
                 
                 // Commit the changes
                 transaction.updateData([

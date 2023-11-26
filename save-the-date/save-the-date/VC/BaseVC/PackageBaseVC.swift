@@ -243,24 +243,52 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         // Transp Icon
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         cell.transpIcon.image = UIImage(systemName: iconName, withConfiguration: config)
-        cell.transpIcon.tintColor = .lightGray
         cell.transpIcon.contentMode = .scaleAspectFit
         
+        // Find last cell, and handel visibility
+        let totalSections = tableView.numberOfSections
+        let totalRowsInLastSection = tableView.numberOfRows(inSection: totalSections - 1)
+        let isLastCell = indexPath.section == totalSections - 1 && indexPath.row == totalRowsInLastSection - 1
+        
+        if isLastCell {
+            cell.onTranspTapped = nil
+            cell.transpView.isHidden = true
+        } else {
+            cell.transpView.isHidden = false
+        }
+        
+        // Handle location and transportation tapped
         let cellUserId = module[rawIndex].lockInfo.userId
+        
         if cellUserId == userID {
             // Claimed by me already
             cell.locationView.setBoarderColor(.green)
+            cell.transpIcon.tintColor = .lightGray
+            cell.travelTimeLabel.setTextColor(.darkGray)
+            cell.contentView.setBoarderColor(.green)
+            
             cell.onLocationTapped = self.onLocationTapped
+            cell.onTranspTapped = self.onTranspTapped
             
         } else if cellUserId == "" {
             // Unclaimed
+            cell.locationView.setBoarderColor(.hexToUIColor(hex: "#AAAAAA"))
+            cell.transpIcon.tintColor = .lightGray
+            cell.travelTimeLabel.setTextColor(.darkGray)
+            cell.contentView.setBoarderColor(.clear)
+            
             cell.onLocationTapped = self.onLocationTapped
-            cell.locationView.setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
+            cell.onTranspTapped = self.onTranspTapped
             
         } else {
             // Claimed by others
-            cell.locationView.setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
+            cell.locationView.setBoarderColor(.hexToUIColor(hex: "#DADADA"))
+            cell.transpIcon.tintColor = .hexToUIColor(hex: "#DADADA")
+            cell.travelTimeLabel.setTextColor(.hexToUIColor(hex: "DADADA"))
+            cell.contentView.setBoarderColor(.hexToUIColor(hex: "#DADADA"))
+            
             cell.onLocationTapped = nil
+            cell.onTranspTapped = nil
         }
         
         // Travel time label
@@ -274,19 +302,6 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         case .rainy:
             cell.bgImageView.image = UIImage(resource: .site05)
             cell.bgImageView.contentMode = .scaleAspectFit
-        }
-        
-        // Find last cell
-        let totalSections = tableView.numberOfSections
-        let totalRowsInLastSection = tableView.numberOfRows(inSection: totalSections - 1)
-        let isLastCell = indexPath.section == totalSections - 1 && indexPath.row == totalRowsInLastSection - 1
-        
-        if isLastCell {
-            cell.onTranspTapped = nil
-            cell.transpView.isHidden = true
-        } else {
-            cell.onTranspTapped = self.onTranspTapped
-            cell.transpView.isHidden = false
         }
         
         return cell
@@ -705,10 +720,6 @@ extension PackageBaseViewController {
                         modules: self?.sunnyModules ?? [],
                         from: targetIndex) {
                         self?.sunnyModules[index].location = location
-                        
-//                        if self?.isMultiUser == true {
-//                            self?.afterLocationComfirmed?(index)
-//                        }
                     }
                     
                 } else {
@@ -717,11 +728,6 @@ extension PackageBaseViewController {
                         modules: self?.rainyModules ?? [],
                         from: targetIndex) {
                         self?.rainyModules[index].location = location
-                        
-                        // When in multi-user mode
-//                        if self?.isMultiUser == true {
-//                            self?.afterLocationComfirmed?(index)
-//                        }
                     }
                 }
                 
@@ -837,11 +843,47 @@ extension PackageBaseViewController {
             guard let indexPath = self?.tableView.indexPath(for: cell),
             let self = self else { return }
             
-            // Jump to transpVC
-            let transpVC = TranspViewController()
-            transpVC.onTranspComfirm = onTranspComfirm
-            transpVC.actionKind = .edit(indexPath)
-            self.navigationController?.pushViewController(transpVC, animated: true)
+            if isMultiUser {
+                
+                guard let rawIndex = findModuleIndex(
+                    modules: sunnyModules,
+                    from: indexPath) else { return }
+                
+                let time = self.sunnyModules[rawIndex].lockInfo.timestamp
+                
+                self.firestoreManager.lockModuleWithTrans(
+                    packageId: self.sessionID,
+                    userId: userID,
+                    time: time,
+                    targetIndex: rawIndex,
+                    with: self.currentPackage) { newPackage, newIndex, isLate in
+                        self.currentPackage = newPackage
+                        self.sunnyModules = newPackage.weatherModules.sunny
+                        
+                        let id = self.sunnyModules[newIndex].lockInfo.userId
+                        let time = self.sunnyModules[newIndex].lockInfo.timestamp
+                        
+                        if isLate {
+                            return
+                            
+                        } else {
+                            
+                            // Jump to transpVC
+                            let transpVC = TranspViewController()
+                            // transpVC.onTranspComfirm = self.onTranspComfirm
+                            transpVC.actionKind = .edit(indexPath)
+                            self.navigationController?.pushViewController(transpVC, animated: true)
+                        }
+                    }
+                
+            } else {
+                
+                // Jump to transpVC
+                let transpVC = TranspViewController()
+                transpVC.onTranspComfirm = onTranspComfirm
+                transpVC.actionKind = .edit(indexPath)
+                self.navigationController?.pushViewController(transpVC, animated: true)
+            }
         }
         
         onLocationTapped = { [weak self] cell in
@@ -877,7 +919,6 @@ extension PackageBaseViewController {
                             // Go to explore
                             DispatchQueue.main.async {
                                 let exploreVC = ExploreSiteViewController()
-                                // exploreVC.onLocationComfirm = self.onLocationComfirm
                                 exploreVC.onComfirmWithMultiUser = self.onComfirmWithMultiUser
                                 exploreVC.actionKind = .edit(indexPath)
                                 exploreVC.id = id

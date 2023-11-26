@@ -150,15 +150,22 @@ extension CreatePackageViewController {
             
             let uniqueSet = Set(sunnyModules.compactMap { $0.day })
             let module = PackageModule(day: uniqueSet.count)
-            
             self.sunnyModules.append(module)
+            
+            if isMultiUser {
+                firestoreManager.appendModuleWithTrans(
+                    packageId: sessionID,
+                    userId: userID,
+                    isNewDay: true,
+                    with: module)
+            }
             
         case .rainy:
             
             let uniqueSet = Set(rainyModules.compactMap { $0.day })
             let module = PackageModule(day: uniqueSet.count)
-            
             self.rainyModules.append(module)
+            
         }
         
         DispatchQueue.main.async {

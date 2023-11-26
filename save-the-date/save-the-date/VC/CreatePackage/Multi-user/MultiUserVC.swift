@@ -51,9 +51,16 @@ class MultiUserViewController: CreatePackageViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        isMultiUser = true
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        isMultiUser = false
     }
     
     override func addTo() {
@@ -117,11 +124,12 @@ class MultiUserViewController: CreatePackageViewController {
             self.firestoreManager.appendModuleWithTrans(
                 packageId: packageId,
                 userId: self.userID,
+                isNewDay: false,
                 with: targetModule)
         }
     }
     
-    // Triggered events
+    // Triggered functions
     @objc func switchUserIDPressed() {
         if switchUserID.titleLabel?.text == "red" {
             switchUserID.setTitle("jimmy", for: .normal)
