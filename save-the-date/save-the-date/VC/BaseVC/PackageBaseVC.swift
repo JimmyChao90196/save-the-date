@@ -72,12 +72,12 @@ class PackageBaseViewController: UIViewController {
     
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
-    var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
+    var onTranspComfirm: ((TranspManager, ActionKind, TimeInterval) -> Void)?
     var onAddModulePressed: ((Int) -> Void)?
     
     // after events
-    var afterLocationComfirmed: ((Int, TimeInterval) -> Void)?
-    var afterAppendLocationComfirmed: ((PackageModule) -> Void)?
+    var afterComfirmed: ((Int, TimeInterval) -> Void)?
+    var afterAppendComfirmed: ((PackageModule) -> Void)?
     
     // Buttons
     var showRoute: UIButton = {
@@ -667,7 +667,7 @@ extension PackageBaseViewController {
                     
                 }) {
                     self?.sunnyModules[rawIndex].location = location
-                    self?.afterLocationComfirmed?(rawIndex, time)
+                    self?.afterComfirmed?(rawIndex, time)
                 }
                 
             } else {
@@ -679,7 +679,7 @@ extension PackageBaseViewController {
                     
                 }) {
                     self?.rainyModules[rawIndex].location = location
-                    self?.afterLocationComfirmed?(rawIndex, time)
+                    self?.afterComfirmed?(rawIndex, time)
                 }
             }
         }
@@ -701,7 +701,7 @@ extension PackageBaseViewController {
                     
                     // When in multi-user mode
                     if self?.isMultiUser == true {
-                        self?.afterAppendLocationComfirmed?(module)
+                        self?.afterAppendComfirmed?(module)
                     }
                     
                 } else {
@@ -737,7 +737,7 @@ extension PackageBaseViewController {
             }
         }
         
-        onTranspComfirm = { [weak self] transp, action in
+        onTranspComfirm = { [weak self] transp, action, time in
             // Dictate action
             switch action {
             case .add:
@@ -760,15 +760,29 @@ extension PackageBaseViewController {
                 
                 if self.weatherState == .sunny {
                     
-                    findModuleIndecies(
-                        modules: self.sunnyModules,
-                        targetModuleDay: targetDay,
-                        rowIndex: rowIndexForDay,
-                        nextModuleDay: nextDay,
-                        nextRowIndex: nextRowIndexForDay) { targetIndex, nextIndex in
-                            sourceCoordDic = self.sunnyModules[targetIndex ?? 0].location.coordinate
-                            destCoordDic = self.sunnyModules[nextIndex ?? 0].location.coordinate
+                    if isMultiUser {
+                     // When in multi-user mode
+                        if let rawIndex = self.sunnyModules.firstIndex(where: {
+                            if $0.lockInfo.timestamp == time {
+                                return true
+                            } else { return false }
+                            
+                        }) {
+                            sourceCoordDic = self.sunnyModules[rawIndex].location.coordinate
+                            destCoordDic = self.sunnyModules[rawIndex + 1].location.coordinate
                         }
+                    } else {
+                        // When in normal mode
+                        findModuleIndecies(
+                            modules: self.sunnyModules,
+                            targetModuleDay: targetDay,
+                            rowIndex: rowIndexForDay,
+                            nextModuleDay: nextDay,
+                            nextRowIndex: nextRowIndexForDay) { targetIndex, nextIndex in
+                                sourceCoordDic = self.sunnyModules[targetIndex ?? 0].location.coordinate
+                                destCoordDic = self.sunnyModules[nextIndex ?? 0].location.coordinate
+                            }
+                    }
                     
                 } else {
                     
@@ -805,10 +819,26 @@ extension PackageBaseViewController {
                         
                         // Replace with new transporation
                         if self.weatherState == .sunny {
-                            if let index = self.findModuleIndex(
-                                modules: self.sunnyModules,
-                                from: targetIndex) {
-                                self.sunnyModules[index].transportation = transportation
+                            
+                            if self.isMultiUser {
+                                // When in multi-user mode
+                                if let rawIndex = self.sunnyModules.firstIndex(where: {
+                                    if $0.lockInfo.timestamp == time {
+                                        return true
+                                    } else { return false }
+                                    
+                                }) {
+                                    self.sunnyModules[rawIndex].transportation = transportation
+                                    self.afterComfirmed?(rawIndex, time)
+                                }
+                                
+                            } else {
+                                // When in normal mode
+                                if let index = self.findModuleIndex(
+                                    modules: self.sunnyModules,
+                                    from: targetIndex) {
+                                    self.sunnyModules[index].transportation = transportation
+                                }
                             }
                         } else {
                             if let index = self.findModuleIndex(
@@ -843,13 +873,14 @@ extension PackageBaseViewController {
             guard let indexPath = self?.tableView.indexPath(for: cell),
             let self = self else { return }
             
+            guard let rawIndex = findModuleIndex(
+                modules: sunnyModules,
+                from: indexPath) else { return }
+            
+            // Find time first
+            let time = self.sunnyModules[rawIndex].lockInfo.timestamp
+            
             if isMultiUser {
-                
-                guard let rawIndex = findModuleIndex(
-                    modules: sunnyModules,
-                    from: indexPath) else { return }
-                
-                let time = self.sunnyModules[rawIndex].lockInfo.timestamp
                 
                 self.firestoreManager.lockModuleWithTrans(
                     packageId: self.sessionID,
@@ -870,7 +901,8 @@ extension PackageBaseViewController {
                             
                             // Jump to transpVC
                             let transpVC = TranspViewController()
-                            // transpVC.onTranspComfirm = self.onTranspComfirm
+                            transpVC.onTranspComfirm = self.onTranspComfirm
+                            transpVC.timeStamp = time
                             transpVC.actionKind = .edit(indexPath)
                             self.navigationController?.pushViewController(transpVC, animated: true)
                         }
@@ -881,6 +913,7 @@ extension PackageBaseViewController {
                 // Jump to transpVC
                 let transpVC = TranspViewController()
                 transpVC.onTranspComfirm = onTranspComfirm
+                transpVC.timeStamp = time
                 transpVC.actionKind = .edit(indexPath)
                 self.navigationController?.pushViewController(transpVC, animated: true)
             }

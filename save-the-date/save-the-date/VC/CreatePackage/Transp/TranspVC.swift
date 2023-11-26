@@ -17,7 +17,8 @@ class TranspViewController: UIViewController {
     var delgate: TranspViewControllerDelegate?
     var tableView = TranspTableView()
     var onTranspTapped: ((UITableViewCell) -> Void)?
-    var onTranspComfirm: ((TranspManager, ActionKind) -> Void)?
+    var onTranspComfirm: ((TranspManager, ActionKind, TimeInterval) -> Void)?
+    var timeStamp: TimeInterval = 0
     
     // Set action kind
     var actionKind = ActionKind.edit(IndexPath())
@@ -70,7 +71,7 @@ extension TranspViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let transpManager = TranspManager.allCases[indexPath.row]
-        onTranspComfirm?(transpManager, actionKind)
+        onTranspComfirm?(transpManager, actionKind, timeStamp)
         navigationController?.popViewController(animated: true)
     }
 }
