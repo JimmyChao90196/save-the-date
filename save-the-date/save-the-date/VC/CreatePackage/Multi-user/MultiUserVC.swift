@@ -52,11 +52,9 @@ class MultiUserViewController: CreatePackageViewController {
         super.viewWillAppear(animated)
         
         isMultiUser = true
-        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-        
     }
     
     override func addTo() {

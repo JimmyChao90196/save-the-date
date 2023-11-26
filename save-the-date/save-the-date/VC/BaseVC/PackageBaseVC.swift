@@ -597,7 +597,7 @@ extension PackageBaseViewController {
                     modules: rainyModules,
                     from: destination) else {return}
                 
-                sunnyModules.swapAt(sourceRowIndex, destRowIndex)
+                rainyModules.swapAt(sourceRowIndex, destRowIndex)
             }
         }
     }
@@ -743,57 +743,36 @@ extension PackageBaseViewController {
             case .add:
                 print("this shouldn't be triggered")
                 
-            case .edit(let targetIndex):
+            case .edit(_):
                 
-                // Fetch source and dest coord
-                guard let self else {return}
-                guard let nextIndexPath = self.findNextIndexPath(currentIndex: targetIndex, in: self.tableView) else { return }
-                
-                let targetDay = targetIndex.section
-                let rowIndexForDay = targetIndex.row
-                
-                let nextDay = nextIndexPath.section
-                let nextRowIndexForDay = nextIndexPath.row
-                
+                guard let self else { return }
+
+                // Prepare source and dest
                 var sourceCoordDic = [String: Double]()
                 var destCoordDic = [String: Double]()
                 
                 if self.weatherState == .sunny {
-                    
-                    if isMultiUser {
-                     // When in multi-user mode
-                        if let rawIndex = self.sunnyModules.firstIndex(where: {
-                            if $0.lockInfo.timestamp == time {
-                                return true
-                            } else { return false }
-                            
-                        }) {
-                            sourceCoordDic = self.sunnyModules[rawIndex].location.coordinate
-                            destCoordDic = self.sunnyModules[rawIndex + 1].location.coordinate
-                        }
-                    } else {
-                        // When in normal mode
-                        findModuleIndecies(
-                            modules: self.sunnyModules,
-                            targetModuleDay: targetDay,
-                            rowIndex: rowIndexForDay,
-                            nextModuleDay: nextDay,
-                            nextRowIndex: nextRowIndexForDay) { targetIndex, nextIndex in
-                                sourceCoordDic = self.sunnyModules[targetIndex ?? 0].location.coordinate
-                                destCoordDic = self.sunnyModules[nextIndex ?? 0].location.coordinate
-                            }
+                    // In sunny state
+                    if let rawIndex = self.sunnyModules.firstIndex(where: {
+                        if $0.lockInfo.timestamp == time {
+                            return true
+                        } else { return false }
+                        
+                    }) {
+                        sourceCoordDic = self.sunnyModules[rawIndex].location.coordinate
+                        destCoordDic = self.sunnyModules[rawIndex + 1].location.coordinate
                     }
                     
                 } else {
-                    
-                    findModuleIndecies(
-                        modules: self.rainyModules,
-                        targetModuleDay: targetDay,
-                        rowIndex: rowIndexForDay,
-                        nextModuleDay: nextDay,
-                        nextRowIndex: nextRowIndexForDay) { targetIndex, nextIndex in
-                        sourceCoordDic = self.rainyModules[targetIndex ?? 0].location.coordinate
-                        destCoordDic = self.rainyModules[nextIndex ?? 0].location.coordinate
+                    // In rainy state
+                    if let rawIndex = self.rainyModules.firstIndex(where: {
+                        if $0.lockInfo.timestamp == time {
+                            return true
+                        } else { return false }
+                        
+                    }) {
+                        sourceCoordDic = self.rainyModules[rawIndex].location.coordinate
+                        destCoordDic = self.rainyModules[rawIndex + 1].location.coordinate
                     }
                 }
                 
@@ -820,31 +799,30 @@ extension PackageBaseViewController {
                         // Replace with new transporation
                         if self.weatherState == .sunny {
                             
+                            guard let rawIndex = self.sunnyModules.firstIndex(where: {
+                                if $0.lockInfo.timestamp == time {
+                                    return true
+                                } else { return false }}) else { return }
+                            
+                            self.sunnyModules[rawIndex].transportation = transportation
+                            
+                            // When in multi-user
                             if self.isMultiUser {
-                                // When in multi-user mode
-                                if let rawIndex = self.sunnyModules.firstIndex(where: {
-                                    if $0.lockInfo.timestamp == time {
-                                        return true
-                                    } else { return false }
-                                    
-                                }) {
-                                    self.sunnyModules[rawIndex].transportation = transportation
-                                    self.afterComfirmed?(rawIndex, time)
-                                }
-                                
-                            } else {
-                                // When in normal mode
-                                if let index = self.findModuleIndex(
-                                    modules: self.sunnyModules,
-                                    from: targetIndex) {
-                                    self.sunnyModules[index].transportation = transportation
-                                }
+                                self.afterComfirmed?(rawIndex, time)
                             }
+                            
                         } else {
-                            if let index = self.findModuleIndex(
-                                modules: self.rainyModules,
-                                from: targetIndex) {
-                                self.rainyModules[index].transportation = transportation
+                            
+                            guard let rawIndex = self.rainyModules.firstIndex(where: {
+                                if $0.lockInfo.timestamp == time {
+                                    return true
+                                } else { return false }}) else { return }
+                            
+                            self.rainyModules[rawIndex].transportation = transportation
+                            
+                            // When in multi-user
+                            if self.isMultiUser {
+                                self.afterComfirmed?(rawIndex, time)
                             }
                         }
                         
@@ -874,24 +852,26 @@ extension PackageBaseViewController {
             guard let indexPath = self?.tableView.indexPath(for: cell),
             let self = self else { return }
             
-            guard let rawIndex = findModuleIndex(
-                modules: sunnyModules,
-                from: indexPath) else { return }
-            
+            var rawIndex = 0
+            var time = TimeInterval()
             // Find time first
-            let time = self.sunnyModules[rawIndex].lockInfo.timestamp
+            if weatherState == .sunny {
+                rawIndex = findModuleIndex(modules: sunnyModules, from: indexPath) ?? 0
+                time = self.sunnyModules[rawIndex].lockInfo.timestamp
+            } else {
+                rawIndex = findModuleIndex(modules: rainyModules, from: indexPath) ?? 0
+                time = self.rainyModules[rawIndex].lockInfo.timestamp
+            }
             
             if isMultiUser {
-                
                 self.firestoreManager.lockModuleWithTrans(
                     packageId: self.sessionID,
                     userId: userID,
                     time: time,
-                    targetIndex: rawIndex,
-                    with: self.currentPackage) { newPackage, newIndex, isLate in
+                    when: weatherState) { newPackage, newIndex, isLate in
                         self.currentPackage = newPackage
-                        self.sunnyModules = newPackage.weatherModules.sunny
                         
+                        self.sunnyModules = newPackage.weatherModules.sunny
                         let id = self.sunnyModules[newIndex].lockInfo.userId
                         let time = self.sunnyModules[newIndex].lockInfo.timestamp
                         
@@ -937,8 +917,8 @@ extension PackageBaseViewController {
                     packageId: self.sessionID,
                     userId: userID,
                     time: time,
-                    targetIndex: rawIndex,
-                    with: self.currentPackage) { newPackage, newIndex, isLate in
+                    when: weatherState
+                ) { newPackage, newIndex, isLate in
                         self.currentPackage = newPackage
                         self.sunnyModules = newPackage.weatherModules.sunny
                         

@@ -273,8 +273,7 @@ extension FirestoreManager {
         packageId: String,
         userId: String,
         time: TimeInterval,
-        targetIndex: Int,
-        with localPackage: Package,
+        when: WeatherState,
         completion: ((Package, Int, Bool) -> Void)?
     ) {
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
@@ -292,7 +291,7 @@ extension FirestoreManager {
             
             guard let packageData = packageSnapshot.data(),
                   let jsonData = try? JSONSerialization.data(withJSONObject: packageData, options: []),
-                  var package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
+                  let package = try? JSONDecoder().decode(Package.self, from: jsonData) else {
                 let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
                     NSLocalizedDescriptionKey: "Unable to deserialize package data."
                 ])
