@@ -68,7 +68,7 @@ class PackageBaseViewController: UIViewController {
     // On events
     var onDelete: ((UITableViewCell) -> Void)?
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?
-    var onComfirmWithMultiUser: ( (Location, String, TimeInterval, ActionKind) -> Void )?
+    var onLocationComfirmMU: ( (Location, String, TimeInterval, ActionKind) -> Void )?
     
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
@@ -76,8 +76,8 @@ class PackageBaseViewController: UIViewController {
     var onAddModulePressed: ((Int) -> Void)?
     
     // after events
-    var afterComfirmed: ((Int, TimeInterval) -> Void)?
-    var afterAppendModuleComfirmed: ((PackageModule) -> Void)?
+    var afterEditComfirmed: ((Int, TimeInterval) -> Void)?
+    var afterAppendComfirmed: ((PackageModule) -> Void)?
     
     // Buttons
     var showRoute: UIButton = {
@@ -656,10 +656,8 @@ extension PackageBaseViewController {
     // MARK: - Setup onEvents -
     func setupOnComfirm() {
         
-        onComfirmWithMultiUser = { [weak self] location, id, time, actionKind in
-            
+        onLocationComfirmMU = { [weak self] location, id, time, actionKind in
             switch actionKind {
-                
             case .add( let section ):
                 
                 if self?.weatherState == .sunny {
@@ -671,7 +669,7 @@ extension PackageBaseViewController {
                         day: section)
                     
                     self?.sunnyModules.append(module)
-                    self?.afterAppendModuleComfirmed?(module)
+                    self?.afterAppendComfirmed?(module)
                     
                 } else {
                     let module = PackageModule(
@@ -682,7 +680,7 @@ extension PackageBaseViewController {
                         day: section)
                     
                     self?.rainyModules.append(module)
-                    self?.afterAppendModuleComfirmed?(module)
+                    self?.afterAppendComfirmed?(module)
                 }
                 
             case .edit(_):
@@ -695,7 +693,7 @@ extension PackageBaseViewController {
                         
                     }) {
                         self?.sunnyModules[rawIndex].location = location
-                        self?.afterComfirmed?(rawIndex, time)
+                        self?.afterEditComfirmed?(rawIndex, time)
                     }
                     
                 } else {
@@ -707,7 +705,7 @@ extension PackageBaseViewController {
                         
                     }) {
                         self?.rainyModules[rawIndex].location = location
-                        self?.afterComfirmed?(rawIndex, time)
+                        self?.afterEditComfirmed?(rawIndex, time)
                     }
                 }
             }
@@ -727,11 +725,6 @@ extension PackageBaseViewController {
                 
                 if self?.weatherState == .sunny {
                     self?.sunnyModules.append(module)
-                    
-                    // When in multi-user mode
-//                    if self?.isMultiUser == true {
-//                        self?.afterAppendModuleComfirmed?(module)
-//                    }
                     
                 } else {
                     self?.rainyModules.append(module)
@@ -837,7 +830,7 @@ extension PackageBaseViewController {
                             
                             // When in multi-user
                             if self.isMultiUser {
-                                self.afterComfirmed?(rawIndex, time)
+                                self.afterEditComfirmed?(rawIndex, time)
                             }
                             
                         } else {
@@ -851,7 +844,7 @@ extension PackageBaseViewController {
                             
                             // When in multi-user
                             if self.isMultiUser {
-                                self.afterComfirmed?(rawIndex, time)
+                                self.afterEditComfirmed?(rawIndex, time)
                             }
                         }
                         
@@ -873,7 +866,7 @@ extension PackageBaseViewController {
             if self.isMultiUser {
                 
                 exploreVC.actionKind = .add(section)
-                exploreVC.onComfirmWithMultiUser = self.onComfirmWithMultiUser
+                exploreVC.onComfirmWithMultiUser = self.onLocationComfirmMU
                 
             } else {
                 
@@ -983,7 +976,7 @@ extension PackageBaseViewController {
                             // Go to explore
                             DispatchQueue.main.async {
                                 let exploreVC = ExploreSiteViewController()
-                                exploreVC.onComfirmWithMultiUser = self.onComfirmWithMultiUser
+                                exploreVC.onComfirmWithMultiUser = self.onLocationComfirmMU
                                 exploreVC.actionKind = .edit(indexPath)
                                 exploreVC.id = id
                                 exploreVC.time = time
