@@ -114,7 +114,7 @@ class MultiUserViewController: CreatePackageViewController {
                 }
         }
         
-        afterAppendComfirmed = { targetModule in
+        afterAppendModuleComfirmed = { targetModule in
             self.firestoreManager.appendModuleWithTrans(
                 packageId: packageId,
                 userId: self.userID,

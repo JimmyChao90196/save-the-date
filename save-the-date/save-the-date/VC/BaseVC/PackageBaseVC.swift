@@ -68,7 +68,7 @@ class PackageBaseViewController: UIViewController {
     // On events
     var onDelete: ((UITableViewCell) -> Void)?
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?
-    var onComfirmWithMultiUser: ( (Location, String, TimeInterval) -> Void )?
+    var onComfirmWithMultiUser: ( (Location, String, TimeInterval, ActionKind) -> Void )?
     
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
@@ -77,7 +77,7 @@ class PackageBaseViewController: UIViewController {
     
     // after events
     var afterComfirmed: ((Int, TimeInterval) -> Void)?
-    var afterAppendComfirmed: ((PackageModule) -> Void)?
+    var afterAppendModuleComfirmed: ((PackageModule) -> Void)?
     
     // Buttons
     var showRoute: UIButton = {
@@ -656,30 +656,59 @@ extension PackageBaseViewController {
     // MARK: - Setup onEvents -
     func setupOnComfirm() {
         
-        onComfirmWithMultiUser = { [weak self] location, id, time in
+        onComfirmWithMultiUser = { [weak self] location, id, time, actionKind in
             
-            if self?.weatherState == .sunny {
+            switch actionKind {
                 
-                if let rawIndex = self?.sunnyModules.firstIndex(where: {
-                    if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
-                        return true
-                    } else { return false }
+            case .add( let section ):
+                
+                if self?.weatherState == .sunny {
+                    let module = PackageModule(
+                        location: location,
+                        transportation: Transportation(
+                            transpIcon: "plus.viewfinder",
+                            travelTime: 0.0),
+                        day: section)
                     
-                }) {
-                    self?.sunnyModules[rawIndex].location = location
-                    self?.afterComfirmed?(rawIndex, time)
+                    self?.sunnyModules.append(module)
+                    self?.afterAppendModuleComfirmed?(module)
+                    
+                } else {
+                    let module = PackageModule(
+                        location: location,
+                        transportation: Transportation(
+                            transpIcon: "plus.viewfinder",
+                            travelTime: 0.0),
+                        day: section)
+                    
+                    self?.rainyModules.append(module)
+                    self?.afterAppendModuleComfirmed?(module)
                 }
                 
-            } else {
-                
-                if let rawIndex = self?.rainyModules.firstIndex(where: {
-                    if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
-                        return true
-                    } else { return false }
+            case .edit(_):
+                if self?.weatherState == .sunny {
                     
-                }) {
-                    self?.rainyModules[rawIndex].location = location
-                    self?.afterComfirmed?(rawIndex, time)
+                    if let rawIndex = self?.sunnyModules.firstIndex(where: {
+                        if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
+                            return true
+                        } else { return false }
+                        
+                    }) {
+                        self?.sunnyModules[rawIndex].location = location
+                        self?.afterComfirmed?(rawIndex, time)
+                    }
+                    
+                } else {
+                    
+                    if let rawIndex = self?.rainyModules.firstIndex(where: {
+                        if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
+                            return true
+                        } else { return false }
+                        
+                    }) {
+                        self?.rainyModules[rawIndex].location = location
+                        self?.afterComfirmed?(rawIndex, time)
+                    }
                 }
             }
         }
@@ -700,9 +729,9 @@ extension PackageBaseViewController {
                     self?.sunnyModules.append(module)
                     
                     // When in multi-user mode
-                    if self?.isMultiUser == true {
-                        self?.afterAppendComfirmed?(module)
-                    }
+//                    if self?.isMultiUser == true {
+//                        self?.afterAppendModuleComfirmed?(module)
+//                    }
                     
                 } else {
                     self?.rainyModules.append(module)
@@ -840,7 +869,17 @@ extension PackageBaseViewController {
             print("orig: \(section)")
             
             let exploreVC = ExploreSiteViewController()
-            exploreVC.onLocationComfirm = self.onLocationComfirm
+            
+            if self.isMultiUser {
+                
+                exploreVC.actionKind = .add(section)
+                exploreVC.onComfirmWithMultiUser = self.onComfirmWithMultiUser
+                
+            } else {
+                
+                exploreVC.onLocationComfirm = self.onLocationComfirm
+            }
+            
             exploreVC.actionKind = .add(section)
             self.navigationController?.pushViewController(exploreVC, animated: true)
             

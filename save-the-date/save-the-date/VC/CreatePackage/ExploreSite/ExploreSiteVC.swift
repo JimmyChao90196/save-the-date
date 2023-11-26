@@ -52,7 +52,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     
     // On event closure
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?
-    var onComfirmWithMultiUser: ( (Location, String, TimeInterval) -> Void )?
+    var onComfirmWithMultiUser: ( (Location, String, TimeInterval, ActionKind) -> Void )?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,7 +124,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
 
     // MARK: - Accept button pressed
     @objc func acceptButtonPressed() {
-        onComfirmWithMultiUser?(selectedLocation, id, time)
+        onComfirmWithMultiUser?(selectedLocation, id, time, actionKind)
         onLocationComfirm?(selectedLocation, actionKind)
         navigationController?.popViewController(animated: true)
     }
