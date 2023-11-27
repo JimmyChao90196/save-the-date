@@ -44,7 +44,7 @@ class MultiUserViewController: CreatePackageViewController {
         
         return button
     }()
-        
+    
     // MARK: - Common function -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,7 +134,6 @@ class MultiUserViewController: CreatePackageViewController {
             perform: .add) {}
     }
     
-    
     // after Event
     func setupAfterEvent(packageId: String) {
         afterEditComfirmed = { _, time in
@@ -148,10 +147,10 @@ class MultiUserViewController: CreatePackageViewController {
                 when: self.weatherState,
                 localSunnyModules: self.currentPackage.weatherModules.sunny,
                 localRainyModules: self.currentPackage.weatherModules.rainy
-                ) { newPackage in
-                    self.currentPackage = newPackage
-                    self.sunnyModules = newPackage.weatherModules.sunny
-                }
+            ) { newPackage in
+                self.currentPackage = newPackage
+                self.sunnyModules = newPackage.weatherModules.sunny
+            }
         }
         
         afterAppendComfirmed = { targetModule in
@@ -184,19 +183,13 @@ class MultiUserViewController: CreatePackageViewController {
             title: "You're about to enter normal mode",
             message: "Save or publish before leaving") { leaveKind in
                 
-            switch leaveKind {
-            case .publish: print("1")
-            case .saveAsDraft: print("2")
-            case .discardChanges: print("Leave without saving")
-                
+                switch leaveKind {
+                case .publish: self.publishPressedMU()
+                case .saveAsDraft: print("2")
+                case .discardChanges: print("Leave without saving")
+                    
+                }
             }
-            
-            self.LSG?.remove()
-            self.sunnyModules = []
-            self.rainyModules = []
-            self.currentPackage = Package()
-            self.navigationController?.popViewController(animated: true)
-        }
     }
     
     // Create session pressed
@@ -249,7 +242,7 @@ class MultiUserViewController: CreatePackageViewController {
                                 self?.tableView.reloadData()
                             }
                         }
-
+                        
                     case .failure(let error):
                         print("publish failed: \(error)")
                     }
@@ -279,6 +272,7 @@ class MultiUserViewController: CreatePackageViewController {
                     // Setup listener
                     self.LSG = self.firestoreManager.modulesListener(packageId: text) { newPackage in
                         
+                        self.currentPackage = newPackage
                         self.sunnyModules = newPackage.weatherModules.sunny
                         self.rainyModules = newPackage.weatherModules.rainy
                         
@@ -293,6 +287,65 @@ class MultiUserViewController: CreatePackageViewController {
                     
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                    }
+                }
+            }
+    }
+    
+    // publish button
+    func publishPressedMU() {
+        
+        // Check if you are initiator
+        if currentPackage.info.authorEmail[0] != userID { return }
+        
+        let packageColl = PackageCollection.publishedColl
+        let packageState = PackageState.publishedState
+        
+        // upload package
+        presentAlertWithTextField(
+            title: "Almost done",
+            message: "Please add name for your package",
+            buttonText: "Okay") { text in
+                guard let text else { return }
+                
+                self.currentPackage.info.title = text
+                print("\(self.currentPackage.info.authorEmail)")
+                
+                self.currentPackage.weatherModules.sunny = self.sunnyModules
+                self.currentPackage.weatherModules.rainy = self.rainyModules
+                
+                self.firestoreManager.uploadPackage(self.currentPackage) { [weak self] result in
+                    switch result {
+                    case .success(let documentID):
+                        
+                        let dispatchGroup = DispatchGroup()
+                        for email in self?.currentPackage.info.authorEmail ?? [] {
+                            dispatchGroup.enter()
+                            self?.firestoreManager.updateUserPackages(
+                                email: email,
+                                packageType: packageColl,
+                                packageID: documentID,
+                                perform: .add
+                            ) {
+                                dispatchGroup.leave()
+                            }
+                        }
+                        
+                        dispatchGroup.notify(queue: .main) {
+                            self?.sunnyModules = []
+                            self?.rainyModules = []
+                            self?.currentPackage = Package()
+                            self?.LSG?.remove()
+                            
+                            DispatchQueue.main.async {
+                                self?.tableView.reloadData()
+                            }
+                            
+                            self?.navigationController?.popViewController(animated: true)
+                            
+                        }
+                    case .failure(let error):
+                        print("publish failed: \(error)")
                     }
                 }
             }

@@ -73,7 +73,7 @@ extension FirestoreManager {
             
             newPackage = package
             var path = ""
-            var value = [[String : Any]?]()
+            var value = [[String: Any]?]()
             
             if weatherState == .sunny {
                 
