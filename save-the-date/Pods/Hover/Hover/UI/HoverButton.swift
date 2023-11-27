@@ -68,6 +68,8 @@ class HoverButton: UIControl {
         gradientLayer?.frame = bounds
         gradientLayer?.decorateAsCircle()
         addShadow()
+        self.layer.borderColor = UIColor.hexToUIColor(hex: "#3F3A3A").cgColor
+        self.layer.borderWidth = 2.5
     }
 }
 
@@ -111,4 +113,30 @@ private extension HoverButton {
             gradientLayer?.colors = [bottom, top].map { $0.cgColor }
         }
     }
+}
+
+extension UIColor {
+    
+    // The purpose of this function is to convert hex color to rgb.
+    static func hexToUIColor(hex: String) -> UIColor {
+        var inputString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if inputString.hasPrefix("#") {
+            inputString.remove(at: inputString.startIndex)
+        }
+        
+        if (inputString.count) != 6 {
+            return UIColor.gray
+        }
+        
+        var rgbValue: UInt64 = 0
+        Scanner(string: inputString).scanHexInt64(&rgbValue)
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
 }

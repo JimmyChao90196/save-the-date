@@ -15,52 +15,36 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseCore
 
+import Hover
+
 class CreatePackageViewController: PackageBaseViewController {
     
-    // MARK: - ViewWillAppear
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
+    var hoverButton = HoverView()
     
-    lazy var enterMultiUser: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        
-        button.setbackgroundColor(.hexToUIColor(hex: "#FF4E4E"))
-            .setCornerRadius(40)
-            .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
-            .setBoarderWidth(2.5)
-        
-        button.setTitle("Enter multiuser mode", for: .normal)
-        button.titleLabel?.setFont(UIFont(name: "ChalkboardSE-Bold", size: 18)!)
-        button.setTitleColor(.white, for: .normal)
-        
-        // Adding an action
-        button.addTarget(
-            self,
-            action: #selector(enterMultiUserPressed),
-            for: .touchUpInside)
+    // Nav item
+    var shouldEdit = false
+    lazy var editButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "slider.horizontal.3"),
+            style: .plain,
+            target: self,
+            action: #selector(editButtonPressed))
         
         return button
     }()
     
-    var publishButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        
-        button.setbackgroundColor(.hexToUIColor(hex: "#FF4E4E"))
-            .setCornerRadius(40)
-            .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
-            .setBoarderWidth(2.5)
-        
-        button.setTitle("Publish", for: .normal)
-        button.titleLabel?.setFont(UIFont(name: "ChalkboardSE-Bold", size: 18)!)
-        button.setTitleColor(.white, for: .normal)
+    lazy var saveButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+            title: "Save",
+            style: .plain,
+            target: self,
+            action: #selector(editButtonPressed))
         
         return button
     }()
-    
+   
     lazy var addNewDayButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 85, height: 30))
-        
         // Your logic to customize the button
         button.backgroundColor = .blue
         button.setTitle("New Day", for: .normal)
@@ -79,52 +63,69 @@ class CreatePackageViewController: PackageBaseViewController {
         return button
     }()
     
+    // MARK: - ViewWillAppear -
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let editBarButton = UIBarButtonItem(
-            barButtonSystemItem: .edit,
-            target: self,
-            action: #selector(editButtonPressed))
-        navigationItem.leftBarButtonItem = editBarButton
+        navigationItem.leftBarButtonItem = editButton
     }
     
     // MARK: - Basic function -
-    
-    override func addTo() {
-        super.addTo()
-        view.addSubviews([publishButton, enterMultiUser])
-    }
     
     override func setup() {
         super.setup()
         
         tableView.backgroundColor = .clear
-        
-        publishButton.addTarget(
-            self,
-            action: #selector(publishButtonPressed),
-            for: .touchUpInside)
-        
+
         let rightBarButton = UIBarButtonItem(customView: addNewDayButton)
         self.navigationItem.rightBarButtonItem = rightBarButton
+        
+        // Setup hover
+        setupHover()
+    }
+    
+    // MARK: - Setup hover -
+    func setupHover() {
+        // Hover button
+        let config = HoverConfiguration(
+            image: UIImage(systemName: "square.and.arrow.up"),
+            color: .color(.hexToUIColor(hex: "#FF4E4E")),
+            size: 50,
+            imageSizeRatio: 0.7
+        )
+        
+        let items = [
+            HoverItem(
+                title: "Enter multi-user session",
+                image: UIImage(systemName: "person.2.fill"),
+                onTap: { self.enterMultiUserPressed() }),
+            
+            HoverItem(
+                title: "Create multi-user session",
+                image: UIImage(systemName: "person.fill.badge.plus"),
+                onTap: { self.createSessionPressed() }),
+            
+            HoverItem(
+                title: "Publish",
+                image: UIImage(systemName: "square.and.arrow.up"),
+                onTap: { self.publishButtonPressed() })
+        ]
+        
+        hoverButton = HoverView(with: config, items: items)
+        hoverButton.tintColor = .white
+        
+        view.addSubviews([hoverButton])
     }
     
     override func configureConstraint() {
         super.configureConstraint()
         
-        publishButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-15)
-            make.bottom.equalTo(view.snp_bottomMargin).offset(-10)
-            make.width.equalTo(80)
-            make.height.equalTo(80)
-        }
-        
-        enterMultiUser.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-15)
-            make.top.equalTo(view.snp_topMargin).offset(10)
-            make.width.equalTo(80)
-            make.height.equalTo(80)
+        hoverButton.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -139,8 +140,39 @@ extension CreatePackageViewController {
     
     // Multiuser button pressed
     @objc func enterMultiUserPressed() {
-        let vc = MultiUserViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        
+        presentLeavingAlert(
+            title: "You are about to enter multi-user mode",
+            message: "Save or publish before leaving") { leaveKind in
+                
+            switch leaveKind {
+            case .publish: print("1")
+            case .saveAsDraft: print("2")
+            case .discardChanges: print("3")
+            }
+            
+            let multiVC = MultiUserViewController()
+            multiVC.enterKind = .enter
+            self.navigationController?.pushViewController(multiVC, animated: true)
+        }
+    }
+    
+    // Create multi-user session pressed
+    @objc func createSessionPressed() {
+        presentLeavingAlert(
+            title: "You are about to enter multi-user mode",
+            message: "Save or publish before leaving") { leaveKind in
+                
+            switch leaveKind {
+            case .publish: print("1")
+            case .saveAsDraft: print("2")
+            case .discardChanges: print("3")
+            }
+            
+            let multiVC = MultiUserViewController()
+            multiVC.enterKind = .create
+            self.navigationController?.pushViewController(multiVC, animated: true)
+        }
     }
     
     // Add empty pressed
@@ -175,7 +207,6 @@ extension CreatePackageViewController {
                     when: weatherState,
                     with: module)
             }
-            
         }
         
         DispatchQueue.main.async {
@@ -185,7 +216,19 @@ extension CreatePackageViewController {
     
     // Edit bar button pressed
     @objc func editButtonPressed() {
-        tableView.setEditing(!tableView.isEditing, animated: true)
+        
+        if shouldEdit {
+            shouldEdit = false
+            tableView.setEditing(false, animated: true)
+            
+            navigationItem.leftBarButtonItem = editButton
+            
+        } else {
+            shouldEdit = true
+            tableView.setEditing(true, animated: true)
+            
+            navigationItem.leftBarButtonItem = saveButton
+        }
     }
     
     // Publish button pressed
@@ -233,5 +276,41 @@ extension CreatePackageViewController {
                     }
                 }
             }
+    }
+}
+
+// MARK: - Alert Function -
+extension CreatePackageViewController {
+    // setup alert
+    func presentLeavingAlert(
+        title: String,
+        message: String,
+        buttonAction: ((LeaveKind) -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        // Publish action
+        let pubAction = UIAlertAction(title: "Publish", style: .default) { _ in
+            buttonAction?(LeaveKind.publish)
+        }
+        alert.addAction(pubAction)
+        
+        // Save as draft action
+        let draftAction = UIAlertAction(title: "Save as draft", style: .default) { _ in
+            buttonAction?(LeaveKind.saveAsDraft)
+        }
+        alert.addAction(draftAction)
+        
+        let leaveWithoutSaveAction = UIAlertAction(title: "Leave without saving", style: .default) { _ in
+            buttonAction?(LeaveKind.discardChanges)
+        }
+        alert.addAction(leaveWithoutSaveAction)
+        
+        // Cancel action
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }

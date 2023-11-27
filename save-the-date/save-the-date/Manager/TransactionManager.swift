@@ -12,11 +12,11 @@ import UIKit
 extension FirestoreManager {
     
     // Listener
-    func modulesListener(packageId: String, onChange: @escaping (Package) -> Void) {
+    func modulesListener(packageId: String, onChange: @escaping (Package) -> Void) ->  ListenerRegistration? {
         
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
         
-        packageDocument.addSnapshotListener { documentSnapshot, error in
+        let listenerRigsteration = packageDocument.addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
@@ -34,6 +34,8 @@ extension FirestoreManager {
                 print("Error decoding package: \(error)")
             }
         }
+        
+        return listenerRigsteration
     }
     
     // Lock the module
@@ -202,11 +204,11 @@ extension FirestoreManager {
         sourceIndex: Int,
         destIndex: Int,
         with localPackage: Package,
-        when weatherState: WeatherState ,
+        when weatherState: WeatherState,
         completion: ((Package) -> Void)?
     ) {
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
-        var newPackage = Package()
+        // var newPackage = Package()
         
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
@@ -229,7 +231,7 @@ extension FirestoreManager {
             
             // Check for version consistency
             let fetchedVersion = package.info.version
-            newPackage = package
+            // newPackage = package
             
             var path = ""
             var value = [[String: Any]?]()

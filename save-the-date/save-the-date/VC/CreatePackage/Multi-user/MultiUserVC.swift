@@ -15,7 +15,25 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseCore
 
+import Hover
+
+enum EnterKind {
+    case create
+    case enter
+}
+
+enum LeaveKind {
+    case saveAsDraft
+    case publish
+    case discardChanges
+}
+
 class MultiUserViewController: CreatePackageViewController {
+    
+    // Store listener
+    var LSG: ListenerRegistration?
+    
+    var enterKind = EnterKind.enter
     
     var switchUserID: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -26,28 +44,21 @@ class MultiUserViewController: CreatePackageViewController {
         
         return button
     }()
-    
-    var createSession: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         
-        // Your logic to customize the button
-        button.backgroundColor = .blue
-        button.setTitle("Create session", for: .normal)
-        
-        return button
-    }()
-    
-    var enterSession: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        
-        // Your logic to customize the button
-        button.backgroundColor = .blue
-        button.setTitle("Enter session", for: .normal)
-        
-        return button
-    }()
-    
     // MARK: - Common function -
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Create or enter session
+        switch enterKind {
+        case .create:
+            createSessionTapped()
+            
+        case .enter:
+            enterSesstionTapped()
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -59,17 +70,37 @@ class MultiUserViewController: CreatePackageViewController {
     
     override func addTo() {
         super.addTo()
-        view.addSubviews([createSession, enterSession, switchUserID])
+        view.addSubviews([switchUserID])
     }
     
     override func setup() {
         super.setup()
         // Adding an action
-        createSession.addTarget(self, action: #selector(createSessionTapped), for: .touchUpInside)
-        enterSession.addTarget(self, action: #selector(enterSesstionTapped), for: .touchUpInside)
         switchUserID.addTarget(self, action: #selector(switchUserIDPressed), for: .touchUpInside)
-        enterMultiUser.isHidden = true
+    }
+    
+    override func setupHover() {
+        super.setupHover()
         
+        // Hover button
+        let config = HoverConfiguration(
+            image: UIImage(systemName: "square.and.arrow.up"),
+            color: .color(.hexToUIColor(hex: "#FF4E4E")),
+            size: 50,
+            imageSizeRatio: 0.7
+        )
+        
+        let itemsMU = [
+            HoverItem(
+                title: "Leave multi-user session",
+                image: UIImage(systemName: "xmark"),
+                onTap: { self.leaveMultiUserPressed()})
+        ]
+        
+        hoverButton = HoverView(with: config, items: itemsMU)
+        hoverButton.tintColor = .white
+        
+        view.addSubviews([hoverButton])
     }
     
     override func configureConstraint() {
@@ -77,20 +108,6 @@ class MultiUserViewController: CreatePackageViewController {
         
         switchUserID.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(15)
-            make.top.equalTo(createSession.snp.bottom).offset(5)
-            make.height.equalTo(50)
-            make.width.equalTo(50)
-        }
-        
-        createSession.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(15)
-            make.centerY.equalToSuperview()
-            make.height.equalTo(50)
-            make.width.equalTo(50)
-        }
-        
-        enterSession.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-15)
             make.centerY.equalToSuperview()
             make.height.equalTo(50)
             make.width.equalTo(50)
@@ -101,8 +118,7 @@ class MultiUserViewController: CreatePackageViewController {
     
     // after Event
     func setupAfterEvent(packageId: String) {
-        
-        afterEditComfirmed = { rawIndex, time in
+        afterEditComfirmed = { _, time in
             
             self.currentPackage.weatherModules.sunny = self.sunnyModules
             self.currentPackage.weatherModules.rainy = self.rainyModules
@@ -140,9 +156,30 @@ class MultiUserViewController: CreatePackageViewController {
         }
     }
     
+    // Leave multi-user
+    @objc func leaveMultiUserPressed() {
+        
+        presentLeavingAlert(
+            title: "You're about to enter normal mode",
+            message: "Save or publish before leaving") { leaveKind in
+                
+            switch leaveKind {
+            case .publish: print("1")
+            case .saveAsDraft: print("2")
+            case .discardChanges: print("Leave without saving")
+                
+            }
+            
+            self.LSG?.remove()
+            self.sunnyModules = []
+            self.rainyModules = []
+            self.currentPackage = Package()
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     // Create session pressed
     @objc func createSessionTapped() {
-        // addNewDayPressed()
         
         let packageColl = PackageCollection.sessionColl
         let packageState = PackageState.sessitonState
@@ -174,7 +211,7 @@ class MultiUserViewController: CreatePackageViewController {
                         ) {
                             
                             // Setup listener
-                            self?.firestoreManager.modulesListener(packageId: documentID) { newPackage in
+                            self?.LSG = self?.firestoreManager.modulesListener(packageId: documentID) { newPackage in
                                 self?.sunnyModules = newPackage.weatherModules.sunny
                                 self?.rainyModules = newPackage.weatherModules.rainy
                                 
@@ -216,7 +253,7 @@ class MultiUserViewController: CreatePackageViewController {
                     self.rainyModules = self.currentPackage.weatherModules.rainy
                     
                     // Setup listener
-                    self.firestoreManager.modulesListener(packageId: text) { newPackage in
+                    self.LSG = self.firestoreManager.modulesListener(packageId: text) { newPackage in
                         
                         self.sunnyModules = newPackage.weatherModules.sunny
                         self.rainyModules = newPackage.weatherModules.rainy

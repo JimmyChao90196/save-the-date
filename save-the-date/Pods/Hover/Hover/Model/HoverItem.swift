@@ -24,7 +24,7 @@ public struct HoverItem {
                 onTap: @escaping () -> ()) {
         self.title = title
         self.image = image
-        self.color = color
+        self.color = .color(.hexToUIColor(hex: "#FF8585"))
         self.onTap = onTap
     }
 }
