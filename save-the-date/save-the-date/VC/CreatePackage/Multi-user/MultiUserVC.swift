@@ -68,7 +68,6 @@ class MultiUserViewController: CreatePackageViewController {
         createSession.addTarget(self, action: #selector(createSessionTapped), for: .touchUpInside)
         enterSession.addTarget(self, action: #selector(enterSesstionTapped), for: .touchUpInside)
         switchUserID.addTarget(self, action: #selector(switchUserIDPressed), for: .touchUpInside)
-        
         enterMultiUser.isHidden = true
         
     }

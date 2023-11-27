@@ -14,10 +14,9 @@
 				5C53F63B615C49C159CEC84184FD1687 /* [CP] Copy XCFrameworks */,
 			);
 			dependencies = (
-				088CC420C0AA77297001AFF2533BF391 /* PBXTargetDependency */,
+				C2438CB53C35B020CD4003468A92ED8B /* PBXTargetDependency */,
 			);
 			name = GooglePlaces;
-			productName = GooglePlaces;
 		};
 		52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */ = {
 			isa = PBXAggregateTarget;
@@ -27,7 +26,6 @@
 			dependencies = (
 			);
 			name = SwiftLint;
-			productName = SwiftLint;
 		};
 		E5B4BBC6DD552AC8943C7E22772FC1D3 /* GoogleMaps */ = {
 			isa = PBXAggregateTarget;
@@ -36,98 +34,127 @@
 				9801DC96C44A55EEBAB39A01F1BB925C /* [CP] Copy XCFrameworks */,
 			);
 			dependencies = (
-				4D257831EE3DFC141AC7E7DA43A5C5AA /* PBXTargetDependency */,
+				93996337ED13B234CA6F319E14B30B82 /* PBXTargetDependency */,
 			);
 			name = GoogleMaps;
-			productName = GoogleMaps;
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		00A2749F46C967ED4725A32357E3FB1B /* ConstraintLayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38148A1F686FA0DB8E97AB8FF6481E2D /* ConstraintLayoutSupport.swift */; };
-		04637C70546B34F93C3A1D79C3F78B37 /* ConstraintDirectionalInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B190E5C7B1F1E9F8CD269AD6A2CFEC /* ConstraintDirectionalInsetTarget.swift */; };
-		0591132B5EA1BE4DDA268D8A9C3D0421 /* LayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769011F762C6FC0B024EDFCFA960342 /* LayoutConstraint.swift */; };
-		06E43B4751069B47B3BD4AFD936A57E3 /* ConstraintPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966192C1BF52073481865C3717CC2504 /* ConstraintPriority.swift */; };
+		00A2749F46C967ED4725A32357E3FB1B /* ConstraintLayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A2B853B51B10CD8864B44E67F2228B /* ConstraintLayoutSupport.swift */; };
+		04637C70546B34F93C3A1D79C3F78B37 /* ConstraintDirectionalInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70FB3A7F526887A5F35E683BEC8B7F4 /* ConstraintDirectionalInsetTarget.swift */; };
+		0591132B5EA1BE4DDA268D8A9C3D0421 /* LayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D98D909DD7B9FBE399DE802C9E793 /* LayoutConstraint.swift */; };
+		06E43B4751069B47B3BD4AFD936A57E3 /* ConstraintPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B09525DF3CECC92C743D127D096F19 /* ConstraintPriority.swift */; };
 		0833E66E7F19849322305D67777B77DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		0B994CDC79B1AD3A7BE62490D27C60C8 /* ConstraintAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50259F7D23B4D552C13B5843B61EBFCC /* ConstraintAttributes.swift */; };
-		183D8B3E057B885EA7DF9A8CDCCE9029 /* ConstraintMakerRelatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F58C5B065C3CF667D9D567D0E02D466 /* ConstraintMakerRelatable.swift */; };
-		220D6AC9B1B1EC8EFFB204F9C1EAC842 /* ConstraintMakerEditable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C5B458C9396E7F687652DB45D60F9 /* ConstraintMakerEditable.swift */; };
-		256558233B40ACA6818F143BBC5B8017 /* ConstraintViewDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C52ECB5DB1ACC503B72808E2196B9E6 /* ConstraintViewDSL.swift */; };
-		31626D6984EF79334E6D10B2C70EFE58 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		32A596C80D6A5B6F06EFE61481EB6C23 /* GooglePlaces.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 84530F88169DB50906AB83E83D4E9D9A /* GooglePlaces.bundle */; };
-		3660B4F629053ABC3C1DF69366770289 /* ConstraintConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE84CBBF9FE02BCBA33808AC81499BD8 /* ConstraintConfig.swift */; };
-		38B9D58E94D9C1CECD7E381C64A2329D /* UILayoutSupport+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5724A96885B48BE8EE93C204DE113A78 /* UILayoutSupport+Extensions.swift */; };
-		42B6ACFCF650183030867CB3EF345E95 /* ConstraintMakerFinalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2499379DA4E55C1F2F8863D975FB9E87 /* ConstraintMakerFinalizable.swift */; };
-		4ACE268C6DEBBD0D0C7564458A948DE8 /* Pods-save-the-date-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 680DB9338DD8DA9711AF4F8B3F6A1776 /* Pods-save-the-date-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4BAD99B7394E225CEDBF94B8100BCC7F /* ConstraintRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460AC06E88E1B80AC944997D88368BDD /* ConstraintRelation.swift */; };
-		4DA72FD7F1FB2C0449EDEF4B8A579807 /* ConstraintPriorityTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACB264D334C67647605B3EB3A3BD716 /* ConstraintPriorityTarget.swift */; };
-		5380454C48A12A6E376122ABD8096968 /* ConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52D58E6EFBE38CDFC00BA7EEBD5AE53 /* ConstraintDescription.swift */; };
-		55E51F45F1E157D3B4942BA7252C277E /* ConstraintRelatableTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A9BA20231E2D587B3B3FF9BA22499A /* ConstraintRelatableTarget.swift */; };
-		56A72F6D13D930C4A2568F24DEA33C8D /* ConstraintLayoutSupportDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A109BE84B1BFA5FFD92B0653275D0D0 /* ConstraintLayoutSupportDSL.swift */; };
-		56AC6DC6459AE47E7BC4AF06E5B148D2 /* ConstraintDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD896A99FE66E8846FEFCC68C1C326 /* ConstraintDSL.swift */; };
-		5D36B99F3CAB1FC7337082D9581FECA6 /* Debugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669ED89CED08B2B0E5D854FBD5833868 /* Debugging.swift */; };
-		604D3C93C17978C23600EC415949AB64 /* ConstraintInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE069FF8E37BCC82EB2FEC05420A16D /* ConstraintInsets.swift */; };
-		611CEF7FF1EF9EA1BCEF6C73EEE3ACCF /* ConstraintLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9877B1F23F3F59E77B83F602BE3CF8 /* ConstraintLayoutGuide.swift */; };
-		69DE75BA185BBAB5FDAA28321F3C849F /* ConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38E00F15ECA40B440A264782ACDEB8 /* ConstraintItem.swift */; };
-		6AC1B881BB319C89AD023A02CDC8FC3D /* ConstraintLayoutGuide+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2E33BEB97C90D29CE1CB14C1C67B5C /* ConstraintLayoutGuide+Extensions.swift */; };
-		6EAC8B6FA2D115DE708A58C601DD25E1 /* Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26635B23FC191067869F83795F8BB932 /* Constraint.swift */; };
-		85E6FE9775D18B86E580B7103790C38C /* Pods-save-the-date-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F99E5DFFFC0E810B940C6BF2FD548E6 /* Pods-save-the-date-dummy.m */; };
-		86D110E63798B1745D3AC4BD25F24F75 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38F1C0381C1847C5FEBADD1153840C7F /* GoogleMaps.bundle */; };
-		95E194A3AABB5407231E898B6686F73E /* ConstraintMakerRelatable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FC29D111846699D878297DCFAF69D1 /* ConstraintMakerRelatable+Extensions.swift */; };
-		98F570DA48370453D648BD526FDAAEAA /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B5FDD4623A48A07222CF9ADE6828EA /* LayoutConstraintItem.swift */; };
-		9C9548E8B4675954566202F7B87FF0E6 /* ConstraintConstantTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD07E9CFE8A2C65F6E2E195923F82846 /* ConstraintConstantTarget.swift */; };
-		9E02CFFEFE1BEC978B512286F03D31DA /* ConstraintInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BA1B75FF3D171A4A78F7A08F1BA695 /* ConstraintInsetTarget.swift */; };
-		A03FDA8BC5741880B1EF11AFD248EF48 /* ConstraintOffsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD8A55D4C08FBFBA6EA10216B4BE72E /* ConstraintOffsetTarget.swift */; };
-		A3E3AB7C765C21AE17B1E6EE6560040C /* SnapKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F5BCE9B1229D39583E2C9E81F2285C81 /* SnapKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A5A8BF973BFE9C9304372A26C9F2E35B /* ConstraintMakerExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656F378533436FF14E9968B472465BBF /* ConstraintMakerExtendable.swift */; };
-		B03B5579590D528CBA6D11FF638BC2AF /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A28E403D64D67952C8A6D4D7889D59 /* Typealiases.swift */; };
-		B43017FEC99D227D4CDD81DD2C27D9D9 /* ConstraintMakerPrioritizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4ECA4B8C635353F647E919BE996DA54 /* ConstraintMakerPrioritizable.swift */; };
-		B752F7C4BECB65894B1F49421049CE5F /* ConstraintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB39E84CCD6E9CAA6A44E9D7B27A294 /* ConstraintView.swift */; };
-		BD47CB74CD9B2B4D2D942C9B65748DFB /* SnapKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AE4B6BABE2663820C113BCE450ED3027 /* SnapKit-dummy.m */; };
-		E98DC8FB2578E76A812E0C94BA10E1B1 /* ConstraintDirectionalInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079B9EF49FAE7ADC2933BA7D1963494E /* ConstraintDirectionalInsets.swift */; };
-		EF21586EC3DFF6097A58EEC87376A0C1 /* ConstraintLayoutGuideDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AF144E8D6E61AFFC58468C33F351A3 /* ConstraintLayoutGuideDSL.swift */; };
-		F7C0960CEEB8F0C18F4503B405EAC08F /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8BE6E5288A052896931733F1E6110 /* ConstraintMultiplierTarget.swift */; };
-		F953AA9104BFE0C2DAD639EA60104A75 /* ConstraintView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81518D45ADABC31B27796EFD2BCEDD9 /* ConstraintView+Extensions.swift */; };
-		FAB03959C2357E325B19E08BC4775DAB /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568D6250C82579E128613F73E9492F6 /* ConstraintMaker.swift */; };
+		0B994CDC79B1AD3A7BE62490D27C60C8 /* ConstraintAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F597726AF5D88E7BDADAF22F0F927 /* ConstraintAttributes.swift */; };
+		0C0853B304C73D7B53631D25EF25CD17 /* Hover-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 35BE32E8AA35FBAB2EDFA42FEC55DCB8 /* Hover-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14C347B08A896EC7D3669739A1A61E39 /* GooglePlaces.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7F1E261A9C0E2C4B818BB4946B88400 /* GooglePlaces.bundle */; };
+		183D8B3E057B885EA7DF9A8CDCCE9029 /* ConstraintMakerRelatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE1237AAF54F0E9DAC1F331B82A5850 /* ConstraintMakerRelatable.swift */; };
+		18CF435B63AAB04528D9F283086C1E15 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B103DAC8F581C2846D2030316B68D15 /* CGPoint+Distance.swift */; };
+		1A3CC906286E094F7D86972A78C29FC6 /* CGPoint+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F511D467E90566929C27BBDB967E3E79 /* CGPoint+Operators.swift */; };
+		220D6AC9B1B1EC8EFFB204F9C1EAC842 /* ConstraintMakerEditable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B78006B76B28BAB494A34A80261236 /* ConstraintMakerEditable.swift */; };
+		256558233B40ACA6818F143BBC5B8017 /* ConstraintViewDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989767635E22C3B15EB41160FE14829C /* ConstraintViewDSL.swift */; };
+		2B274BAA3687DA371A8D8F53B380AD5A /* Pods-save-the-date-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 680DB9338DD8DA9711AF4F8B3F6A1776 /* Pods-save-the-date-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3660B4F629053ABC3C1DF69366770289 /* ConstraintConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6059FE1A2754DA2215CC14BC196E2C5C /* ConstraintConfig.swift */; };
+		38B9D58E94D9C1CECD7E381C64A2329D /* UILayoutSupport+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD90A78C0207C6652FA822BCFC54A603 /* UILayoutSupport+Extensions.swift */; };
+		41212BF1E0D5696E5C6D9FFD3061AAD8 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A98196F480C133C604A7FFE825836AA /* HoverButton.swift */; };
+		4222F077584EE1B2E5E6546BE48425BF /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB910E7426A34DC0E62C2A51FB2A1FE /* NSObject+Create.swift */; };
+		42B6ACFCF650183030867CB3EF345E95 /* ConstraintMakerFinalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53448DD161286B36320620A7BB0E43A /* ConstraintMakerFinalizable.swift */; };
+		42CC5D6AEAA046C9EB5687D7B2BC845F /* HoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E6DCA19AA14813B3092C6037574C79 /* HoverItem.swift */; };
+		4BAD99B7394E225CEDBF94B8100BCC7F /* ConstraintRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5CCEB1F5200A45A2FEE28D0DA93F /* ConstraintRelation.swift */; };
+		4DA72FD7F1FB2C0449EDEF4B8A579807 /* ConstraintPriorityTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD6951035C2F694DBADC501503BE280 /* ConstraintPriorityTarget.swift */; };
+		5380454C48A12A6E376122ABD8096968 /* ConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B34449A4E015DF4C26F51F3F63CD8 /* ConstraintDescription.swift */; };
+		54AD064F1CA98F19874ECA247250A0C5 /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E4D3931B8D42A707E23C993FA45A5D /* Orientation.swift */; };
+		552DD3C4879E35A7F3C769D21122B553 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		55E51F45F1E157D3B4942BA7252C277E /* ConstraintRelatableTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03DFA05C95A4A31DE78261A71993BDF /* ConstraintRelatableTarget.swift */; };
+		561DEB0B3A5EEC536B5C869BADABF21C /* HoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CEF0E6BF7BA968E17970CC8BD0C0D /* HoverView.swift */; };
+		56A72F6D13D930C4A2568F24DEA33C8D /* ConstraintLayoutSupportDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A57E5AC7C15F28D280CE58AF62207 /* ConstraintLayoutSupportDSL.swift */; };
+		56AC6DC6459AE47E7BC4AF06E5B148D2 /* ConstraintDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDB50611B6C1403BB9B23E094ABA1 /* ConstraintDSL.swift */; };
+		5D36B99F3CAB1FC7337082D9581FECA6 /* Debugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F625FB161466D6EA978B157F4E0FBE49 /* Debugging.swift */; };
+		604D3C93C17978C23600EC415949AB64 /* ConstraintInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905667E4244B6DBE9EA49B8DF66D1730 /* ConstraintInsets.swift */; };
+		60E3966D0BE09D6522F9024CB53721C8 /* HoverColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED017B20A38EB92C1C686BBE648E1C1 /* HoverColor.swift */; };
+		611CEF7FF1EF9EA1BCEF6C73EEE3ACCF /* ConstraintLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9660DC547D55E103AED240F1AFC618B7 /* ConstraintLayoutGuide.swift */; };
+		69A2A03224453CC4B4136C3CE355EAE3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		69DE75BA185BBAB5FDAA28321F3C849F /* ConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CF1CA3583501E1B413C18AD6A6D647 /* ConstraintItem.swift */; };
+		6AC1B881BB319C89AD023A02CDC8FC3D /* ConstraintLayoutGuide+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23292E85525345FE908EA690D04E8B4E /* ConstraintLayoutGuide+Extensions.swift */; };
+		6EAC8B6FA2D115DE708A58C601DD25E1 /* Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA587609C694E3C7F69BAE9ED61A9D6 /* Constraint.swift */; };
+		7168F9322AF8BC978399BB71B44FFFE8 /* CALayer+Decorators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F22ED82AD436B53800F09D54092ECC /* CALayer+Decorators.swift */; };
+		727E23502FE1E0254946E9D9FE7CEFE9 /* DimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7D577D893E4798C4819EF97550BD33 /* DimView.swift */; };
+		769156DF413CA52ADC5F3A540D82D0C3 /* UIStackView+Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B12B86C02B196E1EEDA7C2C91DFE0C0 /* UIStackView+Add.swift */; };
+		76EED8F8BAE0927A0A493D6365A005A2 /* UIView+Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8757249E4579F523AE23F77F282AC /* UIView+Add.swift */; };
+		8707BF04ACBDA086B0B1EB15C28A552F /* HoverPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08DAA378E51AD88125A71F47DA23288 /* HoverPosition.swift */; };
+		8CDD750C109C3070A2FFEB354FA2CFC1 /* Hover-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A8F3782542D0A29E4E87E383A3EC8D /* Hover-dummy.m */; };
+		95E194A3AABB5407231E898B6686F73E /* ConstraintMakerRelatable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A39DD322A083662011B2BFC0DB51F /* ConstraintMakerRelatable+Extensions.swift */; };
+		98F570DA48370453D648BD526FDAAEAA /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732C7FBE380A6385D61FD962BA64C3D7 /* LayoutConstraintItem.swift */; };
+		9C9548E8B4675954566202F7B87FF0E6 /* ConstraintConstantTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD608C83E1100DEEC0CDDA6311209BB /* ConstraintConstantTarget.swift */; };
+		9D757874573A98328B5C4A6A655D163F /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EB6D9280C0228F799AD9FECFCF0AE2 /* Calculator.swift */; };
+		9E02CFFEFE1BEC978B512286F03D31DA /* ConstraintInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12472AB576B388DF4C79D45858E6FC1 /* ConstraintInsetTarget.swift */; };
+		A03FDA8BC5741880B1EF11AFD248EF48 /* ConstraintOffsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA4DD16355F9F07743FC4A52C65326C /* ConstraintOffsetTarget.swift */; };
+		A3E3AB7C765C21AE17B1E6EE6560040C /* SnapKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CF46209E8DA782BD0E4FF26D289C3D24 /* SnapKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A5A8BF973BFE9C9304372A26C9F2E35B /* ConstraintMakerExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA781725E056964FB08F43010942DED6 /* ConstraintMakerExtendable.swift */; };
+		AFC4BF343726325BC12475B7353C7BF4 /* HoverConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1FBFE73512B2D34B102CB2B833105 /* HoverConfiguration.swift */; };
+		B03B5579590D528CBA6D11FF638BC2AF /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC069D1C8DB373CD2673BB5CCC462EA /* Typealiases.swift */; };
+		B43017FEC99D227D4CDD81DD2C27D9D9 /* ConstraintMakerPrioritizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609B5B67F381E4CF2CA7361CE22F82F1 /* ConstraintMakerPrioritizable.swift */; };
+		B752F7C4BECB65894B1F49421049CE5F /* ConstraintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D62F285ADAF222C2073716CD44BA3F /* ConstraintView.swift */; };
+		BD47CB74CD9B2B4D2D942C9B65748DFB /* SnapKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 52CC13240709FD8B5F573272D908B498 /* SnapKit-dummy.m */; };
+		C819EAD5BADCE51AD9A7C4ABE0C212DA /* Pods-save-the-date-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F99E5DFFFC0E810B940C6BF2FD548E6 /* Pods-save-the-date-dummy.m */; };
+		C989A126A6C39DC6C09E87749CF0F65A /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8EB5C700517ABC8F9D91E85248FFF246 /* GoogleMaps.bundle */; };
+		CA777FA138D186A9B876A7CD7C20389F /* UIView+Decorators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8373CC31B39654EACE1C71CB2D6867C /* UIView+Decorators.swift */; };
+		CE504528508C6513736D89B0226C768C /* UISpringTimingParameters+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EAAF822FE911FD59E8795A37D26E2E /* UISpringTimingParameters+Init.swift */; };
+		CEB40AE4DC2664D899B296AF1EB11948 /* CGRect+Center.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4852E056B6EAACE8D1FA2304AB1CB741 /* CGRect+Center.swift */; };
+		E98DC8FB2578E76A812E0C94BA10E1B1 /* ConstraintDirectionalInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAB53AB63D9352E419CEB4BC60E6AAD /* ConstraintDirectionalInsets.swift */; };
+		EF21586EC3DFF6097A58EEC87376A0C1 /* ConstraintLayoutGuideDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA1ED84B7360B89CD6D26357111DF5 /* ConstraintLayoutGuideDSL.swift */; };
+		F68693068ED1814C0A871AB595EB896A /* HoverItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F048E0E72951BA01B0B2E67C6A16AC35 /* HoverItemView.swift */; };
+		F7C0960CEEB8F0C18F4503B405EAC08F /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF942FC97C9F5EFEAECED3760CB238A /* ConstraintMultiplierTarget.swift */; };
+		F953AA9104BFE0C2DAD639EA60104A75 /* ConstraintView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F0970D672A299B3CDD9ADE6A39085A /* ConstraintView+Extensions.swift */; };
+		FAB03959C2357E325B19E08BC4775DAB /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3805B5C4B6C7D8AD3EB45B57A0EF3547 /* ConstraintMaker.swift */; };
+		FBC1FE0FCDE79ECA588DF418FC45850E /* Anchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1993193571BE0F55E2937CD4F15B3BD1 /* Anchor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2F24C33E7EEE1D94820ABDD4AE1E152D /* PBXContainerItemProxy */ = {
+		24BBB6701455CA0CD32392A833EB45F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 285AAD0A8192022DACE2DAFE30D6CD52;
 			remoteInfo = "GooglePlaces-GooglePlacesResources";
 		};
-		3072F706ECAA436F4D22A3C025FBB10B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E5B4BBC6DD552AC8943C7E22772FC1D3;
-			remoteInfo = GoogleMaps;
-		};
-		3D84FA16B2D5664EAB55683A192AF6CB /* PBXContainerItemProxy */ = {
+		CD27527A0918FFA88456F43973098107 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 52B60EC2A583F24ACBB69C113F5488B9;
 			remoteInfo = SwiftLint;
 		};
-		5AA65517D1DDF0B0F1063F77EF81FF26 /* PBXContainerItemProxy */ = {
+		D47BD7D69FCC09F795C533DBDD3FFA18 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 7B026DDDF280F148DD87281679B51154;
 			remoteInfo = "GoogleMaps-GoogleMapsResources";
 		};
-		F1DE833191F6144565A938E340F0CB80 /* PBXContainerItemProxy */ = {
+		EDA96074AF18C14EC01069851E4DF619 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0C1885900810601510E0C632060FAF26;
 			remoteInfo = GooglePlaces;
 		};
-		FCB1B4A10900B39973F13505F04A20FD /* PBXContainerItemProxy */ = {
+		F5AD5743B5BC8B047105AD4E2E27B475 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E5B4BBC6DD552AC8943C7E22772FC1D3;
+			remoteInfo = GoogleMaps;
+		};
+		F770E5EF497CD7B63F54211B6F91D5A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5DC8654BEC6CF98599D3E999827B1258;
+			remoteInfo = Hover;
+		};
+		FF0F7541367609463A55F52549883EF7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -137,96 +164,140 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		035C5B458C9396E7F687652DB45D60F9 /* ConstraintMakerEditable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerEditable.swift; path = Sources/ConstraintMakerEditable.swift; sourceTree = "<group>"; };
-		0769011F762C6FC0B024EDFCFA960342 /* LayoutConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraint.swift; path = Sources/LayoutConstraint.swift; sourceTree = "<group>"; };
-		079B9EF49FAE7ADC2933BA7D1963494E /* ConstraintDirectionalInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDirectionalInsets.swift; path = Sources/ConstraintDirectionalInsets.swift; sourceTree = "<group>"; };
-		0AE8BE6E5288A052896931733F1E6110 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMultiplierTarget.swift; path = Sources/ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
-		1717D11ADBB8E8E4B5C7373F0B47918A /* SwiftLint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.release.xcconfig; sourceTree = "<group>"; };
+		06688F42DD846CDD278C521439CCCB64 /* SwiftLint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.release.xcconfig; sourceTree = "<group>"; };
+		07CF1CA3583501E1B413C18AD6A6D647 /* ConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintItem.swift; path = Sources/ConstraintItem.swift; sourceTree = "<group>"; };
+		09AA1ED84B7360B89CD6D26357111DF5 /* ConstraintLayoutGuideDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuideDSL.swift; path = Sources/ConstraintLayoutGuideDSL.swift; sourceTree = "<group>"; };
+		103D98D909DD7B9FBE399DE802C9E793 /* LayoutConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraint.swift; path = Sources/LayoutConstraint.swift; sourceTree = "<group>"; };
+		11B09525DF3CECC92C743D127D096F19 /* ConstraintPriority.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriority.swift; path = Sources/ConstraintPriority.swift; sourceTree = "<group>"; };
 		18281CAC7EA8851594B68EDB2C5CD13D /* Pods-save-the-date */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-save-the-date"; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F58C5B065C3CF667D9D567D0E02D466 /* ConstraintMakerRelatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerRelatable.swift; path = Sources/ConstraintMakerRelatable.swift; sourceTree = "<group>"; };
+		1993193571BE0F55E2937CD4F15B3BD1 /* Anchor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Anchor.swift; path = Hover/Model/Anchor.swift; sourceTree = "<group>"; };
 		1F99E5DFFFC0E810B940C6BF2FD548E6 /* Pods-save-the-date-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-save-the-date-dummy.m"; sourceTree = "<group>"; };
+		1FD6951035C2F694DBADC501503BE280 /* ConstraintPriorityTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriorityTarget.swift; path = Sources/ConstraintPriorityTarget.swift; sourceTree = "<group>"; };
 		21BC9DE5EE18F27517C52ABD3FBF38ED /* GoogleMaps-GoogleMapsResources */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "GoogleMaps-GoogleMapsResources"; path = GoogleMapsResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		228A209061817F07A46BC4F31947313A /* Pods-save-the-date.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-save-the-date.modulemap"; sourceTree = "<group>"; };
-		2499379DA4E55C1F2F8863D975FB9E87 /* ConstraintMakerFinalizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerFinalizable.swift; path = Sources/ConstraintMakerFinalizable.swift; sourceTree = "<group>"; };
-		265BAD6A109823FA09293EA44C101B6F /* SnapKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SnapKit.debug.xcconfig; sourceTree = "<group>"; };
-		26635B23FC191067869F83795F8BB932 /* Constraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constraint.swift; path = Sources/Constraint.swift; sourceTree = "<group>"; };
-		26A28E403D64D67952C8A6D4D7889D59 /* Typealiases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Typealiases.swift; path = Sources/Typealiases.swift; sourceTree = "<group>"; };
-		296B4CAA8229138E75AB803305465BEC /* GoogleMaps-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "GoogleMaps-xcframeworks.sh"; sourceTree = "<group>"; };
-		2D23EE94A15BC57AA714B139F4A0D065 /* GoogleMaps.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = GoogleMaps.xcframework; path = Maps/Frameworks/GoogleMaps.xcframework; sourceTree = "<group>"; };
+		23292E85525345FE908EA690D04E8B4E /* ConstraintLayoutGuide+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintLayoutGuide+Extensions.swift"; path = "Sources/ConstraintLayoutGuide+Extensions.swift"; sourceTree = "<group>"; };
+		2499C768FC50E8E4C493BDD0780EDD81 /* Hover.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Hover.modulemap; sourceTree = "<group>"; };
+		290D3295824C04ACB0FE92AAB08A3953 /* SnapKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SnapKit-Info.plist"; sourceTree = "<group>"; };
+		2AE1237AAF54F0E9DAC1F331B82A5850 /* ConstraintMakerRelatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerRelatable.swift; path = Sources/ConstraintMakerRelatable.swift; sourceTree = "<group>"; };
+		2FBBDB50611B6C1403BB9B23E094ABA1 /* ConstraintDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDSL.swift; path = Sources/ConstraintDSL.swift; sourceTree = "<group>"; };
+		2FD9DD2EF132E3174997DEFC8F94ABB5 /* ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist"; sourceTree = "<group>"; };
 		325661A9E61EEE636E1C10FDFE3AF2FC /* Pods-save-the-date-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-save-the-date-frameworks.sh"; sourceTree = "<group>"; };
-		38148A1F686FA0DB8E97AB8FF6481E2D /* ConstraintLayoutSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutSupport.swift; path = Sources/ConstraintLayoutSupport.swift; sourceTree = "<group>"; };
-		38F1C0381C1847C5FEBADD1153840C7F /* GoogleMaps.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Maps/Resources/GoogleMapsResources/GoogleMaps.bundle; sourceTree = "<group>"; };
-		3D38E00F15ECA40B440A264782ACDEB8 /* ConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintItem.swift; path = Sources/ConstraintItem.swift; sourceTree = "<group>"; };
-		41A09E79BA60FAA662DC23772C61AC0D /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Maps/Sources/dummy.h; sourceTree = "<group>"; };
-		460AC06E88E1B80AC944997D88368BDD /* ConstraintRelation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelation.swift; path = Sources/ConstraintRelation.swift; sourceTree = "<group>"; };
-		475DD730655294FD4E77E45EFFF9356B /* GoogleMapsCore.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = GoogleMapsCore.xcframework; path = Maps/Frameworks/GoogleMapsCore.xcframework; sourceTree = "<group>"; };
-		48B190E5C7B1F1E9F8CD269AD6A2CFEC /* ConstraintDirectionalInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDirectionalInsetTarget.swift; path = Sources/ConstraintDirectionalInsetTarget.swift; sourceTree = "<group>"; };
-		4BD1BA42A0C6B0C26830692C3594839D /* GooglePlaces.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GooglePlaces.debug.xcconfig; sourceTree = "<group>"; };
-		50259F7D23B4D552C13B5843B61EBFCC /* ConstraintAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintAttributes.swift; path = Sources/ConstraintAttributes.swift; sourceTree = "<group>"; };
-		516D0E70F40212F7E3B02DBAF0636971 /* GoogleMaps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleMaps.release.xcconfig; sourceTree = "<group>"; };
-		5568D6250C82579E128613F73E9492F6 /* ConstraintMaker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMaker.swift; path = Sources/ConstraintMaker.swift; sourceTree = "<group>"; };
-		5724A96885B48BE8EE93C204DE113A78 /* UILayoutSupport+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UILayoutSupport+Extensions.swift"; path = "Sources/UILayoutSupport+Extensions.swift"; sourceTree = "<group>"; };
+		33D1FBFE73512B2D34B102CB2B833105 /* HoverConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverConfiguration.swift; path = Hover/Model/HoverConfiguration.swift; sourceTree = "<group>"; };
+		3416E8DF8D4259444F6C4DC83A946244 /* GoogleMapsCore.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = GoogleMapsCore.xcframework; path = Maps/Frameworks/GoogleMapsCore.xcframework; sourceTree = "<group>"; };
+		351EE8E4FBD8164B539170923666A6A2 /* GooglePlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GooglePlaces.release.xcconfig; sourceTree = "<group>"; };
+		358E01E78B649028A100C98962FB8B5E /* SnapKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SnapKit.debug.xcconfig; sourceTree = "<group>"; };
+		35BE32E8AA35FBAB2EDFA42FEC55DCB8 /* Hover-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Hover-umbrella.h"; sourceTree = "<group>"; };
+		3805B5C4B6C7D8AD3EB45B57A0EF3547 /* ConstraintMaker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMaker.swift; path = Sources/ConstraintMaker.swift; sourceTree = "<group>"; };
+		3A8D0BBC2F1B0D500DFE2C561C95A028 /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Sources/dummy.h; sourceTree = "<group>"; };
+		3B103DAC8F581C2846D2030316B68D15 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGPoint+Distance.swift"; path = "Hover/Extensions/CGPoint+Distance.swift"; sourceTree = "<group>"; };
+		3CD0B90FF6A7B2BD26F2D3EB40996084 /* Hover-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Hover-prefix.pch"; sourceTree = "<group>"; };
+		3D6A39DD322A083662011B2BFC0DB51F /* ConstraintMakerRelatable+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintMakerRelatable+Extensions.swift"; path = "Sources/ConstraintMakerRelatable+Extensions.swift"; sourceTree = "<group>"; };
+		3FC24F43A40311CA0C0710D436714364 /* GoogleMaps-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "GoogleMaps-xcframeworks.sh"; sourceTree = "<group>"; };
+		43802FEA9FF9EBD1861DF5D4F1727272 /* SnapKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SnapKit.modulemap; sourceTree = "<group>"; };
+		4852E056B6EAACE8D1FA2304AB1CB741 /* CGRect+Center.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGRect+Center.swift"; path = "Hover/Extensions/CGRect+Center.swift"; sourceTree = "<group>"; };
+		4877F9F29856FC5C78FCF4AAB201A35A /* GooglePlaces.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GooglePlaces.debug.xcconfig; sourceTree = "<group>"; };
+		4D3C879B37A700C7EE9701A3F741BB1A /* SnapKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SnapKit.release.xcconfig; sourceTree = "<group>"; };
+		528CC86A3BD8A1CBBA5A23BC22C8898A /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Base/Sources/dummy.h; sourceTree = "<group>"; };
+		52CC13240709FD8B5F573272D908B498 /* SnapKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SnapKit-dummy.m"; sourceTree = "<group>"; };
+		5434086AE818D5815E2AFEFD77AB7C87 /* ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist"; sourceTree = "<group>"; };
 		58D55567BE5BB377C4B0D89C1322D23E /* GooglePlaces-GooglePlacesResources */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "GooglePlaces-GooglePlacesResources"; path = GooglePlacesResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A304F475B59C9CD462431159F474392 /* GoogleMapsBase.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = GoogleMapsBase.xcframework; path = Base/Frameworks/GoogleMapsBase.xcframework; sourceTree = "<group>"; };
-		5D9877B1F23F3F59E77B83F602BE3CF8 /* ConstraintLayoutGuide.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuide.swift; path = Sources/ConstraintLayoutGuide.swift; sourceTree = "<group>"; };
-		62C4CB4FEF4711C1BE5941551306B57B /* SnapKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SnapKit.release.xcconfig; sourceTree = "<group>"; };
-		656F378533436FF14E9968B472465BBF /* ConstraintMakerExtendable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerExtendable.swift; path = Sources/ConstraintMakerExtendable.swift; sourceTree = "<group>"; };
-		669ED89CED08B2B0E5D854FBD5833868 /* Debugging.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Debugging.swift; path = Sources/Debugging.swift; sourceTree = "<group>"; };
+		6059FE1A2754DA2215CC14BC196E2C5C /* ConstraintConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConfig.swift; path = Sources/ConstraintConfig.swift; sourceTree = "<group>"; };
+		609B5B67F381E4CF2CA7361CE22F82F1 /* ConstraintMakerPrioritizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerPrioritizable.swift; path = Sources/ConstraintMakerPrioritizable.swift; sourceTree = "<group>"; };
+		672AB6274C286F6557FC25C5EFAF7429 /* GoogleMaps.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = GoogleMaps.xcframework; path = Maps/Frameworks/GoogleMaps.xcframework; sourceTree = "<group>"; };
 		680DB9338DD8DA9711AF4F8B3F6A1776 /* Pods-save-the-date-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-save-the-date-umbrella.h"; sourceTree = "<group>"; };
-		6C52ECB5DB1ACC503B72808E2196B9E6 /* ConstraintViewDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintViewDSL.swift; path = Sources/ConstraintViewDSL.swift; sourceTree = "<group>"; };
-		7045EE5A14F03DFD1155524D5B26A23F /* ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist"; sourceTree = "<group>"; };
-		70AF144E8D6E61AFFC58468C33F351A3 /* ConstraintLayoutGuideDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuideDSL.swift; path = Sources/ConstraintLayoutGuideDSL.swift; sourceTree = "<group>"; };
+		69A8F3782542D0A29E4E87E383A3EC8D /* Hover-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Hover-dummy.m"; sourceTree = "<group>"; };
+		6A98196F480C133C604A7FFE825836AA /* HoverButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverButton.swift; path = Hover/UI/HoverButton.swift; sourceTree = "<group>"; };
+		6B814512F66B2AF8B52934CAABE4A249 /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Maps/Sources/dummy.h; sourceTree = "<group>"; };
+		6CA587609C694E3C7F69BAE9ED61A9D6 /* Constraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constraint.swift; path = Sources/Constraint.swift; sourceTree = "<group>"; };
+		6E3EDBBA73D8E27DC9E2CC51B241E401 /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		736451AE1729CB0CDE7CE4B1B2B751C7 /* GooglePlaces.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = GooglePlaces.xcframework; path = Frameworks/GooglePlaces.xcframework; sourceTree = "<group>"; };
-		79A9BA20231E2D587B3B3FF9BA22499A /* ConstraintRelatableTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelatableTarget.swift; path = Sources/ConstraintRelatableTarget.swift; sourceTree = "<group>"; };
+		732C7FBE380A6385D61FD962BA64C3D7 /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraintItem.swift; path = Sources/LayoutConstraintItem.swift; sourceTree = "<group>"; };
+		743D5CCEB1F5200A45A2FEE28D0DA93F /* ConstraintRelation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelation.swift; path = Sources/ConstraintRelation.swift; sourceTree = "<group>"; };
+		75EB6D9280C0228F799AD9FECFCF0AE2 /* Calculator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Calculator.swift; path = Hover/Helpers/Calculator.swift; sourceTree = "<group>"; };
+		76A8757249E4579F523AE23F77F282AC /* UIView+Add.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Add.swift"; path = "Hover/Extensions/UIView+Add.swift"; sourceTree = "<group>"; };
 		7AF220C96B40D782AD6333C002CFD11C /* Pods-save-the-date.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-save-the-date.debug.xcconfig"; sourceTree = "<group>"; };
-		7BB39E84CCD6E9CAA6A44E9D7B27A294 /* ConstraintView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintView.swift; path = Sources/ConstraintView.swift; sourceTree = "<group>"; };
-		84530F88169DB50906AB83E83D4E9D9A /* GooglePlaces.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = Resources/GooglePlacesResources/GooglePlaces.bundle; sourceTree = "<group>"; };
-		8A2E33BEB97C90D29CE1CB14C1C67B5C /* ConstraintLayoutGuide+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintLayoutGuide+Extensions.swift"; path = "Sources/ConstraintLayoutGuide+Extensions.swift"; sourceTree = "<group>"; };
-		8D69DAD795C0B1E3373C5F81CBD5B56B /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
-		8EB90A9771196CFA55CD7C5DB1A936B5 /* SnapKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SnapKit-Info.plist"; sourceTree = "<group>"; };
-		94BAA3255212EC5CC60ECDBFBF65FAF3 /* GoogleMaps.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleMaps.debug.xcconfig; sourceTree = "<group>"; };
-		966192C1BF52073481865C3717CC2504 /* ConstraintPriority.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriority.swift; path = Sources/ConstraintPriority.swift; sourceTree = "<group>"; };
-		96FC29D111846699D878297DCFAF69D1 /* ConstraintMakerRelatable+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintMakerRelatable+Extensions.swift"; path = "Sources/ConstraintMakerRelatable+Extensions.swift"; sourceTree = "<group>"; };
+		7B12B86C02B196E1EEDA7C2C91DFE0C0 /* UIStackView+Add.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIStackView+Add.swift"; path = "Hover/Extensions/UIStackView+Add.swift"; sourceTree = "<group>"; };
+		7F45E6F3B78B7C431AC915A2D2C3B088 /* GoogleMapsBase.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = GoogleMapsBase.xcframework; path = Base/Frameworks/GoogleMapsBase.xcframework; sourceTree = "<group>"; };
+		82F0970D672A299B3CDD9ADE6A39085A /* ConstraintView+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintView+Extensions.swift"; path = "Sources/ConstraintView+Extensions.swift"; sourceTree = "<group>"; };
+		847ACD3DD9DA5D9505383E21769469CE /* Hover */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Hover; path = Hover.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84B78006B76B28BAB494A34A80261236 /* ConstraintMakerEditable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerEditable.swift; path = Sources/ConstraintMakerEditable.swift; sourceTree = "<group>"; };
+		85D62F285ADAF222C2073716CD44BA3F /* ConstraintView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintView.swift; path = Sources/ConstraintView.swift; sourceTree = "<group>"; };
+		8EB5C700517ABC8F9D91E85248FFF246 /* GoogleMaps.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Maps/Resources/GoogleMapsResources/GoogleMaps.bundle; sourceTree = "<group>"; };
+		8FB910E7426A34DC0E62C2A51FB2A1FE /* NSObject+Create.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSObject+Create.swift"; path = "Hover/Extensions/NSObject+Create.swift"; sourceTree = "<group>"; };
+		905667E4244B6DBE9EA49B8DF66D1730 /* ConstraintInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsets.swift; path = Sources/ConstraintInsets.swift; sourceTree = "<group>"; };
+		9660DC547D55E103AED240F1AFC618B7 /* ConstraintLayoutGuide.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuide.swift; path = Sources/ConstraintLayoutGuide.swift; sourceTree = "<group>"; };
 		979486118B3E90C08386079D57962701 /* SnapKit */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SnapKit; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A109BE84B1BFA5FFD92B0653275D0D0 /* ConstraintLayoutSupportDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutSupportDSL.swift; path = Sources/ConstraintLayoutSupportDSL.swift; sourceTree = "<group>"; };
-		9A6E0920279E0976F960F5247EFB09E3 /* ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist"; sourceTree = "<group>"; };
-		9BD8A55D4C08FBFBA6EA10216B4BE72E /* ConstraintOffsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintOffsetTarget.swift; path = Sources/ConstraintOffsetTarget.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A52D58E6EFBE38CDFC00BA7EEBD5AE53 /* ConstraintDescription.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDescription.swift; path = Sources/ConstraintDescription.swift; sourceTree = "<group>"; };
-		A7BA1B75FF3D171A4A78F7A08F1BA695 /* ConstraintInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsetTarget.swift; path = Sources/ConstraintInsetTarget.swift; sourceTree = "<group>"; };
-		AD0914EDEC46ABD9562095DF4B065BFF /* SnapKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SnapKit.modulemap; sourceTree = "<group>"; };
-		AE4B6BABE2663820C113BCE450ED3027 /* SnapKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SnapKit-dummy.m"; sourceTree = "<group>"; };
-		AF50A11BAC18C841F7DC967283F5927A /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Base/Sources/dummy.h; sourceTree = "<group>"; };
+		989767635E22C3B15EB41160FE14829C /* ConstraintViewDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintViewDSL.swift; path = Sources/ConstraintViewDSL.swift; sourceTree = "<group>"; };
+		98EAAF822FE911FD59E8795A37D26E2E /* UISpringTimingParameters+Init.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UISpringTimingParameters+Init.swift"; path = "Hover/Extensions/UISpringTimingParameters+Init.swift"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9E7D577D893E4798C4819EF97550BD33 /* DimView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DimView.swift; path = Hover/UI/DimView.swift; sourceTree = "<group>"; };
+		9ED017B20A38EB92C1C686BBE648E1C1 /* HoverColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverColor.swift; path = Hover/Model/HoverColor.swift; sourceTree = "<group>"; };
+		9F4A57E5AC7C15F28D280CE58AF62207 /* ConstraintLayoutSupportDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutSupportDSL.swift; path = Sources/ConstraintLayoutSupportDSL.swift; sourceTree = "<group>"; };
+		9FF942FC97C9F5EFEAECED3760CB238A /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMultiplierTarget.swift; path = Sources/ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
+		AD7ECFF7A8EE2AF1B979355EC81F3D15 /* GooglePlaces-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "GooglePlaces-xcframeworks.sh"; sourceTree = "<group>"; };
 		B00E54B69F3DD845BD4441D196780DDA /* Pods-save-the-date-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-save-the-date-acknowledgements.plist"; sourceTree = "<group>"; };
 		B3BE24C5C30A3783E510815EE6274B91 /* Pods-save-the-date-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-save-the-date-resources.sh"; sourceTree = "<group>"; };
-		B4B5FDD4623A48A07222CF9ADE6828EA /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraintItem.swift; path = Sources/LayoutConstraintItem.swift; sourceTree = "<group>"; };
-		B4DA007D7865200AE0AC7F4ADA22F2B4 /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Sources/dummy.h; sourceTree = "<group>"; };
+		B53448DD161286B36320620A7BB0E43A /* ConstraintMakerFinalizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerFinalizable.swift; path = Sources/ConstraintMakerFinalizable.swift; sourceTree = "<group>"; };
+		B70FB3A7F526887A5F35E683BEC8B7F4 /* ConstraintDirectionalInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDirectionalInsetTarget.swift; path = Sources/ConstraintDirectionalInsetTarget.swift; sourceTree = "<group>"; };
 		B738852EAB79978DEC7F443315E914FD /* Pods-save-the-date-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-save-the-date-acknowledgements.markdown"; sourceTree = "<group>"; };
-		BACB264D334C67647605B3EB3A3BD716 /* ConstraintPriorityTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriorityTarget.swift; path = Sources/ConstraintPriorityTarget.swift; sourceTree = "<group>"; };
-		BDE069FF8E37BCC82EB2FEC05420A16D /* ConstraintInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsets.swift; path = Sources/ConstraintInsets.swift; sourceTree = "<group>"; };
-		C012D4523382392D78C16F8FFCC94EF8 /* GooglePlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GooglePlaces.release.xcconfig; sourceTree = "<group>"; };
-		C4ECA4B8C635353F647E919BE996DA54 /* ConstraintMakerPrioritizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerPrioritizable.swift; path = Sources/ConstraintMakerPrioritizable.swift; sourceTree = "<group>"; };
-		C81518D45ADABC31B27796EFD2BCEDD9 /* ConstraintView+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintView+Extensions.swift"; path = "Sources/ConstraintView+Extensions.swift"; sourceTree = "<group>"; };
+		C12472AB576B388DF4C79D45858E6FC1 /* ConstraintInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsetTarget.swift; path = Sources/ConstraintInsetTarget.swift; sourceTree = "<group>"; };
+		C78F597726AF5D88E7BDADAF22F0F927 /* ConstraintAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintAttributes.swift; path = Sources/ConstraintAttributes.swift; sourceTree = "<group>"; };
 		CD50A453892774EE8AF1C2E6C36DC602 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
-		CF1265BB73D5951DBCCF69F128B554D4 /* SnapKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-prefix.pch"; sourceTree = "<group>"; };
-		DD07E9CFE8A2C65F6E2E195923F82846 /* ConstraintConstantTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConstantTarget.swift; path = Sources/ConstraintConstantTarget.swift; sourceTree = "<group>"; };
-		DF5E81339ECF9B0A27F938033ED8D30C /* GooglePlaces-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "GooglePlaces-xcframeworks.sh"; sourceTree = "<group>"; };
+		CF46209E8DA782BD0E4FF26D289C3D24 /* SnapKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-umbrella.h"; sourceTree = "<group>"; };
+		D03DFA05C95A4A31DE78261A71993BDF /* ConstraintRelatableTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelatableTarget.swift; path = Sources/ConstraintRelatableTarget.swift; sourceTree = "<group>"; };
+		D7F1E261A9C0E2C4B818BB4946B88400 /* GooglePlaces.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = Resources/GooglePlacesResources/GooglePlaces.bundle; sourceTree = "<group>"; };
+		D7F492E7E82A7170DA44C9FC0976F1E7 /* Hover.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Hover.debug.xcconfig; sourceTree = "<group>"; };
+		DA3CEF0E6BF7BA968E17970CC8BD0C0D /* HoverView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverView.swift; path = Hover/UI/HoverView.swift; sourceTree = "<group>"; };
+		DD90A78C0207C6652FA822BCFC54A603 /* UILayoutSupport+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UILayoutSupport+Extensions.swift"; path = "Sources/UILayoutSupport+Extensions.swift"; sourceTree = "<group>"; };
 		E18FBD2CFA98E9A2C3582716E180985F /* Pods-save-the-date-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-save-the-date-Info.plist"; sourceTree = "<group>"; };
-		EE84CBBF9FE02BCBA33808AC81499BD8 /* ConstraintConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConfig.swift; path = Sources/ConstraintConfig.swift; sourceTree = "<group>"; };
-		F5BCE9B1229D39583E2C9E81F2285C81 /* SnapKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-umbrella.h"; sourceTree = "<group>"; };
-		F7BD896A99FE66E8846FEFCC68C1C326 /* ConstraintDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDSL.swift; path = Sources/ConstraintDSL.swift; sourceTree = "<group>"; };
+		E22A203DC25DA8869AFB1E11DB4DCAE6 /* GoogleMaps.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleMaps.debug.xcconfig; sourceTree = "<group>"; };
+		E29B4A6F8016A4433C16CBD743F9EF16 /* Hover.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Hover.release.xcconfig; sourceTree = "<group>"; };
+		E3E4D3931B8D42A707E23C993FA45A5D /* Orientation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Orientation.swift; path = Hover/Model/Orientation.swift; sourceTree = "<group>"; };
+		E4F22ED82AD436B53800F09D54092ECC /* CALayer+Decorators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CALayer+Decorators.swift"; path = "Hover/Extensions/CALayer+Decorators.swift"; sourceTree = "<group>"; };
+		E5E6DCA19AA14813B3092C6037574C79 /* HoverItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverItem.swift; path = Hover/Model/HoverItem.swift; sourceTree = "<group>"; };
+		E8373CC31B39654EACE1C71CB2D6867C /* UIView+Decorators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Decorators.swift"; path = "Hover/Extensions/UIView+Decorators.swift"; sourceTree = "<group>"; };
+		EA781725E056964FB08F43010942DED6 /* ConstraintMakerExtendable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerExtendable.swift; path = Sources/ConstraintMakerExtendable.swift; sourceTree = "<group>"; };
+		EAA4DD16355F9F07743FC4A52C65326C /* ConstraintOffsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintOffsetTarget.swift; path = Sources/ConstraintOffsetTarget.swift; sourceTree = "<group>"; };
+		EAD608C83E1100DEEC0CDDA6311209BB /* ConstraintConstantTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConstantTarget.swift; path = Sources/ConstraintConstantTarget.swift; sourceTree = "<group>"; };
+		EF504B3B4AC1CB1816D2F370097F91F8 /* Hover-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Hover-Info.plist"; sourceTree = "<group>"; };
+		F048E0E72951BA01B0B2E67C6A16AC35 /* HoverItemView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverItemView.swift; path = Hover/UI/HoverItemView.swift; sourceTree = "<group>"; };
+		F08DAA378E51AD88125A71F47DA23288 /* HoverPosition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverPosition.swift; path = Hover/Model/HoverPosition.swift; sourceTree = "<group>"; };
+		F13778D710029403160B2FBB61A6A421 /* GoogleMaps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleMaps.release.xcconfig; sourceTree = "<group>"; };
+		F36B34449A4E015DF4C26F51F3F63CD8 /* ConstraintDescription.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDescription.swift; path = Sources/ConstraintDescription.swift; sourceTree = "<group>"; };
+		F4A2B853B51B10CD8864B44E67F2228B /* ConstraintLayoutSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutSupport.swift; path = Sources/ConstraintLayoutSupport.swift; sourceTree = "<group>"; };
+		F511D467E90566929C27BBDB967E3E79 /* CGPoint+Operators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGPoint+Operators.swift"; path = "Hover/Extensions/CGPoint+Operators.swift"; sourceTree = "<group>"; };
+		F625FB161466D6EA978B157F4E0FBE49 /* Debugging.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Debugging.swift; path = Sources/Debugging.swift; sourceTree = "<group>"; };
+		FAAB53AB63D9352E419CEB4BC60E6AAD /* ConstraintDirectionalInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDirectionalInsets.swift; path = Sources/ConstraintDirectionalInsets.swift; sourceTree = "<group>"; };
+		FCC069D1C8DB373CD2673BB5CCC462EA /* Typealiases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Typealiases.swift; path = Sources/Typealiases.swift; sourceTree = "<group>"; };
+		FD30B094113A1D1AD7E110E672384FD4 /* SnapKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-prefix.pch"; sourceTree = "<group>"; };
+		FD7B1AE86082FBACD79D1DF0781A8796 /* GooglePlaces.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = GooglePlaces.xcframework; path = Frameworks/GooglePlaces.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3380EA0ECD6E8B7A87411456B6B5D279 /* Frameworks */ = {
+		1954930D2498EF87795D85C074CC02C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				552DD3C4879E35A7F3C769D21122B553 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABF1FD4AE6DA5A40E1DDB479F0AC132 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69A2A03224453CC4B4136C3CE355EAE3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		54289B63C34C92F52B4AFE0B25A002CB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AF27D417AB5C5C7C75FDC115A5E6326B /* Frameworks */ = {
+		D9F6BFD20AD09512439C905842222B36 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -238,14 +309,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0833E66E7F19849322305D67777B77DB /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F64001272CC85072C25D32C4931F59F0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				31626D6984EF79334E6D10B2C70EFE58 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,77 +333,63 @@
 			path = "Target Support Files/Pods-save-the-date";
 			sourceTree = "<group>";
 		};
-		1D9E3C687F7FA5C43912ADC0408A8DDC /* Products */ = {
+		07694D304B61115A5F0F751D837DC61B /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				21BC9DE5EE18F27517C52ABD3FBF38ED /* GoogleMaps-GoogleMapsResources */,
-				58D55567BE5BB377C4B0D89C1322D23E /* GooglePlaces-GooglePlacesResources */,
-				18281CAC7EA8851594B68EDB2C5CD13D /* Pods-save-the-date */,
-				979486118B3E90C08386079D57962701 /* SnapKit */,
+				3FC24F43A40311CA0C0710D436714364 /* GoogleMaps-xcframeworks.sh */,
+				E22A203DC25DA8869AFB1E11DB4DCAE6 /* GoogleMaps.debug.xcconfig */,
+				F13778D710029403160B2FBB61A6A421 /* GoogleMaps.release.xcconfig */,
+				2FD9DD2EF132E3174997DEFC8F94ABB5 /* ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist */,
 			);
-			name = Products;
+			name = "Support Files";
+			path = "../Target Support Files/GoogleMaps";
 			sourceTree = "<group>";
 		};
-		280D7A403853214A31C37B12C46EB691 /* Frameworks */ = {
+		0ED7F072A97412227D9AF8BD217BAD3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2D23EE94A15BC57AA714B139F4A0D065 /* GoogleMaps.xcframework */,
-				475DD730655294FD4E77E45EFFF9356B /* GoogleMapsCore.xcframework */,
+				FD7B1AE86082FBACD79D1DF0781A8796 /* GooglePlaces.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		2CFA9572DC3F250C22583CD0CD898924 /* Resources */ = {
+		1C921436508B28C6461E4A34D4AA29AF /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				38F1C0381C1847C5FEBADD1153840C7F /* GoogleMaps.bundle */,
+				6E3EDBBA73D8E27DC9E2CC51B241E401 /* SwiftLint.debug.xcconfig */,
+				06688F42DD846CDD278C521439CCCB64 /* SwiftLint.release.xcconfig */,
 			);
-			name = Resources;
+			name = "Support Files";
+			path = "../Target Support Files/SwiftLint";
 			sourceTree = "<group>";
 		};
-		4C616C5FE239EDEB00304DFAF2758F4C /* SnapKit */ = {
+		245C1DFB69C2B86F6629DB69E578D9AD /* SwiftLint */ = {
 			isa = PBXGroup;
 			children = (
-				26635B23FC191067869F83795F8BB932 /* Constraint.swift */,
-				50259F7D23B4D552C13B5843B61EBFCC /* ConstraintAttributes.swift */,
-				EE84CBBF9FE02BCBA33808AC81499BD8 /* ConstraintConfig.swift */,
-				DD07E9CFE8A2C65F6E2E195923F82846 /* ConstraintConstantTarget.swift */,
-				A52D58E6EFBE38CDFC00BA7EEBD5AE53 /* ConstraintDescription.swift */,
-				079B9EF49FAE7ADC2933BA7D1963494E /* ConstraintDirectionalInsets.swift */,
-				48B190E5C7B1F1E9F8CD269AD6A2CFEC /* ConstraintDirectionalInsetTarget.swift */,
-				F7BD896A99FE66E8846FEFCC68C1C326 /* ConstraintDSL.swift */,
-				BDE069FF8E37BCC82EB2FEC05420A16D /* ConstraintInsets.swift */,
-				A7BA1B75FF3D171A4A78F7A08F1BA695 /* ConstraintInsetTarget.swift */,
-				3D38E00F15ECA40B440A264782ACDEB8 /* ConstraintItem.swift */,
-				5D9877B1F23F3F59E77B83F602BE3CF8 /* ConstraintLayoutGuide.swift */,
-				8A2E33BEB97C90D29CE1CB14C1C67B5C /* ConstraintLayoutGuide+Extensions.swift */,
-				70AF144E8D6E61AFFC58468C33F351A3 /* ConstraintLayoutGuideDSL.swift */,
-				38148A1F686FA0DB8E97AB8FF6481E2D /* ConstraintLayoutSupport.swift */,
-				9A109BE84B1BFA5FFD92B0653275D0D0 /* ConstraintLayoutSupportDSL.swift */,
-				5568D6250C82579E128613F73E9492F6 /* ConstraintMaker.swift */,
-				035C5B458C9396E7F687652DB45D60F9 /* ConstraintMakerEditable.swift */,
-				656F378533436FF14E9968B472465BBF /* ConstraintMakerExtendable.swift */,
-				2499379DA4E55C1F2F8863D975FB9E87 /* ConstraintMakerFinalizable.swift */,
-				C4ECA4B8C635353F647E919BE996DA54 /* ConstraintMakerPrioritizable.swift */,
-				1F58C5B065C3CF667D9D567D0E02D466 /* ConstraintMakerRelatable.swift */,
-				96FC29D111846699D878297DCFAF69D1 /* ConstraintMakerRelatable+Extensions.swift */,
-				0AE8BE6E5288A052896931733F1E6110 /* ConstraintMultiplierTarget.swift */,
-				9BD8A55D4C08FBFBA6EA10216B4BE72E /* ConstraintOffsetTarget.swift */,
-				966192C1BF52073481865C3717CC2504 /* ConstraintPriority.swift */,
-				BACB264D334C67647605B3EB3A3BD716 /* ConstraintPriorityTarget.swift */,
-				79A9BA20231E2D587B3B3FF9BA22499A /* ConstraintRelatableTarget.swift */,
-				460AC06E88E1B80AC944997D88368BDD /* ConstraintRelation.swift */,
-				7BB39E84CCD6E9CAA6A44E9D7B27A294 /* ConstraintView.swift */,
-				C81518D45ADABC31B27796EFD2BCEDD9 /* ConstraintView+Extensions.swift */,
-				6C52ECB5DB1ACC503B72808E2196B9E6 /* ConstraintViewDSL.swift */,
-				669ED89CED08B2B0E5D854FBD5833868 /* Debugging.swift */,
-				0769011F762C6FC0B024EDFCFA960342 /* LayoutConstraint.swift */,
-				B4B5FDD4623A48A07222CF9ADE6828EA /* LayoutConstraintItem.swift */,
-				26A28E403D64D67952C8A6D4D7889D59 /* Typealiases.swift */,
-				5724A96885B48BE8EE93C204DE113A78 /* UILayoutSupport+Extensions.swift */,
-				B998B950523F3F777747C68133128B01 /* Support Files */,
+				1C921436508B28C6461E4A34D4AA29AF /* Support Files */,
 			);
-			path = SnapKit;
+			name = SwiftLint;
+			path = SwiftLint;
+			sourceTree = "<group>";
+		};
+		305356FB07A0E76A4E065C9ACA438F20 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				87D725A3E50781E60BD3298366FA339C /* GoogleMaps */,
+				7F148B8BB604BBABD437A6C2DE19A3AD /* GooglePlaces */,
+				976E75B5331E1D3B51CD6E7555196004 /* Hover */,
+				E3ECBFD58954FE3BEE08A1CAA2835165 /* SnapKit */,
+				245C1DFB69C2B86F6629DB69E578D9AD /* SwiftLint */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		38A10A0E97763C709BD39E5B9CA36387 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7F45E6F3B78B7C431AC915A2D2C3B088 /* GoogleMapsBase.xcframework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
@@ -351,26 +400,6 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		639E953E2EF06662DC256B57F0C9F896 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				296B4CAA8229138E75AB803305465BEC /* GoogleMaps-xcframeworks.sh */,
-				94BAA3255212EC5CC60ECDBFBF65FAF3 /* GoogleMaps.debug.xcconfig */,
-				516D0E70F40212F7E3B02DBAF0636971 /* GoogleMaps.release.xcconfig */,
-				7045EE5A14F03DFD1155524D5B26A23F /* ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/GoogleMaps";
-			sourceTree = "<group>";
-		};
-		706DD92CCA719EA475345C510B210B8D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				736451AE1729CB0CDE7CE4B1B2B751C7 /* GooglePlaces.xcframework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		77B7824367285E5BBEF646799D833C5B /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,66 +408,134 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		87DB986408D0BE8F365D79CA582C3BFC /* Resources */ = {
+		7F148B8BB604BBABD437A6C2DE19A3AD /* GooglePlaces */ = {
 			isa = PBXGroup;
 			children = (
-				84530F88169DB50906AB83E83D4E9D9A /* GooglePlaces.bundle */,
+				3A8D0BBC2F1B0D500DFE2C561C95A028 /* dummy.h */,
+				0ED7F072A97412227D9AF8BD217BAD3A /* Frameworks */,
+				914D0AF4DEFB210BF0ADFEC83B4DA44B /* Resources */,
+				D2F2088D9EF8AB58053DA9BE18F6F407 /* Support Files */,
+			);
+			name = GooglePlaces;
+			path = GooglePlaces;
+			sourceTree = "<group>";
+		};
+		86D6D2C6F1EF9C0C2DE7556E008EAD4E /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				2499C768FC50E8E4C493BDD0780EDD81 /* Hover.modulemap */,
+				69A8F3782542D0A29E4E87E383A3EC8D /* Hover-dummy.m */,
+				EF504B3B4AC1CB1816D2F370097F91F8 /* Hover-Info.plist */,
+				3CD0B90FF6A7B2BD26F2D3EB40996084 /* Hover-prefix.pch */,
+				35BE32E8AA35FBAB2EDFA42FEC55DCB8 /* Hover-umbrella.h */,
+				D7F492E7E82A7170DA44C9FC0976F1E7 /* Hover.debug.xcconfig */,
+				E29B4A6F8016A4433C16CBD743F9EF16 /* Hover.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Hover";
+			sourceTree = "<group>";
+		};
+		87D725A3E50781E60BD3298366FA339C /* GoogleMaps */ = {
+			isa = PBXGroup;
+			children = (
+				B10A890B0546B6A27995194EF4462126 /* Base */,
+				91C03DCC1775B7C933A2148ABEC9B37C /* Maps */,
+				07694D304B61115A5F0F751D837DC61B /* Support Files */,
+			);
+			name = GoogleMaps;
+			path = GoogleMaps;
+			sourceTree = "<group>";
+		};
+		914D0AF4DEFB210BF0ADFEC83B4DA44B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D7F1E261A9C0E2C4B818BB4946B88400 /* GooglePlaces.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		88F43B7EFC579984AFE666CF743BBDEF /* Base */ = {
+		91C03DCC1775B7C933A2148ABEC9B37C /* Maps */ = {
 			isa = PBXGroup;
 			children = (
-				AF50A11BAC18C841F7DC967283F5927A /* dummy.h */,
-				D6CA3D542D2D454CED8E1688118B4F0A /* Frameworks */,
+				6B814512F66B2AF8B52934CAABE4A249 /* dummy.h */,
+				A63583EEA66CF1589CFD370154A0E927 /* Frameworks */,
+				F36B3174EDD7ADDC2D2C6197A136C1E6 /* Resources */,
 			);
-			name = Base;
+			name = Maps;
 			sourceTree = "<group>";
 		};
-		90659AED42602697E9FCD1CEEC642E7D /* GoogleMaps */ = {
+		976E75B5331E1D3B51CD6E7555196004 /* Hover */ = {
 			isa = PBXGroup;
 			children = (
-				88F43B7EFC579984AFE666CF743BBDEF /* Base */,
-				E8C3DB475EEC1834131B07A085DBA9E4 /* Maps */,
-				639E953E2EF06662DC256B57F0C9F896 /* Support Files */,
+				1993193571BE0F55E2937CD4F15B3BD1 /* Anchor.swift */,
+				E4F22ED82AD436B53800F09D54092ECC /* CALayer+Decorators.swift */,
+				75EB6D9280C0228F799AD9FECFCF0AE2 /* Calculator.swift */,
+				3B103DAC8F581C2846D2030316B68D15 /* CGPoint+Distance.swift */,
+				F511D467E90566929C27BBDB967E3E79 /* CGPoint+Operators.swift */,
+				4852E056B6EAACE8D1FA2304AB1CB741 /* CGRect+Center.swift */,
+				9E7D577D893E4798C4819EF97550BD33 /* DimView.swift */,
+				6A98196F480C133C604A7FFE825836AA /* HoverButton.swift */,
+				9ED017B20A38EB92C1C686BBE648E1C1 /* HoverColor.swift */,
+				33D1FBFE73512B2D34B102CB2B833105 /* HoverConfiguration.swift */,
+				E5E6DCA19AA14813B3092C6037574C79 /* HoverItem.swift */,
+				F048E0E72951BA01B0B2E67C6A16AC35 /* HoverItemView.swift */,
+				F08DAA378E51AD88125A71F47DA23288 /* HoverPosition.swift */,
+				DA3CEF0E6BF7BA968E17970CC8BD0C0D /* HoverView.swift */,
+				8FB910E7426A34DC0E62C2A51FB2A1FE /* NSObject+Create.swift */,
+				E3E4D3931B8D42A707E23C993FA45A5D /* Orientation.swift */,
+				98EAAF822FE911FD59E8795A37D26E2E /* UISpringTimingParameters+Init.swift */,
+				7B12B86C02B196E1EEDA7C2C91DFE0C0 /* UIStackView+Add.swift */,
+				76A8757249E4579F523AE23F77F282AC /* UIView+Add.swift */,
+				E8373CC31B39654EACE1C71CB2D6867C /* UIView+Decorators.swift */,
+				86D6D2C6F1EF9C0C2DE7556E008EAD4E /* Support Files */,
 			);
-			path = GoogleMaps;
+			name = Hover;
+			path = Hover;
 			sourceTree = "<group>";
 		};
-		9EA2F6E9DAE18DEE99E1B26D2E8D3FC5 /* SwiftLint */ = {
+		A080CE582ACD85113353EB3FD924DD75 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				FC2C5E802963E3F0AAABBADCE828FC17 /* Support Files */,
-			);
-			path = SwiftLint;
-			sourceTree = "<group>";
-		};
-		B998B950523F3F777747C68133128B01 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				AD0914EDEC46ABD9562095DF4B065BFF /* SnapKit.modulemap */,
-				AE4B6BABE2663820C113BCE450ED3027 /* SnapKit-dummy.m */,
-				8EB90A9771196CFA55CD7C5DB1A936B5 /* SnapKit-Info.plist */,
-				CF1265BB73D5951DBCCF69F128B554D4 /* SnapKit-prefix.pch */,
-				F5BCE9B1229D39583E2C9E81F2285C81 /* SnapKit-umbrella.h */,
-				265BAD6A109823FA09293EA44C101B6F /* SnapKit.debug.xcconfig */,
-				62C4CB4FEF4711C1BE5941551306B57B /* SnapKit.release.xcconfig */,
+				43802FEA9FF9EBD1861DF5D4F1727272 /* SnapKit.modulemap */,
+				52CC13240709FD8B5F573272D908B498 /* SnapKit-dummy.m */,
+				290D3295824C04ACB0FE92AAB08A3953 /* SnapKit-Info.plist */,
+				FD30B094113A1D1AD7E110E672384FD4 /* SnapKit-prefix.pch */,
+				CF46209E8DA782BD0E4FF26D289C3D24 /* SnapKit-umbrella.h */,
+				358E01E78B649028A100C98962FB8B5E /* SnapKit.debug.xcconfig */,
+				4D3C879B37A700C7EE9701A3F741BB1A /* SnapKit.release.xcconfig */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/SnapKit";
 			sourceTree = "<group>";
 		};
-		CC974E2AD7F62ECB6851782197026D8B /* Support Files */ = {
+		A63583EEA66CF1589CFD370154A0E927 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DF5E81339ECF9B0A27F938033ED8D30C /* GooglePlaces-xcframeworks.sh */,
-				4BD1BA42A0C6B0C26830692C3594839D /* GooglePlaces.debug.xcconfig */,
-				C012D4523382392D78C16F8FFCC94EF8 /* GooglePlaces.release.xcconfig */,
-				9A6E0920279E0976F960F5247EFB09E3 /* ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist */,
+				672AB6274C286F6557FC25C5EFAF7429 /* GoogleMaps.xcframework */,
+				3416E8DF8D4259444F6C4DC83A946244 /* GoogleMapsCore.xcframework */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/GooglePlaces";
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B10A890B0546B6A27995194EF4462126 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				528CC86A3BD8A1CBBA5A23BC22C8898A /* dummy.h */,
+				38A10A0E97763C709BD39E5B9CA36387 /* Frameworks */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		B3CAE8AC6546021B8BC75BA9C4A2F374 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				21BC9DE5EE18F27517C52ABD3FBF38ED /* GoogleMaps-GoogleMapsResources */,
+				58D55567BE5BB377C4B0D89C1322D23E /* GooglePlaces-GooglePlacesResources */,
+				847ACD3DD9DA5D9505383E21769469CE /* Hover */,
+				18281CAC7EA8851594B68EDB2C5CD13D /* Pods-save-the-date */,
+				979486118B3E90C08386079D57962701 /* SnapKit */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -446,8 +543,8 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				FB6C81F90D213411812C2495504092DB /* Pods */,
-				1D9E3C687F7FA5C43912ADC0408A8DDC /* Products */,
+				305356FB07A0E76A4E065C9ACA438F20 /* Pods */,
+				B3CAE8AC6546021B8BC75BA9C4A2F374 /* Products */,
 				77B7824367285E5BBEF646799D833C5B /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
@@ -460,64 +557,80 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D6CA3D542D2D454CED8E1688118B4F0A /* Frameworks */ = {
+		D2F2088D9EF8AB58053DA9BE18F6F407 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				5A304F475B59C9CD462431159F474392 /* GoogleMapsBase.xcframework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E4BC13AD3721D4E84F79D13D01FB8E1E /* GooglePlaces */ = {
-			isa = PBXGroup;
-			children = (
-				B4DA007D7865200AE0AC7F4ADA22F2B4 /* dummy.h */,
-				706DD92CCA719EA475345C510B210B8D /* Frameworks */,
-				87DB986408D0BE8F365D79CA582C3BFC /* Resources */,
-				CC974E2AD7F62ECB6851782197026D8B /* Support Files */,
-			);
-			path = GooglePlaces;
-			sourceTree = "<group>";
-		};
-		E8C3DB475EEC1834131B07A085DBA9E4 /* Maps */ = {
-			isa = PBXGroup;
-			children = (
-				41A09E79BA60FAA662DC23772C61AC0D /* dummy.h */,
-				280D7A403853214A31C37B12C46EB691 /* Frameworks */,
-				2CFA9572DC3F250C22583CD0CD898924 /* Resources */,
-			);
-			name = Maps;
-			sourceTree = "<group>";
-		};
-		FB6C81F90D213411812C2495504092DB /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				90659AED42602697E9FCD1CEEC642E7D /* GoogleMaps */,
-				E4BC13AD3721D4E84F79D13D01FB8E1E /* GooglePlaces */,
-				4C616C5FE239EDEB00304DFAF2758F4C /* SnapKit */,
-				9EA2F6E9DAE18DEE99E1B26D2E8D3FC5 /* SwiftLint */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		FC2C5E802963E3F0AAABBADCE828FC17 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				8D69DAD795C0B1E3373C5F81CBD5B56B /* SwiftLint.debug.xcconfig */,
-				1717D11ADBB8E8E4B5C7373F0B47918A /* SwiftLint.release.xcconfig */,
+				AD7ECFF7A8EE2AF1B979355EC81F3D15 /* GooglePlaces-xcframeworks.sh */,
+				4877F9F29856FC5C78FCF4AAB201A35A /* GooglePlaces.debug.xcconfig */,
+				351EE8E4FBD8164B539170923666A6A2 /* GooglePlaces.release.xcconfig */,
+				5434086AE818D5815E2AFEFD77AB7C87 /* ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/SwiftLint";
+			path = "../Target Support Files/GooglePlaces";
+			sourceTree = "<group>";
+		};
+		E3ECBFD58954FE3BEE08A1CAA2835165 /* SnapKit */ = {
+			isa = PBXGroup;
+			children = (
+				6CA587609C694E3C7F69BAE9ED61A9D6 /* Constraint.swift */,
+				C78F597726AF5D88E7BDADAF22F0F927 /* ConstraintAttributes.swift */,
+				6059FE1A2754DA2215CC14BC196E2C5C /* ConstraintConfig.swift */,
+				EAD608C83E1100DEEC0CDDA6311209BB /* ConstraintConstantTarget.swift */,
+				F36B34449A4E015DF4C26F51F3F63CD8 /* ConstraintDescription.swift */,
+				FAAB53AB63D9352E419CEB4BC60E6AAD /* ConstraintDirectionalInsets.swift */,
+				B70FB3A7F526887A5F35E683BEC8B7F4 /* ConstraintDirectionalInsetTarget.swift */,
+				2FBBDB50611B6C1403BB9B23E094ABA1 /* ConstraintDSL.swift */,
+				905667E4244B6DBE9EA49B8DF66D1730 /* ConstraintInsets.swift */,
+				C12472AB576B388DF4C79D45858E6FC1 /* ConstraintInsetTarget.swift */,
+				07CF1CA3583501E1B413C18AD6A6D647 /* ConstraintItem.swift */,
+				9660DC547D55E103AED240F1AFC618B7 /* ConstraintLayoutGuide.swift */,
+				23292E85525345FE908EA690D04E8B4E /* ConstraintLayoutGuide+Extensions.swift */,
+				09AA1ED84B7360B89CD6D26357111DF5 /* ConstraintLayoutGuideDSL.swift */,
+				F4A2B853B51B10CD8864B44E67F2228B /* ConstraintLayoutSupport.swift */,
+				9F4A57E5AC7C15F28D280CE58AF62207 /* ConstraintLayoutSupportDSL.swift */,
+				3805B5C4B6C7D8AD3EB45B57A0EF3547 /* ConstraintMaker.swift */,
+				84B78006B76B28BAB494A34A80261236 /* ConstraintMakerEditable.swift */,
+				EA781725E056964FB08F43010942DED6 /* ConstraintMakerExtendable.swift */,
+				B53448DD161286B36320620A7BB0E43A /* ConstraintMakerFinalizable.swift */,
+				609B5B67F381E4CF2CA7361CE22F82F1 /* ConstraintMakerPrioritizable.swift */,
+				2AE1237AAF54F0E9DAC1F331B82A5850 /* ConstraintMakerRelatable.swift */,
+				3D6A39DD322A083662011B2BFC0DB51F /* ConstraintMakerRelatable+Extensions.swift */,
+				9FF942FC97C9F5EFEAECED3760CB238A /* ConstraintMultiplierTarget.swift */,
+				EAA4DD16355F9F07743FC4A52C65326C /* ConstraintOffsetTarget.swift */,
+				11B09525DF3CECC92C743D127D096F19 /* ConstraintPriority.swift */,
+				1FD6951035C2F694DBADC501503BE280 /* ConstraintPriorityTarget.swift */,
+				D03DFA05C95A4A31DE78261A71993BDF /* ConstraintRelatableTarget.swift */,
+				743D5CCEB1F5200A45A2FEE28D0DA93F /* ConstraintRelation.swift */,
+				85D62F285ADAF222C2073716CD44BA3F /* ConstraintView.swift */,
+				82F0970D672A299B3CDD9ADE6A39085A /* ConstraintView+Extensions.swift */,
+				989767635E22C3B15EB41160FE14829C /* ConstraintViewDSL.swift */,
+				F625FB161466D6EA978B157F4E0FBE49 /* Debugging.swift */,
+				103D98D909DD7B9FBE399DE802C9E793 /* LayoutConstraint.swift */,
+				732C7FBE380A6385D61FD962BA64C3D7 /* LayoutConstraintItem.swift */,
+				FCC069D1C8DB373CD2673BB5CCC462EA /* Typealiases.swift */,
+				DD90A78C0207C6652FA822BCFC54A603 /* UILayoutSupport+Extensions.swift */,
+				A080CE582ACD85113353EB3FD924DD75 /* Support Files */,
+			);
+			name = SnapKit;
+			path = SnapKit;
+			sourceTree = "<group>";
+		};
+		F36B3174EDD7ADDC2D2C6197A136C1E6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8EB5C700517ABC8F9D91E85248FFF246 /* GoogleMaps.bundle */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		43336DB5D99DF016F9C5ECE65EF0AA86 /* Headers */ = {
+		0F15F10E9F304E4629724BB5291EF8E8 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ACE268C6DEBBD0D0C7564458A948DE8 /* Pods-save-the-date-umbrella.h in Headers */,
+				0C0853B304C73D7B53631D25EF25CD17 /* Hover-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +639,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3E3AB7C765C21AE17B1E6EE6560040C /* SnapKit-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60978C49BAD89A45F3EEBED25243E987 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B274BAA3687DA371A8D8F53B380AD5A /* Pods-save-the-date-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,11 +673,11 @@
 		};
 		285AAD0A8192022DACE2DAFE30D6CD52 /* GooglePlaces-GooglePlacesResources */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C751F5AA793CB490B23C416E6F734F9C /* Build configuration list for PBXNativeTarget "GooglePlaces-GooglePlacesResources" */;
+			buildConfigurationList = 736571A5560A328D9E3D79B0BDBD9DBB /* Build configuration list for PBXNativeTarget "GooglePlaces-GooglePlacesResources" */;
 			buildPhases = (
-				09CDAE382A5CBD31AC4D86EFD79B18EE /* Sources */,
-				AF27D417AB5C5C7C75FDC115A5E6326B /* Frameworks */,
-				9FE1B1E2D38B36F26B79E3C5C698C158 /* Resources */,
+				BB245250B4EC8253AAD1244AD0A059B8 /* Sources */,
+				54289B63C34C92F52B4AFE0B25A002CB /* Frameworks */,
+				337C8896841D95739197CD8F8E5366A0 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -567,13 +688,31 @@
 			productReference = 58D55567BE5BB377C4B0D89C1322D23E /* GooglePlaces-GooglePlacesResources */;
 			productType = "com.apple.product-type.bundle";
 		};
+		5DC8654BEC6CF98599D3E999827B1258 /* Hover */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B4B828127D6C956473405E4CCE0699AC /* Build configuration list for PBXNativeTarget "Hover" */;
+			buildPhases = (
+				0F15F10E9F304E4629724BB5291EF8E8 /* Headers */,
+				A5ED8F849A6FA1184C75E48F893B2D6F /* Sources */,
+				1ABF1FD4AE6DA5A40E1DDB479F0AC132 /* Frameworks */,
+				53276FE16CFAFE91050417F72CD9ADA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Hover;
+			productName = Hover;
+			productReference = 847ACD3DD9DA5D9505383E21769469CE /* Hover */;
+			productType = "com.apple.product-type.framework";
+		};
 		7B026DDDF280F148DD87281679B51154 /* GoogleMaps-GoogleMapsResources */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EF8D8BCFD707EA9D8C3D28B29FF1CCEC /* Build configuration list for PBXNativeTarget "GoogleMaps-GoogleMapsResources" */;
+			buildConfigurationList = 954AD533D8AA149ABED56592FFEFB349 /* Build configuration list for PBXNativeTarget "GoogleMaps-GoogleMapsResources" */;
 			buildPhases = (
-				08A36F47AB4C66819C303678F4971E2E /* Sources */,
-				3380EA0ECD6E8B7A87411456B6B5D279 /* Frameworks */,
-				AC1A296F49468459C08961D5E0656104 /* Resources */,
+				0E9E3C10C044DACF80136C00A33056C3 /* Sources */,
+				D9F6BFD20AD09512439C905842222B36 /* Frameworks */,
+				D4D75F6E4E2540FAB738DA1DE7B08F54 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -586,20 +725,21 @@
 		};
 		A18122FDB27DCEFC24C42E7814232751 /* Pods-save-the-date */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BA86C0442FDE8D933AB4FB13812F27B6 /* Build configuration list for PBXNativeTarget "Pods-save-the-date" */;
+			buildConfigurationList = BA3D040292ABC929C910544B2C2051EE /* Build configuration list for PBXNativeTarget "Pods-save-the-date" */;
 			buildPhases = (
-				43336DB5D99DF016F9C5ECE65EF0AA86 /* Headers */,
-				EEB8E23C0D70089949F23CBDD990A1AF /* Sources */,
-				F64001272CC85072C25D32C4931F59F0 /* Frameworks */,
-				4C6EB4D595F4C1F5F75A8FB0D1BA3447 /* Resources */,
+				60978C49BAD89A45F3EEBED25243E987 /* Headers */,
+				2E9A44B8F10BF1CF3F933FC6658FA2C0 /* Sources */,
+				1954930D2498EF87795D85C074CC02C1 /* Frameworks */,
+				CAA2D9C03D57CEFB48902BBC8820E656 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				89487F40A3B254C38029EFAFD3F77666 /* PBXTargetDependency */,
-				2C04E72EF2461C523706C517E04EDB5E /* PBXTargetDependency */,
-				E5A256834AFD770AF775869251665B4E /* PBXTargetDependency */,
-				84F1B5CE042C4E154C0F7523A6FE6671 /* PBXTargetDependency */,
+				1FD87BF0D437DBBB728B5C39C73261F1 /* PBXTargetDependency */,
+				36F8287CBB2E37398F0B6DDC8A2E26E1 /* PBXTargetDependency */,
+				A008DC2F7757F424203A25B8D62E3834 /* PBXTargetDependency */,
+				06C878DBD7292D484AB1710A40D85CE8 /* PBXTargetDependency */,
+				8F521B7B0B6F43C0F249220406ED4952 /* PBXTargetDependency */,
 			);
 			name = "Pods-save-the-date";
 			productName = Pods_save_the_date;
@@ -624,7 +764,7 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 1D9E3C687F7FA5C43912ADC0408A8DDC /* Products */;
+			productRefGroup = B3CAE8AC6546021B8BC75BA9C4A2F374 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -632,6 +772,7 @@
 				7B026DDDF280F148DD87281679B51154 /* GoogleMaps-GoogleMapsResources */,
 				0C1885900810601510E0C632060FAF26 /* GooglePlaces */,
 				285AAD0A8192022DACE2DAFE30D6CD52 /* GooglePlaces-GooglePlacesResources */,
+				5DC8654BEC6CF98599D3E999827B1258 /* Hover */,
 				A18122FDB27DCEFC24C42E7814232751 /* Pods-save-the-date */,
 				19622742EBA51E823D6DAE3F8CDBFAD4 /* SnapKit */,
 				52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */,
@@ -640,7 +781,15 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		4C6EB4D595F4C1F5F75A8FB0D1BA3447 /* Resources */ = {
+		337C8896841D95739197CD8F8E5366A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14C347B08A896EC7D3669739A1A61E39 /* GooglePlaces.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		53276FE16CFAFE91050417F72CD9ADA0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -654,19 +803,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9FE1B1E2D38B36F26B79E3C5C698C158 /* Resources */ = {
+		CAA2D9C03D57CEFB48902BBC8820E656 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32A596C80D6A5B6F06EFE61481EB6C23 /* GooglePlaces.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AC1A296F49468459C08961D5E0656104 /* Resources */ = {
+		D4D75F6E4E2540FAB738DA1DE7B08F54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86D110E63798B1745D3AC4BD25F24F75 /* GoogleMaps.bundle in Resources */,
+				C989A126A6C39DC6C09E87749CF0F65A /* GoogleMaps.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -710,17 +858,18 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		08A36F47AB4C66819C303678F4971E2E /* Sources */ = {
+		0E9E3C10C044DACF80136C00A33056C3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		09CDAE382A5CBD31AC4D86EFD79B18EE /* Sources */ = {
+		2E9A44B8F10BF1CF3F933FC6658FA2C0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C819EAD5BADCE51AD9A7C4ABE0C212DA /* Pods-save-the-date-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,66 +918,99 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EEB8E23C0D70089949F23CBDD990A1AF /* Sources */ = {
+		A5ED8F849A6FA1184C75E48F893B2D6F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85E6FE9775D18B86E580B7103790C38C /* Pods-save-the-date-dummy.m in Sources */,
+				FBC1FE0FCDE79ECA588DF418FC45850E /* Anchor.swift in Sources */,
+				7168F9322AF8BC978399BB71B44FFFE8 /* CALayer+Decorators.swift in Sources */,
+				9D757874573A98328B5C4A6A655D163F /* Calculator.swift in Sources */,
+				18CF435B63AAB04528D9F283086C1E15 /* CGPoint+Distance.swift in Sources */,
+				1A3CC906286E094F7D86972A78C29FC6 /* CGPoint+Operators.swift in Sources */,
+				CEB40AE4DC2664D899B296AF1EB11948 /* CGRect+Center.swift in Sources */,
+				727E23502FE1E0254946E9D9FE7CEFE9 /* DimView.swift in Sources */,
+				8CDD750C109C3070A2FFEB354FA2CFC1 /* Hover-dummy.m in Sources */,
+				41212BF1E0D5696E5C6D9FFD3061AAD8 /* HoverButton.swift in Sources */,
+				60E3966D0BE09D6522F9024CB53721C8 /* HoverColor.swift in Sources */,
+				AFC4BF343726325BC12475B7353C7BF4 /* HoverConfiguration.swift in Sources */,
+				42CC5D6AEAA046C9EB5687D7B2BC845F /* HoverItem.swift in Sources */,
+				F68693068ED1814C0A871AB595EB896A /* HoverItemView.swift in Sources */,
+				8707BF04ACBDA086B0B1EB15C28A552F /* HoverPosition.swift in Sources */,
+				561DEB0B3A5EEC536B5C869BADABF21C /* HoverView.swift in Sources */,
+				4222F077584EE1B2E5E6546BE48425BF /* NSObject+Create.swift in Sources */,
+				54AD064F1CA98F19874ECA247250A0C5 /* Orientation.swift in Sources */,
+				CE504528508C6513736D89B0226C768C /* UISpringTimingParameters+Init.swift in Sources */,
+				769156DF413CA52ADC5F3A540D82D0C3 /* UIStackView+Add.swift in Sources */,
+				76EED8F8BAE0927A0A493D6365A005A2 /* UIView+Add.swift in Sources */,
+				CA777FA138D186A9B876A7CD7C20389F /* UIView+Decorators.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB245250B4EC8253AAD1244AD0A059B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		088CC420C0AA77297001AFF2533BF391 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "GooglePlaces-GooglePlacesResources";
-			target = 285AAD0A8192022DACE2DAFE30D6CD52 /* GooglePlaces-GooglePlacesResources */;
-			targetProxy = 2F24C33E7EEE1D94820ABDD4AE1E152D /* PBXContainerItemProxy */;
-		};
-		2C04E72EF2461C523706C517E04EDB5E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GooglePlaces;
-			target = 0C1885900810601510E0C632060FAF26 /* GooglePlaces */;
-			targetProxy = F1DE833191F6144565A938E340F0CB80 /* PBXContainerItemProxy */;
-		};
-		4D257831EE3DFC141AC7E7DA43A5C5AA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "GoogleMaps-GoogleMapsResources";
-			target = 7B026DDDF280F148DD87281679B51154 /* GoogleMaps-GoogleMapsResources */;
-			targetProxy = 5AA65517D1DDF0B0F1063F77EF81FF26 /* PBXContainerItemProxy */;
-		};
-		84F1B5CE042C4E154C0F7523A6FE6671 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SwiftLint;
-			target = 52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */;
-			targetProxy = 3D84FA16B2D5664EAB55683A192AF6CB /* PBXContainerItemProxy */;
-		};
-		89487F40A3B254C38029EFAFD3F77666 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GoogleMaps;
-			target = E5B4BBC6DD552AC8943C7E22772FC1D3 /* GoogleMaps */;
-			targetProxy = 3072F706ECAA436F4D22A3C025FBB10B /* PBXContainerItemProxy */;
-		};
-		E5A256834AFD770AF775869251665B4E /* PBXTargetDependency */ = {
+		06C878DBD7292D484AB1710A40D85CE8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SnapKit;
 			target = 19622742EBA51E823D6DAE3F8CDBFAD4 /* SnapKit */;
-			targetProxy = FCB1B4A10900B39973F13505F04A20FD /* PBXContainerItemProxy */;
+			targetProxy = FF0F7541367609463A55F52549883EF7 /* PBXContainerItemProxy */;
+		};
+		1FD87BF0D437DBBB728B5C39C73261F1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GoogleMaps;
+			target = E5B4BBC6DD552AC8943C7E22772FC1D3 /* GoogleMaps */;
+			targetProxy = F5AD5743B5BC8B047105AD4E2E27B475 /* PBXContainerItemProxy */;
+		};
+		36F8287CBB2E37398F0B6DDC8A2E26E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GooglePlaces;
+			target = 0C1885900810601510E0C632060FAF26 /* GooglePlaces */;
+			targetProxy = EDA96074AF18C14EC01069851E4DF619 /* PBXContainerItemProxy */;
+		};
+		8F521B7B0B6F43C0F249220406ED4952 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftLint;
+			target = 52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */;
+			targetProxy = CD27527A0918FFA88456F43973098107 /* PBXContainerItemProxy */;
+		};
+		93996337ED13B234CA6F319E14B30B82 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "GoogleMaps-GoogleMapsResources";
+			target = 7B026DDDF280F148DD87281679B51154 /* GoogleMaps-GoogleMapsResources */;
+			targetProxy = D47BD7D69FCC09F795C533DBDD3FFA18 /* PBXContainerItemProxy */;
+		};
+		A008DC2F7757F424203A25B8D62E3834 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Hover;
+			target = 5DC8654BEC6CF98599D3E999827B1258 /* Hover */;
+			targetProxy = F770E5EF497CD7B63F54211B6F91D5A6 /* PBXContainerItemProxy */;
+		};
+		C2438CB53C35B020CD4003468A92ED8B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "GooglePlaces-GooglePlacesResources";
+			target = 285AAD0A8192022DACE2DAFE30D6CD52 /* GooglePlaces-GooglePlacesResources */;
+			targetProxy = 24BBB6701455CA0CD32392A833EB45F2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		04E3D3A490B1943357EA74EFC0C9D586 /* Release */ = {
+		0AA6E88F9CDDB226EBECE0C247339A20 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 516D0E70F40212F7E3B02DBAF0636971 /* GoogleMaps.release.xcconfig */;
+			baseConfigurationReference = 351EE8E4FBD8164B539170923666A6A2 /* GooglePlaces.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGNING_ALLOWED = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleMaps";
-				IBSC_MODULE = GoogleMaps;
-				INFOPLIST_FILE = "Target Support Files/GoogleMaps/ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GooglePlaces";
+				IBSC_MODULE = GooglePlaces;
+				INFOPLIST_FILE = "Target Support Files/GooglePlaces/ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_NAME = GoogleMapsResources;
+				PRODUCT_NAME = GooglePlacesResources;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -836,7 +1018,25 @@
 			};
 			name = Release;
 		};
-		105F48D61FA389569BE4E3E2D751F722 /* Release */ = {
+		26EA5A9600226D2B7D8D25152A304F3B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 06688F42DD846CDD278C521439CCCB64 /* SwiftLint.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		307E34CC69F26B3F6CAA1BBF6456979F /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD50A453892774EE8AF1C2E6C36DC602 /* Pods-save-the-date.release.xcconfig */;
 			buildSettings = {
@@ -871,61 +1071,6 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		214055471D3428BFB3D277641326670C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AF220C96B40D782AD6333C002CFD11C /* Pods-save-the-date.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-save-the-date/Pods-save-the-date-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-save-the-date/Pods-save-the-date.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		26EA5A9600226D2B7D8D25152A304F3B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1717D11ADBB8E8E4B5C7373F0B47918A /* SwiftLint.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -993,7 +1138,7 @@
 		};
 		372578239686DFE74865590EF122AE82 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 516D0E70F40212F7E3B02DBAF0636971 /* GoogleMaps.release.xcconfig */;
+			baseConfigurationReference = F13778D710029403160B2FBB61A6A421 /* GoogleMaps.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1009,26 +1154,26 @@
 			};
 			name = Release;
 		};
-		46FA4CA516AF04C40A5BA4DBC3465DC9 /* Release */ = {
+		4278E5E45B5328014CDBC03B588FACE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C012D4523382392D78C16F8FFCC94EF8 /* GooglePlaces.release.xcconfig */;
+			baseConfigurationReference = E22A203DC25DA8869AFB1E11DB4DCAE6 /* GoogleMaps.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGNING_ALLOWED = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GooglePlaces";
-				IBSC_MODULE = GooglePlaces;
-				INFOPLIST_FILE = "Target Support Files/GooglePlaces/ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleMaps";
+				IBSC_MODULE = GoogleMaps;
+				INFOPLIST_FILE = "Target Support Files/GoogleMaps/ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_NAME = GooglePlacesResources;
+				PRODUCT_NAME = GoogleMapsResources;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = bundle;
 			};
-			name = Release;
+			name = Debug;
 		};
 		59121C48ADA5823A5A9B83C9143D5B0A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4BD1BA42A0C6B0C26830692C3594839D /* GooglePlaces.debug.xcconfig */;
+			baseConfigurationReference = 4877F9F29856FC5C78FCF4AAB201A35A /* GooglePlaces.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1045,7 +1190,7 @@
 		};
 		59CC49E4FF90DCD865050EC34933B4DC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94BAA3255212EC5CC60ECDBFBF65FAF3 /* GoogleMaps.debug.xcconfig */;
+			baseConfigurationReference = E22A203DC25DA8869AFB1E11DB4DCAE6 /* GoogleMaps.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1060,9 +1205,26 @@
 			};
 			name = Debug;
 		};
+		61E82D4068C1ED858173055FC610B770 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4877F9F29856FC5C78FCF4AAB201A35A /* GooglePlaces.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GooglePlaces";
+				IBSC_MODULE = GooglePlaces;
+				INFOPLIST_FILE = "Target Support Files/GooglePlaces/ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_NAME = GooglePlacesResources;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
 		8C925430B65BE03F92ABCD1B2005EE0C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62C4CB4FEF4711C1BE5941551306B57B /* SnapKit.release.xcconfig */;
+			baseConfigurationReference = 4D3C879B37A700C7EE9701A3F741BB1A /* SnapKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1096,9 +1258,26 @@
 			};
 			name = Release;
 		};
+		981833CBD3C3A093A325D09C4D895989 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F13778D710029403160B2FBB61A6A421 /* GoogleMaps.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleMaps";
+				IBSC_MODULE = GoogleMaps;
+				INFOPLIST_FILE = "Target Support Files/GoogleMaps/ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_NAME = GoogleMapsResources;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 		A6F0173BAEB974532D93E05E5A94E50A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 265BAD6A109823FA09293EA44C101B6F /* SnapKit.debug.xcconfig */;
+			baseConfigurationReference = 358E01E78B649028A100C98962FB8B5E /* SnapKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1131,48 +1310,49 @@
 			};
 			name = Debug;
 		};
-		BA03FC45FB70A4AA22276C82C84130C9 /* Debug */ = {
+		B79125C1A97BBBFF8ABCDE0772510E03 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4BD1BA42A0C6B0C26830692C3594839D /* GooglePlaces.debug.xcconfig */;
+			baseConfigurationReference = D7F492E7E82A7170DA44C9FC0976F1E7 /* Hover.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGNING_ALLOWED = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GooglePlaces";
-				IBSC_MODULE = GooglePlaces;
-				INFOPLIST_FILE = "Target Support Files/GooglePlaces/ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_NAME = GooglePlacesResources;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Hover/Hover-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Hover/Hover-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Hover/Hover.modulemap";
+				PRODUCT_MODULE_NAME = Hover;
+				PRODUCT_NAME = Hover;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		DE29DE594EA10A425AA3E835AF2189C3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94BAA3255212EC5CC60ECDBFBF65FAF3 /* GoogleMaps.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGNING_ALLOWED = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleMaps";
-				IBSC_MODULE = GoogleMaps;
-				INFOPLIST_FILE = "Target Support Files/GoogleMaps/ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_NAME = GoogleMapsResources;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		E9E1A48A750B946DE9877594C6E735E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D69DAD795C0B1E3373C5F81CBD5B56B /* SwiftLint.debug.xcconfig */;
+			baseConfigurationReference = 6E3EDBBA73D8E27DC9E2CC51B241E401 /* SwiftLint.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1184,7 +1364,7 @@
 		};
 		EF6A7A9F27ABD8D81EB56D254C8E237C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C012D4523382392D78C16F8FFCC94EF8 /* GooglePlaces.release.xcconfig */;
+			baseConfigurationReference = 351EE8E4FBD8164B539170923666A6A2 /* GooglePlaces.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1197,6 +1377,79 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F398E95B9A084F10003ADC2E36A9B419 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AF220C96B40D782AD6333C002CFD11C /* Pods-save-the-date.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-save-the-date/Pods-save-the-date-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-save-the-date/Pods-save-the-date.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F4818F2865760C147CA5DFC15135D093 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E29B4A6F8016A4433C16CBD743F9EF16 /* Hover.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Hover/Hover-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Hover/Hover-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Hover/Hover.modulemap";
+				PRODUCT_MODULE_NAME = Hover;
+				PRODUCT_NAME = Hover;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -1296,6 +1549,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		736571A5560A328D9E3D79B0BDBD9DBB /* Build configuration list for PBXNativeTarget "GooglePlaces-GooglePlacesResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61E82D4068C1ED858173055FC610B770 /* Debug */,
+				0AA6E88F9CDDB226EBECE0C247339A20 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		954AD533D8AA149ABED56592FFEFB349 /* Build configuration list for PBXNativeTarget "GoogleMaps-GoogleMapsResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4278E5E45B5328014CDBC03B588FACE7 /* Debug */,
+				981833CBD3C3A093A325D09C4D895989 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AE7B4FB01588B9E6DF09CB79FC7CE7BD /* Build configuration list for PBXAggregateTarget "SwiftLint" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1305,20 +1576,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BA86C0442FDE8D933AB4FB13812F27B6 /* Build configuration list for PBXNativeTarget "Pods-save-the-date" */ = {
+		B4B828127D6C956473405E4CCE0699AC /* Build configuration list for PBXNativeTarget "Hover" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				214055471D3428BFB3D277641326670C /* Debug */,
-				105F48D61FA389569BE4E3E2D751F722 /* Release */,
+				B79125C1A97BBBFF8ABCDE0772510E03 /* Debug */,
+				F4818F2865760C147CA5DFC15135D093 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C751F5AA793CB490B23C416E6F734F9C /* Build configuration list for PBXNativeTarget "GooglePlaces-GooglePlacesResources" */ = {
+		BA3D040292ABC929C910544B2C2051EE /* Build configuration list for PBXNativeTarget "Pods-save-the-date" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BA03FC45FB70A4AA22276C82C84130C9 /* Debug */,
-				46FA4CA516AF04C40A5BA4DBC3465DC9 /* Release */,
+				F398E95B9A084F10003ADC2E36A9B419 /* Debug */,
+				307E34CC69F26B3F6CAA1BBF6456979F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1328,15 +1599,6 @@
 			buildConfigurations = (
 				59121C48ADA5823A5A9B83C9143D5B0A /* Debug */,
 				EF6A7A9F27ABD8D81EB56D254C8E237C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EF8D8BCFD707EA9D8C3D28B29FF1CCEC /* Build configuration list for PBXNativeTarget "GoogleMaps-GoogleMapsResources" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DE29DE594EA10A425AA3E835AF2189C3 /* Debug */,
-				04E3D3A490B1943357EA74EFC0C9D586 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

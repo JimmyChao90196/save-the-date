@@ -10,4 +10,5 @@ target 'save-the-date' do
   pod 'SnapKit'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+  pod 'Hover'
 end
