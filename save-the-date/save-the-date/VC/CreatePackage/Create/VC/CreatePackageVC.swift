@@ -244,8 +244,8 @@ extension CreatePackageViewController {
             buttonText: "Okay") { text in
                 guard let text else { return }
                 let info = Info(title: text,
-                                author: "red",
-                                authorEmail: "red@gmail.com",
+                                author: ["red"],
+                                authorEmail: ["red@gmail.com"],
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 

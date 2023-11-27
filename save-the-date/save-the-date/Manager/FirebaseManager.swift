@@ -125,7 +125,7 @@ class FirestoreManager {
     
     // MARK: - Update package -
     func updatePackage(
-        emailToUpdate userEmail: String,
+        infoToUpdate newValue: String,
         packageType: PackageCollection,
         packageID: String,
         toPath path: PackageFieldPath,
@@ -136,12 +136,12 @@ class FirestoreManager {
         let packageRef = fdb.collection(packageType.rawValue).document(packageID)
         let fieldPath = "info.\(path.rawValue)"
         
-        var fieldOperation = FieldValue.arrayUnion([userEmail])
+        var fieldOperation = FieldValue.arrayUnion([newValue])
         switch operation {
         case .add:
-            fieldOperation = FieldValue.arrayUnion([userEmail])
+            fieldOperation = FieldValue.arrayUnion([newValue])
         case .remove:
-            fieldOperation = FieldValue.arrayRemove([userEmail])
+            fieldOperation = FieldValue.arrayRemove([newValue])
         }
         
         packageRef.updateData([fieldPath: fieldOperation ]) { error in

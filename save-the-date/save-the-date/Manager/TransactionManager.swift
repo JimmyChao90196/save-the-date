@@ -12,7 +12,7 @@ import UIKit
 extension FirestoreManager {
     
     // Listener
-    func modulesListener(packageId: String, onChange: @escaping (Package) -> Void) ->  ListenerRegistration? {
+    func modulesListener(packageId: String, onChange: @escaping (Package) -> Void) -> ListenerRegistration? {
         
         let packageDocument = fdb.collection("sessionPackages").document(packageId)
         
@@ -310,7 +310,7 @@ extension FirestoreManager {
             }
             
             // Check for version consistency
-            let fetchedVersion = package.info.version
+            // let fetchedVersion = package.info.version
             newPackage = package
             var path = ""
             var value = [[String: Any]?]()

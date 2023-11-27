@@ -93,8 +93,8 @@ struct Transportation: Codable {
 // MARK: - Info -
 struct Info: Codable {
     var title: String
-    var author: String
-    var authorEmail: String
+    var author: [String]
+    var authorEmail: [String]
     var id: String
     var rate: Double
     var state: String
@@ -104,8 +104,8 @@ struct Info: Codable {
     var version: Int
     
     init(title: String = "packageTitle",
-         author: String = "Jimmy",
-         authorEmail: String = "jimmy@gmail.com",
+         author: [String] = ["red"],
+         authorEmail: [String] = ["red@gmail.com"],
          id: String = "none",
          rate: Double = 5.0,
          state: String = "published",
@@ -150,6 +150,8 @@ enum PackageFieldPath: String {
     case forkedFrom
     case likedBy
     case draft
+    case author
+    case authorEmail
 }
 
 enum PackageOperation: String {

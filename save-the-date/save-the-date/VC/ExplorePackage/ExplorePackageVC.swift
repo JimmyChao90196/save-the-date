@@ -172,7 +172,7 @@ extension ExplorePackageViewController {
                     }
                 // Update package email stack
                 self.firestoreManager.updatePackage(
-                    emailToUpdate: "jimmy@gmail.com",
+                    infoToUpdate: "jimmy@gmail.com",
                     packageType: .publishedColl,
                     packageID: packageID,
                     toPath: .likedBy,
@@ -198,7 +198,7 @@ extension ExplorePackageViewController {
                     }
                 // Update package email stack
                 self.firestoreManager.updatePackage(
-                    emailToUpdate: "jimmy@gmail.com",
+                    infoToUpdate: "jimmy@gmail.com",
                     packageType: .publishedColl,
                     packageID: packageID,
                     toPath: .likedBy,

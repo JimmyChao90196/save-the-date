@@ -116,6 +116,25 @@ class MultiUserViewController: CreatePackageViewController {
     
     // MARK: - Additional function -
     
+    // Firestore function implementation
+    func updateNameAndEmail(sessionId: String, name: String, email: String) {
+        // Add user name and email to package
+        self.firestoreManager.updatePackage(
+            infoToUpdate: "Jimmy",
+            packageType: .sessionColl,
+            packageID: sessionId,
+            toPath: .author,
+            perform: .add) {}
+        
+        self.firestoreManager.updatePackage(
+            infoToUpdate: "jimmy@gmail.com",
+            packageType: .sessionColl,
+            packageID: sessionId,
+            toPath: .authorEmail,
+            perform: .add) {}
+    }
+    
+    
     // after Event
     func setupAfterEvent(packageId: String) {
         afterEditComfirmed = { _, time in
@@ -150,9 +169,11 @@ class MultiUserViewController: CreatePackageViewController {
         if switchUserID.titleLabel?.text == "red" {
             switchUserID.setTitle("jimmy", for: .normal)
             userID = "jimmy@gmail.com"
+            userName = "Jimmy"
         } else {
             switchUserID.setTitle("red", for: .normal)
             userID = "red@gmail.com"
+            userName = "Red"
         }
     }
     
@@ -191,8 +212,8 @@ class MultiUserViewController: CreatePackageViewController {
             buttonText: "Okay") { text in
                 guard let text else { return }
                 let info = Info(title: text,
-                                author: "red",
-                                authorEmail: "red@gmail.com",
+                                author: ["Red"],
+                                authorEmail: ["red@gmail.com"],
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 
@@ -251,6 +272,9 @@ class MultiUserViewController: CreatePackageViewController {
                     self.currentPackage = sessionPackage ?? Package()
                     self.sunnyModules = self.currentPackage.weatherModules.sunny
                     self.rainyModules = self.currentPackage.weatherModules.rainy
+                    
+                    // Add name and email
+                    self.updateNameAndEmail(sessionId: text, name: "Jimmy", email: "jimmy@gmail.com")
                     
                     // Setup listener
                     self.LSG = self.firestoreManager.modulesListener(packageId: text) { newPackage in

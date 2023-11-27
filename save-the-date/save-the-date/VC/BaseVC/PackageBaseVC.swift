@@ -33,6 +33,7 @@ class PackageBaseViewController: UIViewController {
     
     // User
     var userID = "red@gamil.com"
+    var userName = "Jimmy"
     
     // Current package
     var currentPackage = Package()
