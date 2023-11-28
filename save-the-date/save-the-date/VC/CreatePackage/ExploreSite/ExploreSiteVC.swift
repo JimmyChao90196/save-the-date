@@ -19,9 +19,13 @@ enum ActionKind {
     case add(Int)
 }
 
+protocol POIResultPortocol: AnyObject {
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace id: String)
+}
+
 class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     
-    
+    var delgate: POIResultPortocol?
     var id = ""
     var time = TimeInterval()
     
@@ -31,15 +35,18 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     
     // Google map
     var locationManager: CLLocationManager!
+    var currentPhoto: GMSPlacePhotoMetadata?
     var currentLocation: CLLocation?
     var googleMapView: GMSMapView!
     var placesClient: GMSPlacesClient!
     var preciseLocationZoomLevel: Float = 15.0
     var approximateLocationZoomLevel: Float = 10.0
     
-    // let mapView = MKMapView()
+    // UI
+    var bgImageView = UIImageView(image: UIImage(resource: .siteDetailFooter))
     var placeDetailView = UIView()
     var placeTitle = UILabel()
+    var placeImageView = UIImageView()
     
     var selectedLocation = Location(
         name: "None",
@@ -57,6 +64,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.delgate = self
         initializeGoogleMap()
         addTo()
         setup()
@@ -71,26 +79,46 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
         searchVC.searchResultsUpdater = self
         navigationItem.searchController = searchVC
         
-        // Customize detail view
-        placeTitle.text = "請選擇地點"
-        placeTitle.setTextColor(.black)
-            .setbackgroundColor(.blue)
+        bgImageView.clipsToBounds = true
+        bgImageView.setCornerRadius(20)
+            .contentMode = .scaleAspectFill
         
+        placeTitle.text = "請選擇地點"
+        placeTitle.font = UIFont(name: "ChalkboardSE-Regular", size: 16)
+        placeTitle.setTextColor(.black)
+        
+        // Customize detail view
         placeDetailView.setCornerRadius(20)
-            .setbackgroundColor(.white)
-            .setBoarderWidth(1)
-            .setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
+            .setbackgroundColor(.hexToUIColor(hex: "#DDDDDD"))
+            .setBoarderWidth(2)
+            .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
         
         // Customize button
+        acceptButton.setTitleColor(.white, for: .normal)
         acceptButton.setTarget(self, action: #selector(acceptButtonPressed), for: .touchUpInside)
-            .setbackgroundColor(.systemPink)
+            .setbackgroundColor(.hexToUIColor(hex: "#FF4E4E"))
+            .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
+            .setBoarderWidth(1.5)
+            .setCornerRadius(10)
             .setTitle("Comfirm", for: .normal)
+        
+        // Customize image view
+        placeImageView.image = UIImage(resource: .placeholder03)
+        placeImageView.contentMode = .scaleAspectFill
+        placeImageView.setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
+            .setBoarderWidth(2.25)
+            .setCornerRadius(25)
+            .clipsToBounds = true
     }
     
     func addTo() {
         view.addSubviews([googleMapView])
         googleMapView.addSubviews([placeDetailView])
-        placeDetailView.addSubviews([placeTitle, acceptButton])
+        placeDetailView.addSubviews([
+            bgImageView,
+            placeImageView,
+            placeTitle,
+            acceptButton])
     }
     
     func setupConstraint() {
@@ -102,6 +130,10 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
             make.trailing.equalToSuperview()
         }
         
+        bgImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         placeDetailView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(10)
             make.right.equalToSuperview().offset(-10)
@@ -109,16 +141,25 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
             make.height.equalTo(120)
         }
         
+        placeImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+            make.width.equalTo(placeImageView.snp.height)
+        }
+        
         placeTitle.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(20)
+            make.leading.equalTo(placeImageView.snp.trailing).offset(15)
+            make.trailing.equalToSuperview().offset(-15)
             make.height.equalTo(20)
         }
         
         acceptButton.snp.makeConstraints { make in
-            make.top.equalTo(placeTitle.snp.bottom).offset(10)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(20)
+            make.top.equalTo(placeTitle.snp.bottom).offset(20)
+            make.leading.equalTo(placeImageView.snp.trailing).offset(30)
+            make.trailing.equalToSuperview().offset(-30)
+            make.height.equalTo(40)
         }
     }
 
@@ -153,6 +194,7 @@ extension ExploreSiteViewController {
         options.frame = self.view.bounds
         
         googleMapView = GMSMapView(options: options)
+        googleMapView.delegate = self
         self.view.addSubview(googleMapView)
         
     }
@@ -214,7 +256,70 @@ extension ExploreSiteViewController: UISearchResultsUpdating {
 
 // MARK: - Result view controller delegate method -
 
-extension ExploreSiteViewController: ResultViewControllerDelegate {
+extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPortocol {
+    
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace id: String) {
+        
+        Task {
+            
+            do {
+                // Show
+                LKProgressHUD.show()
+                
+                let place = try await self.googlePlacesManager.resolveLocation(for: id)
+                
+                guard let photoData = place.photos?.first else { return }
+                self.currentPhoto = photoData
+                
+                let placeImage = try await self.googlePlacesManager.resolvePhoto(
+                    from: photoData )
+                
+                DispatchQueue.main.async {
+                    self.placeImageView.image = placeImage
+                }
+                
+                let location = Location(
+                    name: place.description,
+                    shortName: place.name ?? "none",
+                    identifier: id)
+                
+                self.selectedLocation = location
+                self.selectedLocation.coordinate["lat"] = coordinate.latitude
+                self.selectedLocation.coordinate["lng"] = coordinate.longitude
+                
+                self.placeTitle.text = self.selectedLocation.shortName
+                
+                // Hide keyboard and dismiss search VC
+                self.searchVC.searchBar.resignFirstResponder()
+                self.searchVC.dismiss(animated: true, completion: nil)
+                
+                // Set zoom level
+                let zoomLevel = self.manager.accuracyAuthorization == .fullAccuracy ?
+                self.preciseLocationZoomLevel : self.approximateLocationZoomLevel
+                let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
+                                                      longitude: coordinate.longitude,
+                                                      zoom: zoomLevel)
+                // Move to target
+                self.googleMapView.animate(to: camera)
+                
+                // remove marker
+                self.googleMapView.clear()
+                let marker = GMSMarker()
+                marker.position = CLLocationCoordinate2D(
+                    latitude: coordinate.latitude,
+                    longitude: coordinate.longitude)
+                marker.title = self.selectedLocation.shortName
+                marker.snippet = self.selectedLocation.name
+                marker.map = self.googleMapView
+                
+                // Dismiss
+                LKProgressHUD.dismiss()
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
     
     func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location) {
         
@@ -246,5 +351,29 @@ extension ExploreSiteViewController: ResultViewControllerDelegate {
         marker.title = targetPlace.shortName
         marker.snippet = targetPlace.name
         marker.map = googleMapView
+    }
+}
+
+// MARK: - Google map delegate -
+extension ExploreSiteViewController: GMSMapViewDelegate {
+    
+    // Get exsiting marker info
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        print("You tapped : \(marker.position.latitude),\(marker.position.longitude)")
+        return true
+    }
+    
+    // Get point of interest info
+    func mapView(
+      _ mapView: GMSMapView,
+      didTapPOIWithPlaceID placeID: String,
+      name: String,
+      location: CLLocationCoordinate2D
+    ) {
+        print("You tapped \(name): \(placeID), \(location.latitude)/\(location.longitude)")
+        
+        DispatchQueue.main.async {
+            self.delgate?.didTapPlace(with: location, targetPlace: placeID)
+        }
     }
 }

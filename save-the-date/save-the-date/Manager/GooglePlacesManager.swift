@@ -49,6 +49,34 @@ final class GooglePlacesManager {
             }
     }
     
+    public func resolvePhoto(from photoMetaData: GMSPlacePhotoMetadata) async throws -> UIImage {
+        return try await withCheckedThrowingContinuation { continuation in
+            client.loadPlacePhoto(photoMetaData) { photo, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let photo = photo {
+                    continuation.resume(returning: photo)
+                } else {
+                    continuation.resume(throwing: error!)
+                }
+            }
+        }
+    }
+    
+    public func resolveLocation(for identifier: String) async throws -> GMSPlace {
+        return try await withCheckedThrowingContinuation { continuation in
+            client.fetchPlace(fromPlaceID: identifier, placeFields: .all, sessionToken: nil) { googlePlace, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let googlePlace = googlePlace {
+                    continuation.resume(returning: googlePlace)
+                } else {
+                    continuation.resume(throwing: error!)
+                }
+            }
+        }
+    }
+
     public func resolveLocation(
         for location: Location,
         completion: @escaping (Result<CLLocationCoordinate2D, Error>) -> Void) {
@@ -98,5 +126,4 @@ final class GooglePlacesManager {
             completion(coords) 
         }
     }
-
 }

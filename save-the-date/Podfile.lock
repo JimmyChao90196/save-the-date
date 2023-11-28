@@ -6,6 +6,7 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (8.3.0)
   - Hover (2.1.0)
+  - JGProgressHUD (2.2)
   - SnapKit (5.6.0)
   - SwiftLint (0.54.0)
 
@@ -13,6 +14,7 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
   - Hover
+  - JGProgressHUD
   - SnapKit
   - SwiftLint
 
@@ -21,6 +23,7 @@ SPEC REPOS:
     - GoogleMaps
     - GooglePlaces
     - Hover
+    - JGProgressHUD
     - SnapKit
     - SwiftLint
 
@@ -28,9 +31,10 @@ SPEC CHECKSUMS:
   GoogleMaps: 54762190c9741867d03e4e4218672ab5a0a8096b
   GooglePlaces: b922e192c50994436900ef14d19f84971950250b
   Hover: b7821338bdaf54d0e46be24d603e443a869993e3
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: f24b1d7a3fe555b514c324ae728e0ac8c4551758
+PODFILE CHECKSUM: fe53f1bf301ea4cc213e511476080167ed23ac62
 
 COCOAPODS: 1.13.0

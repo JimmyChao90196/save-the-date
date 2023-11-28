@@ -70,7 +70,7 @@ class MultiUserViewController: CreatePackageViewController {
     
     override func addTo() {
         super.addTo()
-        view.addSubviews([switchUserID])
+        // view.addSubviews([switchUserID])
     }
     
     override func setup() {
@@ -103,7 +103,12 @@ class MultiUserViewController: CreatePackageViewController {
             HoverItem(
                 title: "Share session ID",
                 image: UIImage(systemName: "figure.stand.line.dotted.figure.stand"),
-                onTap: { self.prepareShareSheet()})
+                onTap: { self.prepareShareSheet()}),
+            
+            HoverItem(
+                title: "Switch user",
+                image: UIImage(systemName: "arrow.left.arrow.right"),
+                onTap: { self.switchUserIDPressed() })
         ]
         
         hoverButton = HoverView(with: config, items: itemsMU)
@@ -112,19 +117,7 @@ class MultiUserViewController: CreatePackageViewController {
         view.addSubviews([hoverButton])
     }
     
-    override func configureConstraint() {
-        super.configureConstraint()
-        
-        switchUserID.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(15)
-            make.centerY.equalToSuperview()
-            make.height.equalTo(50)
-            make.width.equalTo(50)
-        }
-    }
-    
     // MARK: - Additional function -
-    
     // Firestore function implementation
     func updateNameAndEmail(sessionId: String, name: String, email: String) {
         // Add user name and email to package
@@ -212,6 +205,8 @@ class MultiUserViewController: CreatePackageViewController {
                     self.rainyModules = []
                     self.currentPackage = Package()
                     self.LSG?.remove()
+                    
+                    self.navigationController?.popViewController(animated: true)
                     
                     DispatchQueue.main.async {
                         self.tableView.reloadData()

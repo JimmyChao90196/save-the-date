@@ -27,6 +27,7 @@
 		748023E82B09EC3C00878B12 /* DayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023E72B09EC3C00878B12 /* DayHeaderView.swift */; };
 		748023EB2B0B38DA00878B12 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EA2B0B38DA00878B12 /* SelectionView.swift */; };
 		748023ED2B0B390100878B12 /* selectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EC2B0B390100878B12 /* selectionModel.swift */; };
+		748728282B15B41200EB347F /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */; };
 		74918CBD2B072FE700ED7D99 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74918CBC2B072FE700ED7D99 /* CoreLocation.framework */; };
 		74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */; };
 		74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B828512B04DB2300A42850 /* UIColorExtension.swift */; };
@@ -97,6 +98,7 @@
 		748023E72B09EC3C00878B12 /* DayHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayHeaderView.swift; sourceTree = "<group>"; };
 		748023EA2B0B38DA00878B12 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		748023EC2B0B390100878B12 /* selectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectionModel.swift; sourceTree = "<group>"; };
+		748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		74918CBC2B072FE700ED7D99 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		74B8284F2B04DABB00A42850 /* DeclaritiveExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclaritiveExtension.swift; sourceTree = "<group>"; };
 		74B828512B04DB2300A42850 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 		742CD06E2B04C36C00CA3011 /* save-the-date */ = {
 			isa = PBXGroup;
 			children = (
+				748728262B15B3E900EB347F /* ThirdPartyWrapper */,
 				74B8284E2B04DA8B00A42850 /* Extension */,
 				744B57162B05D7A000B3ABAA /* Model */,
 				74B828592B04DF0D00A42850 /* Manager */,
@@ -247,6 +250,14 @@
 				7439AFEC2B074F6700A28C09 /* RouteVC.swift */,
 			);
 			path = Route;
+			sourceTree = "<group>";
+		};
+		748728262B15B3E900EB347F /* ThirdPartyWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */,
+			);
+			path = ThirdPartyWrapper;
 			sourceTree = "<group>";
 		};
 		74B8284D2B04D99300A42850 /* VC */ = {
@@ -585,6 +596,7 @@
 				7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */,
 				7439AFED2B074F6700A28C09 /* RouteVC.swift in Sources */,
 				74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */,
+				748728282B15B41200EB347F /* JGProgressHUDWrapper.swift in Sources */,
 				74B8285D2B04DF8800A42850 /* ExploreSiteVC.swift in Sources */,
 				742CD0722B04C36C00CA3011 /* SceneDelegate.swift in Sources */,
 			);

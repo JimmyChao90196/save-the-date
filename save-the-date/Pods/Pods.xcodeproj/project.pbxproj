@@ -14,9 +14,10 @@
 				5C53F63B615C49C159CEC84184FD1687 /* [CP] Copy XCFrameworks */,
 			);
 			dependencies = (
-				C2438CB53C35B020CD4003468A92ED8B /* PBXTargetDependency */,
+				82E938361F6413CCACEB5C5E275749F5 /* PBXTargetDependency */,
 			);
 			name = GooglePlaces;
+			productName = GooglePlaces;
 		};
 		52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */ = {
 			isa = PBXAggregateTarget;
@@ -26,6 +27,7 @@
 			dependencies = (
 			);
 			name = SwiftLint;
+			productName = SwiftLint;
 		};
 		E5B4BBC6DD552AC8943C7E22772FC1D3 /* GoogleMaps */ = {
 			isa = PBXAggregateTarget;
@@ -34,254 +36,319 @@
 				9801DC96C44A55EEBAB39A01F1BB925C /* [CP] Copy XCFrameworks */,
 			);
 			dependencies = (
-				93996337ED13B234CA6F319E14B30B82 /* PBXTargetDependency */,
+				8E6E61FB57BBC825BD610CC72DD9A630 /* PBXTargetDependency */,
 			);
 			name = GoogleMaps;
+			productName = GoogleMaps;
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		00A2749F46C967ED4725A32357E3FB1B /* ConstraintLayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A2B853B51B10CD8864B44E67F2228B /* ConstraintLayoutSupport.swift */; };
-		04637C70546B34F93C3A1D79C3F78B37 /* ConstraintDirectionalInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70FB3A7F526887A5F35E683BEC8B7F4 /* ConstraintDirectionalInsetTarget.swift */; };
-		0591132B5EA1BE4DDA268D8A9C3D0421 /* LayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D98D909DD7B9FBE399DE802C9E793 /* LayoutConstraint.swift */; };
-		06E43B4751069B47B3BD4AFD936A57E3 /* ConstraintPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B09525DF3CECC92C743D127D096F19 /* ConstraintPriority.swift */; };
-		0833E66E7F19849322305D67777B77DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		0B994CDC79B1AD3A7BE62490D27C60C8 /* ConstraintAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F597726AF5D88E7BDADAF22F0F927 /* ConstraintAttributes.swift */; };
-		0C0853B304C73D7B53631D25EF25CD17 /* Hover-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 35BE32E8AA35FBAB2EDFA42FEC55DCB8 /* Hover-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		14C347B08A896EC7D3669739A1A61E39 /* GooglePlaces.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7F1E261A9C0E2C4B818BB4946B88400 /* GooglePlaces.bundle */; };
-		183D8B3E057B885EA7DF9A8CDCCE9029 /* ConstraintMakerRelatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE1237AAF54F0E9DAC1F331B82A5850 /* ConstraintMakerRelatable.swift */; };
-		18CF435B63AAB04528D9F283086C1E15 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B103DAC8F581C2846D2030316B68D15 /* CGPoint+Distance.swift */; };
-		1A3CC906286E094F7D86972A78C29FC6 /* CGPoint+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F511D467E90566929C27BBDB967E3E79 /* CGPoint+Operators.swift */; };
-		220D6AC9B1B1EC8EFFB204F9C1EAC842 /* ConstraintMakerEditable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B78006B76B28BAB494A34A80261236 /* ConstraintMakerEditable.swift */; };
-		256558233B40ACA6818F143BBC5B8017 /* ConstraintViewDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989767635E22C3B15EB41160FE14829C /* ConstraintViewDSL.swift */; };
-		2B274BAA3687DA371A8D8F53B380AD5A /* Pods-save-the-date-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 680DB9338DD8DA9711AF4F8B3F6A1776 /* Pods-save-the-date-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3660B4F629053ABC3C1DF69366770289 /* ConstraintConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6059FE1A2754DA2215CC14BC196E2C5C /* ConstraintConfig.swift */; };
-		38B9D58E94D9C1CECD7E381C64A2329D /* UILayoutSupport+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD90A78C0207C6652FA822BCFC54A603 /* UILayoutSupport+Extensions.swift */; };
-		41212BF1E0D5696E5C6D9FFD3061AAD8 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A98196F480C133C604A7FFE825836AA /* HoverButton.swift */; };
-		4222F077584EE1B2E5E6546BE48425BF /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB910E7426A34DC0E62C2A51FB2A1FE /* NSObject+Create.swift */; };
-		42B6ACFCF650183030867CB3EF345E95 /* ConstraintMakerFinalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53448DD161286B36320620A7BB0E43A /* ConstraintMakerFinalizable.swift */; };
-		42CC5D6AEAA046C9EB5687D7B2BC845F /* HoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E6DCA19AA14813B3092C6037574C79 /* HoverItem.swift */; };
-		4BAD99B7394E225CEDBF94B8100BCC7F /* ConstraintRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D5CCEB1F5200A45A2FEE28D0DA93F /* ConstraintRelation.swift */; };
-		4DA72FD7F1FB2C0449EDEF4B8A579807 /* ConstraintPriorityTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD6951035C2F694DBADC501503BE280 /* ConstraintPriorityTarget.swift */; };
-		5380454C48A12A6E376122ABD8096968 /* ConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B34449A4E015DF4C26F51F3F63CD8 /* ConstraintDescription.swift */; };
-		54AD064F1CA98F19874ECA247250A0C5 /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E4D3931B8D42A707E23C993FA45A5D /* Orientation.swift */; };
-		552DD3C4879E35A7F3C769D21122B553 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		55E51F45F1E157D3B4942BA7252C277E /* ConstraintRelatableTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03DFA05C95A4A31DE78261A71993BDF /* ConstraintRelatableTarget.swift */; };
-		561DEB0B3A5EEC536B5C869BADABF21C /* HoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CEF0E6BF7BA968E17970CC8BD0C0D /* HoverView.swift */; };
-		56A72F6D13D930C4A2568F24DEA33C8D /* ConstraintLayoutSupportDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A57E5AC7C15F28D280CE58AF62207 /* ConstraintLayoutSupportDSL.swift */; };
-		56AC6DC6459AE47E7BC4AF06E5B148D2 /* ConstraintDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDB50611B6C1403BB9B23E094ABA1 /* ConstraintDSL.swift */; };
-		5D36B99F3CAB1FC7337082D9581FECA6 /* Debugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F625FB161466D6EA978B157F4E0FBE49 /* Debugging.swift */; };
-		604D3C93C17978C23600EC415949AB64 /* ConstraintInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905667E4244B6DBE9EA49B8DF66D1730 /* ConstraintInsets.swift */; };
-		60E3966D0BE09D6522F9024CB53721C8 /* HoverColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED017B20A38EB92C1C686BBE648E1C1 /* HoverColor.swift */; };
-		611CEF7FF1EF9EA1BCEF6C73EEE3ACCF /* ConstraintLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9660DC547D55E103AED240F1AFC618B7 /* ConstraintLayoutGuide.swift */; };
-		69A2A03224453CC4B4136C3CE355EAE3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		69DE75BA185BBAB5FDAA28321F3C849F /* ConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CF1CA3583501E1B413C18AD6A6D647 /* ConstraintItem.swift */; };
-		6AC1B881BB319C89AD023A02CDC8FC3D /* ConstraintLayoutGuide+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23292E85525345FE908EA690D04E8B4E /* ConstraintLayoutGuide+Extensions.swift */; };
-		6EAC8B6FA2D115DE708A58C601DD25E1 /* Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA587609C694E3C7F69BAE9ED61A9D6 /* Constraint.swift */; };
-		7168F9322AF8BC978399BB71B44FFFE8 /* CALayer+Decorators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F22ED82AD436B53800F09D54092ECC /* CALayer+Decorators.swift */; };
-		727E23502FE1E0254946E9D9FE7CEFE9 /* DimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7D577D893E4798C4819EF97550BD33 /* DimView.swift */; };
-		769156DF413CA52ADC5F3A540D82D0C3 /* UIStackView+Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B12B86C02B196E1EEDA7C2C91DFE0C0 /* UIStackView+Add.swift */; };
-		76EED8F8BAE0927A0A493D6365A005A2 /* UIView+Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8757249E4579F523AE23F77F282AC /* UIView+Add.swift */; };
-		8707BF04ACBDA086B0B1EB15C28A552F /* HoverPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08DAA378E51AD88125A71F47DA23288 /* HoverPosition.swift */; };
-		8CDD750C109C3070A2FFEB354FA2CFC1 /* Hover-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A8F3782542D0A29E4E87E383A3EC8D /* Hover-dummy.m */; };
-		95E194A3AABB5407231E898B6686F73E /* ConstraintMakerRelatable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A39DD322A083662011B2BFC0DB51F /* ConstraintMakerRelatable+Extensions.swift */; };
-		98F570DA48370453D648BD526FDAAEAA /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732C7FBE380A6385D61FD962BA64C3D7 /* LayoutConstraintItem.swift */; };
-		9C9548E8B4675954566202F7B87FF0E6 /* ConstraintConstantTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD608C83E1100DEEC0CDDA6311209BB /* ConstraintConstantTarget.swift */; };
-		9D757874573A98328B5C4A6A655D163F /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EB6D9280C0228F799AD9FECFCF0AE2 /* Calculator.swift */; };
-		9E02CFFEFE1BEC978B512286F03D31DA /* ConstraintInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12472AB576B388DF4C79D45858E6FC1 /* ConstraintInsetTarget.swift */; };
-		A03FDA8BC5741880B1EF11AFD248EF48 /* ConstraintOffsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA4DD16355F9F07743FC4A52C65326C /* ConstraintOffsetTarget.swift */; };
-		A3E3AB7C765C21AE17B1E6EE6560040C /* SnapKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CF46209E8DA782BD0E4FF26D289C3D24 /* SnapKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A5A8BF973BFE9C9304372A26C9F2E35B /* ConstraintMakerExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA781725E056964FB08F43010942DED6 /* ConstraintMakerExtendable.swift */; };
-		AFC4BF343726325BC12475B7353C7BF4 /* HoverConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1FBFE73512B2D34B102CB2B833105 /* HoverConfiguration.swift */; };
-		B03B5579590D528CBA6D11FF638BC2AF /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC069D1C8DB373CD2673BB5CCC462EA /* Typealiases.swift */; };
-		B43017FEC99D227D4CDD81DD2C27D9D9 /* ConstraintMakerPrioritizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609B5B67F381E4CF2CA7361CE22F82F1 /* ConstraintMakerPrioritizable.swift */; };
-		B752F7C4BECB65894B1F49421049CE5F /* ConstraintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D62F285ADAF222C2073716CD44BA3F /* ConstraintView.swift */; };
-		BD47CB74CD9B2B4D2D942C9B65748DFB /* SnapKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 52CC13240709FD8B5F573272D908B498 /* SnapKit-dummy.m */; };
-		C819EAD5BADCE51AD9A7C4ABE0C212DA /* Pods-save-the-date-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F99E5DFFFC0E810B940C6BF2FD548E6 /* Pods-save-the-date-dummy.m */; };
-		C989A126A6C39DC6C09E87749CF0F65A /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8EB5C700517ABC8F9D91E85248FFF246 /* GoogleMaps.bundle */; };
-		CA777FA138D186A9B876A7CD7C20389F /* UIView+Decorators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8373CC31B39654EACE1C71CB2D6867C /* UIView+Decorators.swift */; };
-		CE504528508C6513736D89B0226C768C /* UISpringTimingParameters+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EAAF822FE911FD59E8795A37D26E2E /* UISpringTimingParameters+Init.swift */; };
-		CEB40AE4DC2664D899B296AF1EB11948 /* CGRect+Center.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4852E056B6EAACE8D1FA2304AB1CB741 /* CGRect+Center.swift */; };
-		E98DC8FB2578E76A812E0C94BA10E1B1 /* ConstraintDirectionalInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAB53AB63D9352E419CEB4BC60E6AAD /* ConstraintDirectionalInsets.swift */; };
-		EF21586EC3DFF6097A58EEC87376A0C1 /* ConstraintLayoutGuideDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA1ED84B7360B89CD6D26357111DF5 /* ConstraintLayoutGuideDSL.swift */; };
-		F68693068ED1814C0A871AB595EB896A /* HoverItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F048E0E72951BA01B0B2E67C6A16AC35 /* HoverItemView.swift */; };
-		F7C0960CEEB8F0C18F4503B405EAC08F /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF942FC97C9F5EFEAECED3760CB238A /* ConstraintMultiplierTarget.swift */; };
-		F953AA9104BFE0C2DAD639EA60104A75 /* ConstraintView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F0970D672A299B3CDD9ADE6A39085A /* ConstraintView+Extensions.swift */; };
-		FAB03959C2357E325B19E08BC4775DAB /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3805B5C4B6C7D8AD3EB45B57A0EF3547 /* ConstraintMaker.swift */; };
-		FBC1FE0FCDE79ECA588DF418FC45850E /* Anchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1993193571BE0F55E2937CD4F15B3BD1 /* Anchor.swift */; };
+		00A2749F46C967ED4725A32357E3FB1B /* ConstraintLayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BFC992529851EBB0349383292A6BE4 /* ConstraintLayoutSupport.swift */; };
+		04637C70546B34F93C3A1D79C3F78B37 /* ConstraintDirectionalInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0410E5D7D23C92A6E5FD0D28658AB2A /* ConstraintDirectionalInsetTarget.swift */; };
+		057236A76E1FE2B29A0DFCC187A272B7 /* JGProgressHUDImageIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E86622B51C1D9217E2F2A40A5B1DA5 /* JGProgressHUDImageIndicatorView.m */; };
+		0591132B5EA1BE4DDA268D8A9C3D0421 /* LayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B279FC6725134AE7D1E7DBD7E96B39E /* LayoutConstraint.swift */; };
+		06E43B4751069B47B3BD4AFD936A57E3 /* ConstraintPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619EF00450A11F77654B2AFA295CFAEB /* ConstraintPriority.swift */; };
+		0833E66E7F19849322305D67777B77DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B1530FBFAA1690D27A135E4CC85AA07 /* Foundation.framework */; };
+		0B994CDC79B1AD3A7BE62490D27C60C8 /* ConstraintAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300528FC5100F30BF671A395CA70113C /* ConstraintAttributes.swift */; };
+		0C0853B304C73D7B53631D25EF25CD17 /* Hover-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CC6A21FCA63E4D84E530123AAEC7E9 /* Hover-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0C82192FD273106AC5D85067EAE6A039 /* JGProgressHUDRingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 62055320C39B08357405E6B0D9836B7C /* JGProgressHUDRingIndicatorView.m */; };
+		183D8B3E057B885EA7DF9A8CDCCE9029 /* ConstraintMakerRelatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90426C1164C37B2E7D76AA1DF99869 /* ConstraintMakerRelatable.swift */; };
+		18CF435B63AAB04528D9F283086C1E15 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053A7A1292C382B6663916205FAA5B81 /* CGPoint+Distance.swift */; };
+		1A3CC906286E094F7D86972A78C29FC6 /* CGPoint+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07420A19342F779D75412A86ECEAA4FB /* CGPoint+Operators.swift */; };
+		1EDFCA7D4DA76A42E64C0A20282DF7AA /* JGProgressHUDErrorIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 71EF41CDA5A6351DB0C55297A0C46A72 /* JGProgressHUDErrorIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2118768E314F2AA99CD1EB6E408B1394 /* JGProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C6CDEE6DB333F0A341E083BC3EBE19F /* JGProgressHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		220D6AC9B1B1EC8EFFB204F9C1EAC842 /* ConstraintMakerEditable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B75F52448C3319D10DD07EDFA8DA3D /* ConstraintMakerEditable.swift */; };
+		256558233B40ACA6818F143BBC5B8017 /* ConstraintViewDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0591149429B17FEC1226851F9AA22D1 /* ConstraintViewDSL.swift */; };
+		265B9E1102D1F51A1E630909068DC7EA /* JGProgressHUDIndeterminateIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E839E83C35D1DADB91D1B67FD98F0CF8 /* JGProgressHUDIndeterminateIndicatorView.m */; };
+		27175E2839FF0472C694F708F9CF452E /* JGProgressHUDFadeZoomAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1001863579C8A865758F299FEA5C8A01 /* JGProgressHUDFadeZoomAnimation.m */; };
+		27BEAC457068AB9F60D5F63042656C92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE2AD31F00D0EF9C522211BDDBF6C3C /* UIKit.framework */; };
+		29A849BA030257F077D179981BBAA1A8 /* JGProgressHUDAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 45849AF7B78B604C742E19044CF558D7 /* JGProgressHUDAnimation.m */; };
+		344C356FB91ADB0A4025DE3A6CBA3D7E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE46B11FEBCBB7C689EB07A5E57BD38 /* QuartzCore.framework */; };
+		35A8C10E754336117FC2E3378C9AE349 /* JGProgressHUDAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D6E0B5630592BE1658548AA039F6224A /* JGProgressHUDAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3660B4F629053ABC3C1DF69366770289 /* ConstraintConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96FC8FBE34A83FF8D12213498574F98 /* ConstraintConfig.swift */; };
+		38B9D58E94D9C1CECD7E381C64A2329D /* UILayoutSupport+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F03A24DA6C4446A78F1B1A35BEBE3A /* UILayoutSupport+Extensions.swift */; };
+		38CD56D489074146E0C9FAD93C2DDD91 /* JGProgressHUDIndeterminateIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = C4AB393A4D93A16215184ADBD023A7C0 /* JGProgressHUDIndeterminateIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41212BF1E0D5696E5C6D9FFD3061AAD8 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25A069889DCE83B7D0C6E660A189A6F /* HoverButton.swift */; };
+		4222F077584EE1B2E5E6546BE48425BF /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD09BE9A83A3048678030953CCC8A7 /* NSObject+Create.swift */; };
+		42B6ACFCF650183030867CB3EF345E95 /* ConstraintMakerFinalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD81F4B50B788CC98659E1D7F146BF3E /* ConstraintMakerFinalizable.swift */; };
+		42CC5D6AEAA046C9EB5687D7B2BC845F /* HoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3244F2C64895789304F3CB34F63EC3 /* HoverItem.swift */; };
+		4BAD99B7394E225CEDBF94B8100BCC7F /* ConstraintRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EF3CB690408CA65359F70647E0F31 /* ConstraintRelation.swift */; };
+		4D4527F3ABE718FA6341B0B4CACCA938 /* JGProgressHUDShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B01626B631D532E799B09015ADBBC0 /* JGProgressHUDShadow.m */; };
+		4DA72FD7F1FB2C0449EDEF4B8A579807 /* ConstraintPriorityTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031FBEB0E91FBA7B5E358BBBAB0433A9 /* ConstraintPriorityTarget.swift */; };
+		51CB0032AD441499EA93C1E3F94B617D /* JGProgressHUDFadeAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = ED30684104AA4F306AAA9A0E99D1C659 /* JGProgressHUDFadeAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5380454C48A12A6E376122ABD8096968 /* ConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CA47B11B08CD58DE64A3D27E926182 /* ConstraintDescription.swift */; };
+		54AD064F1CA98F19874ECA247250A0C5 /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF209F196E9B659FD2024D96E464F473 /* Orientation.swift */; };
+		55E51F45F1E157D3B4942BA7252C277E /* ConstraintRelatableTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA8C687269BAB2D67059FE9E409BA5 /* ConstraintRelatableTarget.swift */; };
+		561DEB0B3A5EEC536B5C869BADABF21C /* HoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB538CD31AA820861F2DF2932C6E54E /* HoverView.swift */; };
+		56A72F6D13D930C4A2568F24DEA33C8D /* ConstraintLayoutSupportDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245B3133D97D5BC9B648D321D5A095B0 /* ConstraintLayoutSupportDSL.swift */; };
+		56AC6DC6459AE47E7BC4AF06E5B148D2 /* ConstraintDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3AE835922EA1532433F7AF7649A632 /* ConstraintDSL.swift */; };
+		57298AB0F1E7394E06C66FEC5CB85F5E /* JGProgressHUDPieIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = B4BAFF49BE47A16756F611285CA8C512 /* JGProgressHUDPieIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		598B0C4F8FD56111C3049C6DEEAB435E /* JGProgressHUDRingIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = F1CDDFA54DE3ECD97941C49A99B38CCF /* JGProgressHUDRingIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D36B99F3CAB1FC7337082D9581FECA6 /* Debugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D08E2651DE23CDB300B33795657006 /* Debugging.swift */; };
+		5E5B3DB9C072C60E6E87AA135B0F2608 /* Pods-save-the-date-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 680DB9338DD8DA9711AF4F8B3F6A1776 /* Pods-save-the-date-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		604D3C93C17978C23600EC415949AB64 /* ConstraintInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A875B2CB11889063EB6E3134526668 /* ConstraintInsets.swift */; };
+		60CCDFBC06F18325266CAA417701D596 /* JGProgressHUD-Defines.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CDF21056176B1DDEB8A959F471EDE58 /* JGProgressHUD-Defines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60E3966D0BE09D6522F9024CB53721C8 /* HoverColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE638DCD4487719064160A1BACB36FE /* HoverColor.swift */; };
+		611CEF7FF1EF9EA1BCEF6C73EEE3ACCF /* ConstraintLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8CFF98783F5F8D86EA649EB4A8683E /* ConstraintLayoutGuide.swift */; };
+		6348535F960D192DEFDF806302AEF321 /* Pods-save-the-date-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F99E5DFFFC0E810B940C6BF2FD548E6 /* Pods-save-the-date-dummy.m */; };
+		64AE42A884297FBDB50DD1846DFEAE4B /* JGProgressHUDIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9D95C7470B0A7FC0CD1E6F0D175D87 /* JGProgressHUDIndicatorView.m */; };
+		69A2A03224453CC4B4136C3CE355EAE3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B1530FBFAA1690D27A135E4CC85AA07 /* Foundation.framework */; };
+		69DE75BA185BBAB5FDAA28321F3C849F /* ConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D837EFE2D56C88BE06DACA6E0B41DE /* ConstraintItem.swift */; };
+		6AC1B881BB319C89AD023A02CDC8FC3D /* ConstraintLayoutGuide+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303222FF5F3AF57AFE204F58546CF37 /* ConstraintLayoutGuide+Extensions.swift */; };
+		6EAC8B6FA2D115DE708A58C601DD25E1 /* Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABCDFC906120584AB022B444426ADCC /* Constraint.swift */; };
+		7168F9322AF8BC978399BB71B44FFFE8 /* CALayer+Decorators.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5C6609D62C908DF01CCF5F248817B6 /* CALayer+Decorators.swift */; };
+		727E23502FE1E0254946E9D9FE7CEFE9 /* DimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B8050C308EFA71950E929D58614B2C /* DimView.swift */; };
+		769156DF413CA52ADC5F3A540D82D0C3 /* UIStackView+Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7EE90D32A39FC8E0E6C87E71B1120E /* UIStackView+Add.swift */; };
+		76EED8F8BAE0927A0A493D6365A005A2 /* UIView+Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33D5DFB5BD7E1742F0276ACC5626656 /* UIView+Add.swift */; };
+		782668326078845CA6F168F4B8A44D09 /* JGProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BD0FC75998F6168A2996F987EDB8DA81 /* JGProgressHUD.m */; };
+		8707BF04ACBDA086B0B1EB15C28A552F /* HoverPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571993742DF88365F2A8787810E03377 /* HoverPosition.swift */; };
+		8CDD750C109C3070A2FFEB354FA2CFC1 /* Hover-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A7516EEDC28AB098E026F77EE80B268C /* Hover-dummy.m */; };
+		91B214C7220650206DFF3C4962AF5CD7 /* JGProgressHUDSuccessIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 297ED83345B29E8C720D23EA767DEA2D /* JGProgressHUDSuccessIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		95E194A3AABB5407231E898B6686F73E /* ConstraintMakerRelatable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC77167C8920DEB3614FE16BDE06744F /* ConstraintMakerRelatable+Extensions.swift */; };
+		971C580EEEAD2A11C9518ED5763E09B6 /* JGProgressHUDImageIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7AB052CE8174AA5D04C43A345A707A69 /* JGProgressHUDImageIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98F570DA48370453D648BD526FDAAEAA /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672BEE6872082FBFF19E05503AFEECB4 /* LayoutConstraintItem.swift */; };
+		9C9548E8B4675954566202F7B87FF0E6 /* ConstraintConstantTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5024C177C7EB08F8487EC1A780102C8 /* ConstraintConstantTarget.swift */; };
+		9D757874573A98328B5C4A6A655D163F /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1728EB3527B3056D5C6ADF2C506595 /* Calculator.swift */; };
+		9E02CFFEFE1BEC978B512286F03D31DA /* ConstraintInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E842CF9BB36AB3C476CDC142FD5CA9B0 /* ConstraintInsetTarget.swift */; };
+		A03FDA8BC5741880B1EF11AFD248EF48 /* ConstraintOffsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06ECD3F036D899ED6DFA535B422C28D /* ConstraintOffsetTarget.swift */; };
+		A3E3AB7C765C21AE17B1E6EE6560040C /* SnapKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F1033DC1C0675CC099679EB90A67275D /* SnapKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A5A8BF973BFE9C9304372A26C9F2E35B /* ConstraintMakerExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE78A76D99339AF957072CABA4F1A6 /* ConstraintMakerExtendable.swift */; };
+		A76FB212727EBBD04FE9CB9061CC1CC0 /* JGProgressHUDShadow.h in Headers */ = {isa = PBXBuildFile; fileRef = 61099E8945A2F8BE0819D72D1AD6CADE /* JGProgressHUDShadow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A8E66EF5F07ACC49C8C194598A46AE9C /* JGProgressHUDPieIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA82AA19AF883BFFC9B8E566E6C78F0 /* JGProgressHUDPieIndicatorView.m */; };
+		AFC4BF343726325BC12475B7353C7BF4 /* HoverConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B79C32466607EC963939D7F316F0DAF /* HoverConfiguration.swift */; };
+		B03B5579590D528CBA6D11FF638BC2AF /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0DE513CB4A89953655BC139AD9B96 /* Typealiases.swift */; };
+		B05A00462215AEC0DCA346603E014A3D /* JGProgressHUDFadeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = F18E11DAE106657FE3E6F041D76E5B8E /* JGProgressHUDFadeAnimation.m */; };
+		B43017FEC99D227D4CDD81DD2C27D9D9 /* ConstraintMakerPrioritizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7071554874CE6F80422FA077ECF02F /* ConstraintMakerPrioritizable.swift */; };
+		B752F7C4BECB65894B1F49421049CE5F /* ConstraintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA3D0573C0B065D92DBAEC39961D6E5 /* ConstraintView.swift */; };
+		BB5DD880786B85446DB43B1372DEF972 /* GooglePlaces.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2F669755ADC47AB696645ECEDF2BDA76 /* GooglePlaces.bundle */; };
+		BD18980822D9ED04744D46C1DC8A3C14 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B1530FBFAA1690D27A135E4CC85AA07 /* Foundation.framework */; };
+		BD47CB74CD9B2B4D2D942C9B65748DFB /* SnapKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DA46A5A1BBD05EF625A67226795851 /* SnapKit-dummy.m */; };
+		C3CA526BA1CFCB9FA884DBABDC6A2BBF /* JGProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C235F2C6D8CCE6E6C44E0951F9D5268E /* JGProgressHUD-dummy.m */; };
+		CA777FA138D186A9B876A7CD7C20389F /* UIView+Decorators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5B7B53520E28C3024E5DEF43237B1F /* UIView+Decorators.swift */; };
+		CE504528508C6513736D89B0226C768C /* UISpringTimingParameters+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B5133A326F0603FE9F9F673F315427 /* UISpringTimingParameters+Init.swift */; };
+		CEB40AE4DC2664D899B296AF1EB11948 /* CGRect+Center.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3E4A52FC3231B99086DD1AB0E24 /* CGRect+Center.swift */; };
+		D1837CC1645CB45AC0F8ADC169C24128 /* JGProgressHUDIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = AD2099C41848E7551BF71EDBE6FFAEA7 /* JGProgressHUDIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DFAB19998132C89C3959607F7E2DF43A /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1849794ADA9452FD17CEE12B3B931DA2 /* GoogleMaps.bundle */; };
+		E7905B1CB7BD6D68F5707D77BFAF81DD /* JGProgressHUD-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B0CC8655A32E84B899F6AC6D59D9AAD8 /* JGProgressHUD-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E98DC8FB2578E76A812E0C94BA10E1B1 /* ConstraintDirectionalInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF9360F25A9C1CDA61412CEB79864F2 /* ConstraintDirectionalInsets.swift */; };
+		ED2EA05165285B0C93316F59910A1ACC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B1530FBFAA1690D27A135E4CC85AA07 /* Foundation.framework */; };
+		EF21586EC3DFF6097A58EEC87376A0C1 /* ConstraintLayoutGuideDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3AB7E9C4D2435368EE0679558B999 /* ConstraintLayoutGuideDSL.swift */; };
+		F0DFCE79F4D685B067C471C3FA5419CF /* JGProgressHUDSuccessIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5087617B87AD4A5EF088429F075E3ED5 /* JGProgressHUDSuccessIndicatorView.m */; };
+		F68693068ED1814C0A871AB595EB896A /* HoverItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3801D72589DC00AA21BF403B4D444B /* HoverItemView.swift */; };
+		F7C0960CEEB8F0C18F4503B405EAC08F /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E217B9B7606F314105FA31EC6D1265A /* ConstraintMultiplierTarget.swift */; };
+		F953AA9104BFE0C2DAD639EA60104A75 /* ConstraintView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D7FEB98719E48BB20C3F0B8BA37D16 /* ConstraintView+Extensions.swift */; };
+		FAAA4E15041016400999F8D04B321A1F /* JGProgressHUDFadeZoomAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5529BCC10EB432BB94693E24465A8372 /* JGProgressHUDFadeZoomAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAB03959C2357E325B19E08BC4775DAB /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C146094D9BC58A2BAD7B5539008DD0 /* ConstraintMaker.swift */; };
+		FBC1FE0FCDE79ECA588DF418FC45850E /* Anchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFB2E7E4B6AB7C33ECFC45C89EF1A6D /* Anchor.swift */; };
+		FBFC612E6973B634AC7275EE6E615F3D /* JGProgressHUDErrorIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A29F4EC0B0EFAF80BED3EAD9E52124 /* JGProgressHUDErrorIndicatorView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		24BBB6701455CA0CD32392A833EB45F2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 285AAD0A8192022DACE2DAFE30D6CD52;
-			remoteInfo = "GooglePlaces-GooglePlacesResources";
-		};
-		CD27527A0918FFA88456F43973098107 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 52B60EC2A583F24ACBB69C113F5488B9;
-			remoteInfo = SwiftLint;
-		};
-		D47BD7D69FCC09F795C533DBDD3FFA18 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7B026DDDF280F148DD87281679B51154;
-			remoteInfo = "GoogleMaps-GoogleMapsResources";
-		};
-		EDA96074AF18C14EC01069851E4DF619 /* PBXContainerItemProxy */ = {
+		1459C5537EC9B1E2BF7F90243CDB319B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0C1885900810601510E0C632060FAF26;
 			remoteInfo = GooglePlaces;
 		};
-		F5AD5743B5BC8B047105AD4E2E27B475 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E5B4BBC6DD552AC8943C7E22772FC1D3;
-			remoteInfo = GoogleMaps;
-		};
-		F770E5EF497CD7B63F54211B6F91D5A6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5DC8654BEC6CF98599D3E999827B1258;
-			remoteInfo = Hover;
-		};
-		FF0F7541367609463A55F52549883EF7 /* PBXContainerItemProxy */ = {
+		2B33389322F6423DB4928AEF803B5675 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 19622742EBA51E823D6DAE3F8CDBFAD4;
 			remoteInfo = SnapKit;
 		};
+		3653E1B071D87B88D3237F90C2B69064 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52B60EC2A583F24ACBB69C113F5488B9;
+			remoteInfo = SwiftLint;
+		};
+		6AA1C1FA143CF091AE807B7018AB530E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5DC8654BEC6CF98599D3E999827B1258;
+			remoteInfo = Hover;
+		};
+		8FB6C8006AB8DC6795A4A12C58324DF8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B026DDDF280F148DD87281679B51154;
+			remoteInfo = "GoogleMaps-GoogleMapsResources";
+		};
+		99A9B6FD3C56F466ACF1BDFF6DF7D2D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F3964F174D0EBFB0D64F8DBC20E1429;
+			remoteInfo = JGProgressHUD;
+		};
+		A7D2F2C773DD514920D6A8D383BE7ADE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 285AAD0A8192022DACE2DAFE30D6CD52;
+			remoteInfo = "GooglePlaces-GooglePlacesResources";
+		};
+		CF9ADB0099F763499B6167FCDBE3539A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E5B4BBC6DD552AC8943C7E22772FC1D3;
+			remoteInfo = GoogleMaps;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		06688F42DD846CDD278C521439CCCB64 /* SwiftLint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.release.xcconfig; sourceTree = "<group>"; };
-		07CF1CA3583501E1B413C18AD6A6D647 /* ConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintItem.swift; path = Sources/ConstraintItem.swift; sourceTree = "<group>"; };
-		09AA1ED84B7360B89CD6D26357111DF5 /* ConstraintLayoutGuideDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuideDSL.swift; path = Sources/ConstraintLayoutGuideDSL.swift; sourceTree = "<group>"; };
-		103D98D909DD7B9FBE399DE802C9E793 /* LayoutConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraint.swift; path = Sources/LayoutConstraint.swift; sourceTree = "<group>"; };
-		11B09525DF3CECC92C743D127D096F19 /* ConstraintPriority.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriority.swift; path = Sources/ConstraintPriority.swift; sourceTree = "<group>"; };
+		031FBEB0E91FBA7B5E358BBBAB0433A9 /* ConstraintPriorityTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriorityTarget.swift; path = Sources/ConstraintPriorityTarget.swift; sourceTree = "<group>"; };
+		053A7A1292C382B6663916205FAA5B81 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGPoint+Distance.swift"; path = "Hover/Extensions/CGPoint+Distance.swift"; sourceTree = "<group>"; };
+		07420A19342F779D75412A86ECEAA4FB /* CGPoint+Operators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGPoint+Operators.swift"; path = "Hover/Extensions/CGPoint+Operators.swift"; sourceTree = "<group>"; };
+		077343D050FB174CD672D7C828C248B0 /* Hover.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Hover.release.xcconfig; sourceTree = "<group>"; };
+		0B3AE835922EA1532433F7AF7649A632 /* ConstraintDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDSL.swift; path = Sources/ConstraintDSL.swift; sourceTree = "<group>"; };
+		1001863579C8A865758F299FEA5C8A01 /* JGProgressHUDFadeZoomAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDFadeZoomAnimation.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDFadeZoomAnimation.m; sourceTree = "<group>"; };
+		10BFC992529851EBB0349383292A6BE4 /* ConstraintLayoutSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutSupport.swift; path = Sources/ConstraintLayoutSupport.swift; sourceTree = "<group>"; };
+		12F17C4D1C1C00AA5D02646913F0807B /* JGProgressHUD-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "JGProgressHUD-Info.plist"; sourceTree = "<group>"; };
+		1303222FF5F3AF57AFE204F58546CF37 /* ConstraintLayoutGuide+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintLayoutGuide+Extensions.swift"; path = "Sources/ConstraintLayoutGuide+Extensions.swift"; sourceTree = "<group>"; };
+		133A81465CC7F7BBD524CD766F4F9D2A /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
+		17A29F4EC0B0EFAF80BED3EAD9E52124 /* JGProgressHUDErrorIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDErrorIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDErrorIndicatorView.m; sourceTree = "<group>"; };
 		18281CAC7EA8851594B68EDB2C5CD13D /* Pods-save-the-date */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-save-the-date"; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1993193571BE0F55E2937CD4F15B3BD1 /* Anchor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Anchor.swift; path = Hover/Model/Anchor.swift; sourceTree = "<group>"; };
+		1849794ADA9452FD17CEE12B3B931DA2 /* GoogleMaps.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Maps/Resources/GoogleMapsResources/GoogleMaps.bundle; sourceTree = "<group>"; };
+		1ABCDFC906120584AB022B444426ADCC /* Constraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constraint.swift; path = Sources/Constraint.swift; sourceTree = "<group>"; };
+		1D005CC64A43F53DF618F345E19662BF /* ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist"; sourceTree = "<group>"; };
 		1F99E5DFFFC0E810B940C6BF2FD548E6 /* Pods-save-the-date-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-save-the-date-dummy.m"; sourceTree = "<group>"; };
-		1FD6951035C2F694DBADC501503BE280 /* ConstraintPriorityTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriorityTarget.swift; path = Sources/ConstraintPriorityTarget.swift; sourceTree = "<group>"; };
 		21BC9DE5EE18F27517C52ABD3FBF38ED /* GoogleMaps-GoogleMapsResources */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "GoogleMaps-GoogleMapsResources"; path = GoogleMapsResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		228A209061817F07A46BC4F31947313A /* Pods-save-the-date.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-save-the-date.modulemap"; sourceTree = "<group>"; };
-		23292E85525345FE908EA690D04E8B4E /* ConstraintLayoutGuide+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintLayoutGuide+Extensions.swift"; path = "Sources/ConstraintLayoutGuide+Extensions.swift"; sourceTree = "<group>"; };
-		2499C768FC50E8E4C493BDD0780EDD81 /* Hover.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Hover.modulemap; sourceTree = "<group>"; };
-		290D3295824C04ACB0FE92AAB08A3953 /* SnapKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SnapKit-Info.plist"; sourceTree = "<group>"; };
-		2AE1237AAF54F0E9DAC1F331B82A5850 /* ConstraintMakerRelatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerRelatable.swift; path = Sources/ConstraintMakerRelatable.swift; sourceTree = "<group>"; };
-		2FBBDB50611B6C1403BB9B23E094ABA1 /* ConstraintDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDSL.swift; path = Sources/ConstraintDSL.swift; sourceTree = "<group>"; };
-		2FD9DD2EF132E3174997DEFC8F94ABB5 /* ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist"; sourceTree = "<group>"; };
+		245B3133D97D5BC9B648D321D5A095B0 /* ConstraintLayoutSupportDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutSupportDSL.swift; path = Sources/ConstraintLayoutSupportDSL.swift; sourceTree = "<group>"; };
+		25B01626B631D532E799B09015ADBBC0 /* JGProgressHUDShadow.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDShadow.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDShadow.m; sourceTree = "<group>"; };
+		27DA46A5A1BBD05EF625A67226795851 /* SnapKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SnapKit-dummy.m"; sourceTree = "<group>"; };
+		297ED83345B29E8C720D23EA767DEA2D /* JGProgressHUDSuccessIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDSuccessIndicatorView.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDSuccessIndicatorView.h; sourceTree = "<group>"; };
+		2AA3D0573C0B065D92DBAEC39961D6E5 /* ConstraintView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintView.swift; path = Sources/ConstraintView.swift; sourceTree = "<group>"; };
+		2F2464753C3B9E163D1AE66715191BDB /* SnapKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-prefix.pch"; sourceTree = "<group>"; };
+		2F669755ADC47AB696645ECEDF2BDA76 /* GooglePlaces.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = Resources/GooglePlacesResources/GooglePlaces.bundle; sourceTree = "<group>"; };
+		300528FC5100F30BF671A395CA70113C /* ConstraintAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintAttributes.swift; path = Sources/ConstraintAttributes.swift; sourceTree = "<group>"; };
+		30BA8C687269BAB2D67059FE9E409BA5 /* ConstraintRelatableTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelatableTarget.swift; path = Sources/ConstraintRelatableTarget.swift; sourceTree = "<group>"; };
+		31F03A24DA6C4446A78F1B1A35BEBE3A /* UILayoutSupport+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UILayoutSupport+Extensions.swift"; path = "Sources/UILayoutSupport+Extensions.swift"; sourceTree = "<group>"; };
 		325661A9E61EEE636E1C10FDFE3AF2FC /* Pods-save-the-date-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-save-the-date-frameworks.sh"; sourceTree = "<group>"; };
-		33D1FBFE73512B2D34B102CB2B833105 /* HoverConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverConfiguration.swift; path = Hover/Model/HoverConfiguration.swift; sourceTree = "<group>"; };
-		3416E8DF8D4259444F6C4DC83A946244 /* GoogleMapsCore.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = GoogleMapsCore.xcframework; path = Maps/Frameworks/GoogleMapsCore.xcframework; sourceTree = "<group>"; };
-		351EE8E4FBD8164B539170923666A6A2 /* GooglePlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GooglePlaces.release.xcconfig; sourceTree = "<group>"; };
-		358E01E78B649028A100C98962FB8B5E /* SnapKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SnapKit.debug.xcconfig; sourceTree = "<group>"; };
-		35BE32E8AA35FBAB2EDFA42FEC55DCB8 /* Hover-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Hover-umbrella.h"; sourceTree = "<group>"; };
-		3805B5C4B6C7D8AD3EB45B57A0EF3547 /* ConstraintMaker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMaker.swift; path = Sources/ConstraintMaker.swift; sourceTree = "<group>"; };
-		3A8D0BBC2F1B0D500DFE2C561C95A028 /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Sources/dummy.h; sourceTree = "<group>"; };
-		3B103DAC8F581C2846D2030316B68D15 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGPoint+Distance.swift"; path = "Hover/Extensions/CGPoint+Distance.swift"; sourceTree = "<group>"; };
-		3CD0B90FF6A7B2BD26F2D3EB40996084 /* Hover-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Hover-prefix.pch"; sourceTree = "<group>"; };
-		3D6A39DD322A083662011B2BFC0DB51F /* ConstraintMakerRelatable+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintMakerRelatable+Extensions.swift"; path = "Sources/ConstraintMakerRelatable+Extensions.swift"; sourceTree = "<group>"; };
-		3FC24F43A40311CA0C0710D436714364 /* GoogleMaps-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "GoogleMaps-xcframeworks.sh"; sourceTree = "<group>"; };
-		43802FEA9FF9EBD1861DF5D4F1727272 /* SnapKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SnapKit.modulemap; sourceTree = "<group>"; };
-		4852E056B6EAACE8D1FA2304AB1CB741 /* CGRect+Center.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGRect+Center.swift"; path = "Hover/Extensions/CGRect+Center.swift"; sourceTree = "<group>"; };
-		4877F9F29856FC5C78FCF4AAB201A35A /* GooglePlaces.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GooglePlaces.debug.xcconfig; sourceTree = "<group>"; };
-		4D3C879B37A700C7EE9701A3F741BB1A /* SnapKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SnapKit.release.xcconfig; sourceTree = "<group>"; };
-		528CC86A3BD8A1CBBA5A23BC22C8898A /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Base/Sources/dummy.h; sourceTree = "<group>"; };
-		52CC13240709FD8B5F573272D908B498 /* SnapKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SnapKit-dummy.m"; sourceTree = "<group>"; };
-		5434086AE818D5815E2AFEFD77AB7C87 /* ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist"; sourceTree = "<group>"; };
+		32CD09BE9A83A3048678030953CCC8A7 /* NSObject+Create.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSObject+Create.swift"; path = "Hover/Extensions/NSObject+Create.swift"; sourceTree = "<group>"; };
+		357D11F2EB48862A7DA145E725A7DCEF /* JGProgressHUD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = JGProgressHUD.release.xcconfig; sourceTree = "<group>"; };
+		3753E4EDF1754EFC8581CAB61426A95F /* SnapKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SnapKit.debug.xcconfig; sourceTree = "<group>"; };
+		37B5133A326F0603FE9F9F673F315427 /* UISpringTimingParameters+Init.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UISpringTimingParameters+Init.swift"; path = "Hover/Extensions/UISpringTimingParameters+Init.swift"; sourceTree = "<group>"; };
+		3C5FE2BF79453DB34A60906F32332D49 /* SnapKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SnapKit.modulemap; sourceTree = "<group>"; };
+		3C8CFF98783F5F8D86EA649EB4A8683E /* ConstraintLayoutGuide.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuide.swift; path = Sources/ConstraintLayoutGuide.swift; sourceTree = "<group>"; };
+		3DDF256D2BF66212311E396C7806CE10 /* Hover.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Hover.debug.xcconfig; sourceTree = "<group>"; };
+		42A875B2CB11889063EB6E3134526668 /* ConstraintInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsets.swift; path = Sources/ConstraintInsets.swift; sourceTree = "<group>"; };
+		45849AF7B78B604C742E19044CF558D7 /* JGProgressHUDAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDAnimation.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDAnimation.m; sourceTree = "<group>"; };
+		462EF3CB690408CA65359F70647E0F31 /* ConstraintRelation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelation.swift; path = Sources/ConstraintRelation.swift; sourceTree = "<group>"; };
+		46C146094D9BC58A2BAD7B5539008DD0 /* ConstraintMaker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMaker.swift; path = Sources/ConstraintMaker.swift; sourceTree = "<group>"; };
+		4B1530FBFAA1690D27A135E4CC85AA07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		4B1728EB3527B3056D5C6ADF2C506595 /* Calculator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Calculator.swift; path = Hover/Helpers/Calculator.swift; sourceTree = "<group>"; };
+		4BB3F62CBAEB27E942BB3F2D0A85B368 /* JGProgressHUD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = JGProgressHUD.debug.xcconfig; sourceTree = "<group>"; };
+		4CDF21056176B1DDEB8A959F471EDE58 /* JGProgressHUD-Defines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "JGProgressHUD-Defines.h"; path = "JGProgressHUD/JGProgressHUD/include/JGProgressHUD-Defines.h"; sourceTree = "<group>"; };
+		5087617B87AD4A5EF088429F075E3ED5 /* JGProgressHUDSuccessIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDSuccessIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDSuccessIndicatorView.m; sourceTree = "<group>"; };
+		509562A7F387326E6C61C5F7DFF3D74E /* GooglePlaces.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GooglePlaces.debug.xcconfig; sourceTree = "<group>"; };
+		51CC6A21FCA63E4D84E530123AAEC7E9 /* Hover-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Hover-umbrella.h"; sourceTree = "<group>"; };
+		51EFDE95382E005790C52C745A578613 /* Hover.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Hover.modulemap; sourceTree = "<group>"; };
+		52B8050C308EFA71950E929D58614B2C /* DimView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DimView.swift; path = Hover/UI/DimView.swift; sourceTree = "<group>"; };
+		53EFE18BE07DA2F4C29F4C62CA0BBE2E /* GoogleMaps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleMaps.release.xcconfig; sourceTree = "<group>"; };
+		54A3AB7E9C4D2435368EE0679558B999 /* ConstraintLayoutGuideDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuideDSL.swift; path = Sources/ConstraintLayoutGuideDSL.swift; sourceTree = "<group>"; };
+		5529BCC10EB432BB94693E24465A8372 /* JGProgressHUDFadeZoomAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDFadeZoomAnimation.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDFadeZoomAnimation.h; sourceTree = "<group>"; };
+		571993742DF88365F2A8787810E03377 /* HoverPosition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverPosition.swift; path = Hover/Model/HoverPosition.swift; sourceTree = "<group>"; };
 		58D55567BE5BB377C4B0D89C1322D23E /* GooglePlaces-GooglePlacesResources */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "GooglePlaces-GooglePlacesResources"; path = GooglePlacesResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		6059FE1A2754DA2215CC14BC196E2C5C /* ConstraintConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConfig.swift; path = Sources/ConstraintConfig.swift; sourceTree = "<group>"; };
-		609B5B67F381E4CF2CA7361CE22F82F1 /* ConstraintMakerPrioritizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerPrioritizable.swift; path = Sources/ConstraintMakerPrioritizable.swift; sourceTree = "<group>"; };
-		672AB6274C286F6557FC25C5EFAF7429 /* GoogleMaps.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = GoogleMaps.xcframework; path = Maps/Frameworks/GoogleMaps.xcframework; sourceTree = "<group>"; };
+		5A7BB90034FEEBE5EA7548AE567CFB11 /* GoogleMaps-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "GoogleMaps-xcframeworks.sh"; sourceTree = "<group>"; };
+		5B3244F2C64895789304F3CB34F63EC3 /* HoverItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverItem.swift; path = Hover/Model/HoverItem.swift; sourceTree = "<group>"; };
+		5DB2CCDED48AC4696019CA9BD7ECD458 /* ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist"; sourceTree = "<group>"; };
+		61099E8945A2F8BE0819D72D1AD6CADE /* JGProgressHUDShadow.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDShadow.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDShadow.h; sourceTree = "<group>"; };
+		619EF00450A11F77654B2AFA295CFAEB /* ConstraintPriority.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriority.swift; path = Sources/ConstraintPriority.swift; sourceTree = "<group>"; };
+		62055320C39B08357405E6B0D9836B7C /* JGProgressHUDRingIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDRingIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDRingIndicatorView.m; sourceTree = "<group>"; };
+		6527F803241F2BAB677A95FEE0B21622 /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Sources/dummy.h; sourceTree = "<group>"; };
+		66BE78A76D99339AF957072CABA4F1A6 /* ConstraintMakerExtendable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerExtendable.swift; path = Sources/ConstraintMakerExtendable.swift; sourceTree = "<group>"; };
+		672BEE6872082FBFF19E05503AFEECB4 /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraintItem.swift; path = Sources/LayoutConstraintItem.swift; sourceTree = "<group>"; };
 		680DB9338DD8DA9711AF4F8B3F6A1776 /* Pods-save-the-date-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-save-the-date-umbrella.h"; sourceTree = "<group>"; };
-		69A8F3782542D0A29E4E87E383A3EC8D /* Hover-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Hover-dummy.m"; sourceTree = "<group>"; };
-		6A98196F480C133C604A7FFE825836AA /* HoverButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverButton.swift; path = Hover/UI/HoverButton.swift; sourceTree = "<group>"; };
-		6B814512F66B2AF8B52934CAABE4A249 /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Maps/Sources/dummy.h; sourceTree = "<group>"; };
-		6CA587609C694E3C7F69BAE9ED61A9D6 /* Constraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constraint.swift; path = Sources/Constraint.swift; sourceTree = "<group>"; };
-		6E3EDBBA73D8E27DC9E2CC51B241E401 /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
-		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		732C7FBE380A6385D61FD962BA64C3D7 /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraintItem.swift; path = Sources/LayoutConstraintItem.swift; sourceTree = "<group>"; };
-		743D5CCEB1F5200A45A2FEE28D0DA93F /* ConstraintRelation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelation.swift; path = Sources/ConstraintRelation.swift; sourceTree = "<group>"; };
-		75EB6D9280C0228F799AD9FECFCF0AE2 /* Calculator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Calculator.swift; path = Hover/Helpers/Calculator.swift; sourceTree = "<group>"; };
-		76A8757249E4579F523AE23F77F282AC /* UIView+Add.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Add.swift"; path = "Hover/Extensions/UIView+Add.swift"; sourceTree = "<group>"; };
+		6B279FC6725134AE7D1E7DBD7E96B39E /* LayoutConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraint.swift; path = Sources/LayoutConstraint.swift; sourceTree = "<group>"; };
+		6B79C32466607EC963939D7F316F0DAF /* HoverConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverConfiguration.swift; path = Hover/Model/HoverConfiguration.swift; sourceTree = "<group>"; };
+		6C6CDEE6DB333F0A341E083BC3EBE19F /* JGProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUD.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUD.h; sourceTree = "<group>"; };
+		6E5B7B53520E28C3024E5DEF43237B1F /* UIView+Decorators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Decorators.swift"; path = "Hover/Extensions/UIView+Decorators.swift"; sourceTree = "<group>"; };
+		71EF41CDA5A6351DB0C55297A0C46A72 /* JGProgressHUDErrorIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDErrorIndicatorView.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDErrorIndicatorView.h; sourceTree = "<group>"; };
+		76CA47B11B08CD58DE64A3D27E926182 /* ConstraintDescription.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDescription.swift; path = Sources/ConstraintDescription.swift; sourceTree = "<group>"; };
+		791A3116FAE3B81A07940C9FB610D754 /* SnapKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SnapKit.release.xcconfig; sourceTree = "<group>"; };
+		79CA9513782FA39E9668709E7F1E027E /* GooglePlaces.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = GooglePlaces.xcframework; path = Frameworks/GooglePlaces.xcframework; sourceTree = "<group>"; };
+		79D08E2651DE23CDB300B33795657006 /* Debugging.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Debugging.swift; path = Sources/Debugging.swift; sourceTree = "<group>"; };
+		7AB052CE8174AA5D04C43A345A707A69 /* JGProgressHUDImageIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDImageIndicatorView.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDImageIndicatorView.h; sourceTree = "<group>"; };
 		7AF220C96B40D782AD6333C002CFD11C /* Pods-save-the-date.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-save-the-date.debug.xcconfig"; sourceTree = "<group>"; };
-		7B12B86C02B196E1EEDA7C2C91DFE0C0 /* UIStackView+Add.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIStackView+Add.swift"; path = "Hover/Extensions/UIStackView+Add.swift"; sourceTree = "<group>"; };
-		7F45E6F3B78B7C431AC915A2D2C3B088 /* GoogleMapsBase.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = GoogleMapsBase.xcframework; path = Base/Frameworks/GoogleMapsBase.xcframework; sourceTree = "<group>"; };
-		82F0970D672A299B3CDD9ADE6A39085A /* ConstraintView+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintView+Extensions.swift"; path = "Sources/ConstraintView+Extensions.swift"; sourceTree = "<group>"; };
+		7FBAFAA66E9C7401884F439AE8BC662C /* JGProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JGProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		800AF3E4A52FC3231B99086DD1AB0E24 /* CGRect+Center.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGRect+Center.swift"; path = "Hover/Extensions/CGRect+Center.swift"; sourceTree = "<group>"; };
+		8159BA514B350622E4B2D60AA89D76A4 /* JGProgressHUD.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = JGProgressHUD.modulemap; sourceTree = "<group>"; };
+		83DAC3AF803CEE912E4D457DF939E2E8 /* Hover-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Hover-prefix.pch"; sourceTree = "<group>"; };
 		847ACD3DD9DA5D9505383E21769469CE /* Hover */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Hover; path = Hover.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		84B78006B76B28BAB494A34A80261236 /* ConstraintMakerEditable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerEditable.swift; path = Sources/ConstraintMakerEditable.swift; sourceTree = "<group>"; };
-		85D62F285ADAF222C2073716CD44BA3F /* ConstraintView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintView.swift; path = Sources/ConstraintView.swift; sourceTree = "<group>"; };
-		8EB5C700517ABC8F9D91E85248FFF246 /* GoogleMaps.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Maps/Resources/GoogleMapsResources/GoogleMaps.bundle; sourceTree = "<group>"; };
-		8FB910E7426A34DC0E62C2A51FB2A1FE /* NSObject+Create.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSObject+Create.swift"; path = "Hover/Extensions/NSObject+Create.swift"; sourceTree = "<group>"; };
-		905667E4244B6DBE9EA49B8DF66D1730 /* ConstraintInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsets.swift; path = Sources/ConstraintInsets.swift; sourceTree = "<group>"; };
-		9660DC547D55E103AED240F1AFC618B7 /* ConstraintLayoutGuide.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuide.swift; path = Sources/ConstraintLayoutGuide.swift; sourceTree = "<group>"; };
+		86D0693DA98008B2C2C9DA1E691ADC86 /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Base/Sources/dummy.h; sourceTree = "<group>"; };
+		87B75F52448C3319D10DD07EDFA8DA3D /* ConstraintMakerEditable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerEditable.swift; path = Sources/ConstraintMakerEditable.swift; sourceTree = "<group>"; };
+		8894288E3A8071FDE0D54D8699D45916 /* GoogleMaps.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleMaps.debug.xcconfig; sourceTree = "<group>"; };
+		8BF26D61DE66AC116551605C6F6FD6A7 /* SnapKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SnapKit-Info.plist"; sourceTree = "<group>"; };
+		8C10A36E313625F3A82C2E3A8D2B75E0 /* dummy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dummy.h; path = Maps/Sources/dummy.h; sourceTree = "<group>"; };
+		8C3801D72589DC00AA21BF403B4D444B /* HoverItemView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverItemView.swift; path = Hover/UI/HoverItemView.swift; sourceTree = "<group>"; };
+		8CE2AD31F00D0EF9C522211BDDBF6C3C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		92A0DE513CB4A89953655BC139AD9B96 /* Typealiases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Typealiases.swift; path = Sources/Typealiases.swift; sourceTree = "<group>"; };
 		979486118B3E90C08386079D57962701 /* SnapKit */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SnapKit; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		989767635E22C3B15EB41160FE14829C /* ConstraintViewDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintViewDSL.swift; path = Sources/ConstraintViewDSL.swift; sourceTree = "<group>"; };
-		98EAAF822FE911FD59E8795A37D26E2E /* UISpringTimingParameters+Init.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UISpringTimingParameters+Init.swift"; path = "Hover/Extensions/UISpringTimingParameters+Init.swift"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9E7D577D893E4798C4819EF97550BD33 /* DimView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DimView.swift; path = Hover/UI/DimView.swift; sourceTree = "<group>"; };
-		9ED017B20A38EB92C1C686BBE648E1C1 /* HoverColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverColor.swift; path = Hover/Model/HoverColor.swift; sourceTree = "<group>"; };
-		9F4A57E5AC7C15F28D280CE58AF62207 /* ConstraintLayoutSupportDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutSupportDSL.swift; path = Sources/ConstraintLayoutSupportDSL.swift; sourceTree = "<group>"; };
-		9FF942FC97C9F5EFEAECED3760CB238A /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMultiplierTarget.swift; path = Sources/ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
-		AD7ECFF7A8EE2AF1B979355EC81F3D15 /* GooglePlaces-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "GooglePlaces-xcframeworks.sh"; sourceTree = "<group>"; };
+		9D90426C1164C37B2E7D76AA1DF99869 /* ConstraintMakerRelatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerRelatable.swift; path = Sources/ConstraintMakerRelatable.swift; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9E217B9B7606F314105FA31EC6D1265A /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMultiplierTarget.swift; path = Sources/ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
+		9FE46B11FEBCBB7C689EB07A5E57BD38 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		A25A069889DCE83B7D0C6E660A189A6F /* HoverButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverButton.swift; path = Hover/UI/HoverButton.swift; sourceTree = "<group>"; };
+		A2A34DD32F8BCC18FBB0302008B71F02 /* JGProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JGProgressHUD-prefix.pch"; sourceTree = "<group>"; };
+		A7516EEDC28AB098E026F77EE80B268C /* Hover-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Hover-dummy.m"; sourceTree = "<group>"; };
+		A8F2FBBFAB44DA093FB5B9EF3FBB6E92 /* Hover-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Hover-Info.plist"; sourceTree = "<group>"; };
+		AC77167C8920DEB3614FE16BDE06744F /* ConstraintMakerRelatable+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintMakerRelatable+Extensions.swift"; path = "Sources/ConstraintMakerRelatable+Extensions.swift"; sourceTree = "<group>"; };
+		AD2099C41848E7551BF71EDBE6FFAEA7 /* JGProgressHUDIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDIndicatorView.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDIndicatorView.h; sourceTree = "<group>"; };
+		AD7EE90D32A39FC8E0E6C87E71B1120E /* UIStackView+Add.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIStackView+Add.swift"; path = "Hover/Extensions/UIStackView+Add.swift"; sourceTree = "<group>"; };
+		AD81F4B50B788CC98659E1D7F146BF3E /* ConstraintMakerFinalizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerFinalizable.swift; path = Sources/ConstraintMakerFinalizable.swift; sourceTree = "<group>"; };
+		AD8A20C742C80520DF2D0121897EBBB6 /* GoogleMaps.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = GoogleMaps.xcframework; path = Maps/Frameworks/GoogleMaps.xcframework; sourceTree = "<group>"; };
+		AF9D95C7470B0A7FC0CD1E6F0D175D87 /* JGProgressHUDIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDIndicatorView.m; sourceTree = "<group>"; };
 		B00E54B69F3DD845BD4441D196780DDA /* Pods-save-the-date-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-save-the-date-acknowledgements.plist"; sourceTree = "<group>"; };
+		B0CC8655A32E84B899F6AC6D59D9AAD8 /* JGProgressHUD-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JGProgressHUD-umbrella.h"; sourceTree = "<group>"; };
+		B31F22090A9D5D4A6DDA8AD05594D3ED /* GooglePlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GooglePlaces.release.xcconfig; sourceTree = "<group>"; };
 		B3BE24C5C30A3783E510815EE6274B91 /* Pods-save-the-date-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-save-the-date-resources.sh"; sourceTree = "<group>"; };
-		B53448DD161286B36320620A7BB0E43A /* ConstraintMakerFinalizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerFinalizable.swift; path = Sources/ConstraintMakerFinalizable.swift; sourceTree = "<group>"; };
-		B70FB3A7F526887A5F35E683BEC8B7F4 /* ConstraintDirectionalInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDirectionalInsetTarget.swift; path = Sources/ConstraintDirectionalInsetTarget.swift; sourceTree = "<group>"; };
+		B4BAFF49BE47A16756F611285CA8C512 /* JGProgressHUDPieIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDPieIndicatorView.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDPieIndicatorView.h; sourceTree = "<group>"; };
 		B738852EAB79978DEC7F443315E914FD /* Pods-save-the-date-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-save-the-date-acknowledgements.markdown"; sourceTree = "<group>"; };
-		C12472AB576B388DF4C79D45858E6FC1 /* ConstraintInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsetTarget.swift; path = Sources/ConstraintInsetTarget.swift; sourceTree = "<group>"; };
-		C78F597726AF5D88E7BDADAF22F0F927 /* ConstraintAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintAttributes.swift; path = Sources/ConstraintAttributes.swift; sourceTree = "<group>"; };
+		BA5C6609D62C908DF01CCF5F248817B6 /* CALayer+Decorators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CALayer+Decorators.swift"; path = "Hover/Extensions/CALayer+Decorators.swift"; sourceTree = "<group>"; };
+		BD0FC75998F6168A2996F987EDB8DA81 /* JGProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUD.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUD.m; sourceTree = "<group>"; };
+		BF209F196E9B659FD2024D96E464F473 /* Orientation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Orientation.swift; path = Hover/Model/Orientation.swift; sourceTree = "<group>"; };
+		C0552FA8AD768C6F196381FA03DA9A03 /* GoogleMapsCore.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = GoogleMapsCore.xcframework; path = Maps/Frameworks/GoogleMapsCore.xcframework; sourceTree = "<group>"; };
+		C0D7FEB98719E48BB20C3F0B8BA37D16 /* ConstraintView+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintView+Extensions.swift"; path = "Sources/ConstraintView+Extensions.swift"; sourceTree = "<group>"; };
+		C235F2C6D8CCE6E6C44E0951F9D5268E /* JGProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JGProgressHUD-dummy.m"; sourceTree = "<group>"; };
+		C4AB393A4D93A16215184ADBD023A7C0 /* JGProgressHUDIndeterminateIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDIndeterminateIndicatorView.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDIndeterminateIndicatorView.h; sourceTree = "<group>"; };
+		C4E86622B51C1D9217E2F2A40A5B1DA5 /* JGProgressHUDImageIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDImageIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDImageIndicatorView.m; sourceTree = "<group>"; };
+		CC7071554874CE6F80422FA077ECF02F /* ConstraintMakerPrioritizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerPrioritizable.swift; path = Sources/ConstraintMakerPrioritizable.swift; sourceTree = "<group>"; };
 		CD50A453892774EE8AF1C2E6C36DC602 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
-		CF46209E8DA782BD0E4FF26D289C3D24 /* SnapKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-umbrella.h"; sourceTree = "<group>"; };
-		D03DFA05C95A4A31DE78261A71993BDF /* ConstraintRelatableTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelatableTarget.swift; path = Sources/ConstraintRelatableTarget.swift; sourceTree = "<group>"; };
-		D7F1E261A9C0E2C4B818BB4946B88400 /* GooglePlaces.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = Resources/GooglePlacesResources/GooglePlaces.bundle; sourceTree = "<group>"; };
-		D7F492E7E82A7170DA44C9FC0976F1E7 /* Hover.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Hover.debug.xcconfig; sourceTree = "<group>"; };
-		DA3CEF0E6BF7BA968E17970CC8BD0C0D /* HoverView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverView.swift; path = Hover/UI/HoverView.swift; sourceTree = "<group>"; };
-		DD90A78C0207C6652FA822BCFC54A603 /* UILayoutSupport+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UILayoutSupport+Extensions.swift"; path = "Sources/UILayoutSupport+Extensions.swift"; sourceTree = "<group>"; };
+		D0591149429B17FEC1226851F9AA22D1 /* ConstraintViewDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintViewDSL.swift; path = Sources/ConstraintViewDSL.swift; sourceTree = "<group>"; };
+		D06ECD3F036D899ED6DFA535B422C28D /* ConstraintOffsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintOffsetTarget.swift; path = Sources/ConstraintOffsetTarget.swift; sourceTree = "<group>"; };
+		D5024C177C7EB08F8487EC1A780102C8 /* ConstraintConstantTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConstantTarget.swift; path = Sources/ConstraintConstantTarget.swift; sourceTree = "<group>"; };
+		D67FB038DE0CDF755746D377C84AF6E5 /* SwiftLint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.release.xcconfig; sourceTree = "<group>"; };
+		D6E0B5630592BE1658548AA039F6224A /* JGProgressHUDAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDAnimation.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDAnimation.h; sourceTree = "<group>"; };
+		D806CFDB00CE6F0AB02725FCAA71DC64 /* GooglePlaces-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "GooglePlaces-xcframeworks.sh"; sourceTree = "<group>"; };
+		DAA82AA19AF883BFFC9B8E566E6C78F0 /* JGProgressHUDPieIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDPieIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDPieIndicatorView.m; sourceTree = "<group>"; };
+		DBB538CD31AA820861F2DF2932C6E54E /* HoverView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverView.swift; path = Hover/UI/HoverView.swift; sourceTree = "<group>"; };
+		DBE638DCD4487719064160A1BACB36FE /* HoverColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverColor.swift; path = Hover/Model/HoverColor.swift; sourceTree = "<group>"; };
+		DDF9360F25A9C1CDA61412CEB79864F2 /* ConstraintDirectionalInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDirectionalInsets.swift; path = Sources/ConstraintDirectionalInsets.swift; sourceTree = "<group>"; };
 		E18FBD2CFA98E9A2C3582716E180985F /* Pods-save-the-date-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-save-the-date-Info.plist"; sourceTree = "<group>"; };
-		E22A203DC25DA8869AFB1E11DB4DCAE6 /* GoogleMaps.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleMaps.debug.xcconfig; sourceTree = "<group>"; };
-		E29B4A6F8016A4433C16CBD743F9EF16 /* Hover.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Hover.release.xcconfig; sourceTree = "<group>"; };
-		E3E4D3931B8D42A707E23C993FA45A5D /* Orientation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Orientation.swift; path = Hover/Model/Orientation.swift; sourceTree = "<group>"; };
-		E4F22ED82AD436B53800F09D54092ECC /* CALayer+Decorators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CALayer+Decorators.swift"; path = "Hover/Extensions/CALayer+Decorators.swift"; sourceTree = "<group>"; };
-		E5E6DCA19AA14813B3092C6037574C79 /* HoverItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverItem.swift; path = Hover/Model/HoverItem.swift; sourceTree = "<group>"; };
-		E8373CC31B39654EACE1C71CB2D6867C /* UIView+Decorators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Decorators.swift"; path = "Hover/Extensions/UIView+Decorators.swift"; sourceTree = "<group>"; };
-		EA781725E056964FB08F43010942DED6 /* ConstraintMakerExtendable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerExtendable.swift; path = Sources/ConstraintMakerExtendable.swift; sourceTree = "<group>"; };
-		EAA4DD16355F9F07743FC4A52C65326C /* ConstraintOffsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintOffsetTarget.swift; path = Sources/ConstraintOffsetTarget.swift; sourceTree = "<group>"; };
-		EAD608C83E1100DEEC0CDDA6311209BB /* ConstraintConstantTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConstantTarget.swift; path = Sources/ConstraintConstantTarget.swift; sourceTree = "<group>"; };
-		EF504B3B4AC1CB1816D2F370097F91F8 /* Hover-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Hover-Info.plist"; sourceTree = "<group>"; };
-		F048E0E72951BA01B0B2E67C6A16AC35 /* HoverItemView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverItemView.swift; path = Hover/UI/HoverItemView.swift; sourceTree = "<group>"; };
-		F08DAA378E51AD88125A71F47DA23288 /* HoverPosition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoverPosition.swift; path = Hover/Model/HoverPosition.swift; sourceTree = "<group>"; };
-		F13778D710029403160B2FBB61A6A421 /* GoogleMaps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleMaps.release.xcconfig; sourceTree = "<group>"; };
-		F36B34449A4E015DF4C26F51F3F63CD8 /* ConstraintDescription.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDescription.swift; path = Sources/ConstraintDescription.swift; sourceTree = "<group>"; };
-		F4A2B853B51B10CD8864B44E67F2228B /* ConstraintLayoutSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutSupport.swift; path = Sources/ConstraintLayoutSupport.swift; sourceTree = "<group>"; };
-		F511D467E90566929C27BBDB967E3E79 /* CGPoint+Operators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGPoint+Operators.swift"; path = "Hover/Extensions/CGPoint+Operators.swift"; sourceTree = "<group>"; };
-		F625FB161466D6EA978B157F4E0FBE49 /* Debugging.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Debugging.swift; path = Sources/Debugging.swift; sourceTree = "<group>"; };
-		FAAB53AB63D9352E419CEB4BC60E6AAD /* ConstraintDirectionalInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDirectionalInsets.swift; path = Sources/ConstraintDirectionalInsets.swift; sourceTree = "<group>"; };
-		FCC069D1C8DB373CD2673BB5CCC462EA /* Typealiases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Typealiases.swift; path = Sources/Typealiases.swift; sourceTree = "<group>"; };
-		FD30B094113A1D1AD7E110E672384FD4 /* SnapKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-prefix.pch"; sourceTree = "<group>"; };
-		FD7B1AE86082FBACD79D1DF0781A8796 /* GooglePlaces.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = GooglePlaces.xcframework; path = Frameworks/GooglePlaces.xcframework; sourceTree = "<group>"; };
+		E839E83C35D1DADB91D1B67FD98F0CF8 /* JGProgressHUDIndeterminateIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDIndeterminateIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDIndeterminateIndicatorView.m; sourceTree = "<group>"; };
+		E842CF9BB36AB3C476CDC142FD5CA9B0 /* ConstraintInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsetTarget.swift; path = Sources/ConstraintInsetTarget.swift; sourceTree = "<group>"; };
+		ED30684104AA4F306AAA9A0E99D1C659 /* JGProgressHUDFadeAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDFadeAnimation.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDFadeAnimation.h; sourceTree = "<group>"; };
+		EED2E2E8A4C4EE225509D65F35D6AEDC /* GoogleMapsBase.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = GoogleMapsBase.xcframework; path = Base/Frameworks/GoogleMapsBase.xcframework; sourceTree = "<group>"; };
+		F0410E5D7D23C92A6E5FD0D28658AB2A /* ConstraintDirectionalInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDirectionalInsetTarget.swift; path = Sources/ConstraintDirectionalInsetTarget.swift; sourceTree = "<group>"; };
+		F1033DC1C0675CC099679EB90A67275D /* SnapKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-umbrella.h"; sourceTree = "<group>"; };
+		F18E11DAE106657FE3E6F041D76E5B8E /* JGProgressHUDFadeAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDFadeAnimation.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDFadeAnimation.m; sourceTree = "<group>"; };
+		F1CDDFA54DE3ECD97941C49A99B38CCF /* JGProgressHUDRingIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDRingIndicatorView.h; path = JGProgressHUD/JGProgressHUD/include/JGProgressHUDRingIndicatorView.h; sourceTree = "<group>"; };
+		F33D5DFB5BD7E1742F0276ACC5626656 /* UIView+Add.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Add.swift"; path = "Hover/Extensions/UIView+Add.swift"; sourceTree = "<group>"; };
+		F3D837EFE2D56C88BE06DACA6E0B41DE /* ConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintItem.swift; path = Sources/ConstraintItem.swift; sourceTree = "<group>"; };
+		F96FC8FBE34A83FF8D12213498574F98 /* ConstraintConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConfig.swift; path = Sources/ConstraintConfig.swift; sourceTree = "<group>"; };
+		FDFB2E7E4B6AB7C33ECFC45C89EF1A6D /* Anchor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Anchor.swift; path = Hover/Model/Anchor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1954930D2498EF87795D85C074CC02C1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				552DD3C4879E35A7F3C769D21122B553 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1ABF1FD4AE6DA5A40E1DDB479F0AC132 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -290,17 +357,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		54289B63C34C92F52B4AFE0B25A002CB /* Frameworks */ = {
+		21EB4985D7DC037386CA022AE4194D18 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D9F6BFD20AD09512439C905842222B36 /* Frameworks */ = {
+		29C7F2388D88CE3E590CA71CCD121ED6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2ADE651D4FDE2CDE785B35FB0D74A9F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED2EA05165285B0C93316F59910A1ACC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9BC6BC781FD05FB68CCFDD0204E6E1B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD18980822D9ED04744D46C1DC8A3C14 /* Foundation.framework in Frameworks */,
+				344C356FB91ADB0A4025DE3A6CBA3D7E /* QuartzCore.framework in Frameworks */,
+				27BEAC457068AB9F60D5F63042656C92 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +400,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00F5F0140DDAAFF7CC7A3663E9E807DE /* SnapKit */ = {
+			isa = PBXGroup;
+			children = (
+				1ABCDFC906120584AB022B444426ADCC /* Constraint.swift */,
+				300528FC5100F30BF671A395CA70113C /* ConstraintAttributes.swift */,
+				F96FC8FBE34A83FF8D12213498574F98 /* ConstraintConfig.swift */,
+				D5024C177C7EB08F8487EC1A780102C8 /* ConstraintConstantTarget.swift */,
+				76CA47B11B08CD58DE64A3D27E926182 /* ConstraintDescription.swift */,
+				DDF9360F25A9C1CDA61412CEB79864F2 /* ConstraintDirectionalInsets.swift */,
+				F0410E5D7D23C92A6E5FD0D28658AB2A /* ConstraintDirectionalInsetTarget.swift */,
+				0B3AE835922EA1532433F7AF7649A632 /* ConstraintDSL.swift */,
+				42A875B2CB11889063EB6E3134526668 /* ConstraintInsets.swift */,
+				E842CF9BB36AB3C476CDC142FD5CA9B0 /* ConstraintInsetTarget.swift */,
+				F3D837EFE2D56C88BE06DACA6E0B41DE /* ConstraintItem.swift */,
+				3C8CFF98783F5F8D86EA649EB4A8683E /* ConstraintLayoutGuide.swift */,
+				1303222FF5F3AF57AFE204F58546CF37 /* ConstraintLayoutGuide+Extensions.swift */,
+				54A3AB7E9C4D2435368EE0679558B999 /* ConstraintLayoutGuideDSL.swift */,
+				10BFC992529851EBB0349383292A6BE4 /* ConstraintLayoutSupport.swift */,
+				245B3133D97D5BC9B648D321D5A095B0 /* ConstraintLayoutSupportDSL.swift */,
+				46C146094D9BC58A2BAD7B5539008DD0 /* ConstraintMaker.swift */,
+				87B75F52448C3319D10DD07EDFA8DA3D /* ConstraintMakerEditable.swift */,
+				66BE78A76D99339AF957072CABA4F1A6 /* ConstraintMakerExtendable.swift */,
+				AD81F4B50B788CC98659E1D7F146BF3E /* ConstraintMakerFinalizable.swift */,
+				CC7071554874CE6F80422FA077ECF02F /* ConstraintMakerPrioritizable.swift */,
+				9D90426C1164C37B2E7D76AA1DF99869 /* ConstraintMakerRelatable.swift */,
+				AC77167C8920DEB3614FE16BDE06744F /* ConstraintMakerRelatable+Extensions.swift */,
+				9E217B9B7606F314105FA31EC6D1265A /* ConstraintMultiplierTarget.swift */,
+				D06ECD3F036D899ED6DFA535B422C28D /* ConstraintOffsetTarget.swift */,
+				619EF00450A11F77654B2AFA295CFAEB /* ConstraintPriority.swift */,
+				031FBEB0E91FBA7B5E358BBBAB0433A9 /* ConstraintPriorityTarget.swift */,
+				30BA8C687269BAB2D67059FE9E409BA5 /* ConstraintRelatableTarget.swift */,
+				462EF3CB690408CA65359F70647E0F31 /* ConstraintRelation.swift */,
+				2AA3D0573C0B065D92DBAEC39961D6E5 /* ConstraintView.swift */,
+				C0D7FEB98719E48BB20C3F0B8BA37D16 /* ConstraintView+Extensions.swift */,
+				D0591149429B17FEC1226851F9AA22D1 /* ConstraintViewDSL.swift */,
+				79D08E2651DE23CDB300B33795657006 /* Debugging.swift */,
+				6B279FC6725134AE7D1E7DBD7E96B39E /* LayoutConstraint.swift */,
+				672BEE6872082FBFF19E05503AFEECB4 /* LayoutConstraintItem.swift */,
+				92A0DE513CB4A89953655BC139AD9B96 /* Typealiases.swift */,
+				31F03A24DA6C4446A78F1B1A35BEBE3A /* UILayoutSupport+Extensions.swift */,
+				18AF0848603B4E0A900B9F76BA666AB6 /* Support Files */,
+			);
+			path = SnapKit;
+			sourceTree = "<group>";
+		};
 		01D99A1AC44650272AD7D7CF7910B358 /* Pods-save-the-date */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,71 +463,108 @@
 			path = "Target Support Files/Pods-save-the-date";
 			sourceTree = "<group>";
 		};
-		07694D304B61115A5F0F751D837DC61B /* Support Files */ = {
+		03C5C200A0787E300053CFA8F53CA094 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3FC24F43A40311CA0C0710D436714364 /* GoogleMaps-xcframeworks.sh */,
-				E22A203DC25DA8869AFB1E11DB4DCAE6 /* GoogleMaps.debug.xcconfig */,
-				F13778D710029403160B2FBB61A6A421 /* GoogleMaps.release.xcconfig */,
-				2FD9DD2EF132E3174997DEFC8F94ABB5 /* ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist */,
+				F0A778C0229E9BF1FD97896B93F3272B /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		07FE24A3FBAD1B97442F50272C54637A /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5A7BB90034FEEBE5EA7548AE567CFB11 /* GoogleMaps-xcframeworks.sh */,
+				8894288E3A8071FDE0D54D8699D45916 /* GoogleMaps.debug.xcconfig */,
+				53EFE18BE07DA2F4C29F4C62CA0BBE2E /* GoogleMaps.release.xcconfig */,
+				5DB2CCDED48AC4696019CA9BD7ECD458 /* ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/GoogleMaps";
 			sourceTree = "<group>";
 		};
-		0ED7F072A97412227D9AF8BD217BAD3A /* Frameworks */ = {
+		0C2D6B5059C96EA944AF348966EB8D46 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FD7B1AE86082FBACD79D1DF0781A8796 /* GooglePlaces.xcframework */,
+				1849794ADA9452FD17CEE12B3B931DA2 /* GoogleMaps.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		103789D3FF077C98BC7511478A656085 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AD8A20C742C80520DF2D0121897EBBB6 /* GoogleMaps.xcframework */,
+				C0552FA8AD768C6F196381FA03DA9A03 /* GoogleMapsCore.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		1C921436508B28C6461E4A34D4AA29AF /* Support Files */ = {
+		18AF0848603B4E0A900B9F76BA666AB6 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				6E3EDBBA73D8E27DC9E2CC51B241E401 /* SwiftLint.debug.xcconfig */,
-				06688F42DD846CDD278C521439CCCB64 /* SwiftLint.release.xcconfig */,
+				3C5FE2BF79453DB34A60906F32332D49 /* SnapKit.modulemap */,
+				27DA46A5A1BBD05EF625A67226795851 /* SnapKit-dummy.m */,
+				8BF26D61DE66AC116551605C6F6FD6A7 /* SnapKit-Info.plist */,
+				2F2464753C3B9E163D1AE66715191BDB /* SnapKit-prefix.pch */,
+				F1033DC1C0675CC099679EB90A67275D /* SnapKit-umbrella.h */,
+				3753E4EDF1754EFC8581CAB61426A95F /* SnapKit.debug.xcconfig */,
+				791A3116FAE3B81A07940C9FB610D754 /* SnapKit.release.xcconfig */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/SwiftLint";
+			path = "../Target Support Files/SnapKit";
 			sourceTree = "<group>";
 		};
-		245C1DFB69C2B86F6629DB69E578D9AD /* SwiftLint */ = {
+		2478C90CAED325B47AA612DA89707221 /* SwiftLint */ = {
 			isa = PBXGroup;
 			children = (
-				1C921436508B28C6461E4A34D4AA29AF /* Support Files */,
+				9E25627AD3E43F24E9ECAD8472037899 /* Support Files */,
 			);
-			name = SwiftLint;
 			path = SwiftLint;
 			sourceTree = "<group>";
 		};
-		305356FB07A0E76A4E065C9ACA438F20 /* Pods */ = {
+		260ED7FDC5A7B0B927EE6DB8F5EDBF9E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				87D725A3E50781E60BD3298366FA339C /* GoogleMaps */,
-				7F148B8BB604BBABD437A6C2DE19A3AD /* GooglePlaces */,
-				976E75B5331E1D3B51CD6E7555196004 /* Hover */,
-				E3ECBFD58954FE3BEE08A1CAA2835165 /* SnapKit */,
-				245C1DFB69C2B86F6629DB69E578D9AD /* SwiftLint */,
+				21BC9DE5EE18F27517C52ABD3FBF38ED /* GoogleMaps-GoogleMapsResources */,
+				58D55567BE5BB377C4B0D89C1322D23E /* GooglePlaces-GooglePlacesResources */,
+				847ACD3DD9DA5D9505383E21769469CE /* Hover */,
+				7FBAFAA66E9C7401884F439AE8BC662C /* JGProgressHUD.framework */,
+				18281CAC7EA8851594B68EDB2C5CD13D /* Pods-save-the-date */,
+				979486118B3E90C08386079D57962701 /* SnapKit */,
 			);
-			name = Pods;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		38A10A0E97763C709BD39E5B9CA36387 /* Frameworks */ = {
+		37F8B3CE65ACBF022EE33793DABEA428 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				7F45E6F3B78B7C431AC915A2D2C3B088 /* GoogleMapsBase.xcframework */,
+				51EFDE95382E005790C52C745A578613 /* Hover.modulemap */,
+				A7516EEDC28AB098E026F77EE80B268C /* Hover-dummy.m */,
+				A8F2FBBFAB44DA093FB5B9EF3FBB6E92 /* Hover-Info.plist */,
+				83DAC3AF803CEE912E4D457DF939E2E8 /* Hover-prefix.pch */,
+				51CC6A21FCA63E4D84E530123AAEC7E9 /* Hover-umbrella.h */,
+				3DDF256D2BF66212311E396C7806CE10 /* Hover.debug.xcconfig */,
+				077343D050FB174CD672D7C828C248B0 /* Hover.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Hover";
+			sourceTree = "<group>";
+		};
+		391103F21DDDE7171BC3CEF4D833335A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EED2E2E8A4C4EE225509D65F35D6AEDC /* GoogleMapsBase.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
+		4B645247A7C8906EBA8C2AD3D565CF66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */,
+				2F669755ADC47AB696645ECEDF2BDA76 /* GooglePlaces.bundle */,
 			);
-			name = iOS;
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		77B7824367285E5BBEF646799D833C5B /* Targets Support Files */ = {
@@ -408,219 +575,184 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		7F148B8BB604BBABD437A6C2DE19A3AD /* GooglePlaces */ = {
+		9E25627AD3E43F24E9ECAD8472037899 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				3A8D0BBC2F1B0D500DFE2C561C95A028 /* dummy.h */,
-				0ED7F072A97412227D9AF8BD217BAD3A /* Frameworks */,
-				914D0AF4DEFB210BF0ADFEC83B4DA44B /* Resources */,
-				D2F2088D9EF8AB58053DA9BE18F6F407 /* Support Files */,
-			);
-			name = GooglePlaces;
-			path = GooglePlaces;
-			sourceTree = "<group>";
-		};
-		86D6D2C6F1EF9C0C2DE7556E008EAD4E /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				2499C768FC50E8E4C493BDD0780EDD81 /* Hover.modulemap */,
-				69A8F3782542D0A29E4E87E383A3EC8D /* Hover-dummy.m */,
-				EF504B3B4AC1CB1816D2F370097F91F8 /* Hover-Info.plist */,
-				3CD0B90FF6A7B2BD26F2D3EB40996084 /* Hover-prefix.pch */,
-				35BE32E8AA35FBAB2EDFA42FEC55DCB8 /* Hover-umbrella.h */,
-				D7F492E7E82A7170DA44C9FC0976F1E7 /* Hover.debug.xcconfig */,
-				E29B4A6F8016A4433C16CBD743F9EF16 /* Hover.release.xcconfig */,
+				133A81465CC7F7BBD524CD766F4F9D2A /* SwiftLint.debug.xcconfig */,
+				D67FB038DE0CDF755746D377C84AF6E5 /* SwiftLint.release.xcconfig */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/Hover";
+			path = "../Target Support Files/SwiftLint";
 			sourceTree = "<group>";
 		};
-		87D725A3E50781E60BD3298366FA339C /* GoogleMaps */ = {
+		B1E4EABD0A23632C7B3D95983EC55E57 /* Hover */ = {
 			isa = PBXGroup;
 			children = (
-				B10A890B0546B6A27995194EF4462126 /* Base */,
-				91C03DCC1775B7C933A2148ABEC9B37C /* Maps */,
-				07694D304B61115A5F0F751D837DC61B /* Support Files */,
+				FDFB2E7E4B6AB7C33ECFC45C89EF1A6D /* Anchor.swift */,
+				BA5C6609D62C908DF01CCF5F248817B6 /* CALayer+Decorators.swift */,
+				4B1728EB3527B3056D5C6ADF2C506595 /* Calculator.swift */,
+				053A7A1292C382B6663916205FAA5B81 /* CGPoint+Distance.swift */,
+				07420A19342F779D75412A86ECEAA4FB /* CGPoint+Operators.swift */,
+				800AF3E4A52FC3231B99086DD1AB0E24 /* CGRect+Center.swift */,
+				52B8050C308EFA71950E929D58614B2C /* DimView.swift */,
+				A25A069889DCE83B7D0C6E660A189A6F /* HoverButton.swift */,
+				DBE638DCD4487719064160A1BACB36FE /* HoverColor.swift */,
+				6B79C32466607EC963939D7F316F0DAF /* HoverConfiguration.swift */,
+				5B3244F2C64895789304F3CB34F63EC3 /* HoverItem.swift */,
+				8C3801D72589DC00AA21BF403B4D444B /* HoverItemView.swift */,
+				571993742DF88365F2A8787810E03377 /* HoverPosition.swift */,
+				DBB538CD31AA820861F2DF2932C6E54E /* HoverView.swift */,
+				32CD09BE9A83A3048678030953CCC8A7 /* NSObject+Create.swift */,
+				BF209F196E9B659FD2024D96E464F473 /* Orientation.swift */,
+				37B5133A326F0603FE9F9F673F315427 /* UISpringTimingParameters+Init.swift */,
+				AD7EE90D32A39FC8E0E6C87E71B1120E /* UIStackView+Add.swift */,
+				F33D5DFB5BD7E1742F0276ACC5626656 /* UIView+Add.swift */,
+				6E5B7B53520E28C3024E5DEF43237B1F /* UIView+Decorators.swift */,
+				37F8B3CE65ACBF022EE33793DABEA428 /* Support Files */,
 			);
-			name = GoogleMaps;
-			path = GoogleMaps;
-			sourceTree = "<group>";
-		};
-		914D0AF4DEFB210BF0ADFEC83B4DA44B /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				D7F1E261A9C0E2C4B818BB4946B88400 /* GooglePlaces.bundle */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		91C03DCC1775B7C933A2148ABEC9B37C /* Maps */ = {
-			isa = PBXGroup;
-			children = (
-				6B814512F66B2AF8B52934CAABE4A249 /* dummy.h */,
-				A63583EEA66CF1589CFD370154A0E927 /* Frameworks */,
-				F36B3174EDD7ADDC2D2C6197A136C1E6 /* Resources */,
-			);
-			name = Maps;
-			sourceTree = "<group>";
-		};
-		976E75B5331E1D3B51CD6E7555196004 /* Hover */ = {
-			isa = PBXGroup;
-			children = (
-				1993193571BE0F55E2937CD4F15B3BD1 /* Anchor.swift */,
-				E4F22ED82AD436B53800F09D54092ECC /* CALayer+Decorators.swift */,
-				75EB6D9280C0228F799AD9FECFCF0AE2 /* Calculator.swift */,
-				3B103DAC8F581C2846D2030316B68D15 /* CGPoint+Distance.swift */,
-				F511D467E90566929C27BBDB967E3E79 /* CGPoint+Operators.swift */,
-				4852E056B6EAACE8D1FA2304AB1CB741 /* CGRect+Center.swift */,
-				9E7D577D893E4798C4819EF97550BD33 /* DimView.swift */,
-				6A98196F480C133C604A7FFE825836AA /* HoverButton.swift */,
-				9ED017B20A38EB92C1C686BBE648E1C1 /* HoverColor.swift */,
-				33D1FBFE73512B2D34B102CB2B833105 /* HoverConfiguration.swift */,
-				E5E6DCA19AA14813B3092C6037574C79 /* HoverItem.swift */,
-				F048E0E72951BA01B0B2E67C6A16AC35 /* HoverItemView.swift */,
-				F08DAA378E51AD88125A71F47DA23288 /* HoverPosition.swift */,
-				DA3CEF0E6BF7BA968E17970CC8BD0C0D /* HoverView.swift */,
-				8FB910E7426A34DC0E62C2A51FB2A1FE /* NSObject+Create.swift */,
-				E3E4D3931B8D42A707E23C993FA45A5D /* Orientation.swift */,
-				98EAAF822FE911FD59E8795A37D26E2E /* UISpringTimingParameters+Init.swift */,
-				7B12B86C02B196E1EEDA7C2C91DFE0C0 /* UIStackView+Add.swift */,
-				76A8757249E4579F523AE23F77F282AC /* UIView+Add.swift */,
-				E8373CC31B39654EACE1C71CB2D6867C /* UIView+Decorators.swift */,
-				86D6D2C6F1EF9C0C2DE7556E008EAD4E /* Support Files */,
-			);
-			name = Hover;
 			path = Hover;
 			sourceTree = "<group>";
 		};
-		A080CE582ACD85113353EB3FD924DD75 /* Support Files */ = {
+		B2B596C1220293AC9A554F89E7E75D9A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				43802FEA9FF9EBD1861DF5D4F1727272 /* SnapKit.modulemap */,
-				52CC13240709FD8B5F573272D908B498 /* SnapKit-dummy.m */,
-				290D3295824C04ACB0FE92AAB08A3953 /* SnapKit-Info.plist */,
-				FD30B094113A1D1AD7E110E672384FD4 /* SnapKit-prefix.pch */,
-				CF46209E8DA782BD0E4FF26D289C3D24 /* SnapKit-umbrella.h */,
-				358E01E78B649028A100C98962FB8B5E /* SnapKit.debug.xcconfig */,
-				4D3C879B37A700C7EE9701A3F741BB1A /* SnapKit.release.xcconfig */,
+				DB695AC7FBDCAE10739AB4DF962748D0 /* GoogleMaps */,
+				C41479730567D8B44119A3A3AA4846CB /* GooglePlaces */,
+				B1E4EABD0A23632C7B3D95983EC55E57 /* Hover */,
+				C324889EDD595D70FD2BB9A776278277 /* JGProgressHUD */,
+				00F5F0140DDAAFF7CC7A3663E9E807DE /* SnapKit */,
+				2478C90CAED325B47AA612DA89707221 /* SwiftLint */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B390A65B3CA2B50028A2E88E0C799D39 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8159BA514B350622E4B2D60AA89D76A4 /* JGProgressHUD.modulemap */,
+				C235F2C6D8CCE6E6C44E0951F9D5268E /* JGProgressHUD-dummy.m */,
+				12F17C4D1C1C00AA5D02646913F0807B /* JGProgressHUD-Info.plist */,
+				A2A34DD32F8BCC18FBB0302008B71F02 /* JGProgressHUD-prefix.pch */,
+				B0CC8655A32E84B899F6AC6D59D9AAD8 /* JGProgressHUD-umbrella.h */,
+				4BB3F62CBAEB27E942BB3F2D0A85B368 /* JGProgressHUD.debug.xcconfig */,
+				357D11F2EB48862A7DA145E725A7DCEF /* JGProgressHUD.release.xcconfig */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/SnapKit";
+			path = "../Target Support Files/JGProgressHUD";
 			sourceTree = "<group>";
 		};
-		A63583EEA66CF1589CFD370154A0E927 /* Frameworks */ = {
+		C324889EDD595D70FD2BB9A776278277 /* JGProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				672AB6274C286F6557FC25C5EFAF7429 /* GoogleMaps.xcframework */,
-				3416E8DF8D4259444F6C4DC83A946244 /* GoogleMapsCore.xcframework */,
+				6C6CDEE6DB333F0A341E083BC3EBE19F /* JGProgressHUD.h */,
+				BD0FC75998F6168A2996F987EDB8DA81 /* JGProgressHUD.m */,
+				4CDF21056176B1DDEB8A959F471EDE58 /* JGProgressHUD-Defines.h */,
+				D6E0B5630592BE1658548AA039F6224A /* JGProgressHUDAnimation.h */,
+				45849AF7B78B604C742E19044CF558D7 /* JGProgressHUDAnimation.m */,
+				71EF41CDA5A6351DB0C55297A0C46A72 /* JGProgressHUDErrorIndicatorView.h */,
+				17A29F4EC0B0EFAF80BED3EAD9E52124 /* JGProgressHUDErrorIndicatorView.m */,
+				ED30684104AA4F306AAA9A0E99D1C659 /* JGProgressHUDFadeAnimation.h */,
+				F18E11DAE106657FE3E6F041D76E5B8E /* JGProgressHUDFadeAnimation.m */,
+				5529BCC10EB432BB94693E24465A8372 /* JGProgressHUDFadeZoomAnimation.h */,
+				1001863579C8A865758F299FEA5C8A01 /* JGProgressHUDFadeZoomAnimation.m */,
+				7AB052CE8174AA5D04C43A345A707A69 /* JGProgressHUDImageIndicatorView.h */,
+				C4E86622B51C1D9217E2F2A40A5B1DA5 /* JGProgressHUDImageIndicatorView.m */,
+				C4AB393A4D93A16215184ADBD023A7C0 /* JGProgressHUDIndeterminateIndicatorView.h */,
+				E839E83C35D1DADB91D1B67FD98F0CF8 /* JGProgressHUDIndeterminateIndicatorView.m */,
+				AD2099C41848E7551BF71EDBE6FFAEA7 /* JGProgressHUDIndicatorView.h */,
+				AF9D95C7470B0A7FC0CD1E6F0D175D87 /* JGProgressHUDIndicatorView.m */,
+				B4BAFF49BE47A16756F611285CA8C512 /* JGProgressHUDPieIndicatorView.h */,
+				DAA82AA19AF883BFFC9B8E566E6C78F0 /* JGProgressHUDPieIndicatorView.m */,
+				F1CDDFA54DE3ECD97941C49A99B38CCF /* JGProgressHUDRingIndicatorView.h */,
+				62055320C39B08357405E6B0D9836B7C /* JGProgressHUDRingIndicatorView.m */,
+				61099E8945A2F8BE0819D72D1AD6CADE /* JGProgressHUDShadow.h */,
+				25B01626B631D532E799B09015ADBBC0 /* JGProgressHUDShadow.m */,
+				297ED83345B29E8C720D23EA767DEA2D /* JGProgressHUDSuccessIndicatorView.h */,
+				5087617B87AD4A5EF088429F075E3ED5 /* JGProgressHUDSuccessIndicatorView.m */,
+				B390A65B3CA2B50028A2E88E0C799D39 /* Support Files */,
 			);
-			name = Frameworks;
+			path = JGProgressHUD;
 			sourceTree = "<group>";
 		};
-		B10A890B0546B6A27995194EF4462126 /* Base */ = {
+		C41479730567D8B44119A3A3AA4846CB /* GooglePlaces */ = {
 			isa = PBXGroup;
 			children = (
-				528CC86A3BD8A1CBBA5A23BC22C8898A /* dummy.h */,
-				38A10A0E97763C709BD39E5B9CA36387 /* Frameworks */,
+				6527F803241F2BAB677A95FEE0B21622 /* dummy.h */,
+				FA30CBAC1B19F4C82A5D6765C5A6703C /* Frameworks */,
+				4B645247A7C8906EBA8C2AD3D565CF66 /* Resources */,
+				CFAF7203FB0F869475F634AB6BEEDD80 /* Support Files */,
 			);
-			name = Base;
+			path = GooglePlaces;
 			sourceTree = "<group>";
 		};
-		B3CAE8AC6546021B8BC75BA9C4A2F374 /* Products */ = {
+		C92C41732866B1280F090133F5D3686C /* Maps */ = {
 			isa = PBXGroup;
 			children = (
-				21BC9DE5EE18F27517C52ABD3FBF38ED /* GoogleMaps-GoogleMapsResources */,
-				58D55567BE5BB377C4B0D89C1322D23E /* GooglePlaces-GooglePlacesResources */,
-				847ACD3DD9DA5D9505383E21769469CE /* Hover */,
-				18281CAC7EA8851594B68EDB2C5CD13D /* Pods-save-the-date */,
-				979486118B3E90C08386079D57962701 /* SnapKit */,
+				8C10A36E313625F3A82C2E3A8D2B75E0 /* dummy.h */,
+				103789D3FF077C98BC7511478A656085 /* Frameworks */,
+				0C2D6B5059C96EA944AF348966EB8D46 /* Resources */,
 			);
-			name = Products;
+			name = Maps;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				305356FB07A0E76A4E065C9ACA438F20 /* Pods */,
-				B3CAE8AC6546021B8BC75BA9C4A2F374 /* Products */,
+				03C5C200A0787E300053CFA8F53CA094 /* Frameworks */,
+				B2B596C1220293AC9A554F89E7E75D9A /* Pods */,
+				260ED7FDC5A7B0B927EE6DB8F5EDBF9E /* Products */,
 				77B7824367285E5BBEF646799D833C5B /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+		CFAF7203FB0F869475F634AB6BEEDD80 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				578452D2E740E91742655AC8F1636D1F /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D2F2088D9EF8AB58053DA9BE18F6F407 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				AD7ECFF7A8EE2AF1B979355EC81F3D15 /* GooglePlaces-xcframeworks.sh */,
-				4877F9F29856FC5C78FCF4AAB201A35A /* GooglePlaces.debug.xcconfig */,
-				351EE8E4FBD8164B539170923666A6A2 /* GooglePlaces.release.xcconfig */,
-				5434086AE818D5815E2AFEFD77AB7C87 /* ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist */,
+				D806CFDB00CE6F0AB02725FCAA71DC64 /* GooglePlaces-xcframeworks.sh */,
+				509562A7F387326E6C61C5F7DFF3D74E /* GooglePlaces.debug.xcconfig */,
+				B31F22090A9D5D4A6DDA8AD05594D3ED /* GooglePlaces.release.xcconfig */,
+				1D005CC64A43F53DF618F345E19662BF /* ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/GooglePlaces";
 			sourceTree = "<group>";
 		};
-		E3ECBFD58954FE3BEE08A1CAA2835165 /* SnapKit */ = {
+		DB695AC7FBDCAE10739AB4DF962748D0 /* GoogleMaps */ = {
 			isa = PBXGroup;
 			children = (
-				6CA587609C694E3C7F69BAE9ED61A9D6 /* Constraint.swift */,
-				C78F597726AF5D88E7BDADAF22F0F927 /* ConstraintAttributes.swift */,
-				6059FE1A2754DA2215CC14BC196E2C5C /* ConstraintConfig.swift */,
-				EAD608C83E1100DEEC0CDDA6311209BB /* ConstraintConstantTarget.swift */,
-				F36B34449A4E015DF4C26F51F3F63CD8 /* ConstraintDescription.swift */,
-				FAAB53AB63D9352E419CEB4BC60E6AAD /* ConstraintDirectionalInsets.swift */,
-				B70FB3A7F526887A5F35E683BEC8B7F4 /* ConstraintDirectionalInsetTarget.swift */,
-				2FBBDB50611B6C1403BB9B23E094ABA1 /* ConstraintDSL.swift */,
-				905667E4244B6DBE9EA49B8DF66D1730 /* ConstraintInsets.swift */,
-				C12472AB576B388DF4C79D45858E6FC1 /* ConstraintInsetTarget.swift */,
-				07CF1CA3583501E1B413C18AD6A6D647 /* ConstraintItem.swift */,
-				9660DC547D55E103AED240F1AFC618B7 /* ConstraintLayoutGuide.swift */,
-				23292E85525345FE908EA690D04E8B4E /* ConstraintLayoutGuide+Extensions.swift */,
-				09AA1ED84B7360B89CD6D26357111DF5 /* ConstraintLayoutGuideDSL.swift */,
-				F4A2B853B51B10CD8864B44E67F2228B /* ConstraintLayoutSupport.swift */,
-				9F4A57E5AC7C15F28D280CE58AF62207 /* ConstraintLayoutSupportDSL.swift */,
-				3805B5C4B6C7D8AD3EB45B57A0EF3547 /* ConstraintMaker.swift */,
-				84B78006B76B28BAB494A34A80261236 /* ConstraintMakerEditable.swift */,
-				EA781725E056964FB08F43010942DED6 /* ConstraintMakerExtendable.swift */,
-				B53448DD161286B36320620A7BB0E43A /* ConstraintMakerFinalizable.swift */,
-				609B5B67F381E4CF2CA7361CE22F82F1 /* ConstraintMakerPrioritizable.swift */,
-				2AE1237AAF54F0E9DAC1F331B82A5850 /* ConstraintMakerRelatable.swift */,
-				3D6A39DD322A083662011B2BFC0DB51F /* ConstraintMakerRelatable+Extensions.swift */,
-				9FF942FC97C9F5EFEAECED3760CB238A /* ConstraintMultiplierTarget.swift */,
-				EAA4DD16355F9F07743FC4A52C65326C /* ConstraintOffsetTarget.swift */,
-				11B09525DF3CECC92C743D127D096F19 /* ConstraintPriority.swift */,
-				1FD6951035C2F694DBADC501503BE280 /* ConstraintPriorityTarget.swift */,
-				D03DFA05C95A4A31DE78261A71993BDF /* ConstraintRelatableTarget.swift */,
-				743D5CCEB1F5200A45A2FEE28D0DA93F /* ConstraintRelation.swift */,
-				85D62F285ADAF222C2073716CD44BA3F /* ConstraintView.swift */,
-				82F0970D672A299B3CDD9ADE6A39085A /* ConstraintView+Extensions.swift */,
-				989767635E22C3B15EB41160FE14829C /* ConstraintViewDSL.swift */,
-				F625FB161466D6EA978B157F4E0FBE49 /* Debugging.swift */,
-				103D98D909DD7B9FBE399DE802C9E793 /* LayoutConstraint.swift */,
-				732C7FBE380A6385D61FD962BA64C3D7 /* LayoutConstraintItem.swift */,
-				FCC069D1C8DB373CD2673BB5CCC462EA /* Typealiases.swift */,
-				DD90A78C0207C6652FA822BCFC54A603 /* UILayoutSupport+Extensions.swift */,
-				A080CE582ACD85113353EB3FD924DD75 /* Support Files */,
+				EAB8FF710BF1C2EE38B64E905A1A2878 /* Base */,
+				C92C41732866B1280F090133F5D3686C /* Maps */,
+				07FE24A3FBAD1B97442F50272C54637A /* Support Files */,
 			);
-			name = SnapKit;
-			path = SnapKit;
+			path = GoogleMaps;
 			sourceTree = "<group>";
 		};
-		F36B3174EDD7ADDC2D2C6197A136C1E6 /* Resources */ = {
+		EAB8FF710BF1C2EE38B64E905A1A2878 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				8EB5C700517ABC8F9D91E85248FFF246 /* GoogleMaps.bundle */,
+				86D0693DA98008B2C2C9DA1E691ADC86 /* dummy.h */,
+				391103F21DDDE7171BC3CEF4D833335A /* Frameworks */,
 			);
-			name = Resources;
+			name = Base;
+			sourceTree = "<group>";
+		};
+		F0A778C0229E9BF1FD97896B93F3272B /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				4B1530FBFAA1690D27A135E4CC85AA07 /* Foundation.framework */,
+				9FE46B11FEBCBB7C689EB07A5E57BD38 /* QuartzCore.framework */,
+				8CE2AD31F00D0EF9C522211BDDBF6C3C /* UIKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		FA30CBAC1B19F4C82A5D6765C5A6703C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				79CA9513782FA39E9668709E7F1E027E /* GooglePlaces.xcframework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -642,11 +774,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		60978C49BAD89A45F3EEBED25243E987 /* Headers */ = {
+		9A4391A62BE5336CDBD769BF8A51592C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B274BAA3687DA371A8D8F53B380AD5A /* Pods-save-the-date-umbrella.h in Headers */,
+				2118768E314F2AA99CD1EB6E408B1394 /* JGProgressHUD.h in Headers */,
+				60CCDFBC06F18325266CAA417701D596 /* JGProgressHUD-Defines.h in Headers */,
+				E7905B1CB7BD6D68F5707D77BFAF81DD /* JGProgressHUD-umbrella.h in Headers */,
+				35A8C10E754336117FC2E3378C9AE349 /* JGProgressHUDAnimation.h in Headers */,
+				1EDFCA7D4DA76A42E64C0A20282DF7AA /* JGProgressHUDErrorIndicatorView.h in Headers */,
+				51CB0032AD441499EA93C1E3F94B617D /* JGProgressHUDFadeAnimation.h in Headers */,
+				FAAA4E15041016400999F8D04B321A1F /* JGProgressHUDFadeZoomAnimation.h in Headers */,
+				971C580EEEAD2A11C9518ED5763E09B6 /* JGProgressHUDImageIndicatorView.h in Headers */,
+				38CD56D489074146E0C9FAD93C2DDD91 /* JGProgressHUDIndeterminateIndicatorView.h in Headers */,
+				D1837CC1645CB45AC0F8ADC169C24128 /* JGProgressHUDIndicatorView.h in Headers */,
+				57298AB0F1E7394E06C66FEC5CB85F5E /* JGProgressHUDPieIndicatorView.h in Headers */,
+				598B0C4F8FD56111C3049C6DEEAB435E /* JGProgressHUDRingIndicatorView.h in Headers */,
+				A76FB212727EBBD04FE9CB9061CC1CC0 /* JGProgressHUDShadow.h in Headers */,
+				91B214C7220650206DFF3C4962AF5CD7 /* JGProgressHUDSuccessIndicatorView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F3541E97FFBF53ED805B4BCFD55BE4C4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E5B3DB9C072C60E6E87AA135B0F2608 /* Pods-save-the-date-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,11 +826,11 @@
 		};
 		285AAD0A8192022DACE2DAFE30D6CD52 /* GooglePlaces-GooglePlacesResources */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 736571A5560A328D9E3D79B0BDBD9DBB /* Build configuration list for PBXNativeTarget "GooglePlaces-GooglePlacesResources" */;
+			buildConfigurationList = 151ED931A13DB5CF6879A7CFF4BB95E7 /* Build configuration list for PBXNativeTarget "GooglePlaces-GooglePlacesResources" */;
 			buildPhases = (
-				BB245250B4EC8253AAD1244AD0A059B8 /* Sources */,
-				54289B63C34C92F52B4AFE0B25A002CB /* Frameworks */,
-				337C8896841D95739197CD8F8E5366A0 /* Resources */,
+				6A9FCCB4C86D37ED24E790D5FB553C80 /* Sources */,
+				21EB4985D7DC037386CA022AE4194D18 /* Frameworks */,
+				0103725BA62475E382E4F39721A42AD4 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -706,13 +859,31 @@
 			productReference = 847ACD3DD9DA5D9505383E21769469CE /* Hover */;
 			productType = "com.apple.product-type.framework";
 		};
+		6F3964F174D0EBFB0D64F8DBC20E1429 /* JGProgressHUD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEA22F5602334CD61D63B46AE7F1D9B6 /* Build configuration list for PBXNativeTarget "JGProgressHUD" */;
+			buildPhases = (
+				9A4391A62BE5336CDBD769BF8A51592C /* Headers */,
+				6CDFF2AA050EBE5D30B80802EB017BD9 /* Sources */,
+				9BC6BC781FD05FB68CCFDD0204E6E1B0 /* Frameworks */,
+				0296C5845DBD18D7F86CA36EFC7131BB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JGProgressHUD;
+			productName = JGProgressHUD;
+			productReference = 7FBAFAA66E9C7401884F439AE8BC662C /* JGProgressHUD.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		7B026DDDF280F148DD87281679B51154 /* GoogleMaps-GoogleMapsResources */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 954AD533D8AA149ABED56592FFEFB349 /* Build configuration list for PBXNativeTarget "GoogleMaps-GoogleMapsResources" */;
+			buildConfigurationList = 232BEF8F0D9C2BA890E679F3E62A85B9 /* Build configuration list for PBXNativeTarget "GoogleMaps-GoogleMapsResources" */;
 			buildPhases = (
-				0E9E3C10C044DACF80136C00A33056C3 /* Sources */,
-				D9F6BFD20AD09512439C905842222B36 /* Frameworks */,
-				D4D75F6E4E2540FAB738DA1DE7B08F54 /* Resources */,
+				9EB0F4B5E3363C91CBBE0E0F25C11CFC /* Sources */,
+				29C7F2388D88CE3E590CA71CCD121ED6 /* Frameworks */,
+				E7DB4B2B1D01DE0C3DADB3E7EE682CC3 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -725,21 +896,22 @@
 		};
 		A18122FDB27DCEFC24C42E7814232751 /* Pods-save-the-date */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BA3D040292ABC929C910544B2C2051EE /* Build configuration list for PBXNativeTarget "Pods-save-the-date" */;
+			buildConfigurationList = C411C8405376896FF59A45F37E23AEDA /* Build configuration list for PBXNativeTarget "Pods-save-the-date" */;
 			buildPhases = (
-				60978C49BAD89A45F3EEBED25243E987 /* Headers */,
-				2E9A44B8F10BF1CF3F933FC6658FA2C0 /* Sources */,
-				1954930D2498EF87795D85C074CC02C1 /* Frameworks */,
-				CAA2D9C03D57CEFB48902BBC8820E656 /* Resources */,
+				F3541E97FFBF53ED805B4BCFD55BE4C4 /* Headers */,
+				4CB3F69687575AC5761EA7BA522B6977 /* Sources */,
+				2ADE651D4FDE2CDE785B35FB0D74A9F6 /* Frameworks */,
+				72D5B1F0E9854DB08BB6CEA66637B3F7 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				1FD87BF0D437DBBB728B5C39C73261F1 /* PBXTargetDependency */,
-				36F8287CBB2E37398F0B6DDC8A2E26E1 /* PBXTargetDependency */,
-				A008DC2F7757F424203A25B8D62E3834 /* PBXTargetDependency */,
-				06C878DBD7292D484AB1710A40D85CE8 /* PBXTargetDependency */,
-				8F521B7B0B6F43C0F249220406ED4952 /* PBXTargetDependency */,
+				150B2BC7B6058CEFFCAC7B65E21156DD /* PBXTargetDependency */,
+				A9F137139B0CB5CCC0B4FEBFABDC82B8 /* PBXTargetDependency */,
+				B7425C7BC7482E86682F6CD5F44038E0 /* PBXTargetDependency */,
+				C12477077FAE9957473FC277839214A3 /* PBXTargetDependency */,
+				F97A596099FE477C910B3405690E0E6A /* PBXTargetDependency */,
+				7F74A3B36E4770AB2BDBB9961EE26FE9 /* PBXTargetDependency */,
 			);
 			name = "Pods-save-the-date";
 			productName = Pods_save_the_date;
@@ -764,7 +936,7 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = B3CAE8AC6546021B8BC75BA9C4A2F374 /* Products */;
+			productRefGroup = 260ED7FDC5A7B0B927EE6DB8F5EDBF9E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -773,6 +945,7 @@
 				0C1885900810601510E0C632060FAF26 /* GooglePlaces */,
 				285AAD0A8192022DACE2DAFE30D6CD52 /* GooglePlaces-GooglePlacesResources */,
 				5DC8654BEC6CF98599D3E999827B1258 /* Hover */,
+				6F3964F174D0EBFB0D64F8DBC20E1429 /* JGProgressHUD */,
 				A18122FDB27DCEFC24C42E7814232751 /* Pods-save-the-date */,
 				19622742EBA51E823D6DAE3F8CDBFAD4 /* SnapKit */,
 				52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */,
@@ -781,15 +954,29 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		337C8896841D95739197CD8F8E5366A0 /* Resources */ = {
+		0103725BA62475E382E4F39721A42AD4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14C347B08A896EC7D3669739A1A61E39 /* GooglePlaces.bundle in Resources */,
+				BB5DD880786B85446DB43B1372DEF972 /* GooglePlaces.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0296C5845DBD18D7F86CA36EFC7131BB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		53276FE16CFAFE91050417F72CD9ADA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		72D5B1F0E9854DB08BB6CEA66637B3F7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -803,18 +990,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CAA2D9C03D57CEFB48902BBC8820E656 /* Resources */ = {
+		E7DB4B2B1D01DE0C3DADB3E7EE682CC3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4D75F6E4E2540FAB738DA1DE7B08F54 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C989A126A6C39DC6C09E87749CF0F65A /* GoogleMaps.bundle in Resources */,
+				DFAB19998132C89C3959607F7E2DF43A /* GoogleMaps.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -858,18 +1038,38 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0E9E3C10C044DACF80136C00A33056C3 /* Sources */ = {
+		4CB3F69687575AC5761EA7BA522B6977 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6348535F960D192DEFDF806302AEF321 /* Pods-save-the-date-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A9FCCB4C86D37ED24E790D5FB553C80 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2E9A44B8F10BF1CF3F933FC6658FA2C0 /* Sources */ = {
+		6CDFF2AA050EBE5D30B80802EB017BD9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C819EAD5BADCE51AD9A7C4ABE0C212DA /* Pods-save-the-date-dummy.m in Sources */,
+				782668326078845CA6F168F4B8A44D09 /* JGProgressHUD.m in Sources */,
+				C3CA526BA1CFCB9FA884DBABDC6A2BBF /* JGProgressHUD-dummy.m in Sources */,
+				29A849BA030257F077D179981BBAA1A8 /* JGProgressHUDAnimation.m in Sources */,
+				FBFC612E6973B634AC7275EE6E615F3D /* JGProgressHUDErrorIndicatorView.m in Sources */,
+				B05A00462215AEC0DCA346603E014A3D /* JGProgressHUDFadeAnimation.m in Sources */,
+				27175E2839FF0472C694F708F9CF452E /* JGProgressHUDFadeZoomAnimation.m in Sources */,
+				057236A76E1FE2B29A0DFCC187A272B7 /* JGProgressHUDImageIndicatorView.m in Sources */,
+				265B9E1102D1F51A1E630909068DC7EA /* JGProgressHUDIndeterminateIndicatorView.m in Sources */,
+				64AE42A884297FBDB50DD1846DFEAE4B /* JGProgressHUDIndicatorView.m in Sources */,
+				A8E66EF5F07ACC49C8C194598A46AE9C /* JGProgressHUDPieIndicatorView.m in Sources */,
+				0C82192FD273106AC5D85067EAE6A039 /* JGProgressHUDRingIndicatorView.m in Sources */,
+				4D4527F3ABE718FA6341B0B4CACCA938 /* JGProgressHUDShadow.m in Sources */,
+				F0DFCE79F4D685B067C471C3FA5419CF /* JGProgressHUDSuccessIndicatorView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -918,6 +1118,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9EB0F4B5E3363C91CBBE0E0F25C11CFC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5ED8F849A6FA1184C75E48F893B2D6F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -946,99 +1153,63 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BB245250B4EC8253AAD1244AD0A059B8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		06C878DBD7292D484AB1710A40D85CE8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SnapKit;
-			target = 19622742EBA51E823D6DAE3F8CDBFAD4 /* SnapKit */;
-			targetProxy = FF0F7541367609463A55F52549883EF7 /* PBXContainerItemProxy */;
-		};
-		1FD87BF0D437DBBB728B5C39C73261F1 /* PBXTargetDependency */ = {
+		150B2BC7B6058CEFFCAC7B65E21156DD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = GoogleMaps;
 			target = E5B4BBC6DD552AC8943C7E22772FC1D3 /* GoogleMaps */;
-			targetProxy = F5AD5743B5BC8B047105AD4E2E27B475 /* PBXContainerItemProxy */;
+			targetProxy = CF9ADB0099F763499B6167FCDBE3539A /* PBXContainerItemProxy */;
 		};
-		36F8287CBB2E37398F0B6DDC8A2E26E1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GooglePlaces;
-			target = 0C1885900810601510E0C632060FAF26 /* GooglePlaces */;
-			targetProxy = EDA96074AF18C14EC01069851E4DF619 /* PBXContainerItemProxy */;
-		};
-		8F521B7B0B6F43C0F249220406ED4952 /* PBXTargetDependency */ = {
+		7F74A3B36E4770AB2BDBB9961EE26FE9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftLint;
 			target = 52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */;
-			targetProxy = CD27527A0918FFA88456F43973098107 /* PBXContainerItemProxy */;
+			targetProxy = 3653E1B071D87B88D3237F90C2B69064 /* PBXContainerItemProxy */;
 		};
-		93996337ED13B234CA6F319E14B30B82 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "GoogleMaps-GoogleMapsResources";
-			target = 7B026DDDF280F148DD87281679B51154 /* GoogleMaps-GoogleMapsResources */;
-			targetProxy = D47BD7D69FCC09F795C533DBDD3FFA18 /* PBXContainerItemProxy */;
-		};
-		A008DC2F7757F424203A25B8D62E3834 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Hover;
-			target = 5DC8654BEC6CF98599D3E999827B1258 /* Hover */;
-			targetProxy = F770E5EF497CD7B63F54211B6F91D5A6 /* PBXContainerItemProxy */;
-		};
-		C2438CB53C35B020CD4003468A92ED8B /* PBXTargetDependency */ = {
+		82E938361F6413CCACEB5C5E275749F5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "GooglePlaces-GooglePlacesResources";
 			target = 285AAD0A8192022DACE2DAFE30D6CD52 /* GooglePlaces-GooglePlacesResources */;
-			targetProxy = 24BBB6701455CA0CD32392A833EB45F2 /* PBXContainerItemProxy */;
+			targetProxy = A7D2F2C773DD514920D6A8D383BE7ADE /* PBXContainerItemProxy */;
+		};
+		8E6E61FB57BBC825BD610CC72DD9A630 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "GoogleMaps-GoogleMapsResources";
+			target = 7B026DDDF280F148DD87281679B51154 /* GoogleMaps-GoogleMapsResources */;
+			targetProxy = 8FB6C8006AB8DC6795A4A12C58324DF8 /* PBXContainerItemProxy */;
+		};
+		A9F137139B0CB5CCC0B4FEBFABDC82B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GooglePlaces;
+			target = 0C1885900810601510E0C632060FAF26 /* GooglePlaces */;
+			targetProxy = 1459C5537EC9B1E2BF7F90243CDB319B /* PBXContainerItemProxy */;
+		};
+		B7425C7BC7482E86682F6CD5F44038E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Hover;
+			target = 5DC8654BEC6CF98599D3E999827B1258 /* Hover */;
+			targetProxy = 6AA1C1FA143CF091AE807B7018AB530E /* PBXContainerItemProxy */;
+		};
+		C12477077FAE9957473FC277839214A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = JGProgressHUD;
+			target = 6F3964F174D0EBFB0D64F8DBC20E1429 /* JGProgressHUD */;
+			targetProxy = 99A9B6FD3C56F466ACF1BDFF6DF7D2D4 /* PBXContainerItemProxy */;
+		};
+		F97A596099FE477C910B3405690E0E6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SnapKit;
+			target = 19622742EBA51E823D6DAE3F8CDBFAD4 /* SnapKit */;
+			targetProxy = 2B33389322F6423DB4928AEF803B5675 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0AA6E88F9CDDB226EBECE0C247339A20 /* Release */ = {
+		0A6F02EC4661669623C15A20D699D4D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 351EE8E4FBD8164B539170923666A6A2 /* GooglePlaces.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGNING_ALLOWED = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GooglePlaces";
-				IBSC_MODULE = GooglePlaces;
-				INFOPLIST_FILE = "Target Support Files/GooglePlaces/ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_NAME = GooglePlacesResources;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		26EA5A9600226D2B7D8D25152A304F3B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06688F42DD846CDD278C521439CCCB64 /* SwiftLint.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		307E34CC69F26B3F6CAA1BBF6456979F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CD50A453892774EE8AF1C2E6C36DC602 /* Pods-save-the-date.release.xcconfig */;
+			baseConfigurationReference = 7AF220C96B40D782AD6333C002CFD11C /* Pods-save-the-date.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1067,6 +1238,109 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		1620AED99C766DA0455400684A5361DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4BB3F62CBAEB27E942BB3F2D0A85B368 /* JGProgressHUD.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/JGProgressHUD/JGProgressHUD-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/JGProgressHUD/JGProgressHUD-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/JGProgressHUD/JGProgressHUD.modulemap";
+				PRODUCT_MODULE_NAME = JGProgressHUD;
+				PRODUCT_NAME = JGProgressHUD;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		1719268ADED8379C080F8CD14A9D2D45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B31F22090A9D5D4A6DDA8AD05594D3ED /* GooglePlaces.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GooglePlaces";
+				IBSC_MODULE = GooglePlaces;
+				INFOPLIST_FILE = "Target Support Files/GooglePlaces/ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_NAME = GooglePlacesResources;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		26EA5A9600226D2B7D8D25152A304F3B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D67FB038DE0CDF755746D377C84AF6E5 /* SwiftLint.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2DB9592DDC711B34E782A570AEBEDA24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 357D11F2EB48862A7DA145E725A7DCEF /* JGProgressHUD.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/JGProgressHUD/JGProgressHUD-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/JGProgressHUD/JGProgressHUD-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/JGProgressHUD/JGProgressHUD.modulemap";
+				PRODUCT_MODULE_NAME = JGProgressHUD;
+				PRODUCT_NAME = JGProgressHUD;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1138,7 +1412,7 @@
 		};
 		372578239686DFE74865590EF122AE82 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F13778D710029403160B2FBB61A6A421 /* GoogleMaps.release.xcconfig */;
+			baseConfigurationReference = 53EFE18BE07DA2F4C29F4C62CA0BBE2E /* GoogleMaps.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1154,9 +1428,26 @@
 			};
 			name = Release;
 		};
-		4278E5E45B5328014CDBC03B588FACE7 /* Debug */ = {
+		3D7CE15F54CA57F95D2FCDCFE728BFC8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E22A203DC25DA8869AFB1E11DB4DCAE6 /* GoogleMaps.debug.xcconfig */;
+			baseConfigurationReference = 509562A7F387326E6C61C5F7DFF3D74E /* GooglePlaces.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GooglePlaces";
+				IBSC_MODULE = GooglePlaces;
+				INFOPLIST_FILE = "Target Support Files/GooglePlaces/ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_NAME = GooglePlacesResources;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		476BEA071FCE1E1716BC62C4D9387848 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8894288E3A8071FDE0D54D8699D45916 /* GoogleMaps.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGNING_ALLOWED = NO;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleMaps";
@@ -1173,7 +1464,7 @@
 		};
 		59121C48ADA5823A5A9B83C9143D5B0A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4877F9F29856FC5C78FCF4AAB201A35A /* GooglePlaces.debug.xcconfig */;
+			baseConfigurationReference = 509562A7F387326E6C61C5F7DFF3D74E /* GooglePlaces.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1190,7 +1481,7 @@
 		};
 		59CC49E4FF90DCD865050EC34933B4DC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E22A203DC25DA8869AFB1E11DB4DCAE6 /* GoogleMaps.debug.xcconfig */;
+			baseConfigurationReference = 8894288E3A8071FDE0D54D8699D45916 /* GoogleMaps.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1205,26 +1496,47 @@
 			};
 			name = Debug;
 		};
-		61E82D4068C1ED858173055FC610B770 /* Debug */ = {
+		7B335514E0955CB748EAC452CB443FE0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4877F9F29856FC5C78FCF4AAB201A35A /* GooglePlaces.debug.xcconfig */;
+			baseConfigurationReference = CD50A453892774EE8AF1C2E6C36DC602 /* Pods-save-the-date.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGNING_ALLOWED = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GooglePlaces";
-				IBSC_MODULE = GooglePlaces;
-				INFOPLIST_FILE = "Target Support Files/GooglePlaces/ResourceBundle-GooglePlacesResources-GooglePlaces-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_NAME = GooglePlacesResources;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-save-the-date/Pods-save-the-date-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-save-the-date/Pods-save-the-date.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 		8C925430B65BE03F92ABCD1B2005EE0C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4D3C879B37A700C7EE9701A3F741BB1A /* SnapKit.release.xcconfig */;
+			baseConfigurationReference = 791A3116FAE3B81A07940C9FB610D754 /* SnapKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1258,26 +1570,9 @@
 			};
 			name = Release;
 		};
-		981833CBD3C3A093A325D09C4D895989 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F13778D710029403160B2FBB61A6A421 /* GoogleMaps.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGNING_ALLOWED = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleMaps";
-				IBSC_MODULE = GoogleMaps;
-				INFOPLIST_FILE = "Target Support Files/GoogleMaps/ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_NAME = GoogleMapsResources;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		A6F0173BAEB974532D93E05E5A94E50A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 358E01E78B649028A100C98962FB8B5E /* SnapKit.debug.xcconfig */;
+			baseConfigurationReference = 3753E4EDF1754EFC8581CAB61426A95F /* SnapKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1312,7 +1607,7 @@
 		};
 		B79125C1A97BBBFF8ABCDE0772510E03 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7F492E7E82A7170DA44C9FC0976F1E7 /* Hover.debug.xcconfig */;
+			baseConfigurationReference = 3DDF256D2BF66212311E396C7806CE10 /* Hover.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1347,12 +1642,12 @@
 		};
 		E9E1A48A750B946DE9877594C6E735E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E3EDBBA73D8E27DC9E2CC51B241E401 /* SwiftLint.debug.xcconfig */;
+			baseConfigurationReference = 133A81465CC7F7BBD524CD766F4F9D2A /* SwiftLint.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1364,7 +1659,7 @@
 		};
 		EF6A7A9F27ABD8D81EB56D254C8E237C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 351EE8E4FBD8164B539170923666A6A2 /* GooglePlaces.release.xcconfig */;
+			baseConfigurationReference = B31F22090A9D5D4A6DDA8AD05594D3ED /* GooglePlaces.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1380,46 +1675,9 @@
 			};
 			name = Release;
 		};
-		F398E95B9A084F10003ADC2E36A9B419 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AF220C96B40D782AD6333C002CFD11C /* Pods-save-the-date.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-save-the-date/Pods-save-the-date-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-save-the-date/Pods-save-the-date.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		F4818F2865760C147CA5DFC15135D093 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E29B4A6F8016A4433C16CBD743F9EF16 /* Hover.release.xcconfig */;
+			baseConfigurationReference = 077343D050FB174CD672D7C828C248B0 /* Hover.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1519,9 +1777,44 @@
 			};
 			name = Debug;
 		};
+		FA5B1A50FFCCE65A58DCD6FBF27EFAE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53EFE18BE07DA2F4C29F4C62CA0BBE2E /* GoogleMaps.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GoogleMaps";
+				IBSC_MODULE = GoogleMaps;
+				INFOPLIST_FILE = "Target Support Files/GoogleMaps/ResourceBundle-GoogleMapsResources-GoogleMaps-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_NAME = GoogleMapsResources;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		151ED931A13DB5CF6879A7CFF4BB95E7 /* Build configuration list for PBXNativeTarget "GooglePlaces-GooglePlacesResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D7CE15F54CA57F95D2FCDCFE728BFC8 /* Debug */,
+				1719268ADED8379C080F8CD14A9D2D45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		232BEF8F0D9C2BA890E679F3E62A85B9 /* Build configuration list for PBXNativeTarget "GoogleMaps-GoogleMapsResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				476BEA071FCE1E1716BC62C4D9387848 /* Debug */,
+				FA5B1A50FFCCE65A58DCD6FBF27EFAE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		47C5605859EECC4DAA8398F8266E85C4 /* Build configuration list for PBXAggregateTarget "GoogleMaps" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1549,24 +1842,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		736571A5560A328D9E3D79B0BDBD9DBB /* Build configuration list for PBXNativeTarget "GooglePlaces-GooglePlacesResources" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				61E82D4068C1ED858173055FC610B770 /* Debug */,
-				0AA6E88F9CDDB226EBECE0C247339A20 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		954AD533D8AA149ABED56592FFEFB349 /* Build configuration list for PBXNativeTarget "GoogleMaps-GoogleMapsResources" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4278E5E45B5328014CDBC03B588FACE7 /* Debug */,
-				981833CBD3C3A093A325D09C4D895989 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		AE7B4FB01588B9E6DF09CB79FC7CE7BD /* Build configuration list for PBXAggregateTarget "SwiftLint" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1585,11 +1860,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BA3D040292ABC929C910544B2C2051EE /* Build configuration list for PBXNativeTarget "Pods-save-the-date" */ = {
+		C411C8405376896FF59A45F37E23AEDA /* Build configuration list for PBXNativeTarget "Pods-save-the-date" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F398E95B9A084F10003ADC2E36A9B419 /* Debug */,
-				307E34CC69F26B3F6CAA1BBF6456979F /* Release */,
+				0A6F02EC4661669623C15A20D699D4D7 /* Debug */,
+				7B335514E0955CB748EAC452CB443FE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1599,6 +1874,15 @@
 			buildConfigurations = (
 				59121C48ADA5823A5A9B83C9143D5B0A /* Debug */,
 				EF6A7A9F27ABD8D81EB56D254C8E237C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FEA22F5602334CD61D63B46AE7F1D9B6 /* Build configuration list for PBXNativeTarget "JGProgressHUD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1620AED99C766DA0455400684A5361DF /* Debug */,
+				2DB9592DDC711B34E782A570AEBEDA24 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

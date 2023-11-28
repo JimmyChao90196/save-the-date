@@ -63,6 +63,8 @@ class PackageBaseViewController: UIViewController {
     var tableView = ModuleTableView()
     var bgImageView = UIImageView(image: UIImage(resource: .createBG02))
     var bgView = UIView()
+    
+    // Manager
     var googlePlaceManager = GooglePlacesManager.shared
     var firestoreManager = FirestoreManager.shared
     var routeManager = RouteManager.shared
@@ -275,6 +277,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             cell.userIdLabel.isHidden = false
             cell.userIdLabel.setbackgroundColor(.black)
             cell.locationView.setBoarderColor(.black)
+            cell.userIdLabel.setTextColor(.white)
             cell.transpIcon.tintColor = .lightGray
             cell.travelTimeLabel.setTextColor(.darkGray)
             
@@ -305,6 +308,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             // Claimed by others
             cell.userIdLabel.isHidden = false
             cell.userIdLabel.setbackgroundColor(.hexToUIColor(hex: "#DADADA"))
+            cell.userIdLabel.setTextColor(.black)
             cell.locationView.setBoarderColor(.hexToUIColor(hex: "#DADADA"))
             cell.transpIcon.tintColor = .hexToUIColor(hex: "#DADADA")
             cell.travelTimeLabel.setTextColor(.hexToUIColor(hex: "DADADA"))
@@ -837,6 +841,10 @@ extension PackageBaseViewController {
         }
         
         onTranspComfirm = { [weak self] transp, action, time in
+            
+            // Show loading
+            LKProgressHUD.show()
+            
             // Dictate action
             switch action {
             case .add:
@@ -927,6 +935,9 @@ extension PackageBaseViewController {
                             }
                         }
                         
+                        // Dissmiss loading
+                        LKProgressHUD.dismiss()
+                        
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }
@@ -936,6 +947,7 @@ extension PackageBaseViewController {
     }
     
     func setupOnTapped() {
+        
         onAddModulePressed = { section in
             // Go to Explore site and choose one
             print("orig: \(section)")
@@ -958,9 +970,11 @@ extension PackageBaseViewController {
         }
         
         onTranspTapped = { [weak self] cell in
-            
             guard let indexPath = self?.tableView.indexPath(for: cell),
             let self = self else { return }
+            
+            // Show loading
+            LKProgressHUD.show()
             
             var rawIndex = 0
             var time = 0.0
@@ -998,6 +1012,10 @@ extension PackageBaseViewController {
                             return
                             
                         } else {
+                            
+                            // Dismiss loading
+                            LKProgressHUD.dismiss()
+                            
                             // Jump to transpVC
                             let transpVC = TranspViewController()
                             transpVC.onTranspComfirm = self.onTranspComfirm
@@ -1009,6 +1027,9 @@ extension PackageBaseViewController {
                     }
                 
             } else {
+                
+                // Dismiss loading
+                LKProgressHUD.dismiss()
                 
                 // Jump to transpVC
                 let transpVC = TranspViewController()
@@ -1023,6 +1044,9 @@ extension PackageBaseViewController {
             
             guard let indexPath = self?.tableView.indexPath(for: cell),
             let self = self else { return }
+            
+            // Show loading
+            LKProgressHUD.show()
             
             if isMultiUser {
                 
@@ -1051,6 +1075,9 @@ extension PackageBaseViewController {
                     time: time,
                     when: weatherState
                 ) { newPackage, newIndex, isLate in
+                    
+                    // Dismiss loading
+                    LKProgressHUD.dismiss()
                     
                     self.currentPackage = newPackage
                     self.sunnyModules = newPackage.weatherModules.sunny
@@ -1082,6 +1109,9 @@ extension PackageBaseViewController {
                 }
                 
             } else {
+                
+                // Dismiss loading
+                LKProgressHUD.dismiss()
                 
                 // Go to explore
                 let exploreVC = ExploreSiteViewController()

@@ -11,4 +11,5 @@ target 'save-the-date' do
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'Hover'
+  pod 'JGProgressHUD'
 end

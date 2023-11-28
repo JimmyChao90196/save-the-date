@@ -231,7 +231,6 @@ extension FirestoreManager {
             
             // Check for version consistency
             let fetchedVersion = package.info.version
-            // newPackage = package
             
             var path = ""
             var value = [[String: Any]?]()
