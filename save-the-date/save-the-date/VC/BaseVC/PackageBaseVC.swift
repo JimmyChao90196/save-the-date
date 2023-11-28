@@ -51,6 +51,7 @@ class PackageBaseViewController: UIViewController {
     // Weather state can be switched
     var weatherState = WeatherState.sunny {
         didSet {
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -98,7 +99,7 @@ class PackageBaseViewController: UIViewController {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 20))
         
         // Your logic to customize the button
-        button.backgroundColor = .blue
+        button.backgroundColor = .white
         button.setTitle("Sunny", for: .normal)
         
         return button
@@ -261,35 +262,60 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         // Handle location and transportation tapped
         let cellUserId = module[rawIndex].lockInfo.userId
         
+        if cellUserId != "" {
+            cell.userIdLabel.text = cellUserId.components(separatedBy: "@")[0]
+            
+        } else {
+            cell.userIdLabel.text = ""
+            
+        }
+        
         if cellUserId == userID {
             // Claimed by me already
-            cell.locationView.setBoarderColor(.green)
+            cell.userIdLabel.isHidden = false
+            cell.userIdLabel.setbackgroundColor(.black)
+            cell.locationView.setBoarderColor(.black)
             cell.transpIcon.tintColor = .lightGray
             cell.travelTimeLabel.setTextColor(.darkGray)
-            cell.contentView.setBoarderColor(.green)
+            
+            cell.siteTitle.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
+            cell.arrivedTimeLabel.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
             
             cell.onLocationTapped = self.onLocationTapped
             cell.onTranspTapped = self.onTranspTapped
+            
+            cell.contentView.setBoarderColor(.clear)
             
         } else if cellUserId == "" {
             // Unclaimed
+            cell.userIdLabel.isHidden = true
             cell.locationView.setBoarderColor(.hexToUIColor(hex: "#AAAAAA"))
             cell.transpIcon.tintColor = .lightGray
             cell.travelTimeLabel.setTextColor(.darkGray)
-            cell.contentView.setBoarderColor(.clear)
+            
+            cell.siteTitle.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
+            cell.arrivedTimeLabel.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
             
             cell.onLocationTapped = self.onLocationTapped
             cell.onTranspTapped = self.onTranspTapped
             
+            cell.contentView.setBoarderColor(.clear)
+            
         } else {
             // Claimed by others
+            cell.userIdLabel.isHidden = false
+            cell.userIdLabel.setbackgroundColor(.hexToUIColor(hex: "#DADADA"))
             cell.locationView.setBoarderColor(.hexToUIColor(hex: "#DADADA"))
             cell.transpIcon.tintColor = .hexToUIColor(hex: "#DADADA")
             cell.travelTimeLabel.setTextColor(.hexToUIColor(hex: "DADADA"))
-            cell.contentView.setBoarderColor(.hexToUIColor(hex: "#DADADA"))
+            
+            cell.siteTitle.setTextColor(.hexToUIColor(hex: "#DADADA"))
+            cell.arrivedTimeLabel.setTextColor(.hexToUIColor(hex: "#DADADA"))
             
             cell.onLocationTapped = nil
             cell.onTranspTapped = nil
+            
+            cell.contentView.setBoarderColor(.hexToUIColor(hex: "#DADADA"))
         }
         
         // Travel time label
@@ -449,23 +475,25 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 extension PackageBaseViewController {
     
     func changeBGImage() {
-        DispatchQueue.main.async {
-            self.bgImageView.contentMode = .scaleAspectFit
-            self.bgView.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
-            
-            switch self.weatherState {
-            case .sunny:
-                if self.sunnyModules.isEmpty {
-                    self.bgImageView.image = UIImage(resource: .createBG02)
-                } else {
-                    self.bgImageView.image = UIImage(resource: .createBG03)
-                }
-            case .rainy:
-                if self.rainyModules.isEmpty {
-                    self.bgImageView.image = UIImage(resource: .createBG02)
-                } else {
-                    self.bgImageView.image = UIImage(resource: .createBG03)
-                }
+        
+        self.bgImageView.contentMode = .scaleAspectFit
+        self.bgView.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
+        self.tableView.contentMode = .scaleAspectFit
+        
+        switch self.weatherState {
+        case .sunny:
+            if self.sunnyModules.isEmpty {
+                self.bgImageView.image = UIImage(resource: .createBG02)
+                
+            } else {
+                self.bgImageView.image = UIImage(resource: .createBG03)
+            }
+        case .rainy:
+            if self.rainyModules.isEmpty {
+                self.bgImageView.image = UIImage(resource: .createBG02)
+                
+            } else {
+                self.bgImageView.image = UIImage(resource: .createBG03)
             }
         }
     }

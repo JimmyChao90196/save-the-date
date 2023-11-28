@@ -12,6 +12,7 @@ import SnapKit
 class ModuleTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = String(describing: ModuleTableViewCell.self)
+    
     // location view
     var deleteButton = UIButton()
     var siteTitle = UILabel()
@@ -33,6 +34,9 @@ class ModuleTableViewCell: UITableViewCell {
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
     
+    // Multi-user id
+    var userIdLabel = UILabel()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addTo()
@@ -45,9 +49,27 @@ class ModuleTableViewCell: UITableViewCell {
     }
     
     private func addTo() {
-        contentView.addSubviews([locationView, transpView])
-        locationView.addSubviews([bgImageView, gradientView, deleteButton, siteTitle, arrivedTimeLabel])
-        transpView.addSubviews([transpIcon, travelTimeLabel, leftDivider, rightDivider])
+        contentView.addSubviews([
+            locationView,
+            transpView
+        ])
+        
+        locationView.addSubviews([
+            bgImageView,
+            gradientView,
+            deleteButton,
+            siteTitle,
+            arrivedTimeLabel,
+            userIdLabel
+        ])
+        
+        transpView.addSubviews([
+            transpIcon,
+            travelTimeLabel,
+            leftDivider,
+            rightDivider
+        ])
+        
         siteTitle.textAlignment = .center
     }
     
@@ -104,6 +126,11 @@ class ModuleTableViewCell: UITableViewCell {
     }
     
     private func setupConstraint() {
+        
+        userIdLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
         
         transpIcon.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(5)

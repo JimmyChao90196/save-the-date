@@ -75,8 +75,12 @@ class MultiUserViewController: CreatePackageViewController {
     
     override func setup() {
         super.setup()
+        
         // Adding an action
         switchUserID.addTarget(self, action: #selector(switchUserIDPressed), for: .touchUpInside)
+        
+        // Add navigation title
+        navigationItem.title = "Multi-user mode"
     }
     
     override func setupHover() {
@@ -94,7 +98,12 @@ class MultiUserViewController: CreatePackageViewController {
             HoverItem(
                 title: "Leave multi-user session",
                 image: UIImage(systemName: "xmark"),
-                onTap: { self.leaveMultiUserPressed()})
+                onTap: { self.leaveMultiUserPressed()}),
+            
+            HoverItem(
+                title: "Share session ID",
+                image: UIImage(systemName: "figure.stand.line.dotted.figure.stand"),
+                onTap: { self.prepareShareSheet()})
         ]
         
         hoverButton = HoverView(with: config, items: itemsMU)
@@ -163,8 +172,18 @@ class MultiUserViewController: CreatePackageViewController {
         }
     }
     
-    // Triggered functions
+    // MARK: - Triggered functions -
+    // Prepare share sheet
+    func prepareShareSheet() {
+        
+        let shareSheetVC = UIActivityViewController(
+            activityItems: [sessionID],
+            applicationActivities: nil)
+        present(shareSheetVC, animated: true)
+    }
+    
     @objc func switchUserIDPressed() {
+        
         if switchUserID.titleLabel?.text == "red" {
             switchUserID.setTitle("jimmy", for: .normal)
             userID = "jimmy@gmail.com"
@@ -185,9 +204,18 @@ class MultiUserViewController: CreatePackageViewController {
                 
                 switch leaveKind {
                 case .publish: self.publishPressedMU()
-                case .saveAsDraft: print("2")
-                case .discardChanges: print("Leave without saving")
                     
+                case .saveAsDraft: print("2")
+                    
+                case .discardChanges: print("Leave without saving")
+                    self.sunnyModules = []
+                    self.rainyModules = []
+                    self.currentPackage = Package()
+                    self.LSG?.remove()
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 }
             }
     }
@@ -203,7 +231,12 @@ class MultiUserViewController: CreatePackageViewController {
             title: "Warning",
             message: "Please add name for your Session package",
             buttonText: "Okay") { text in
-                guard let text else { return }
+                guard let text else {
+                    
+                    self.navigationController?.popViewController(animated: true)
+                    return
+                }
+                
                 let info = Info(title: text,
                                 author: ["Red"],
                                 authorEmail: ["red@gmail.com"],
@@ -255,7 +288,11 @@ class MultiUserViewController: CreatePackageViewController {
             title: "Warning",
             message: "Please enter the session ID",
             buttonText: "Okay") { text in
-                guard let text else { return }
+                guard let text else { 
+                    
+                    self.navigationController?.popViewController(animated: true)
+                    return
+                }
                 
                 Task {
                     let sessionPackage = try? await self.firestoreManager.fetchPackage(
