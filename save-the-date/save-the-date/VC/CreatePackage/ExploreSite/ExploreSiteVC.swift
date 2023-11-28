@@ -86,6 +86,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
         placeTitle.text = "請選擇地點"
         placeTitle.font = UIFont(name: "ChalkboardSE-Regular", size: 16)
         placeTitle.setTextColor(.black)
+            .textAlignment = .center
         
         // Customize detail view
         placeDetailView.setCornerRadius(20)

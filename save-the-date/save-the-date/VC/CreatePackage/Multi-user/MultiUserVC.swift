@@ -328,7 +328,7 @@ class MultiUserViewController: CreatePackageViewController {
     func publishPressedMU() {
         
         // Check if you are initiator
-        if currentPackage.info.authorEmail[0] != userID { return }
+        // if currentPackage.info.authorEmail[0] != userID { return }
         
         let packageColl = PackageCollection.publishedColl
         let packageState = PackageState.publishedState
