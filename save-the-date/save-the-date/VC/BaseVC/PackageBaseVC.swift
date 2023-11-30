@@ -27,7 +27,7 @@ enum WeatherState {
 class PackageBaseViewController: UIViewController {
     
     // Session
-    var sessionID = ""
+    var documentPath = ""
     var isMultiUser = false {
         didSet {
             print("isMulti-user: \(isMultiUser)")
@@ -401,7 +401,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                     
                     self.firestoreManager.deleteModuleWithTrans(
                         
-                        packageId: self.sessionID,
+                        docPath: self.documentPath,
                         time: time,
                         targetIndex: rawIndexForModule ?? 0,
                         with: self.currentPackage,
@@ -435,7 +435,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                     
                     self.firestoreManager.deleteModuleWithTrans(
                         
-                        packageId: self.sessionID,
+                        docPath: self.documentPath,
                         time: time,
                         targetIndex: rawIndexForModule ?? 0,
                         with: self.currentPackage,
@@ -644,7 +644,7 @@ extension PackageBaseViewController {
                 }
                 
                 self.firestoreManager.swapModulesWithTrans(
-                    packageId: sessionID,
+                    docPath: documentPath,
                     sourceIndex: sourceRowIndex,
                     destIndex: destRowIndex,
                     with: currentPackage,
@@ -681,7 +681,7 @@ extension PackageBaseViewController {
                 }
                 
                 self.firestoreManager.swapModulesWithTrans(
-                    packageId: sessionID,
+                    docPath: documentPath,
                     sourceIndex: sourceRowIndex,
                     destIndex: destRowIndex,
                     with: currentPackage,
@@ -1007,7 +1007,7 @@ extension PackageBaseViewController {
             
             if isMultiUser {
                 self.firestoreManager.lockModuleWithTrans(
-                    packageId: self.sessionID,
+                    docPath: self.documentPath,
                     userId: userID,
                     time: time,
                     when: weatherState) { newPackage, newIndex, isLate in
@@ -1086,7 +1086,7 @@ extension PackageBaseViewController {
                 }
                 
                 self.firestoreManager.lockModuleWithTrans(
-                    packageId: self.sessionID,
+                    docPath: self.documentPath,
                     userId: userID,
                     time: time,
                     when: weatherState

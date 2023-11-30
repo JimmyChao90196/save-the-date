@@ -162,7 +162,7 @@ extension ExplorePackageViewController {
                 self.firestoreManager.updateUserPackages(
                     email: "jimmy@gmail.com",
                     packageType: .favoriteColl,
-                    packageID: docPath,
+                    docPath: docPath,
                     perform: .add
                 ) {
                         self.presentSimpleAlert(
@@ -174,7 +174,7 @@ extension ExplorePackageViewController {
                 self.firestoreManager.updatePackage(
                     infoToUpdate: "jimmy@gmail.com",
                     // packageType: .publishedColl,
-                    packageID: docPath,
+                    docPath: docPath,
                     toPath: .likedBy,
                     perform: .add
                 ) {
@@ -188,7 +188,7 @@ extension ExplorePackageViewController {
                 self.firestoreManager.updateUserPackages(
                     email: "jimmy@gmail.com",
                     packageType: .favoriteColl,
-                    packageID: docPath,
+                    docPath: docPath,
                     perform: .remove
                 ) {
                         self.presentSimpleAlert(
@@ -200,7 +200,7 @@ extension ExplorePackageViewController {
                 self.firestoreManager.updatePackage(
                     infoToUpdate: "jimmy@gmail.com",
                     // packageType: .publishedColl,
-                    packageID: docPath,
+                    docPath: docPath,
                     toPath: .likedBy,
                     perform: .remove
                 ) {

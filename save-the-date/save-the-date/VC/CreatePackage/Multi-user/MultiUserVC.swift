@@ -123,26 +123,26 @@ class MultiUserViewController: CreatePackageViewController {
         // Add user name and email to package
         self.firestoreManager.updatePackage(
             infoToUpdate: "Jimmy",
-            packageID: sessionId,
+            docPath: sessionId,
             toPath: .author,
             perform: .add) {}
         
         self.firestoreManager.updatePackage(
             infoToUpdate: "jimmy@gmail.com",
-            packageID: sessionId,
+            docPath: sessionId,
             toPath: .authorEmail,
             perform: .add) {}
     }
     
     // after Event
-    func setupAfterEvent(packageId: String) {
+    func setupAfterEvent(docPath: String) {
         afterEditComfirmed = { _, time in
             
             self.currentPackage.weatherModules.sunny = self.sunnyModules
             self.currentPackage.weatherModules.rainy = self.rainyModules
             
             self.firestoreManager.updateModulesWithTrans(
-                packageId: packageId,
+                docPath: docPath,
                 time: time,
                 when: self.weatherState,
                 localSunnyModules: self.currentPackage.weatherModules.sunny,
@@ -155,7 +155,7 @@ class MultiUserViewController: CreatePackageViewController {
         
         afterAppendComfirmed = { targetModule in
             self.firestoreManager.appendModuleWithTrans(
-                packageId: packageId,
+                docPath: docPath,
                 userId: self.userID,
                 isNewDay: false,
                 when: self.weatherState,
@@ -168,7 +168,7 @@ class MultiUserViewController: CreatePackageViewController {
     func prepareShareSheet() {
         
         let shareSheetVC = UIActivityViewController(
-            activityItems: [sessionID],
+            activityItems: [documentPath],
             applicationActivities: nil)
         present(shareSheetVC, animated: true)
     }
@@ -246,12 +246,12 @@ class MultiUserViewController: CreatePackageViewController {
                         self?.firestoreManager.updateUserPackages(
                             email: "red@gmail.com",
                             packageType: packageColl,
-                            packageID: docPath,
+                            docPath: docPath,
                             perform: .add
                         ) {
                             
                             // Setup listener
-                            self?.LSG = self?.firestoreManager.modulesListener(packageId: docPath) { newPackage in
+                            self?.LSG = self?.firestoreManager.modulesListener(docPath: docPath) { newPackage in
                                 self?.sunnyModules = newPackage.weatherModules.sunny
                                 self?.rainyModules = newPackage.weatherModules.rainy
                                 
@@ -260,9 +260,9 @@ class MultiUserViewController: CreatePackageViewController {
                                 }
                             }
                             
-                            self?.sessionID = docPath
+                            self?.documentPath = docPath
                             self?.isMultiUser = true
-                            self?.setupAfterEvent(packageId: docPath)
+                            self?.setupAfterEvent(docPath: docPath)
                             
                             DispatchQueue.main.async {
                                 self?.tableView.reloadData()
@@ -299,7 +299,7 @@ class MultiUserViewController: CreatePackageViewController {
                     self.updateNameAndEmail(sessionId: text, name: "Jimmy", email: "jimmy@gmail.com")
                     
                     // Setup listener
-                    self.LSG = self.firestoreManager.modulesListener(packageId: text) { newPackage in
+                    self.LSG = self.firestoreManager.modulesListener(docPath: text) { newPackage in
                         
                         self.currentPackage = newPackage
                         self.sunnyModules = newPackage.weatherModules.sunny
@@ -310,9 +310,9 @@ class MultiUserViewController: CreatePackageViewController {
                         }
                     }
                     
-                    self.sessionID = text
+                    self.documentPath = text
                     self.isMultiUser = true
-                    self.setupAfterEvent(packageId: text)
+                    self.setupAfterEvent(docPath: text)
                     
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -353,7 +353,7 @@ class MultiUserViewController: CreatePackageViewController {
                             self?.firestoreManager.updateUserPackages(
                                 email: email,
                                 packageType: packageColl,
-                                packageID: docPath,
+                                docPath: docPath,
                                 perform: .add
                             ) {
                                 dispatchGroup.leave()

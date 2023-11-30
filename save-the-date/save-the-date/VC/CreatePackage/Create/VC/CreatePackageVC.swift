@@ -197,7 +197,7 @@ extension CreatePackageViewController {
             
             if isMultiUser {
                 firestoreManager.appendModuleWithTrans(
-                    packageId: sessionID,
+                    docPath: documentPath,
                     userId: userID,
                     isNewDay: true,
                     when: weatherState,
@@ -212,7 +212,7 @@ extension CreatePackageViewController {
             
             if isMultiUser {
                 firestoreManager.appendModuleWithTrans(
-                    packageId: sessionID,
+                    docPath: documentPath,
                     userId: userID,
                     isNewDay: true,
                     when: weatherState,
@@ -271,7 +271,7 @@ extension CreatePackageViewController {
                         self?.firestoreManager.updateUserPackages(
                             email: "red@gmail.com",
                             packageType: packageColl,
-                            packageID: documentID,
+                            docPath: documentID,
                             perform: .add
                         ) {
                                 self?.sunnyModules = []

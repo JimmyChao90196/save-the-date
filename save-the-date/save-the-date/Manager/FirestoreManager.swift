@@ -91,19 +91,19 @@ class FirestoreManager {
     func updateUserPackages(
         email: String,
         packageType: PackageCollection,
-        packageID: String,
+        docPath: String,
         perform operation: PackageOperation,
         completion: @escaping () -> Void
     ) {
         
         let userRef = fdb.collection("users").document(email)
-        var fieldOperation = FieldValue.arrayUnion([packageID])
+        var fieldOperation = FieldValue.arrayUnion([docPath])
         
         switch operation {
         case .add:
-            fieldOperation = FieldValue.arrayUnion([packageID])
+            fieldOperation = FieldValue.arrayUnion([docPath])
         case .remove:
-            fieldOperation = FieldValue.arrayRemove([packageID])
+            fieldOperation = FieldValue.arrayRemove([docPath])
         }
         
         userRef.updateData([packageType.rawValue: fieldOperation ]) { error in
@@ -118,13 +118,13 @@ class FirestoreManager {
     // MARK: - Update package -
     func updatePackage(
         infoToUpdate newValue: String,
-        packageID: String,
+        docPath: String,
         toPath path: PackageFieldPath,
         perform operation: PackageOperation,
         completion: @escaping () -> Void
     ) {
         
-        let packageRef = fdb.document(packageID)
+        let packageRef = fdb.document(docPath)
         let fieldPath = "info.\(path.rawValue)"
         
         var fieldOperation = FieldValue.arrayUnion([newValue])
@@ -145,7 +145,8 @@ class FirestoreManager {
     }
     
     // MARK: - Fetch favorite packages -
-    func fetchUser(_ userEmail: String) async throws -> User {
+    func fetchUser(
+        _ userEmail: String) async throws -> User {
         do {
             let document = try await fdb.collection("users").document(userEmail).getDocument()
             
@@ -163,13 +164,14 @@ class FirestoreManager {
         }
     }
 
-    func fetchPackages(withIDs packageIDs: [String]) async throws -> [Package] {
+    func fetchPackages(
+        withIDs docPaths: [String]) async throws -> [Package] {
         do {
             var packages = [Package]()
             try await withThrowingTaskGroup(of: Package?.self) { group in
-                for packageID in packageIDs {
+                for docPath in docPaths {
                     group.addTask {
-                        return try await self.fetchPackage(withID: packageID)
+                        return try await self.fetchPackage(withID: docPath)
                     }
                 }
                 
@@ -188,11 +190,10 @@ class FirestoreManager {
 
     // Helper function to fetch a single package
     func fetchPackage(
-        // in packageColl: PackageCollection = PackageCollection.publishedColl,
-        withID packageID: String) async throws -> Package? {
+        withID docPath: String) async throws -> Package? {
         do {
-            // let documentRef = fdb.collection(packageColl.rawValue).document(packageID)
-            let documentRef = fdb.document(packageID)
+            
+            let documentRef = fdb.document(docPath)
             
             let document = try await documentRef.getDocument()
             

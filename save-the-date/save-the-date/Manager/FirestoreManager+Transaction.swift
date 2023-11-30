@@ -13,11 +13,10 @@ extension FirestoreManager {
     
     // Listener
     func modulesListener(
-        packageId: String,
+        docPath: String,
         onChange: @escaping (Package) -> Void) -> ListenerRegistration? {
             
-            //  let packageDocument = fdb.collection("sessionPackages").document(packageId)
-            let packageDocument = fdb.document(packageId)
+            let packageDocument = fdb.document(docPath)
             
             let listenerRigsteration = packageDocument.addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot else {
@@ -43,7 +42,7 @@ extension FirestoreManager {
     
     // Lock the module
     func updateModulesWithTrans(
-        packageId: String,
+        docPath: String,
         time: TimeInterval,
         when weatherState: WeatherState,
         localSunnyModules: [PackageModule],
@@ -51,8 +50,7 @@ extension FirestoreManager {
         completion: ((Package) -> Void)?
     ) {
         
-        // let packageDocument = fdb.collection("sessionPackages").document(packageId)
-        let packageDocument = fdb.document(packageId)
+        let packageDocument = fdb.document(docPath)
         var newPackage = Package()
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
@@ -132,14 +130,13 @@ extension FirestoreManager {
     }
     
     func appendModuleWithTrans(
-        packageId: String,
+        docPath: String,
         userId: String,
         isNewDay: Bool,
         when weatherState: WeatherState,
         with targetModule: PackageModule) {
             
-            // let packageDocument = fdb.collection("sessionPackages").document(packageId)
-            let packageDocument = fdb.document(packageId)
+            let packageDocument = fdb.document(docPath)
             
             fdb.runTransaction({ (transaction, errorPointer) -> Any? in
                 let packageSnapshot: DocumentSnapshot
@@ -205,15 +202,15 @@ extension FirestoreManager {
     
     // MARK: - Swap modules with trans -
     func swapModulesWithTrans(
-        packageId: String,
+        docPath: String,
         sourceIndex: Int,
         destIndex: Int,
         with localPackage: Package,
         when weatherState: WeatherState,
         completion: ((Package) -> Void)?
     ) {
-        // let packageDocument = fdb.collection("sessionPackages").document(packageId)
-        let packageDocument = fdb.document(packageId)
+        
+        let packageDocument = fdb.document(docPath)
         
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
@@ -285,15 +282,15 @@ extension FirestoreManager {
     
     // MARK: - Delete with transaction
     func deleteModuleWithTrans(
-        packageId: String,
+        docPath: String,
         time: TimeInterval,
         targetIndex: Int,
         with localPackage: Package,
         when weatherState: WeatherState,
         completion: ((Package) -> Void)?
     ) {
-        // let packageDocument = fdb.collection("sessionPackages").document(packageId)
-        let packageDocument = fdb.document(packageId)
+        
+        let packageDocument = fdb.document(docPath)
         
         var newPackage = Package()
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
@@ -365,14 +362,14 @@ extension FirestoreManager {
     
     // MARK: - Lock module with trans
     func lockModuleWithTrans(
-        packageId: String,
+        docPath: String,
         userId: String,
         time: TimeInterval,
         when weatherState: WeatherState,
         completion: ((Package, Int, Bool) -> Void)?
     ) {
-        // let packageDocument = fdb.collection("sessionPackages").document(packageId)
-        let packageDocument = fdb.document(packageId)
+        
+        let packageDocument = fdb.document(docPath)
         
         var newPackage = Package()
         var rawIndex = 0
