@@ -39,7 +39,7 @@ final class GooglePlacesManager {
                 
                 let places: [Location] = results.compactMap {
                     Location(
-                        name: $0.attributedFullText.string,
+                        address: $0.attributedFullText.string,
                         shortName: $0.attributedPrimaryText.string,
                         identifier: $0.placeID
                     )

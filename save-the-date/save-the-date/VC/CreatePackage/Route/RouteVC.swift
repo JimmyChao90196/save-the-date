@@ -17,7 +17,6 @@ import GoogleMaps
 class RouteViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     let mapView = MKMapView()
-    
     var manager = CLLocationManager()
     var routeManager = RouteManager.shared
     var coords = [CLLocationCoordinate2D]()

@@ -33,11 +33,15 @@ class FirestoreManager {
             let jsonData = try encoder.encode(user)
 
             // Convert JSON data to a dictionary
-            guard let dictionary = try JSONSerialization.jsonObject(
-                with: jsonData,
-                options: .allowFragments) as? [String: Any] else {
-                return
-            }
+            let dictionary = try jsonData.toDictionary()
+            
+//            guard let dictionary = try JSONSerialization.jsonObject(
+//                with: jsonData,
+//                options: .allowFragments) as? [String: Any] else {
+//                return
+//            }
+            
+            
 
             // Upload the JSON dictionary to Firestore
             fdb.collection("users").document(user.email).setData(dictionary) { error in
@@ -74,12 +78,14 @@ class FirestoreManager {
             let jsonData = try encoder.encode(packageCopy)
             
             // Convert JSON data to a dictionary
-            guard let dictionary = try JSONSerialization.jsonObject(
-                with: jsonData,
-                options: .allowFragments) as? [String: Any] else {
-                print("Json serialization error")
-                return
-            }
+//            guard let dictionary = try JSONSerialization.jsonObject(
+//                with: jsonData,
+//                options: .allowFragments) as? [String: Any] else {
+//                print("Json serialization error")
+//                return
+//            }
+            
+            let dictionary = try jsonData.toDictionary()
             
             // Upload the JSON dictionary to Firestore
             newDocumentRef.setData(dictionary) { error in
@@ -165,6 +171,7 @@ class FirestoreManager {
             let jsonData = try JSONSerialization.data(withJSONObject: userData, options: [])
             let user = try JSONDecoder().decode(User.self, from: jsonData)
             return user
+            
         } catch {
             print("fetch user \(error)")
             throw error // Rethrow the error for handling at the call site
@@ -247,8 +254,9 @@ class FirestoreManager {
                 do {
                     // Convert the document data to JSON Data
                     let jsonData = try JSONSerialization.data(withJSONObject: document.data(), options: [])
-                    // Decode the JSON Data to a Package02 object
+//                    // Decode the JSON Data to a Package02 object
                     let package = try decoder.decode(Package.self, from: jsonData)
+                    
                     packages.append(package)
                 } catch {
                     completion(.failure(error))
@@ -279,3 +287,23 @@ extension Encodable {
         return dictionary
     }
 }
+
+extension Data {
+    
+    func toDictionary() throws -> [String: Any] {
+        
+        guard let dictionary = try JSONSerialization.jsonObject(
+            with: self,
+            options: .allowFragments) as? [String: Any] else {
+            
+            throw NSError(
+                domain: "",
+                code: 100,
+                userInfo: [NSLocalizedDescriptionKey: "Could not convert JSON data to dictionary"])
+        }
+        return dictionary
+    }
+
+}
+
+

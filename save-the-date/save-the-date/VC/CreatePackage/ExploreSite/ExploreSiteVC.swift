@@ -48,8 +48,10 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     var placeTitle = UILabel()
     var placeImageView = UIImageView()
     
+    // Data
+    var regionTags = [String]()
     var selectedLocation = Location(
-        name: "None",
+        address: "None",
         shortName: "None",
         identifier: "None")
     
@@ -60,9 +62,21 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
     // On event closure
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?
     var onLocationComfirmMU: ( (Location, String, TimeInterval, ActionKind) -> Void )?
+    var onLocationComfirmWithAddress: ( ([GMSAddressComponent]? ) -> Void )?
+    
+    // VM
+    let viewModel = ExploreSiteViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.placeImage.bind { image in
+            self.placeImageView.image = image
+        }
+        
+        viewModel.regionTags.bind { tags in
+            self.regionTags = tags
+        }
         
         self.delgate = self
         initializeGoogleMap()
@@ -261,6 +275,8 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
     
     func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace id: String) {
         
+        // viewModel.fetchPlaceInfo(identifier: id)
+        
         Task {
             
             do {
@@ -279,8 +295,12 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
                     self.placeImageView.image = placeImage
                 }
                 
+                // viewModel.fetchPlaceInfo(identifier: id)
+                // viewModel.parseAddress(from: place.addressComponents!)
+                self.onLocationComfirmWithAddress?(place.addressComponents)
+                
                 let location = Location(
-                    name: place.description,
+                    address: place.formattedAddress ?? "none",
                     shortName: place.name ?? "none",
                     identifier: id)
                 
@@ -310,7 +330,7 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
                     latitude: coordinate.latitude,
                     longitude: coordinate.longitude)
                 marker.title = self.selectedLocation.shortName
-                marker.snippet = self.selectedLocation.name
+                marker.snippet = self.selectedLocation.address
                 marker.map = self.googleMapView
                 
                 // Dismiss
@@ -350,7 +370,7 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
             latitude: coordinate.latitude,
             longitude: coordinate.longitude)
         marker.title = targetPlace.shortName
-        marker.snippet = targetPlace.name
+        marker.snippet = targetPlace.address
         marker.map = googleMapView
     }
 }

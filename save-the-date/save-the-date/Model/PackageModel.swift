@@ -12,15 +12,14 @@ import UIKit
 struct Package: Codable {
     var info: Info
     var weatherModules: WeatherModules
-    var proxyLocatinon: String
+    var regionTags: [String]
     
     // init
     init(info: Info = Info(),
-         weatherModules: WeatherModules = WeatherModules(sunny: [], rainy: []),
-         proxyLocatinon: String = "none") {
+         weatherModules: WeatherModules = WeatherModules(sunny: [], rainy: []), regionTags: [String] = []) {
         self.info = info
         self.weatherModules = weatherModules
-        self.proxyLocatinon = proxyLocatinon
+        self.regionTags = regionTags
     }
 }
 
@@ -38,7 +37,7 @@ struct PackageModule: Codable, Equatable {
     var version: Int
     var lockInfo: LockInfo
     
-    init(location: Location = Location(name: "None", shortName: "None", identifier: "None"),
+    init(location: Location = Location(address: "None", shortName: "None", identifier: "None"),
          transportation: Transportation = Transportation(transpIcon: "plus.viewfinder", travelTime: 0.0),
          day: Int = 1,
          date: TimeInterval = Date().timeIntervalSince1970,
@@ -68,16 +67,16 @@ struct WeatherModules: Codable {
 
 // MARK: - Location -
 struct Location: Codable {
-    var name: String
+    var address: String
     var shortName: String
     var identifier: String
     var coordinate: [String: Double]
     
-    init(name: String,
+    init(address: String,
          shortName: String,
          identifier: String,
          coordinate: [String: Double] = ["lat": 0.0, "lng": 0.0]) {
-        self.name = name
+        self.address = address
         self.shortName = shortName
         self.identifier = identifier
         self.coordinate = coordinate

@@ -15,6 +15,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseCore
 
+import GoogleMaps
+import GooglePlaces
+
 import Hover
 
 class CreatePackageViewController: PackageBaseViewController {
@@ -66,6 +69,9 @@ class CreatePackageViewController: PackageBaseViewController {
     // MARK: - ViewWillAppear -
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        print(self.regionTags)
+        
         tableView.reloadData()
     }
     
@@ -83,6 +89,11 @@ class CreatePackageViewController: PackageBaseViewController {
 
         let rightBarButton = UIBarButtonItem(customView: addNewDayButton)
         self.navigationItem.rightBarButtonItem = rightBarButton
+        
+        // On comfirm
+        onLocationComfirmWithAddress = { components in
+            self.viewModel.parseAddress(from: components)
+        }
         
         // Setup hover
         setupHover()
@@ -250,6 +261,7 @@ extension CreatePackageViewController {
                                 state: packageState.rawValue)
                 
                 self.currentPackage.info = info
+                self.currentPackage.regionTags = self.regionTags
                 self.currentPackage.weatherModules.sunny = self.sunnyModules
                 self.currentPackage.weatherModules.rainy = self.rainyModules
                 

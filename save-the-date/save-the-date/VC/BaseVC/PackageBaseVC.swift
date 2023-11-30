@@ -16,6 +16,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseCore
 
+import GoogleMaps
+import GooglePlaces
+
 enum WeatherState {
     case sunny
     case rainy
@@ -64,6 +67,11 @@ class PackageBaseViewController: UIViewController {
     var bgImageView = UIImageView(image: UIImage(resource: .createBG02))
     var bgView = UIView()
     
+    // View model
+    var regionTags = [String]()
+        
+    let viewModel = CreateViewModel()
+    
     // Manager
     var googlePlaceManager = GooglePlacesManager.shared
     var firestoreManager = FirestoreManager.shared
@@ -73,6 +81,7 @@ class PackageBaseViewController: UIViewController {
     var onDelete: ((UITableViewCell) -> Void)?
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?
     var onLocationComfirmMU: ( (Location, String, TimeInterval, ActionKind) -> Void )?
+    var onLocationComfirmWithAddress: ( ([GMSAddressComponent]? ) -> Void )?
     
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
@@ -128,6 +137,12 @@ class PackageBaseViewController: UIViewController {
     }
     
     func setup() {
+        
+        // Data binding
+        viewModel.regionTags.bind { tags in
+            self.regionTags = tags
+        }
+        
         sunnyModules = currentPackage.weatherModules.sunny
         rainyModules = currentPackage.weatherModules.rainy
         
@@ -965,6 +980,7 @@ extension PackageBaseViewController {
             }
             
             exploreVC.actionKind = .add(section)
+            exploreVC.onLocationComfirmWithAddress = self.onLocationComfirmWithAddress
             self.navigationController?.pushViewController(exploreVC, animated: true)
             
         }
@@ -1100,6 +1116,7 @@ extension PackageBaseViewController {
                         DispatchQueue.main.async {
                             let exploreVC = ExploreSiteViewController()
                             exploreVC.onLocationComfirmMU = self.onLocationComfirmMU
+                            exploreVC.onLocationComfirmWithAddress = self.onLocationComfirmWithAddress
                             exploreVC.actionKind = .edit(indexPath)
                             exploreVC.id = id
                             exploreVC.time = time
@@ -1116,6 +1133,7 @@ extension PackageBaseViewController {
                 // Go to explore
                 let exploreVC = ExploreSiteViewController()
                 exploreVC.onLocationComfirm = self.onLocationComfirm
+                exploreVC.onLocationComfirmWithAddress = self.onLocationComfirmWithAddress
                 exploreVC.actionKind = .edit(indexPath)
                 self.navigationController?.pushViewController(exploreVC, animated: true)
             }
