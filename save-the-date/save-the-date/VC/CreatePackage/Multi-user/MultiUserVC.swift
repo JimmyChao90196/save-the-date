@@ -328,7 +328,7 @@ class MultiUserViewController: CreatePackageViewController {
         // if currentPackage.info.authorEmail[0] != userID { return }
         
         let packageColl = PackageCollection.publishedColl
-        let packageState = PackageState.publishedState
+        // let packageState = PackageState.publishedState
         
         // upload package
         presentAlertWithTextField(

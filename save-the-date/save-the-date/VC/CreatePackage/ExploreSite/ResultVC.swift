@@ -9,7 +9,9 @@ import UIKit
 import CoreLocation
 
 protocol ResultViewControllerDelegate: AnyObject {
+    
     func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location)
+    
 }
 
 class ResultViewController: UIViewController {
@@ -62,8 +64,6 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         tableView.isHidden = true
-        
-        // let place = places[indexPath.row]
         
         let location = locations[indexPath.row]
         

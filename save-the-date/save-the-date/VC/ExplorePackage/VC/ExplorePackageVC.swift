@@ -15,10 +15,16 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseCore
 
-class ExplorePackageViewController: ExploreBaseViewController {
+class ExplorePackageViewController: ExploreBaseViewController, ResultViewControllerDelegate {
+    
+    // VM
+    let viewModel = ExploreViewModel()
     
     // ScrollView
     var recommandedScrollView = HorizontalImageScrollView()
+    
+    // Search bar
+    var searchController = UISearchController()
     
     var fetchedPackages = [Package]()
     var packageAuthorLabel = UILabel()
@@ -26,6 +32,7 @@ class ExplorePackageViewController: ExploreBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         handelOnEvent()
         view.backgroundColor = .white
     }
@@ -45,6 +52,19 @@ class ExplorePackageViewController: ExploreBaseViewController {
     
     override func setup() {
         super.setup()
+        
+        // Binding
+        viewModel.fetchedPackages.bind { [weak self] packages in
+            self?.fetchedPackages = packages
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        // Setup search bar
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        
         fetchPackages()
         recommandedScrollView.backgroundColor = .white
         recommandedScrollView.addImages(
@@ -81,17 +101,7 @@ class ExplorePackageViewController: ExploreBaseViewController {
 extension ExplorePackageViewController {
     func fetchPackages() {
         
-        firestoreManager.fetchJsonPackages(from: .publishedColl) { [weak self] result in
-            switch result {
-            case .success(let packages):
-                self?.fetchedPackages = packages
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            case .failure(let error):
-                print("unable to fetch packages: \(error)")
-            }
-        }
+        viewModel.fetchPackages(from: .publishedColl)
     }
 }
 
@@ -158,57 +168,46 @@ extension ExplorePackageViewController {
             
             switch isLike {
             case true:
-                // Update user package stack
-                self.firestoreManager.updateUserPackages(
+
+                self.viewModel.afterLiked(
                     email: "jimmy@gmail.com",
-                    packageType: .favoriteColl,
                     docPath: docPath,
-                    perform: .add
-                ) {
+                    perform: .add) {
                         self.presentSimpleAlert(
                             title: "Success",
                             message: "Successfully added to favorite",
                             buttonText: "Ok")
                     }
-                // Update package email stack
-                self.firestoreManager.updatePackage(
-                    infoToUpdate: "jimmy@gmail.com",
-                    // packageType: .publishedColl,
-                    docPath: docPath,
-                    toPath: .likedBy,
-                    perform: .add
-                ) {
-                        print("successfully updated")
-                        self.fetchPackages()
-                    }
                 
             case false:
                 
-                // Update user package stack
-                self.firestoreManager.updateUserPackages(
+                self.viewModel.afterLiked(
                     email: "jimmy@gmail.com",
-                    packageType: .favoriteColl,
                     docPath: docPath,
-                    perform: .remove
-                ) {
+                    perform: .remove) {
                         self.presentSimpleAlert(
                             title: "Success",
-                            message: "Successfully delete",
+                            message: "Successfully delete from favorite",
                             buttonText: "Ok")
                     }
-                // Update package email stack
-                self.firestoreManager.updatePackage(
-                    infoToUpdate: "jimmy@gmail.com",
-                    // packageType: .publishedColl,
-                    docPath: docPath,
-                    toPath: .likedBy,
-                    perform: .remove
-                ) {
-                        print("successfully removed")
-                        self.fetchPackages()
-                    }
-                
             }
         }
+    }
+}
+
+// MARK: - Delegate method -
+
+extension ExplorePackageViewController: UISearchResultsUpdating {
+    
+    // Did tap protocol
+    func didTapPlace(
+        with coordinate: CLLocationCoordinate2D,
+        targetPlace: Location) {
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        self.viewModel.fetchedSearchedPackages(
+            targetController: searchController)
     }
 }
