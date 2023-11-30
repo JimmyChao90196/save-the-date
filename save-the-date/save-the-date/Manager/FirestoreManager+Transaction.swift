@@ -12,31 +12,34 @@ import UIKit
 extension FirestoreManager {
     
     // Listener
-    func modulesListener(packageId: String, onChange: @escaping (Package) -> Void) -> ListenerRegistration? {
-        
-        let packageDocument = fdb.collection("sessionPackages").document(packageId)
-        
-        let listenerRigsteration = packageDocument.addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
+    func modulesListener(
+        packageId: String,
+        onChange: @escaping (Package) -> Void) -> ListenerRegistration? {
+            
+            //  let packageDocument = fdb.collection("sessionPackages").document(packageId)
+            let packageDocument = fdb.document(packageId)
+            
+            let listenerRigsteration = packageDocument.addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                do {
+                    let package = try Firestore.Decoder().decode(Package.self, from: data)
+                    
+                    onChange(package)
+                    
+                } catch let error {
+                    print("Error decoding package: \(error)")
+                }
             }
-            guard let data = document.data() else {
-                print("Document data was empty.")
-                return
-            }
-            do {
-                let package = try Firestore.Decoder().decode(Package.self, from: data)
-                
-                onChange(package)
-                
-            } catch let error {
-                print("Error decoding package: \(error)")
-            }
+            
+            return listenerRigsteration
         }
-        
-        return listenerRigsteration
-    }
     
     // Lock the module
     func updateModulesWithTrans(
@@ -48,7 +51,8 @@ extension FirestoreManager {
         completion: ((Package) -> Void)?
     ) {
         
-        let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        // let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        let packageDocument = fdb.document(packageId)
         var newPackage = Package()
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
@@ -134,7 +138,8 @@ extension FirestoreManager {
         when weatherState: WeatherState,
         with targetModule: PackageModule) {
             
-            let packageDocument = fdb.collection("sessionPackages").document(packageId)
+            // let packageDocument = fdb.collection("sessionPackages").document(packageId)
+            let packageDocument = fdb.document(packageId)
             
             fdb.runTransaction({ (transaction, errorPointer) -> Any? in
                 let packageSnapshot: DocumentSnapshot
@@ -207,8 +212,8 @@ extension FirestoreManager {
         when weatherState: WeatherState,
         completion: ((Package) -> Void)?
     ) {
-        let packageDocument = fdb.collection("sessionPackages").document(packageId)
-        // var newPackage = Package()
+        // let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        let packageDocument = fdb.document(packageId)
         
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
@@ -287,7 +292,9 @@ extension FirestoreManager {
         when weatherState: WeatherState,
         completion: ((Package) -> Void)?
     ) {
-        let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        // let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        let packageDocument = fdb.document(packageId)
+        
         var newPackage = Package()
         fdb.runTransaction({ (transaction, errorPointer) -> Any? in
             let packageSnapshot: DocumentSnapshot
@@ -364,7 +371,9 @@ extension FirestoreManager {
         when weatherState: WeatherState,
         completion: ((Package, Int, Bool) -> Void)?
     ) {
-        let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        // let packageDocument = fdb.collection("sessionPackages").document(packageId)
+        let packageDocument = fdb.document(packageId)
+        
         var newPackage = Package()
         var rawIndex = 0
         var isLate = false

@@ -154,7 +154,7 @@ extension ExplorePackageViewController {
             guard let indexPathToEdit = self.tableView.indexPath(for: cell)
             else { return }
             
-            let packageID = self.fetchedPackages[indexPathToEdit.row].info.id
+            let docPath = self.fetchedPackages[indexPathToEdit.row].docPath
             
             switch isLike {
             case true:
@@ -162,7 +162,7 @@ extension ExplorePackageViewController {
                 self.firestoreManager.updateUserPackages(
                     email: "jimmy@gmail.com",
                     packageType: .favoriteColl,
-                    packageID: packageID,
+                    packageID: docPath,
                     perform: .add
                 ) {
                         self.presentSimpleAlert(
@@ -173,8 +173,8 @@ extension ExplorePackageViewController {
                 // Update package email stack
                 self.firestoreManager.updatePackage(
                     infoToUpdate: "jimmy@gmail.com",
-                    packageType: .publishedColl,
-                    packageID: packageID,
+                    // packageType: .publishedColl,
+                    packageID: docPath,
                     toPath: .likedBy,
                     perform: .add
                 ) {
@@ -188,7 +188,7 @@ extension ExplorePackageViewController {
                 self.firestoreManager.updateUserPackages(
                     email: "jimmy@gmail.com",
                     packageType: .favoriteColl,
-                    packageID: packageID,
+                    packageID: docPath,
                     perform: .remove
                 ) {
                         self.presentSimpleAlert(
@@ -199,8 +199,8 @@ extension ExplorePackageViewController {
                 // Update package email stack
                 self.firestoreManager.updatePackage(
                     infoToUpdate: "jimmy@gmail.com",
-                    packageType: .publishedColl,
-                    packageID: packageID,
+                    // packageType: .publishedColl,
+                    packageID: docPath,
                     toPath: .likedBy,
                     perform: .remove
                 ) {

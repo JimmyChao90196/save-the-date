@@ -123,14 +123,12 @@ class MultiUserViewController: CreatePackageViewController {
         // Add user name and email to package
         self.firestoreManager.updatePackage(
             infoToUpdate: "Jimmy",
-            packageType: .sessionColl,
             packageID: sessionId,
             toPath: .author,
             perform: .add) {}
         
         self.firestoreManager.updatePackage(
             infoToUpdate: "jimmy@gmail.com",
-            packageType: .sessionColl,
             packageID: sessionId,
             toPath: .authorEmail,
             perform: .add) {}
@@ -244,16 +242,16 @@ class MultiUserViewController: CreatePackageViewController {
                 self.firestoreManager.uploadPackage(self.currentPackage, packageColl) { [weak self] result in
                     
                     switch result {
-                    case .success(let documentID):
+                    case .success(let docPath):
                         self?.firestoreManager.updateUserPackages(
                             email: "red@gmail.com",
                             packageType: packageColl,
-                            packageID: documentID,
+                            packageID: docPath,
                             perform: .add
                         ) {
                             
                             // Setup listener
-                            self?.LSG = self?.firestoreManager.modulesListener(packageId: documentID) { newPackage in
+                            self?.LSG = self?.firestoreManager.modulesListener(packageId: docPath) { newPackage in
                                 self?.sunnyModules = newPackage.weatherModules.sunny
                                 self?.rainyModules = newPackage.weatherModules.rainy
                                 
@@ -262,9 +260,9 @@ class MultiUserViewController: CreatePackageViewController {
                                 }
                             }
                             
-                            self?.sessionID = documentID
+                            self?.sessionID = docPath
                             self?.isMultiUser = true
-                            self?.setupAfterEvent(packageId: documentID)
+                            self?.setupAfterEvent(packageId: docPath)
                             
                             DispatchQueue.main.async {
                                 self?.tableView.reloadData()
@@ -291,7 +289,6 @@ class MultiUserViewController: CreatePackageViewController {
                 
                 Task {
                     let sessionPackage = try? await self.firestoreManager.fetchPackage(
-                        in: .sessionColl,
                         withID: text)
                     
                     self.currentPackage = sessionPackage ?? Package()
@@ -348,7 +345,7 @@ class MultiUserViewController: CreatePackageViewController {
                 
                 self.firestoreManager.uploadPackage(self.currentPackage) { [weak self] result in
                     switch result {
-                    case .success(let documentID):
+                    case .success(let docPath):
                         
                         let dispatchGroup = DispatchGroup()
                         for email in self?.currentPackage.info.authorEmail ?? [] {
@@ -356,7 +353,7 @@ class MultiUserViewController: CreatePackageViewController {
                             self?.firestoreManager.updateUserPackages(
                                 email: email,
                                 packageType: packageColl,
-                                packageID: documentID,
+                                packageID: docPath,
                                 perform: .add
                             ) {
                                 dispatchGroup.leave()

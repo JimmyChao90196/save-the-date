@@ -64,7 +64,10 @@ class FirestoreManager {
             let newDocumentRef = fdb.collection(packageColl).document()
             let newDocumentID = newDocumentRef.documentID
             var packageCopy = package
+            
+            // Change this to ref
             packageCopy.info.id = newDocumentID
+            packageCopy.docPath = newDocumentRef.path
             
             // Encode your package object into JSON and converted it to a dictionary
             let jsonData = try encoder.encode(packageCopy)
@@ -75,7 +78,7 @@ class FirestoreManager {
                 if let error = error {
                     completion(.failure(error))
                 } else {
-                    completion(.success(newDocumentID))
+                    completion(.success(newDocumentRef.path))
                 }
             }
         } catch {
@@ -115,14 +118,13 @@ class FirestoreManager {
     // MARK: - Update package -
     func updatePackage(
         infoToUpdate newValue: String,
-        packageType: PackageCollection,
         packageID: String,
         toPath path: PackageFieldPath,
         perform operation: PackageOperation,
         completion: @escaping () -> Void
     ) {
         
-        let packageRef = fdb.collection(packageType.rawValue).document(packageID)
+        let packageRef = fdb.document(packageID)
         let fieldPath = "info.\(path.rawValue)"
         
         var fieldOperation = FieldValue.arrayUnion([newValue])
@@ -186,10 +188,12 @@ class FirestoreManager {
 
     // Helper function to fetch a single package
     func fetchPackage(
-        in packageColl: PackageCollection = PackageCollection.publishedColl,
+        // in packageColl: PackageCollection = PackageCollection.publishedColl,
         withID packageID: String) async throws -> Package? {
         do {
-            let documentRef = fdb.collection(packageColl.rawValue).document(packageID)
+            // let documentRef = fdb.collection(packageColl.rawValue).document(packageID)
+            let documentRef = fdb.document(packageID)
+            
             let document = try await documentRef.getDocument()
             
             guard let packageData = document.data(), document.exists else {

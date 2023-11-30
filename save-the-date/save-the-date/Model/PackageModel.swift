@@ -13,13 +13,18 @@ struct Package: Codable {
     var info: Info
     var weatherModules: WeatherModules
     var regionTags: [String]
+    var docPath: String
     
     // init
     init(info: Info = Info(),
-         weatherModules: WeatherModules = WeatherModules(sunny: [], rainy: []), regionTags: [String] = []) {
+         weatherModules: WeatherModules = WeatherModules(sunny: [], rainy: []),
+         regionTags: [String] = [],
+         docPath: String = ""
+    ) {
         self.info = info
         self.weatherModules = weatherModules
         self.regionTags = regionTags
+        self.docPath = docPath
     }
 }
 
