@@ -71,8 +71,8 @@ class CreatePackageViewController: PackageBaseViewController {
         super.viewWillAppear(animated)
         
         print(self.regionTags)
-        
         tableView.reloadData()
+        
     }
     
     override func viewDidLoad() {

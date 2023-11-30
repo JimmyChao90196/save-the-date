@@ -35,14 +35,6 @@ class FirestoreManager {
             // Convert JSON data to a dictionary
             let dictionary = try jsonData.toDictionary()
             
-//            guard let dictionary = try JSONSerialization.jsonObject(
-//                with: jsonData,
-//                options: .allowFragments) as? [String: Any] else {
-//                return
-//            }
-            
-            
-
             // Upload the JSON dictionary to Firestore
             fdb.collection("users").document(user.email).setData(dictionary) { error in
                 if let error = error {
@@ -74,17 +66,8 @@ class FirestoreManager {
             var packageCopy = package
             packageCopy.info.id = newDocumentID
             
-            // Encode your package object into JSON
+            // Encode your package object into JSON and converted it to a dictionary
             let jsonData = try encoder.encode(packageCopy)
-            
-            // Convert JSON data to a dictionary
-//            guard let dictionary = try JSONSerialization.jsonObject(
-//                with: jsonData,
-//                options: .allowFragments) as? [String: Any] else {
-//                print("Json serialization error")
-//                return
-//            }
-            
             let dictionary = try jsonData.toDictionary()
             
             // Upload the JSON dictionary to Firestore
@@ -303,7 +286,4 @@ extension Data {
         }
         return dictionary
     }
-
 }
-
-
