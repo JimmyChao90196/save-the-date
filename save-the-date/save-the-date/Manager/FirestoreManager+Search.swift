@@ -9,7 +9,8 @@ import Foundation
 
 extension FirestoreManager {
     
-    func searchPackages(by text: String, completion: @escaping (Result<[Package], Error>) -> Void) {
+    // Search by text and string
+    func searchPackages(by text: String, and tags: [String] = [], completion: @escaping (Result<[Package], Error>) -> Void) {
         let packagesCollection = fdb.collection("publishedPackages")
 
         // Create a range for the search string
@@ -19,6 +20,7 @@ extension FirestoreManager {
         packagesCollection
             .whereField("info.title", isGreaterThanOrEqualTo: queryStart)
             .whereField("info.title", isLessThanOrEqualTo: queryEnd)
+            .whereField("regionTags", arrayContainsAny: tags)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")

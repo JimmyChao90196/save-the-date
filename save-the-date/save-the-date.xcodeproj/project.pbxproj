@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74225BF12B19B1BE00D408C1 /* ExploreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74225BF02B19B1BE00D408C1 /* ExploreModel.swift */; };
 		742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742CD06F2B04C36C00CA3011 /* AppDelegate.swift */; };
 		742CD0722B04C36C00CA3011 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742CD0712B04C36C00CA3011 /* SceneDelegate.swift */; };
 		742CD0772B04C36D00CA3011 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0752B04C36D00CA3011 /* Main.storyboard */; };
@@ -26,7 +27,7 @@
 		747AF5CE2B08BD0000091CD9 /* ExploreBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */; };
 		748023E82B09EC3C00878B12 /* DayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023E72B09EC3C00878B12 /* DayHeaderView.swift */; };
 		748023EB2B0B38DA00878B12 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EA2B0B38DA00878B12 /* SelectionView.swift */; };
-		748023ED2B0B390100878B12 /* selectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EC2B0B390100878B12 /* selectionModel.swift */; };
+		748023ED2B0B390100878B12 /* SelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EC2B0B390100878B12 /* SelectionModel.swift */; };
 		748728282B15B41200EB347F /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */; };
 		74918CBD2B072FE700ED7D99 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74918CBC2B072FE700ED7D99 /* CoreLocation.framework */; };
 		74A8F9152B182C3500AE63F5 /* ExploreVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A8F9142B182C3500AE63F5 /* ExploreVM.swift */; };
@@ -81,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		0C21406B870A2F9BBBD75184 /* Pods-save-the-date.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.debug.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.debug.xcconfig"; sourceTree = "<group>"; };
+		74225BF02B19B1BE00D408C1 /* ExploreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreModel.swift; sourceTree = "<group>"; };
 		742CD06C2B04C36C00CA3011 /* save-the-date.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "save-the-date.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		742CD06F2B04C36C00CA3011 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		742CD0712B04C36C00CA3011 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,7 +104,7 @@
 		747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreBaseVC.swift; sourceTree = "<group>"; };
 		748023E72B09EC3C00878B12 /* DayHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayHeaderView.swift; sourceTree = "<group>"; };
 		748023EA2B0B38DA00878B12 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
-		748023EC2B0B390100878B12 /* selectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectionModel.swift; sourceTree = "<group>"; };
+		748023EC2B0B390100878B12 /* SelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModel.swift; sourceTree = "<group>"; };
 		748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		74918CBC2B072FE700ED7D99 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		74A8F9142B182C3500AE63F5 /* ExploreVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreVM.swift; sourceTree = "<group>"; };
@@ -211,7 +213,8 @@
 			children = (
 				744B57172B05D7AF00B3ABAA /* PackageModel.swift */,
 				74DE46362B087B2E00B6F648 /* UserModel.swift */,
-				748023EC2B0B390100878B12 /* selectionModel.swift */,
+				748023EC2B0B390100878B12 /* SelectionModel.swift */,
+				74225BF02B19B1BE00D408C1 /* ExploreModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -605,12 +608,13 @@
 				744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */,
 				744B57252B0609DE00B3ABAA /* TranspTableViewCell.swift in Sources */,
 				74DE46622B0886CD00B6F648 /* FirestoreManager.swift in Sources */,
+				74225BF12B19B1BE00D408C1 /* ExploreModel.swift in Sources */,
 				744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */,
 				744B571E2B05E40B00B3ABAA /* ResultTableViewCell.swift in Sources */,
 				74A8F91E2B18407E00AE63F5 /* ExploreSiteVM.swift in Sources */,
 				74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */,
 				74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */,
-				748023ED2B0B390100878B12 /* selectionModel.swift in Sources */,
+				748023ED2B0B390100878B12 /* SelectionModel.swift in Sources */,
 				74E453A12B0F16780017BDCD /* FirestoreManager+Transaction.swift in Sources */,
 				74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */,
 				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,

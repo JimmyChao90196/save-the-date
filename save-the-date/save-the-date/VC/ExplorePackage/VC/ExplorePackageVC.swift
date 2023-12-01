@@ -15,6 +15,8 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseCore
 
+import QuartzCore
+
 class ExplorePackageViewController: ExploreBaseViewController, ResultViewControllerDelegate {
     
     // VM
@@ -26,13 +28,20 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     // Search bar
     var searchController = UISearchController()
     
+    // folded view
+    var cityPicker = UIPickerView()
+    var districtPicker = UIPickerView()
+    
+    var foldedView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 300))
+    
+    var isFolded = true
+    
     var fetchedPackages = [Package]()
     var packageAuthorLabel = UILabel()
     var onLike: ((UITableViewCell, Bool) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         handelOnEvent()
         view.backgroundColor = .white
     }
@@ -47,11 +56,31 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     
     override func addTo() {
         super.addTo()
-        view.addSubviews([recommandedScrollView])
+        view.addSubviews([
+            recommandedScrollView,
+            foldedView,
+            cityPicker,
+            districtPicker
+        ])
     }
     
     override func setup() {
         super.setup()
+        
+        // Setup picker
+        cityPicker.dataSource = self
+        cityPicker.delegate = self
+        
+        districtPicker.dataSource = self
+        districtPicker.delegate = self
+        
+        // Setup nav button
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "line.horizontal.3.decrease.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(triggerFolding)
+        )
         
         // Binding
         viewModel.fetchedPackages.bind { [weak self] packages in
@@ -60,6 +89,9 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
                 self?.tableView.reloadData()
             }
         }
+        
+        // Setup folded view
+        setupFoldedView()
         
         // Setup search bar
         navigationItem.searchController = searchController
@@ -99,9 +131,56 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
 
 // MARK: - Additional method -
 extension ExplorePackageViewController {
+    
     func fetchPackages() {
-        
         viewModel.fetchPackages(from: .publishedColl)
+    }
+    
+    func setupFoldedView() {
+        
+        isFolded = false
+        
+        foldedView.setbackgroundColor(.red)
+            .layer.shadowColor = UIColor.hexToUIColor(hex: "#3F3A3A").cgColor
+        foldedView.layer.shadowRadius = 20
+        foldedView.setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
+            .setCornerRadius(20)
+            .setBoarderWidth(2.5)
+            .layer.shadowOpacity = 0.95
+        
+        // Set initial anchor
+        foldedView.layer.anchorPoint = CGPoint(x: 0, y: 0.5)
+        foldedView.frame = CGRect(x: 0, y: 160, width: 200, height: 550)
+
+        var transform = CATransform3DIdentity
+        transform.m34 = -1.0 / 1000
+        transform = CATransform3DRotate(transform, -CGFloat.pi / 2, 0, 1, 0)
+        foldedView.layer.transform = transform
+    }
+    
+    @objc func triggerFolding() {
+        
+        view.layoutIfNeeded()
+
+        // Setup anchor
+        foldedView.layer.anchorPoint = CGPoint(x: 0, y: 0.5)
+
+        let newAngle: CGFloat = isFolded ? -CGFloat.pi / 2 : 0
+
+        // Start the property animator
+        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
+            var transform = CATransform3DIdentity
+            transform.m34 = -1.0 / 1000
+            transform = CATransform3DRotate(transform, newAngle, 0, 1, 0)
+            self.foldedView.layer.transform = transform
+        }
+
+        animator.addCompletion { position in
+            if position == .end {
+                self.isFolded.toggle()
+            }
+        }
+        animator.startAnimation()
     }
 }
 
@@ -197,7 +276,7 @@ extension ExplorePackageViewController {
 
 // MARK: - Delegate method -
 
-extension ExplorePackageViewController: UISearchResultsUpdating {
+extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDataSource, UIPickerViewDelegate {
     
     // Did tap protocol
     func didTapPlace(
@@ -210,4 +289,23 @@ extension ExplorePackageViewController: UISearchResultsUpdating {
         self.viewModel.fetchedSearchedPackages(
             targetController: searchController)
     }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1 // Number of components (or "wheels")
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count // Number of rows in the component
+    }
+
+    // UIPickerViewDelegate methods
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row]
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        print("Selected item: \(pickerData[row])")
+    }
+
 }

@@ -13,7 +13,6 @@ import UIKit
 class ExploreViewModel {
     
     var firestoreManager = FirestoreManager.shared
-    
     var fetchedPackages = Box<[Package]>([])
     
     // fetch searched packages
