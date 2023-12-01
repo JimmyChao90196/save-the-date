@@ -31,10 +31,12 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     // folded view
     var cityPicker = UIPickerView()
     var districtPicker = UIPickerView()
-    
-    var foldedView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 300))
+    var foldedView = UIView()
+    var foldedViewLeadingConstraint: NSLayoutConstraint!
     
     var isFolded = true
+    var currentCity = CityModel.taipei
+    var currentDistrict = ""
     
     var fetchedPackages = [Package]()
     var packageAuthorLabel = UILabel()
@@ -58,7 +60,10 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         super.addTo()
         view.addSubviews([
             recommandedScrollView,
-            foldedView,
+            foldedView
+        ])
+        
+        foldedView.addSubviews([
             cityPicker,
             districtPicker
         ])
@@ -126,6 +131,29 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             make.trailing.equalTo(view.snp.trailing)
             make.bottom.equalTo(view.snp_bottomMargin)
         }
+        
+        foldedView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp_topMargin)
+            make.width.equalTo(200)
+            make.bottom.equalTo(view.snp_bottomMargin)
+        }
+        
+        // Set the initial position off-screen
+        foldedViewLeadingConstraint = foldedView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -200)
+        foldedViewLeadingConstraint.isActive = true
+        
+        cityPicker.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(150)
+             
+        }
+        
+        districtPicker.snp.makeConstraints { make in
+            make.top.equalTo(cityPicker.snp.bottom).offset(40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(150)
+        }
     }
 }
 
@@ -138,49 +166,32 @@ extension ExplorePackageViewController {
     
     func setupFoldedView() {
         
-        isFolded = false
+        isFolded = true
         
         foldedView.setbackgroundColor(.red)
             .layer.shadowColor = UIColor.hexToUIColor(hex: "#3F3A3A").cgColor
-        foldedView.layer.shadowRadius = 20
+        foldedView.layer.shadowRadius = 10
         foldedView.setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
             .setCornerRadius(20)
             .setBoarderWidth(2.5)
-            .layer.shadowOpacity = 0.95
-        
-        // Set initial anchor
-        foldedView.layer.anchorPoint = CGPoint(x: 0, y: 0.5)
-        foldedView.frame = CGRect(x: 0, y: 160, width: 200, height: 550)
-
-        var transform = CATransform3DIdentity
-        transform.m34 = -1.0 / 1000
-        transform = CATransform3DRotate(transform, -CGFloat.pi / 2, 0, 1, 0)
-        foldedView.layer.transform = transform
+            .layer.shadowOpacity = 0.6
     }
     
     @objc func triggerFolding() {
+        // Calculate the new constant for the leading constraint
+        let newConstant: CGFloat = isFolded ? 0 : -200
         
-        view.layoutIfNeeded()
-
-        // Setup anchor
-        foldedView.layer.anchorPoint = CGPoint(x: 0, y: 0.5)
-
-        let newAngle: CGFloat = isFolded ? -CGFloat.pi / 2 : 0
-
-        // Start the property animator
-        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
-            var transform = CATransform3DIdentity
-            transform.m34 = -1.0 / 1000
-            transform = CATransform3DRotate(transform, newAngle, 0, 1, 0)
-            self.foldedView.layer.transform = transform
-        }
-
-        animator.addCompletion { position in
-            if position == .end {
+        // Animate the constraint change
+        UIView.animate(
+            withDuration: 0.4,
+            delay: 0,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 0.3) {
+                self.foldedViewLeadingConstraint.constant = newConstant
+                self.view.layoutIfNeeded()
+            } completion: { _ in
                 self.isFolded.toggle()
             }
-        }
-        animator.startAnimation()
     }
 }
 
@@ -294,18 +305,44 @@ extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDat
         return 1 // Number of components (or "wheels")
     }
 
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count // Number of rows in the component
+    func pickerView(
+        _ pickerView: UIPickerView,
+        numberOfRowsInComponent component: Int) -> Int {
+        
+        if pickerView == self.cityPicker {
+            return CityModel.allCases.count
+        } else {
+            return currentCity.districts.count
+        }
     }
 
     // UIPickerViewDelegate methods
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
+    func pickerView(
+        _ pickerView: UIPickerView,
+        titleForRow row: Int,
+        forComponent component: Int) -> String? {
+        
+        if pickerView == self.cityPicker {
+            return CityModel.allCases[row].rawValue
+        } else {
+            return currentCity.districts[row]
+        }
     }
 
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        print("Selected item: \(pickerData[row])")
+    func pickerView(
+        _ pickerView: UIPickerView,
+        didSelectRow row: Int,
+        inComponent component: Int) {
+            
+            if pickerView == self.cityPicker {
+                currentCity = CityModel.allCases[row]
+                self.districtPicker.reloadAllComponents()
+                
+                print("\(currentCity)")
+            } else {
+                currentDistrict = currentCity.districts[row]
+                print("\(currentDistrict)")
+            }
     }
 
 }
