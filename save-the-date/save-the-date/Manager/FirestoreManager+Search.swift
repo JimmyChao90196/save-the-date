@@ -42,16 +42,11 @@ extension FirestoreManager {
             }
     }
     
-    func searchPackages(by text: String, and tags: [String], completion: @escaping (Result<[Package], Error>) -> Void) {
+    func searchPackages(by tags: [String], completion: @escaping (Result<[Package], Error>) -> Void) {
         let packagesCollection = fdb.collection("publishedPackages")
 
-        // Create a range for the search string
-        let queryStart = text
-        let queryEnd = text + "\u{f8ff}"
-
         packagesCollection
-            .whereField("info.title", isGreaterThanOrEqualTo: queryStart)
-            .whereField("info.title", isLessThanOrEqualTo: queryEnd)
+            .whereField("regionTags", arrayContainsAny: tags)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")

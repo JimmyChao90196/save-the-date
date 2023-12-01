@@ -37,6 +37,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     var isFolded = true
     var currentCity = CityModel.taipei
     var currentDistrict = ""
+    var inputTags = ["none", "none"]
     
     var fetchedPackages = [Package]()
     var packageAuthorLabel = UILabel()
@@ -84,7 +85,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             image: UIImage(systemName: "line.horizontal.3.decrease.circle"),
             style: .plain,
             target: self,
-            action: #selector(triggerFolding)
+            action: #selector(handleSwipe)
         )
         
         // Binding
@@ -114,6 +115,15 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
                     "Placeholder07",
                     "Placeholder08"
                     ])
+        
+        // Add gesture recognition
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+        swipeRight.direction = .right
+        self.view.addGestureRecognizer(swipeRight)
+
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+        swipeLeft.direction = .left
+        self.view.addGestureRecognizer(swipeLeft)
     }
     
     override func setupConstraint() {
@@ -177,21 +187,40 @@ extension ExplorePackageViewController {
             .layer.shadowOpacity = 0.6
     }
     
-    @objc func triggerFolding() {
-        // Calculate the new constant for the leading constraint
-        let newConstant: CGFloat = isFolded ? 0 : -200
+    @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
         
-        // Animate the constraint change
-        UIView.animate(
-            withDuration: 0.4,
-            delay: 0,
-            usingSpringWithDamping: 0.5,
-            initialSpringVelocity: 0.3) {
-                self.foldedViewLeadingConstraint.constant = newConstant
-                self.view.layoutIfNeeded()
-            } completion: { _ in
-                self.isFolded.toggle()
-            }
+        if gesture.direction == .right {
+            
+            // Calculate the new constant for the leading constraint
+            let newConstant: CGFloat = 0
+            
+            // Animate the constraint change
+            UIView.animate(
+                withDuration: 0.4,
+                delay: 0,
+                usingSpringWithDamping: 0.5,
+                initialSpringVelocity: 0.3) {
+                    self.foldedViewLeadingConstraint.constant = newConstant
+                    self.view.layoutIfNeeded()
+                } completion: { _ in
+                    
+                }
+        } else if gesture.direction == .left {
+            // Calculate the new constant for the leading constraint
+            let newConstant: CGFloat = -200
+            
+            // Animate the constraint change
+            UIView.animate(
+                withDuration: 0.4,
+                delay: 0,
+                usingSpringWithDamping: 0.5,
+                initialSpringVelocity: 0.3) {
+                    self.foldedViewLeadingConstraint.constant = newConstant
+                    self.view.layoutIfNeeded()
+                } completion: { _ in
+                    
+                }
+        }
     }
 }
 
@@ -339,10 +368,15 @@ extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDat
             if pickerView == self.cityPicker {
                 currentCity = CityModel.allCases[row]
                 self.districtPicker.reloadAllComponents()
+                self.inputTags[0] = self.currentCity.rawValue
                 
             } else {
                 currentDistrict = currentCity.districts[row]
-                
+                self.inputTags[1] = currentDistrict
             }
+            
+            viewModel.fetchedSearchedPackages(
+                by: self.inputTags,
+                existingPackages: self.fetchedPackages)
     }
 }

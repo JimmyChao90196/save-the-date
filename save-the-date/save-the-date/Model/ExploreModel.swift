@@ -8,27 +8,25 @@
 import Foundation
 
 enum CityModel: String, CaseIterable {
-    case taipei = "Taipei"
-    case newTaipei = "New Taipei"
-    case taichung = "Taichung"
-    case tainan = "Tainan"
-    case kaohsiung = "Kaohsiung"
-    case taoyuan = "Taoyuan"
-    case hsinchuCity = "Hsinchu City"
-    case hsinchuCounty = "Hsinchu County"
-    case keelung = "Keelung"
-    case chiayiCity = "Chiayi City"
-    case chiayiCounty = "Chiayi County"
-    case yilan = "Yilan"
-    case miaoli = "Miaoli"
-    case changhua = "Changhua"
-    case nantou = "Nantou"
-    case yunlin = "Yunlin"
-    case pingtung = "Pingtung"
-    case taitung = "Taitung"
-    case hualien = "Hualien"
-    case penghu = "Penghu"
-    case kinmen = "Kinmen"
+    case taipei = "Taipei City"
+    case newTaipei = "New Taipei City"
+    case taichung = "Taichung City"
+    case tainan = "Tainan City"
+    case kaohsiung = "Kaohsiung City"
+    case taoyuan = "Taoyuan City"
+    case hsinchu = "Hsinchu City"
+    case keelung = "Keelung City"
+    case chiayi = "Chiayi City"
+    case yilan = "Yilan City"
+    case miaoli = "Miaoli City"
+    case changhua = "Changhua City"
+    case nantou = "Nantou City"
+    case yunlin = "Yunlin City"
+    case pingtung = "Pingtung City"
+    case taitung = "Taitung City"
+    case hualien = "Hualien City"
+    case penghu = "Penghu City"
+    case kinmen = "Kinmen City"
     
     case lienchiang = "Lienchiang"
     
@@ -46,7 +44,7 @@ enum CityModel: String, CaseIterable {
                     "Zhongzheng",
                     "Xinyi",
                     "Beitou",
-                    "Wenshan"]
+                    "Wenshan"].map {$0 + " District"}
             
         case .newTaipei:
             return ["Banqiao",
@@ -60,7 +58,7 @@ enum CityModel: String, CaseIterable {
                     "Luzhou",
                     "Tamsui",
                     "Yingge",
-                    "Sanxia"]
+                    "Sanxia"].map {$0 + " District"}
             
         case .taichung:
             return ["Central",
@@ -74,7 +72,7 @@ enum CityModel: String, CaseIterable {
                     "Taiping",
                     "Dali",
                     "Wufeng",
-                    "Wuri"]
+                    "Wuri"].map {$0 + " District"}
             
         case .tainan:
             return ["East",
@@ -88,7 +86,7 @@ enum CityModel: String, CaseIterable {
                     "East",
                     "Guiren",
                     "Xinhua",
-                    "Zuozhen"]
+                    "Zuozhen"].map {$0 + " District"}
         case .kaohsiung:
             return ["Lingya",
                     "Fengshan",
@@ -101,7 +99,7 @@ enum CityModel: String, CaseIterable {
                     "Dashu",
                     "Lujhu",
                     "Hunei",
-                    "Nanzi"]
+                    "Nanzi"].map {$0 + " District"}
             
         case .taoyuan:
             return ["Taoyuan", 
@@ -115,20 +113,19 @@ enum CityModel: String, CaseIterable {
                     "Longtan",
                     "Pingzhen",
                     "Xinwu",
-                    "Guanyin"]
+                    "Guanyin"].map {$0 + " District"}
             
-        case .hsinchuCity:
+        case .hsinchu:
             return ["East",
                     "North",
-                    "Xiangshan"]
-        case .hsinchuCounty:
-            return ["Zhubei",
+                    "Xiangshan",
+                    "Zhubei",
                     "Hukou",
                     "Xinfeng",
                     "Zhubei",
                     "Guanxi",
                     "Qionglin",
-                    "Baoshan"]
+                    "Baoshan"].map {$0 + " District"}
             
         case .keelung:
             return ["Ren’ai",
@@ -137,18 +134,18 @@ enum CityModel: String, CaseIterable {
                     "Zhongshan",
                     "Anle",
                     "Nuannuan",
-                    "Qidu"]
+                    "Qidu"].map {$0 + " District"}
             
-        case .chiayiCity:
-            return ["East", "West"]
-        case .chiayiCounty:
-            return ["Fanlu",
+        case .chiayi:
+            return ["East",
+                    "West",
+                    "Fanlu",
                     "Meishan",
                     "Zhuqi",
                     "Alishan",
                     "Zhongpu",
                     "Dapu",
-                    "Shuishang"]
+                    "Shuishang"].map {$0 + " District"}
             
         case .yilan:
             return ["Yilan City",
@@ -162,10 +159,10 @@ enum CityModel: String, CaseIterable {
                     "Wujie",
                     "Sanxing",
                     "Datong",
-                    "Nan'ao"]
+                    "Nan'ao"].map {$0 + " District"}
             
         case .miaoli:
-            return ["Miaoli City",
+            return ["Miaoli",
                     "Toufen",
                     "Zhunan",
                     "Houlong",
@@ -176,10 +173,10 @@ enum CityModel: String, CaseIterable {
                     "Xihu",
                     "Dahu",
                     "Tai'an",
-                    "Gongguan"]
+                    "Gongguan"].map {$0 + " District"}
             
         case .changhua:
-            return ["Changhua City",
+            return ["Changhua",
                     "Yuanlin",
                     "Beidou",
                     "Tianzhong",
@@ -190,10 +187,10 @@ enum CityModel: String, CaseIterable {
                     "Fuxing",
                     "Xianxi",
                     "Erlin",
-                    "Puyan"]
+                    "Puyan"].map {$0 + " District"}
             
         case .nantou:
-            return ["Nantou City",
+            return ["Nantou",
                     "Caotun",
                     "Zhushan",
                     "Puli",
@@ -204,7 +201,7 @@ enum CityModel: String, CaseIterable {
                     "Guoxing",
                     "Zhongliao",
                     "Lugu",
-                    "Ren'ai"]
+                    "Ren'ai"].map {$0 + " District"}
             
         case .yunlin:
             return ["Douliu",
@@ -218,10 +215,10 @@ enum CityModel: String, CaseIterable {
                     "Gukeng",
                     "Mailiao",
                     "Taixi",
-                    "Lunbei"]
+                    "Lunbei"].map {$0 + " District"}
             
         case .pingtung:
-            return ["Pingtung City",
+            return ["Pingtung",
                     "Chaozhou",
                     "Donggang",
                     "Hengchun", 
@@ -232,10 +229,10 @@ enum CityModel: String, CaseIterable {
                     "Manzhou",
                     "Mudan",
                     "Jiadong",
-                    "Linbian"]
+                    "Linbian"].map {$0 + " District"}
             
         case .taitung:
-            return ["Taitung City",
+            return ["Taitung",
                     "Chenggong",
                     "Guanshan",
                     "Beinan",
@@ -246,10 +243,10 @@ enum CityModel: String, CaseIterable {
                     "Daren",
                     "Haiduan",
                     "Jinfeng",
-                    "Lan Yu"]
+                    "Lan Yu"].map {$0 + " District"}
             
         case .hualien:
-            return ["Hualien City",
+            return ["Hualien",
                     "Ji'an", 
                     "Shoufeng",
                     "Xincheng", 
@@ -260,7 +257,7 @@ enum CityModel: String, CaseIterable {
                     "Fuli",
                     "Wanrong", 
                     "Zhuoxi",
-                    "Sioulin"]
+                    "Sioulin"].map {$0 + " District"}
             
         case .penghu:
             return ["Magong", 
@@ -270,7 +267,7 @@ enum CityModel: String, CaseIterable {
                     "Qimei",
                     "Huxi",
                     "Fongguei",
-                    "Hujing"]
+                    "Hujing"].map {$0 + " District"}
             
         case .kinmen:
             return ["Jincheng", 
@@ -278,9 +275,9 @@ enum CityModel: String, CaseIterable {
                     "Jinhu",
                     "Jinning",
                     "Lieyu",
-                    "Wuqiu"]
+                    "Wuqiu"].map {$0 + " District"}
         case .lienchiang:
-            return ["Nangan", "Beigan", "Juguang", "Dongyin"]
+            return ["Nangan", "Beigan", "Juguang", "Dongyin"].map {$0 + " District"}
         }
     }
 }

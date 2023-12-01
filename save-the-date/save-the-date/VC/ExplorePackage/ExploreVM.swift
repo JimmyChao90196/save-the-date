@@ -16,6 +16,29 @@ class ExploreViewModel {
     var fetchedPackages = Box<[Package]>([])
     
     // fetch searched packages
+    
+    func fetchedSearchedPackages(by tags: [String], existingPackages oldPackages: [Package]) {
+        
+        firestoreManager.searchPackages(by: tags) { result in
+            
+            switch result {
+            case .success(let packages):
+                
+                var resultPackages = packages
+                
+                if oldPackages != [] {
+                    
+                    resultPackages = packages.filter { oldPackages.contains($0) }
+                    
+                }
+                
+                self.fetchedPackages.value = resultPackages
+                
+            case .failure(let error): print(error)
+            }
+        }
+    }
+    
     func fetchedSearchedPackages(by text: String) {
         
         firestoreManager.searchPackages(by: text) { result in

@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 // MARK: - Overall package -
-struct Package: Codable {
+struct Package: Codable, Hashable {
+    
     var info: Info
     var weatherModules: WeatherModules
     var regionTags: [String]
@@ -25,6 +26,14 @@ struct Package: Codable {
         self.weatherModules = weatherModules
         self.regionTags = regionTags
         self.docPath = docPath
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(docPath)
+    }
+    
+    static func == (lhs: Package, rhs: Package) -> Bool {
+        lhs.docPath == rhs.docPath
     }
 }
 
