@@ -92,7 +92,7 @@ class CreatePackageViewController: PackageBaseViewController {
         
         // On comfirm
         onLocationComfirmWithAddress = { components in
-            self.viewModel.parseAddress(from: components)
+            self.viewModel.parseAddress(from: components, currentTags: self.regionTags)
         }
         
         // Setup hover
@@ -274,14 +274,17 @@ extension CreatePackageViewController {
                             docPath: documentID,
                             perform: .add
                         ) {
-                                self?.sunnyModules = []
-                                self?.rainyModules = []
-                                self?.currentPackage = Package()
-                                
-                                DispatchQueue.main.async {
-                                    self?.tableView.reloadData()
-                                }
+                            self?.sunnyModules = []
+                            self?.rainyModules = []
+                            
+                            self?.currentPackage = Package()
+                            self?.currentPackage.regionTags = []
+                            self?.regionTags = []
+                            
+                            DispatchQueue.main.async {
+                                self?.tableView.reloadData()
                             }
+                        }
                         
                     case .failure(let error):
                         print("publish failed: \(error)")

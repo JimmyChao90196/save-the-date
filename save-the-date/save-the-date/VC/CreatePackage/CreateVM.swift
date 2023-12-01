@@ -14,9 +14,13 @@ class CreateViewModel {
     let regionTags = Box<[String]>([])
     
     // ParseAddress
-    func parseAddress(from addressComponents: [GMSAddressComponent]?) {
+    func parseAddress(
+        from addressComponents: [GMSAddressComponent]?,
+        currentTags: [String]
+    ) {
         var city: String?
         var district: String?
+        var country: String?
         
         guard let addressComponents else { return }
 
@@ -28,16 +32,22 @@ class CreateViewModel {
             // Check if the component is a district
             else if component.types.contains("administrative_area_level_2") {
                 district = component.name
+                
+            } else if component.types.contains("country") {
+                // This is the country
+                country = component.name
+                
             }
         }
         
         // Append to region
-        var tagSet = Set(regionTags.value)
+        var tagSet = Set(currentTags)
         
-        if let city, let district {
+        if let city, let district, let country {
             
             tagSet.insert(city)
             tagSet.insert(district)
+            tagSet.insert(country)
         }
         
         regionTags.value = Array(tagSet)

@@ -43,10 +43,11 @@ extension FirestoreManager {
     }
     
     func searchPackages(by tags: [String], completion: @escaping (Result<[Package], Error>) -> Void) {
+        
         let packagesCollection = fdb.collection("publishedPackages")
 
         packagesCollection
-            .whereField("regionTags", arrayContainsAny: tags)
+            .whereField("regionTags", arrayContains: tags.first!)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")

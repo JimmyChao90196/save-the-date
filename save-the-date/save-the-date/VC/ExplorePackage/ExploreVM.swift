@@ -14,24 +14,26 @@ class ExploreViewModel {
     
     var firestoreManager = FirestoreManager.shared
     var fetchedPackages = Box<[Package]>([])
+    var hotsPaths = Box<[String]>([])
     
     // fetch searched packages
-    
-    func fetchedSearchedPackages(by tags: [String], existingPackages oldPackages: [Package]) {
+    func fetchedSearchedPackages(by tags: [String]) {
         
-        firestoreManager.searchPackages(by: tags) { result in
+        var copyTags = tags
+
+        firestoreManager.searchPackages(by: copyTags) { result in
             
             switch result {
             case .success(let packages):
                 
-                var resultPackages = packages
-                
-                if oldPackages != [] {
+                var resultPackages = [Package]()
+                packages.forEach {
                     
-                    resultPackages = packages.filter { oldPackages.contains($0) }
-                    
+                    if $0.regionTags.contains(where: { $0 == tags[1] }) {
+                        resultPackages.append($0)
+                    }
                 }
-                
+
                 self.fetchedPackages.value = resultPackages
                 
             case .failure(let error): print(error)
@@ -59,6 +61,8 @@ class ExploreViewModel {
             switch result {
             case .success(let packages):
                 self?.fetchedPackages.value = packages
+                
+                self?.hotsPaths.value = packages.map{ $0.docPath }
                 
             case .failure(let error):
                 print("unable to fetch packages: \(error)")

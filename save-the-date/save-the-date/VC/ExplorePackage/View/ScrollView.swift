@@ -12,6 +12,9 @@ import SnapKit
 class HorizontalImageScrollView: UIScrollView {
 
     private let stackView = UIStackView()
+    
+    // On event
+    var onTapped: ((Int) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,15 +50,31 @@ class HorizontalImageScrollView: UIScrollView {
         ])
     }
     
+    // Additional function
+    @objc private func imageTapped(_ sender: UITapGestureRecognizer) {
+        if let imageView = sender.view as? UIImageView {
+            let tappedIndex = imageView.tag
+
+            onTapped?(tappedIndex)
+            print(tappedIndex)
+        }
+    }
+
     func addImages(named imageNames: [String]) {
-        imageNames.forEach { name in
+        for (index, name) in imageNames.enumerated() {
             let imageView = UIImageView(image: UIImage(named: name))
             imageView.contentMode = .scaleAspectFit
+            imageView.isUserInteractionEnabled = true
+            imageView.tag = index  // Set the tag to the index of the image
+
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:)))
+            imageView.addGestureRecognizer(tapGestureRecognizer)
+
             stackView.addArrangedSubview(imageView)
-            
+
             imageView.snp.makeConstraints { make in
-                make.width.equalTo(70)
-                make.height.equalTo(70)
+                make.width.equalTo(100)
+                make.height.equalTo(100)
             }
         }
     }
