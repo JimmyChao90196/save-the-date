@@ -10,7 +10,7 @@ import Foundation
 extension FirestoreManager {
     
     // Search by text and string
-    func searchPackages(by text: String, and tags: [String] = [], completion: @escaping (Result<[Package], Error>) -> Void) {
+    func searchPackages(by text: String, completion: @escaping (Result<[Package], Error>) -> Void) {
         let packagesCollection = fdb.collection("publishedPackages")
 
         // Create a range for the search string
@@ -20,7 +20,6 @@ extension FirestoreManager {
         packagesCollection
             .whereField("info.title", isGreaterThanOrEqualTo: queryStart)
             .whereField("info.title", isLessThanOrEqualTo: queryEnd)
-            .whereField("regionTags", arrayContainsAny: tags)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -42,5 +41,36 @@ extension FirestoreManager {
                 }
             }
     }
+    
+    func searchPackages(by text: String, and tags: [String], completion: @escaping (Result<[Package], Error>) -> Void) {
+        let packagesCollection = fdb.collection("publishedPackages")
 
+        // Create a range for the search string
+        let queryStart = text
+        let queryEnd = text + "\u{f8ff}"
+
+        packagesCollection
+            .whereField("info.title", isGreaterThanOrEqualTo: queryStart)
+            .whereField("info.title", isLessThanOrEqualTo: queryEnd)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    completion(.failure(err))
+                } else {
+                    var packages = [Package]()
+                    for document in querySnapshot!.documents {
+                        do {
+                            let jsonData = try JSONSerialization.data(withJSONObject: document.data(), options: [])
+                            let package = try JSONDecoder().decode(Package.self, from: jsonData)
+                            packages.append(package)
+                        } catch {
+                            print("Error decoding package: \(error)")
+                            completion(.failure(error))
+                            return
+                        }
+                    }
+                    completion(.success(packages))
+                }
+            }
+    }
 }

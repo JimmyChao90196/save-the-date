@@ -285,7 +285,7 @@ extension ExplorePackageViewController {
     }
 }
 
-// MARK: - Delegate method -
+// MARK: - Search Delegate method -
 
 extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDataSource, UIPickerViewDelegate {
     
@@ -297,9 +297,12 @@ extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDat
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        self.viewModel.fetchedSearchedPackages(
-            targetController: searchController)
+        guard let text = searchController.searchBar.text else { return }
+        
+        self.viewModel.fetchedSearchedPackages(by: text)
     }
+
+    // MARK: - UIPickerViewDelegate methods -
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1 // Number of components (or "wheels")
@@ -316,7 +319,6 @@ extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDat
         }
     }
 
-    // UIPickerViewDelegate methods
     func pickerView(
         _ pickerView: UIPickerView,
         titleForRow row: Int,
@@ -338,11 +340,9 @@ extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDat
                 currentCity = CityModel.allCases[row]
                 self.districtPicker.reloadAllComponents()
                 
-                print("\(currentCity)")
             } else {
                 currentDistrict = currentCity.districts[row]
-                print("\(currentDistrict)")
+                
             }
     }
-
 }

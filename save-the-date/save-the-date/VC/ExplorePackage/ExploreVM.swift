@@ -16,8 +16,7 @@ class ExploreViewModel {
     var fetchedPackages = Box<[Package]>([])
     
     // fetch searched packages
-    func fetchedSearchedPackages(targetController controller: UISearchController) {
-        guard let text = controller.searchBar.text else { return }
+    func fetchedSearchedPackages(by text: String) {
         
         firestoreManager.searchPackages(by: text) { result in
             
@@ -26,7 +25,6 @@ class ExploreViewModel {
                 self.fetchedPackages.value = packages
                 
             case .failure(let error): print(error)
-                
             }
         }
     }

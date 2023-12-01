@@ -8,28 +8,29 @@
 import Foundation
 
 enum CityModel: String, CaseIterable {
-    case taipei
-    case newTaipei
-    case taichung
-    case tainan
-    case kaohsiung
-    case taoyuan
-    case hsinchuCity
-    case hsinchuCounty
-    case keelung
-    case chiayiCity
-    case chiayiCounty
-    case yilan
-    case miaoli
-    case changhua
-    case nantou
-    case yunlin
-    case pingtung
-    case taitung
-    case hualien
-    case penghu
-    case kinmen
-    case lienchiang
+    case taipei = "Taipei"
+    case newTaipei = "New Taipei"
+    case taichung = "Taichung"
+    case tainan = "Tainan"
+    case kaohsiung = "Kaohsiung"
+    case taoyuan = "Taoyuan"
+    case hsinchuCity = "Hsinchu City"
+    case hsinchuCounty = "Hsinchu County"
+    case keelung = "Keelung"
+    case chiayiCity = "Chiayi City"
+    case chiayiCounty = "Chiayi County"
+    case yilan = "Yilan"
+    case miaoli = "Miaoli"
+    case changhua = "Changhua"
+    case nantou = "Nantou"
+    case yunlin = "Yunlin"
+    case pingtung = "Pingtung"
+    case taitung = "Taitung"
+    case hualien = "Hualien"
+    case penghu = "Penghu"
+    case kinmen = "Kinmen"
+    
+    case lienchiang = "Lienchiang"
     
     var districts: [String] {
         switch self {
@@ -278,11 +279,8 @@ enum CityModel: String, CaseIterable {
                     "Jinning",
                     "Lieyu",
                     "Wuqiu"]
-            
         case .lienchiang:
             return ["Nangan", "Beigan", "Juguang", "Dongyin"]
         }
     }
-    
 }
-
