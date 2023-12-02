@@ -11,6 +11,8 @@ import UIKit
 struct User: Codable {
     var name: String
     var email: String
+    var photoURL: String
+    var uid: String
     
     var draftPackages: [String]
     var favoritePackages: [String]
@@ -20,6 +22,8 @@ struct User: Codable {
     
     init(name: String = "Jimmy Chao",
          email: String = "jimmy@gmail.com",
+         photoURL: String = "",
+         uid: String = "",
          draftPackages: [String] = [],
          favoritePackages: [String] = [],
          forkedPackages: [String] = [],
@@ -28,6 +32,8 @@ struct User: Codable {
         
         self.name = name
         self.email = email
+        self.photoURL = photoURL
+        self.uid = uid
         self.draftPackages = draftPackages
         self.favoritePackages = favoritePackages
         self.forkedPackages = forkedPackages

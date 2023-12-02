@@ -22,12 +22,17 @@ class ProfileViewController: ExplorePackageViewController {
     var pubIDs = [String]()
     var priIDs = [String]()
     
+    // UI elements
     var profileBGImage = UIImageView(image: UIImage(resource: .profileBG))
     var profilePicture = UIImageView(image: UIImage(systemName: "person.crop.circle.fill"))
     var userNameLabel = UILabel()
     var leftDivider = UIView()
     var rightDivider = UIView()
+    
     var favPackages = [Package]()
+    
+    // On event
+    var onLoggedIn: ((User) -> Void)?
     
     // Nav button
     lazy var testButton: UIBarButtonItem = {
@@ -46,6 +51,7 @@ class ProfileViewController: ExplorePackageViewController {
         
         navigationItem.rightBarButtonItem = testButton
         
+        setupOnEvent()
         fetchOperation()
     }
     
@@ -79,7 +85,7 @@ class ProfileViewController: ExplorePackageViewController {
         
         userNameLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 24)!)
             .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
-            .text = "Jimmy Chao"
+            .text = "Jimmy"
         
         // Hide folded view
         foldedView.isHidden = true
@@ -137,12 +143,21 @@ class ProfileViewController: ExplorePackageViewController {
     
  // MARK: - Additional function -
     
+    func setupOnEvent() {
+        onLoggedIn = { [weak self] user in
+            
+            DispatchQueue.main.async {
+                self?.userNameLabel.text = user.name
+            }
+        }
+    }
+    
     @objc func testButtonPressed() {
         let loginVC = LoginViewController()
+        loginVC.onLoggedIn = self.onLoggedIn
         
         if let sheetPresentationController = loginVC.presentationController as? UISheetPresentationController {
             sheetPresentationController.detents = [.medium()]
-            
             present(loginVC, animated: true)
         }
     }

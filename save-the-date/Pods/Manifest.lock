@@ -27,7 +27,7 @@ PODS:
 DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
-  - GoogleSignIn
+  - GoogleSignIn (~> 7.0)
   - Hover
   - JGProgressHUD
   - SnapKit
@@ -58,6 +58,6 @@ SPEC CHECKSUMS:
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: c671754a7b6235b98b43312dde6deebb6ad225d5
+PODFILE CHECKSUM: 3657154ee36428c3d4fe61edac0e25ef5b442d46
 
 COCOAPODS: 1.13.0
