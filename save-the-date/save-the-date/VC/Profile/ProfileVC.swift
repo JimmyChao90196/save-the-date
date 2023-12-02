@@ -17,6 +17,7 @@ class ProfileViewController: ExplorePackageViewController {
     
     var selectionView = SelectionView()
     
+    var currentUser = User()
     var favIDs = [String]()
     var draftIDs = [String]()
     var pubIDs = [String]()
@@ -34,6 +35,9 @@ class ProfileViewController: ExplorePackageViewController {
     // On event
     var onLoggedIn: ((User) -> Void)?
     
+    // VM
+    let profileVM = ProfileViewModel()
+    
     // Nav button
     lazy var testButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -48,9 +52,9 @@ class ProfileViewController: ExplorePackageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
         navigationItem.rightBarButtonItem = testButton
         
+        dataBinding()
         setupOnEvent()
         fetchOperation()
     }
@@ -145,15 +149,25 @@ class ProfileViewController: ExplorePackageViewController {
     
     func setupOnEvent() {
         onLoggedIn = { [weak self] user in
+            self?.profileVM.checkIfUserExist(by: user)
+        }
+    }
+    
+    func dataBinding() {
+        profileVM.currentUser.bind { fetchedUser in
+            self.currentUser = fetchedUser
             
             DispatchQueue.main.async {
-                self?.userNameLabel.text = user.name
+                self.userNameLabel.text = fetchedUser.name
+                self.fetchOperation()
+                self.tableView.reloadData()
             }
         }
     }
     
     @objc func testButtonPressed() {
         let loginVC = LoginViewController()
+        
         loginVC.onLoggedIn = self.onLoggedIn
         
         if let sheetPresentationController = loginVC.presentationController as? UISheetPresentationController {
@@ -169,10 +183,12 @@ extension ProfileViewController {
     func fetchOperation() {
         Task {
             do {
-                let userEmail = "jimmy@gmail.com"
-                let user = try await firestoreManager.fetchUser(userEmail)
+                // let userEmail = "myname90196@gmail.com"
+                // let user = try await firestoreManager.fetchUser(userEmail)
                 
-                favIDs = user.favoritePackages
+                favIDs = self.currentUser.favoritePackages
+                
+                // favIDs = user.favoritePackages
                 
                 favPackages = try await firestoreManager.fetchPackages(withIDs: favIDs)
                 

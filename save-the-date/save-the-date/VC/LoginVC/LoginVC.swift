@@ -19,7 +19,11 @@ class LoginViewController: UIViewController {
     
     // Data
     var currentUserInfo = User()
-    var userRefreshToken: String?
+    var userCredentialPack = UserCredentialsPack(
+        name: "",
+        email: "",
+        uid: "",
+        token: "")
     
     // VM
     let viewModel = LoginViewModel()
@@ -49,20 +53,21 @@ class LoginViewController: UIViewController {
     // Data binding
     func dataBinding() {
         
-        viewModel.userRefreshToken.bind { token in
-            self.userRefreshToken = token
+        viewModel.userCredentialPack.bind { UCPack in
+            self.userCredentialPack = UCPack
             
             NotificationCenter.default.post(
-                name: .userRefreshTokenUpdated,
-                object: nil, userInfo: ["token": token])
+                name: .userCredentialsUpdated,
+                object: UCPack)
         }
         
         viewModel.userInfo.bind { userInfo in
             self.currentUserInfo = userInfo
             
             print(self.currentUserInfo)
-            self.dismiss(animated: true, completion: nil)
+            
             self.onLoggedIn?(self.currentUserInfo)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -99,6 +104,5 @@ class LoginViewController: UIViewController {
 
 // MARK: - Notification -
 extension Notification.Name {
-    static let userRefreshTokenUpdated = Notification.Name("userRefreshTokenUpdated")
+    static let userCredentialsUpdated = Notification.Name("userCredentialsUpdated")
 }
-

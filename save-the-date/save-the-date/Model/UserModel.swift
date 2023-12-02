@@ -8,6 +8,13 @@
 import Foundation
 import UIKit
 
+struct UserCredentialsPack {
+    var name: String
+    var email: String
+    var uid: String
+    var token: String
+}
+
 struct User: Codable {
     var name: String
     var email: String

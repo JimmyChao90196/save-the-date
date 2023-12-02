@@ -16,7 +16,12 @@ import FirebaseAuth
 class LoginViewModel {
     
     var userInfo = Box(User())
-    var userRefreshToken = Box("")
+    var userCredentialPack = Box(
+        UserCredentialsPack(
+            name: "",
+            email: "",
+            uid: "",
+            token: ""))
     
     // Configure google sign in
     func configureGoogleSignIn() {
@@ -47,9 +52,17 @@ class LoginViewModel {
                 let name = user.displayName
                 let token = user.refreshToken
                 
-                self?.userRefreshToken.value = token ?? ""
+                self?.userCredentialPack.value = UserCredentialsPack(
+                    name: name ?? "",
+                    email: email ?? "",
+                    uid: uid,
+                    token: token ?? "")
                 
-                self?.userInfo.value = User(name: name ?? "", email: email ?? "", photoURL: photoURL ?? "", uid: uid)
+                self?.userInfo.value = User(
+                    name: name ?? "",
+                    email: email ?? "",
+                    photoURL: photoURL ?? "",
+                    uid: uid)
             }
         }
     }
