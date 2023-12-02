@@ -42,4 +42,19 @@ class ProfileViewModel {
             }
         }
     }
+    
+    // Fetch user
+    func fetchCurrentUser( _ userEmail: String) {
+
+        Task {
+            do {
+                let user = try await firestoreManager.fetchUser( userEmail )
+                self.currentUser.value = user
+                
+            } catch {
+            
+                print(error)
+            }
+        }
+    }
 }

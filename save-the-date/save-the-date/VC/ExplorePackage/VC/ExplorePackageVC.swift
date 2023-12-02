@@ -28,6 +28,9 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     // Search bar
     var searchController = UISearchController()
     
+    // Manager
+    var userManager = UserManager.shared
+    
     // UI
     lazy var applyButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
@@ -92,6 +95,9 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     
     override func setup() {
         super.setup()
+        
+        // Notification Center listener
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCredentialsUpdate(notification:)), name: .userCredentialsUpdated, object: nil)
         
         // Setup picker
         cityPicker.dataSource = self
@@ -257,7 +263,7 @@ extension ExplorePackageViewController {
             
             let likedByArray = fetchedPackages[indexPath.row].info.likedBy
             let isInFavorite = likedByArray.contains { email in
-                email == "jimmy@gmail.com"
+                email == userManager.currentUser.email
             }
             
             // Handle isLike logic
@@ -289,6 +295,13 @@ extension ExplorePackageViewController {
 // MARK: - Additional method -
 extension ExplorePackageViewController {
     
+    @objc func handleCredentialsUpdate(notification: Notification) {
+        if let credentials = notification.object as? UserCredentialsPack {
+            // Handle the credentials update
+            print("Received new credentials: \(credentials)")
+        }
+    }
+    
     @objc func applyButtonTapped() {
         
         viewModel.fetchedSearchedPackages(by: self.inputTags)
@@ -315,7 +328,7 @@ extension ExplorePackageViewController {
             case true:
 
                 self.viewModel.afterLiked(
-                    email: "jimmy@gmail.com",
+                    email: self.userManager.currentUser.email,
                     docPath: docPath,
                     perform: .add) {
                         self.presentSimpleAlert(
@@ -327,7 +340,7 @@ extension ExplorePackageViewController {
             case false:
                 
                 self.viewModel.afterLiked(
-                    email: "jimmy@gmail.com",
+                    email: self.userManager.currentUser.email,
                     docPath: docPath,
                     perform: .remove) {
                         self.presentSimpleAlert(

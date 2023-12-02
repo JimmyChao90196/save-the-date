@@ -17,6 +17,7 @@ class ProfileViewController: ExplorePackageViewController {
     
     var selectionView = SelectionView()
     
+    // About to be replaced
     var currentUser = User()
     var favIDs = [String]()
     var draftIDs = [String]()
@@ -53,6 +54,7 @@ class ProfileViewController: ExplorePackageViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.rightBarButtonItem = testButton
+        navigationItem.searchController = nil
         
         dataBinding()
         setupOnEvent()
@@ -62,6 +64,7 @@ class ProfileViewController: ExplorePackageViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchOperation()
+        profileVM.fetchCurrentUser(userManager.currentUser.email)
     }
     
     override func setup() {
@@ -146,7 +149,6 @@ class ProfileViewController: ExplorePackageViewController {
     }
     
  // MARK: - Additional function -
-    
     func setupOnEvent() {
         onLoggedIn = { [weak self] user in
             self?.profileVM.checkIfUserExist(by: user)
@@ -156,6 +158,8 @@ class ProfileViewController: ExplorePackageViewController {
     func dataBinding() {
         profileVM.currentUser.bind { fetchedUser in
             self.currentUser = fetchedUser
+            
+            self.userManager.currentUser = fetchedUser
             
             DispatchQueue.main.async {
                 self.userNameLabel.text = fetchedUser.name
@@ -183,12 +187,8 @@ extension ProfileViewController {
     func fetchOperation() {
         Task {
             do {
-                // let userEmail = "myname90196@gmail.com"
-                // let user = try await firestoreManager.fetchUser(userEmail)
                 
                 favIDs = self.currentUser.favoritePackages
-                
-                // favIDs = user.favoritePackages
                 
                 favPackages = try await firestoreManager.fetchPackages(withIDs: favIDs)
                 
