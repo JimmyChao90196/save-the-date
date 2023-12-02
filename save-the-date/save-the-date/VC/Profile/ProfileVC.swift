@@ -27,12 +27,25 @@ class ProfileViewController: ExplorePackageViewController {
     var userNameLabel = UILabel()
     var leftDivider = UIView()
     var rightDivider = UIView()
-    
     var favPackages = [Package]()
+    
+    // Nav button
+    lazy var testButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "square.and.pencil"),
+            style: .plain,
+            target: self,
+            action: #selector(testButtonPressed))
+        
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        navigationItem.rightBarButtonItem = testButton
+        
         fetchOperation()
     }
     
@@ -67,6 +80,9 @@ class ProfileViewController: ExplorePackageViewController {
         userNameLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 24)!)
             .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
             .text = "Jimmy Chao"
+        
+        // Hide folded view
+        foldedView.isHidden = true
     }
     
     override func setupConstraint() {
@@ -116,6 +132,18 @@ class ProfileViewController: ExplorePackageViewController {
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
             make.bottom.equalTo(view.snp_bottomMargin)
+        }
+    }
+    
+ // MARK: - Additional function -
+    
+    @objc func testButtonPressed() {
+        let loginVC = LoginViewController()
+        
+        if let sheetPresentationController = loginVC.presentationController as? UISheetPresentationController {
+            sheetPresentationController.detents = [.medium()]
+            
+            present(loginVC, animated: true)
         }
     }
 }

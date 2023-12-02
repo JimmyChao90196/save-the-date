@@ -260,7 +260,7 @@ extension ExplorePackageViewController {
                 email == "jimmy@gmail.com"
             }
             
-            // Handle is like logic
+            // Handle isLike logic
             cell.isLike = isInFavorite
             
             switch isInFavorite {

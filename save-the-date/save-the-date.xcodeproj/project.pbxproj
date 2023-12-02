@@ -43,6 +43,7 @@
 		74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8285A2B04DF1900A42850 /* PackageManager.swift */; };
 		74B8285D2B04DF8800A42850 /* ExploreSiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */; };
 		74C013252B0BD60700569897 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C013242B0BD60700569897 /* GradientView.swift */; };
+		74C63D122B1AED8F0053030B /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C63D112B1AED8F0053030B /* LoginVC.swift */; };
 		74DE46372B087B2E00B6F648 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46362B087B2E00B6F648 /* UserModel.swift */; };
 		74DE46392B08854200B6F648 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74DE46382B08854200B6F648 /* GoogleService-Info.plist */; };
 		74DE463C2B0885F900B6F648 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 74DE463B2B0885F900B6F648 /* FirebaseAnalytics */; };
@@ -120,6 +121,7 @@
 		74B8285A2B04DF1900A42850 /* PackageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageManager.swift; sourceTree = "<group>"; };
 		74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSiteVC.swift; sourceTree = "<group>"; };
 		74C013242B0BD60700569897 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		74C63D112B1AED8F0053030B /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		74DE46362B087B2E00B6F648 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		74DE46382B08854200B6F648 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		74DE46612B0886CD00B6F648 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -384,8 +386,9 @@
 		74DE466B2B089C1900B6F648 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				74DE466C2B089C2400B6F648 /* ProfileVC.swift */,
 				748023EA2B0B38DA00878B12 /* SelectionView.swift */,
+				74DE466C2B089C2400B6F648 /* ProfileVC.swift */,
+				74C63D112B1AED8F0053030B /* LoginVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 				74DE46672B089B9800B6F648 /* ExplorePackageVC.swift in Sources */,
 				74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */,
 				74C013252B0BD60700569897 /* GradientView.swift in Sources */,
+				74C63D122B1AED8F0053030B /* LoginVC.swift in Sources */,
 				74B828572B04DB7700A42850 /* ModuleTableView.swift in Sources */,
 				744B57232B0609AC00B3ABAA /* TransTableView.swift in Sources */,
 				74E453A42B0F22CB0017BDCD /* MultiUserVC.swift in Sources */,
@@ -797,6 +801,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = U69A9BL6B7;
@@ -815,6 +820,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Jimmy.save-the-date";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -827,6 +833,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = U69A9BL6B7;
@@ -845,6 +852,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Jimmy.save-the-date";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
