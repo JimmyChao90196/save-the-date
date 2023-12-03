@@ -16,12 +16,14 @@ import FirebaseFirestoreSwift
 class ProfileViewModel {
     
     let firestoreManager = FirestoreManager.shared
+    let userManager = UserManager.shared
     
     var favPackages = Box<[Package]>([])
     var pubPackages = Box<[Package]>([])
     var draftPackages = Box<[Package]>([])
     
     var currentUser = Box(User())
+    var profileImage = Box(UIImage())
     
     // Check user
     func checkIfUserExist(by user: User) {
@@ -31,6 +33,7 @@ class ProfileViewModel {
         }
         
         firestoreManager.checkUser(by: user) { result in
+            
             switch result {
             case .success(let users): print("fetched users: \(users)")
                 self.currentUser.value = users.first ?? User()
@@ -57,6 +60,20 @@ class ProfileViewModel {
                 
             } catch {
             
+                print(error)
+            }
+        }
+    }
+    
+    // Fetch user photos
+    func fetchUserProfileImage() {
+        userManager.downloadImage { result in
+            switch result {
+            case .success(let image):
+                print(image as Any)
+                self.profileImage.value = image ?? UIImage()
+                
+            case .failure(let error):
                 print(error)
             }
         }

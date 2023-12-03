@@ -76,8 +76,8 @@ class ProfileViewController: ExplorePackageViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchOperation()
         profileVM.fetchCurrentUser(userManager.currentUser.email)
+        fetchOperation()
     }
     
     override func setup() {
@@ -95,12 +95,13 @@ class ProfileViewController: ExplorePackageViewController {
         self.selectionView.delegate = self
         self.selectionView.backgroundColor = .blue
         
-        profilePicture.setCornerRadius(35)
-            .contentMode = .scaleAspectFill
+        profilePicture.setCornerRadius(35).contentMode = .scaleAspectFill
         profilePicture.tintColor = .hexToUIColor(hex: "#3F3A3A")
         profilePicture.backgroundColor = .white
+        profilePicture.clipsToBounds = true
         
         profileBGImage.contentMode = .scaleToFill
+        
         leftDivider.backgroundColor = .darkGray
         rightDivider.backgroundColor = .darkGray
         
@@ -171,16 +172,29 @@ class ProfileViewController: ExplorePackageViewController {
     
     func dataBinding() {
         
+        // Fetch profileImage
+        profileVM.profileImage.bind { profileImage in
+            self.userManager.userProfileImage = profileImage
+            
+            DispatchQueue.main.async {
+                self.profilePicture.image = self.userManager.userProfileImage
+            }
+        }
+        
         // Fetch packages
         profileVM.currentUser.bind { fetchedUser in
-            self.currentUser = fetchedUser
             
+            self.currentUser = fetchedUser
             self.userManager.currentUser = fetchedUser
+            
+            // fetch profile image
+            self.profileVM.fetchUserProfileImage()
             
             DispatchQueue.main.async {
                 self.userNameLabel.text = fetchedUser.name
                 self.fetchOperation()
                 self.tableView.reloadData()
+                self.profilePicture.image = self.userManager.userProfileImage
             }
         }
         
@@ -227,6 +241,7 @@ extension ProfileViewController {
     
     func fetchOperation() {
         profileVM.fetchPackages(with: stateOfPackages)
+
     }
 }
 

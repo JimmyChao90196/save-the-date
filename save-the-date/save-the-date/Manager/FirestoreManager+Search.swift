@@ -9,6 +9,7 @@ import Foundation
 
 enum FetchedError: Error {
     case userNoneFound
+    case userImageNotFound
 }
 
 extension FirestoreManager {
