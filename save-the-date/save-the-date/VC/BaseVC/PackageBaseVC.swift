@@ -35,8 +35,15 @@ class PackageBaseViewController: UIViewController {
     }
     
     // User
-    var userID = "red@gamil.com"
-    var userName = "Jimmy"
+    var userManager = UserManager.shared
+    
+    var userID: String {
+        return userManager.currentUser.email
+    }
+    
+    var userName: String {
+        return userManager.currentUser.name
+    }
     
     // Current package
     var currentPackage = Package()

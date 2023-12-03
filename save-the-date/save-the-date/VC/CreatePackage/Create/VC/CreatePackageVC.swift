@@ -255,8 +255,8 @@ extension CreatePackageViewController {
             buttonText: "Okay") { text in
                 guard let text else { return }
                 let info = Info(title: text,
-                                author: ["red"],
-                                authorEmail: ["red@gmail.com"],
+                                author: [self.userName],
+                                authorEmail: [self.userID],
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 
@@ -269,7 +269,7 @@ extension CreatePackageViewController {
                     switch result {
                     case .success(let documentID):
                         self?.firestoreManager.updateUserPackages(
-                            email: "red@gmail.com",
+                            email: self?.userID ?? "",
                             packageType: packageColl,
                             docPath: documentID,
                             perform: .add

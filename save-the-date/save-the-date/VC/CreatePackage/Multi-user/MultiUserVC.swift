@@ -35,15 +35,15 @@ class MultiUserViewController: CreatePackageViewController {
     
     var enterKind = EnterKind.enter
     
-    var switchUserID: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        
-        // Your logic to customize the button
-        button.backgroundColor = .blue
-        button.setTitle("red", for: .normal)
-        
-        return button
-    }()
+//    var switchUserID: UIButton = {
+//        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+//        
+//        // Your logic to customize the button
+//        button.backgroundColor = .blue
+//        button.setTitle("red", for: .normal)
+//        
+//        return button
+//    }()
     
     // MARK: - Common function -
     override func viewDidLoad() {
@@ -76,8 +76,8 @@ class MultiUserViewController: CreatePackageViewController {
     override func setup() {
         super.setup()
         
-        // Adding an action
-        switchUserID.addTarget(self, action: #selector(switchUserIDPressed), for: .touchUpInside)
+//        // Adding an action
+//        switchUserID.addTarget(self, action: #selector(switchUserIDPressed), for: .touchUpInside)
         
         // Add navigation title
         navigationItem.title = "Multi-user mode"
@@ -103,12 +103,12 @@ class MultiUserViewController: CreatePackageViewController {
             HoverItem(
                 title: "Share session ID",
                 image: UIImage(systemName: "figure.stand.line.dotted.figure.stand"),
-                onTap: { self.prepareShareSheet()}),
+                onTap: { self.prepareShareSheet()})
             
-            HoverItem(
-                title: "Switch user",
-                image: UIImage(systemName: "arrow.left.arrow.right"),
-                onTap: { self.switchUserIDPressed() })
+//            HoverItem(
+//                title: "Switch user",
+//                image: UIImage(systemName: "arrow.left.arrow.right"),
+//                onTap: { self.switchUserIDPressed() })
         ]
         
         hoverButton = HoverView(with: config, items: itemsMU)
@@ -122,13 +122,13 @@ class MultiUserViewController: CreatePackageViewController {
     func updateNameAndEmail(sessionId: String, name: String, email: String) {
         // Add user name and email to package
         self.firestoreManager.updatePackage(
-            infoToUpdate: "Jimmy",
+            infoToUpdate: self.userName,
             docPath: sessionId,
             toPath: .author,
             perform: .add) {}
         
         self.firestoreManager.updatePackage(
-            infoToUpdate: "jimmy@gmail.com",
+            infoToUpdate: self.userID,
             docPath: sessionId,
             toPath: .authorEmail,
             perform: .add) {}
@@ -175,15 +175,15 @@ class MultiUserViewController: CreatePackageViewController {
     
     @objc func switchUserIDPressed() {
         
-        if switchUserID.titleLabel?.text == "red" {
-            switchUserID.setTitle("jimmy", for: .normal)
-            userID = "jimmy@gmail.com"
-            userName = "Jimmy"
-        } else {
-            switchUserID.setTitle("red", for: .normal)
-            userID = "red@gmail.com"
-            userName = "Red"
-        }
+//        if switchUserID.titleLabel?.text == "red" {
+//            switchUserID.setTitle("jimmy", for: .normal)
+//            userID = "jimmy@gmail.com"
+//            userName = "Jimmy"
+//        } else {
+//            switchUserID.setTitle("red", for: .normal)
+//            userID = "red@gmail.com"
+//            userName = "Red"
+//        }
     }
     
     // Leave multi-user
@@ -231,8 +231,8 @@ class MultiUserViewController: CreatePackageViewController {
                 }
                 
                 let info = Info(title: text,
-                                author: ["Red"],
-                                authorEmail: ["red@gmail.com"],
+                                author: [self.userName],
+                                authorEmail: [self.userID],
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 
@@ -244,7 +244,7 @@ class MultiUserViewController: CreatePackageViewController {
                     switch result {
                     case .success(let docPath):
                         self?.firestoreManager.updateUserPackages(
-                            email: "red@gmail.com",
+                            email: self?.userID ?? "",
                             packageType: packageColl,
                             docPath: docPath,
                             perform: .add
@@ -296,7 +296,10 @@ class MultiUserViewController: CreatePackageViewController {
                     self.rainyModules = self.currentPackage.weatherModules.rainy
                     
                     // Add name and email
-                    self.updateNameAndEmail(sessionId: text, name: "Jimmy", email: "jimmy@gmail.com")
+                    self.updateNameAndEmail(
+                        sessionId: text,
+                        name: self.userName,
+                        email: self.userID)
                     
                     // Setup listener
                     self.LSG = self.firestoreManager.modulesListener(docPath: text) { newPackage in

@@ -188,7 +188,8 @@ extension ProfileViewController {
         Task {
             do {
                 
-                favIDs = self.currentUser.favoritePackages
+                // favIDs = self.currentUser.favoritePackages
+                favIDs = self.userManager.currentUser.favoritePackages
                 
                 favPackages = try await firestoreManager.fetchPackages(withIDs: favIDs)
                 
