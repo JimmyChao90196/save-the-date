@@ -58,7 +58,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     var hotsPaths = [String]()
     
     var fetchedPackages = [Package]()
-    // var fetchedProfileImages = [UIImage]()
+    var fetchedProfileImages = [UIImage]()
     
     var packageAuthorLabel = UILabel()
     var onLike: ((UITableViewCell, Bool) -> Void)?
@@ -115,20 +115,23 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         
         // Binding
         viewModel.fetchedPackages.bind { [weak self] packages in
+            
             self?.fetchedPackages = packages
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
+            self?.viewModel.fetchUserProfileImages(from: packages)
+            
+//            DispatchQueue.main.async {
+//                self?.tableView.reloadData()
+//            }
         }
         
         // Binding for profileImages
-//        viewModel.fetchedProfileImages.bind { images in
-//            self.fetchedProfileImages = images
-//            
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//            }
-//        }
+        viewModel.fetchedProfileImages.bind { images in
+            self.fetchedProfileImages = images
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
         
         // Binding for path
         viewModel.hotsPaths.bind { paths in
@@ -296,6 +299,7 @@ extension ExplorePackageViewController {
             let authorName = fetchedPackages[indexPath.row].info.author
             cell.packageAuthor.text = "by \(authorName)"
             cell.packageTitleLabel.text = fetchedPackages[indexPath.row].info.title
+            cell.authorPicture.image = fetchedProfileImages[indexPath.row]
             cell.onLike = self.onLike
             
             return cell

@@ -22,6 +22,10 @@ class ProfileViewModel {
     var pubPackages = Box<[Package]>([])
     var draftPackages = Box<[Package]>([])
     
+    var favProfileImages = Box<[UIImage]>([])
+    var pubProfileImages = Box<[UIImage]>([])
+    var draftProfileImages = Box<[UIImage]>([])
+    
     var currentUser = Box(User())
     var profileImage = Box(UIImage())
     
@@ -79,6 +83,29 @@ class ProfileViewModel {
         }
     }
     
+    // Fetch user profile images
+    func fetchUserProfileImages(
+        from packages: [Package],
+        with state: PackageState) {
+            
+        let urls = packages.map { $0.photoURL }
+        
+        self.userManager.downloadImages(from: urls, completion: { result in
+            switch result {
+            case .success(let images):
+                switch state {
+                case .publishedState: self.pubProfileImages.value = images
+                case .favoriteState: self.favProfileImages.value = images
+                case .draftState: self.draftProfileImages.value = images
+                default: self.favProfileImages.value = images
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
+    
     // Fetch packages
     func fetchPackages(with state: PackageState) {
         Task {
@@ -88,20 +115,41 @@ class ProfileViewModel {
                 case .publishedState:
                     let targetIDs = currentUser.value.publishedPackages
                     
+                    // Fetch packages
                     self.pubPackages.value = try await firestoreManager.fetchPackages(
                         withIDs: targetIDs)
+                    
+                    self.pubPackages.value = self.pubPackages.value.sorted {
+                        $0.info.title < $1.info.title }
+                    
+                    // Fetch profilePicture
+                    fetchUserProfileImages(from: self.pubPackages.value, with: .publishedState)
                     
                 case .favoriteState:
                     let targetIDs = currentUser.value.favoritePackages
                     
+                    // Fetch packages
                     self.favPackages.value = try await firestoreManager.fetchPackages(
                         withIDs: targetIDs)
+                    
+                    self.favPackages.value = self.favPackages.value.sorted {
+                        $0.info.title < $1.info.title }
+                    
+                    // Fetch profilePicture
+                    fetchUserProfileImages(from: self.favPackages.value, with: .favoriteState)
                     
                 case .draftState:
                     let targetIDs = currentUser.value.draftPackages
                     
+                    // Fetch packages
                     self.draftPackages.value = try await firestoreManager.fetchPackages(
                         withIDs: targetIDs)
+                    
+                    self.draftPackages.value = self.draftPackages.value.sorted {
+                        $0.info.title < $1.info.title }
+                    
+                    // Fetch profilePicture
+                    fetchUserProfileImages(from: self.draftPackages.value, with: .draftState)
                     
                 default: return
                     

@@ -18,7 +18,9 @@ class ProfileViewController: ExplorePackageViewController {
     var selectionView = SelectionView()
     
     // About to be replaced
+    var count = 0
     var currentUser = User()
+    
     var draftIDs = [String]()
     var pubIDs = [String]()
     var priIDs = [String]()
@@ -46,6 +48,22 @@ class ProfileViewController: ExplorePackageViewController {
         }
     }
     
+    // Profile images
+    var favProfileImages = [UIImage]()
+    var pubProfileImages = [UIImage]()
+    var draftProfileImages = [UIImage]()
+    var currentProfileImages: [UIImage] {
+        
+        switch stateOfPackages {
+        case .favoriteState: return favProfileImages
+        case .publishedState: return pubProfileImages
+        case .draftState: return draftProfileImages
+        default: return favProfileImages
+            
+        }
+    }
+    
+    
     // On event
     var onLoggedIn: ((User) -> Void)?
     
@@ -71,13 +89,13 @@ class ProfileViewController: ExplorePackageViewController {
         
         dataBinding()
         setupOnEvent()
-        fetchOperation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         profileVM.fetchCurrentUser(userManager.currentUser.email)
-        fetchOperation()
+        // fetchOperation()
     }
     
     override func setup() {
@@ -185,7 +203,12 @@ class ProfileViewController: ExplorePackageViewController {
         profileVM.currentUser.bind { fetchedUser in
             
             self.currentUser = fetchedUser
-            self.userManager.currentUser = fetchedUser
+            
+            // This is stupid
+            if self.count != 0 {
+                self.userManager.currentUser = fetchedUser
+            }
+            self.count += 1
             
             // fetch profile image
             self.profileVM.fetchUserProfileImage()
@@ -198,29 +221,45 @@ class ProfileViewController: ExplorePackageViewController {
             }
         }
         
+        // Fetch profileImages
+        profileVM.favProfileImages.bind { favProfileImages in
+            self.favProfileImages = favProfileImages
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        profileVM.pubProfileImages.bind { pubProfileImages in
+            self.pubProfileImages = pubProfileImages
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        profileVM.draftProfileImages.bind { draftProfileImages in
+            self.draftProfileImages = draftProfileImages
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
         // Fetch packages
         profileVM.favPackages.bind { favPackages in
             self.favPackages = favPackages
             
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
         }
         
         profileVM.pubPackages.bind { pubPackages in
             self.pubPackages = pubPackages
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+
         }
         
         profileVM.draftPackages.bind { draftPackages in
             self.draftPackages = draftPackages
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+
         }
     }
     
@@ -241,7 +280,6 @@ extension ProfileViewController {
     
     func fetchOperation() {
         profileVM.fetchPackages(with: stateOfPackages)
-
     }
 }
 
@@ -300,6 +338,7 @@ extension ProfileViewController {
             cell.packageTitleLabel.text = currentPackages[indexPath.row].info.title
             cell.heartImageView.isHidden = true
             cell.onLike = nil
+            cell.authorPicture.image = currentProfileImages[indexPath.row]
             
             return cell
         }

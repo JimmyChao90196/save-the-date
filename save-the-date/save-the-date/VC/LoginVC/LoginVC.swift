@@ -17,6 +17,9 @@ import SnapKit
 
 class LoginViewController: UIViewController {
     
+    // Manager
+    var userManager = UserManager.shared
+    
     // Data
     var currentUserInfo = User()
     var userCredentialPack = UserCredentialsPack(
@@ -61,12 +64,12 @@ class LoginViewController: UIViewController {
                 object: UCPack)
         }
         
+        // Fetch user from google
         viewModel.userInfo.bind { userInfo in
             self.currentUserInfo = userInfo
             
-            print(self.currentUserInfo)
-            
             self.onLoggedIn?(self.currentUserInfo)
+            
             self.dismiss(animated: true, completion: nil)
         }
     }

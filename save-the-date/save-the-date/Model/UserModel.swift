@@ -12,7 +12,7 @@ struct UserCredentialsPack {
     var name: String
     var email: String
     var uid: String
-    var token: String
+    var token: String?
 }
 
 struct User: Codable {

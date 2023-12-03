@@ -10,6 +10,13 @@ import UIKit
 
 class TabbarController: UITabBarController, UITabBarControllerDelegate {
     
+    // Credential pack
+    var userCredentialsPack = UserCredentialsPack(
+        name: "",
+        email: "",
+        uid: "",
+        token: nil)
+    
     enum Tab: String {
         case explorePackage = "Explore"
         case createPackage = "Create Package"
@@ -25,6 +32,13 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
     // MARK: View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Add observer
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleCredentialsUpdate(notification:)),
+            name: .userCredentialsUpdated,
+            object: nil)
         
         delegate = self
         
@@ -47,7 +61,7 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
             viewController.title = tab.rawValue
             let nav = NavigationController(rootViewController: viewController)
             
-            // Save for latter use
+            // Save for later use
             // if tab == .catalog {
             // nav.navigationBar.standardAppearance.shadowColor = .clear
             // nav.navigationBar.scrollEdgeAppearance?.shadowColor = .clear}
@@ -55,25 +69,72 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
             
             switch tab {
             case .explorePackage:
+                nav.tabBarItem.tag = 0
                 nav.tabBarItem.image = UIImage(systemName: "safari")
                 nav.tabBarItem.selectedImage = UIImage(systemName: "safari.fill")
             case .createPackage:
+                nav.tabBarItem.tag = 1
                 nav.tabBarItem.image = UIImage(systemName: "pencil.tip.crop.circle.badge.plus")
                 nav.tabBarItem.selectedImage = UIImage(systemName: "pencil.tip.crop.circle.badge.plus.fill")
             case .chat:
+                nav.tabBarItem.tag = 2
                 nav.tabBarItem.image = UIImage(systemName: "message")
                 nav.tabBarItem.selectedImage = UIImage(systemName: "message.fill")
             case .profile:
+                nav.tabBarItem.tag = 3
                 nav.tabBarItem.image = UIImage(systemName: "person")
                 nav.tabBarItem.selectedImage = UIImage(systemName: "person.fill")
             }
             
-            // Save for latter use
-//            nav.tabBarItem.image = UIImage(named: "Icons_36px_\(tab.rawValue)_Normal")
-//            nav.tabBarItem.selectedImage = UIImage(named: "Icons_36px_\(tab.rawValue)_Selected")
-//            nav.tabBarItem.imageInsets = UIEdgeInsets(top: 7,left: 0,bottom: -7,right: 0)
-
             return nav
         }
     }
+    
+    // MARK: - Additional method -
+    @objc func handleCredentialsUpdate(notification: Notification) {
+        if let credentials = notification.object as? UserCredentialsPack {
+            // Handle the credentials update
+            print("Received new credentials: \(credentials)")
+            
+            self.userCredentialsPack = credentials
+        }
+    }
+    
+    // MARK: - Delegate method -
+    func tabBarController(
+        _ tabBarController: UITabBarController,
+        shouldSelect viewController: UIViewController) -> Bool {
+            
+            // Print the view controller for debugging purposes
+            guard let nvc = viewController as? UINavigationController else { return false }
+            
+            switch nvc.tabBarItem.tag {
+                
+            case 0:
+                
+                return true
+                
+            default:
+                
+                let token = self.userCredentialsPack.token
+                
+                if token == nil || token == "" {
+                    
+                    let loginVC = LoginViewController()
+                    loginVC.modalPresentationStyle = .automatic
+                    loginVC.modalTransitionStyle = .coverVertical
+                    loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
+                        context.maximumDetentValue * 0.5
+                    })]
+                    // navigationController?.present(loginVC, animated: true)
+                    nvc.present(loginVC, animated: true)
+                    
+                    return false
+                    
+                } else {
+
+                    return true
+                }
+            }
+        }
 }

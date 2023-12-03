@@ -15,7 +15,7 @@ class ExploreViewModel {
     var userManager = UserManager.shared
     var firestoreManager = FirestoreManager.shared
     var fetchedPackages = Box<[Package]>([])
-    // var fetchedProfileImages = Box<[UIImage]>([])
+    var fetchedProfileImages = Box<[UIImage]>([])
     
     var hotsPaths = Box<[String]>([])
     
@@ -45,7 +45,6 @@ class ExploreViewModel {
     }
     
     func fetchedSearchedPackages(by text: String) {
-        
         firestoreManager.searchPackages(by: text) { result in
             
             switch result {
@@ -58,22 +57,22 @@ class ExploreViewModel {
     }
     
     // Fetch userProfile images
-//    func fetchUserProfileImages(from packages: [Package]) {
-//        
-//        self.userManager.downloadImages(from: urls, completion: { result in
-//            switch result {
-//            case .success(let images):
-//                self.fetchedProfileImages.value = images
-//                
-//            case .failure(let error):
-//                print(error)
-//            }
-//        })
-//    }
+    func fetchUserProfileImages(from packages: [Package]) {
+        let urls = packages.map { $0.photoURL }
+        
+        self.userManager.downloadImages(from: urls, completion: { result in
+            switch result {
+            case .success(let images):
+                self.fetchedProfileImages.value = images
+                
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
     
     // fetch initial packages
     func fetchPackages(from collection: PackageCollection) {
-        
         firestoreManager.fetchJsonPackages(from: collection) { [weak self] result in
             switch result {
             case .success(let packages):

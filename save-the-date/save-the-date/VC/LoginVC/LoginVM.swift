@@ -15,6 +15,10 @@ import FirebaseAuth
 
 class LoginViewModel {
     
+    // manager
+    var firestoreManager = FirestoreManager.shared
+    var userManager = UserManager.shared
+    
     var userInfo = Box(User())
     var userCredentialPack = Box(
         UserCredentialsPack(
@@ -63,6 +67,36 @@ class LoginViewModel {
                     email: email ?? "",
                     photoURL: photoURL ?? "",
                     uid: uid)
+                
+                self?.checkIfUserExist(by: self?.userInfo.value ?? User())
+            }
+        }
+    }
+    
+    // Check user
+    func checkIfUserExist(by user: User) {
+        
+        if user.email == "jimmy@gmail.com" || user.email == "none" || user.email == "" {
+            return
+        }
+        
+        firestoreManager.checkUser(by: user) { result in
+            
+            switch result {
+            case .success(let users): print("fetched users: \(users)")
+                self.userManager.currentUser = users.first ?? User()
+                self.userManager.currentUser.photoURL = user.photoURL
+                
+            case .failure(let error): print("\(error), create new user instead")
+                
+                let newUser = User(
+                    name: user.name,
+                    email: user.email,
+                    photoURL: user.photoURL,
+                    uid: user.uid)
+                
+                self.userManager.currentUser = newUser
+                self.firestoreManager.addUserWithJson(newUser) { }
             }
         }
     }
