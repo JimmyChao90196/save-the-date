@@ -157,6 +157,7 @@ enum PackageCollection: String {
     case favoriteColl = "favoritePackages"
     case draftColl = "draftPackages"
     case sessionColl = "sessionPackages"
+    
 }
 
 enum PackageFieldPath: String {

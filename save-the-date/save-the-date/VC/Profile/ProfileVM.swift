@@ -17,6 +17,10 @@ class ProfileViewModel {
     
     let firestoreManager = FirestoreManager.shared
     
+    var favPackages = Box<[Package]>([])
+    var pubPackages = Box<[Package]>([])
+    var draftPackages = Box<[Package]>([])
+    
     var currentUser = Box(User())
     
     // Check user
@@ -54,6 +58,40 @@ class ProfileViewModel {
             } catch {
             
                 print(error)
+            }
+        }
+    }
+    
+    // Fetch packages
+    func fetchPackages(with state: PackageState) {
+        Task {
+            do {
+                switch state {
+                    
+                case .publishedState:
+                    let targetIDs = currentUser.value.publishedPackages
+                    
+                    self.pubPackages.value = try await firestoreManager.fetchPackages(
+                        withIDs: targetIDs)
+                    
+                case .favoriteState:
+                    let targetIDs = currentUser.value.favoritePackages
+                    
+                    self.favPackages.value = try await firestoreManager.fetchPackages(
+                        withIDs: targetIDs)
+                    
+                case .draftState:
+                    let targetIDs = currentUser.value.draftPackages
+                    
+                    self.draftPackages.value = try await firestoreManager.fetchPackages(
+                        withIDs: targetIDs)
+                    
+                default: return
+                    
+                }
+                
+            } catch {
+                print("Error occurred: \(error)")
             }
         }
     }

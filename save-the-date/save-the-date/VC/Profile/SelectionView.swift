@@ -10,13 +10,18 @@ import SwiftUI
 import UIKit
 
 @objc protocol SelectionViewDataSource: AnyObject {
+    
     @objc optional func numberOfButtons(selectionView: SelectionView) -> Int
+    
     func buttonPerSelection(selectionView: SelectionView, index: Int) -> SelectionButton
+    
     @objc optional func colorOfBar(selectionView: SelectionView) -> UIColor?
 }
 
 @objc protocol SelectionViewProtocol: AnyObject {
+    
     @objc optional func didSelectButtonAt(selectionView: SelectionView, displayColor: UIColor, selectionIndex: Int)
+    
     @objc optional func shouldSelect(selectionView: SelectionView, selectedIndex: Int) -> Bool
 }
 

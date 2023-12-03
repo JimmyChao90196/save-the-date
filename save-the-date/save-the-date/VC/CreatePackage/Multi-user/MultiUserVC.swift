@@ -35,16 +35,6 @@ class MultiUserViewController: CreatePackageViewController {
     
     var enterKind = EnterKind.enter
     
-//    var switchUserID: UIButton = {
-//        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-//        
-//        // Your logic to customize the button
-//        button.backgroundColor = .blue
-//        button.setTitle("red", for: .normal)
-//        
-//        return button
-//    }()
-    
     // MARK: - Common function -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,16 +58,8 @@ class MultiUserViewController: CreatePackageViewController {
         }
     }
     
-    override func addTo() {
-        super.addTo()
-        // view.addSubviews([switchUserID])
-    }
-    
     override func setup() {
         super.setup()
-        
-//        // Adding an action
-//        switchUserID.addTarget(self, action: #selector(switchUserIDPressed), for: .touchUpInside)
         
         // Add navigation title
         navigationItem.title = "Multi-user mode"
@@ -104,11 +86,6 @@ class MultiUserViewController: CreatePackageViewController {
                 title: "Share session ID",
                 image: UIImage(systemName: "figure.stand.line.dotted.figure.stand"),
                 onTap: { self.prepareShareSheet()})
-            
-//            HoverItem(
-//                title: "Switch user",
-//                image: UIImage(systemName: "arrow.left.arrow.right"),
-//                onTap: { self.switchUserIDPressed() })
         ]
         
         hoverButton = HoverView(with: config, items: itemsMU)
@@ -173,19 +150,6 @@ class MultiUserViewController: CreatePackageViewController {
         present(shareSheetVC, animated: true)
     }
     
-    @objc func switchUserIDPressed() {
-        
-//        if switchUserID.titleLabel?.text == "red" {
-//            switchUserID.setTitle("jimmy", for: .normal)
-//            userID = "jimmy@gmail.com"
-//            userName = "Jimmy"
-//        } else {
-//            switchUserID.setTitle("red", for: .normal)
-//            userID = "red@gmail.com"
-//            userName = "Red"
-//        }
-    }
-    
     // Leave multi-user
     @objc func leaveMultiUserPressed() {
         
@@ -220,17 +184,20 @@ class MultiUserViewController: CreatePackageViewController {
         let packageState = PackageState.sessitonState
         
         // upload package
-        presentAlertWithTextField(
-            title: "Warning",
-            message: "Please add name for your Session package",
-            buttonText: "Okay") { text in
-                guard let text else {
-                    
-                    self.navigationController?.popViewController(animated: true)
-                    return
-                }
-                
-                let info = Info(title: text,
+//        presentAlertWithTextField(
+//            title: "Warning",
+//            message: "Please add name for your Session package",
+//            buttonText: "Okay") { text in
+//                guard let text else {
+//                    
+//                    self.navigationController?.popViewController(animated: true)
+//                    return
+//                }
+        
+        // Show loading
+        LKProgressHUD.show()
+        
+                let info = Info(title: "unNamed",
                                 author: [self.userName],
                                 authorEmail: [self.userID],
                                 rate: 0.0,
@@ -264,6 +231,9 @@ class MultiUserViewController: CreatePackageViewController {
                             self?.isMultiUser = true
                             self?.setupAfterEvent(docPath: docPath)
                             
+                            // Dismiss loading
+                            LKProgressHUD.dismiss()
+                            
                             DispatchQueue.main.async {
                                 self?.tableView.reloadData()
                             }
@@ -271,8 +241,11 @@ class MultiUserViewController: CreatePackageViewController {
                         
                     case .failure(let error):
                         print("publish failed: \(error)")
+                        
+                        // Dismiss loading
+                        LKProgressHUD.dismiss()
                     }
-                }
+                // }
             }
     }
     
@@ -281,7 +254,7 @@ class MultiUserViewController: CreatePackageViewController {
             title: "Warning",
             message: "Please enter the session ID",
             buttonText: "Okay") { text in
-                guard let text else { 
+                guard let text else {
                     
                     self.navigationController?.popViewController(animated: true)
                     return
@@ -327,11 +300,7 @@ class MultiUserViewController: CreatePackageViewController {
     // publish button
     func publishPressedMU() {
         
-        // Check if you are initiator
-        // if currentPackage.info.authorEmail[0] != userID { return }
-        
         let packageColl = PackageCollection.publishedColl
-        // let packageState = PackageState.publishedState
         
         // upload package
         presentAlertWithTextField(

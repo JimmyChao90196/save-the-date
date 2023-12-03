@@ -19,7 +19,6 @@ class ProfileViewController: ExplorePackageViewController {
     
     // About to be replaced
     var currentUser = User()
-    var favIDs = [String]()
     var draftIDs = [String]()
     var pubIDs = [String]()
     var priIDs = [String]()
@@ -31,7 +30,21 @@ class ProfileViewController: ExplorePackageViewController {
     var leftDivider = UIView()
     var rightDivider = UIView()
     
+    // Packages
+    var stateOfPackages = PackageState.favoriteState
     var favPackages = [Package]()
+    var pubPackages = [Package]()
+    var draftPackages = [Package]()
+    var currentPackages: [Package] {
+        
+        switch stateOfPackages {
+        case .favoriteState: return favPackages
+        case .publishedState: return pubPackages
+        case .draftState: return draftPackages
+        default: return favPackages
+            
+        }
+    }
     
     // On event
     var onLoggedIn: ((User) -> Void)?
@@ -79,6 +92,7 @@ class ProfileViewController: ExplorePackageViewController {
         ])
         
         self.selectionView.dataSource = self
+        self.selectionView.delegate = self
         self.selectionView.backgroundColor = .blue
         
         profilePicture.setCornerRadius(35)
@@ -156,6 +170,8 @@ class ProfileViewController: ExplorePackageViewController {
     }
     
     func dataBinding() {
+        
+        // Fetch packages
         profileVM.currentUser.bind { fetchedUser in
             self.currentUser = fetchedUser
             
@@ -164,6 +180,31 @@ class ProfileViewController: ExplorePackageViewController {
             DispatchQueue.main.async {
                 self.userNameLabel.text = fetchedUser.name
                 self.fetchOperation()
+                self.tableView.reloadData()
+            }
+        }
+        
+        // Fetch packages
+        profileVM.favPackages.bind { favPackages in
+            self.favPackages = favPackages
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        profileVM.pubPackages.bind { pubPackages in
+            self.pubPackages = pubPackages
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        profileVM.draftPackages.bind { draftPackages in
+            self.draftPackages = draftPackages
+            
+            DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
@@ -185,27 +226,12 @@ class ProfileViewController: ExplorePackageViewController {
 extension ProfileViewController {
     
     func fetchOperation() {
-        Task {
-            do {
-                
-                // favIDs = self.currentUser.favoritePackages
-                favIDs = self.userManager.currentUser.favoritePackages
-                
-                favPackages = try await firestoreManager.fetchPackages(withIDs: favIDs)
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            } catch {
-                print("Error occurred: \(error)")
-            }
-        }
+        profileVM.fetchPackages(with: stateOfPackages)
     }
 }
 
 // MARK: - Selection View DataSource method -
-extension ProfileViewController: SelectionViewDataSource {
+extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol {
     func buttonPerSelection(selectionView: SelectionView, index: Int) -> SelectionButton {
         return selectionsData[index]
     }
@@ -217,6 +243,22 @@ extension ProfileViewController: SelectionViewDataSource {
     func numberOfButtons(selectionView: SelectionView) -> Int {
         selectionsData.count
     }
+    
+    // MARK: - Selection view delegate method -
+    func didSelectButtonAt(
+        selectionView: SelectionView,
+        displayColor: UIColor,
+        selectionIndex: Int) {
+            
+            switch selectionIndex {
+            case 0: stateOfPackages = .favoriteState
+            case 1: stateOfPackages = .publishedState
+            case 2: stateOfPackages = .draftState
+            default: stateOfPackages = .favoriteState
+            }
+            
+            self.fetchOperation()
+        }
 }
 
 // MARK: - Table view dataSource method -
@@ -229,7 +271,8 @@ extension ProfileViewController {
     override func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int) -> Int {
-            favPackages.count
+            
+            self.currentPackages.count
         }
     
     override func tableView(
@@ -239,7 +282,7 @@ extension ProfileViewController {
                 withIdentifier: ExploreTableViewCell.reuseIdentifier,
                 for: indexPath) as? ExploreTableViewCell else { return UITableViewCell() }
             
-            cell.packageTitleLabel.text = favPackages[indexPath.row].info.title
+            cell.packageTitleLabel.text = currentPackages[indexPath.row].info.title
             cell.heartImageView.isHidden = true
             cell.onLike = nil
             
