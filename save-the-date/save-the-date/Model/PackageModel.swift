@@ -15,17 +15,20 @@ struct Package: Codable, Hashable {
     var weatherModules: WeatherModules
     var regionTags: [String]
     var docPath: String
+    var photoURL: String
     
     // init
     init(info: Info = Info(),
          weatherModules: WeatherModules = WeatherModules(sunny: [], rainy: []),
          regionTags: [String] = [],
-         docPath: String = ""
+         docPath: String = "",
+         photoURL: String = ""
     ) {
         self.info = info
         self.weatherModules = weatherModules
         self.regionTags = regionTags
         self.docPath = docPath
+        self.photoURL = photoURL
     }
     
     func hash(into hasher: inout Hasher) {

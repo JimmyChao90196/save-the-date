@@ -183,70 +183,61 @@ class MultiUserViewController: CreatePackageViewController {
         let packageColl = PackageCollection.sessionColl
         let packageState = PackageState.sessitonState
         
-        // upload package
-//        presentAlertWithTextField(
-//            title: "Warning",
-//            message: "Please add name for your Session package",
-//            buttonText: "Okay") { text in
-//                guard let text else {
-//                    
-//                    self.navigationController?.popViewController(animated: true)
-//                    return
-//                }
-        
         // Show loading
         LKProgressHUD.show()
         
-                let info = Info(title: "unNamed",
-                                author: [self.userName],
-                                authorEmail: [self.userID],
-                                rate: 0.0,
-                                state: packageState.rawValue)
-                
-                self.currentPackage.info = info
-                self.currentPackage.weatherModules.sunny = self.sunnyModules
-                self.currentPackage.weatherModules.rainy = self.rainyModules
-                self.firestoreManager.uploadPackage(self.currentPackage, packageColl) { [weak self] result in
+        let info = Info(title: "unNamed",
+                        author: [self.userName],
+                        authorEmail: [self.userID],
+                        rate: 0.0,
+                        state: packageState.rawValue)
+        
+        self.currentPackage.info = info
+        self.currentPackage.photoURL = self.userManager.currentUser.photoURL
+        self.currentPackage.weatherModules.sunny = self.sunnyModules
+        self.currentPackage.weatherModules.rainy = self.rainyModules
+        
+        self.firestoreManager.uploadPackage(self.currentPackage, packageColl) { [weak self] result in
+            
+            switch result {
+            case .success(let docPath):
+                self?.firestoreManager.updateUserPackages(
+                    email: self?.userID ?? "",
+                    packageType: packageColl,
+                    docPath: docPath,
+                    perform: .add
+                ) {
                     
-                    switch result {
-                    case .success(let docPath):
-                        self?.firestoreManager.updateUserPackages(
-                            email: self?.userID ?? "",
-                            packageType: packageColl,
-                            docPath: docPath,
-                            perform: .add
-                        ) {
-                            
-                            // Setup listener
-                            self?.LSG = self?.firestoreManager.modulesListener(docPath: docPath) { newPackage in
-                                self?.sunnyModules = newPackage.weatherModules.sunny
-                                self?.rainyModules = newPackage.weatherModules.rainy
-                                
-                                DispatchQueue.main.async {
-                                    self?.tableView.reloadData()
-                                }
-                            }
-                            
-                            self?.documentPath = docPath
-                            self?.isMultiUser = true
-                            self?.setupAfterEvent(docPath: docPath)
-                            
-                            // Dismiss loading
-                            LKProgressHUD.dismiss()
-                            
-                            DispatchQueue.main.async {
-                                self?.tableView.reloadData()
-                            }
+                    // Setup listener
+                    self?.LSG = self?.firestoreManager.modulesListener(docPath: docPath) { newPackage in
+                        self?.sunnyModules = newPackage.weatherModules.sunny
+                        self?.rainyModules = newPackage.weatherModules.rainy
+                        
+                        DispatchQueue.main.async {
+                            self?.tableView.reloadData()
                         }
-                        
-                    case .failure(let error):
-                        print("publish failed: \(error)")
-                        
-                        // Dismiss loading
-                        LKProgressHUD.dismiss()
                     }
-                // }
+                    
+                    self?.documentPath = docPath
+                    self?.isMultiUser = true
+                    self?.setupAfterEvent(docPath: docPath)
+                    
+                    // Dismiss loading
+                    LKProgressHUD.dismiss()
+                    
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadData()
+                    }
+                }
+                
+            case .failure(let error):
+                print("publish failed: \(error)")
+                
+                // Dismiss loading
+                LKProgressHUD.dismiss()
             }
+            
+        }
     }
     
     @objc func enterSesstionTapped() {
@@ -312,6 +303,7 @@ class MultiUserViewController: CreatePackageViewController {
                 self.currentPackage.info.title = text
                 print("\(self.currentPackage.info.authorEmail)")
                 
+                self.currentPackage.photoURL = self.userManager.currentUser.photoURL
                 self.currentPackage.weatherModules.sunny = self.sunnyModules
                 self.currentPackage.weatherModules.rainy = self.rainyModules
                 

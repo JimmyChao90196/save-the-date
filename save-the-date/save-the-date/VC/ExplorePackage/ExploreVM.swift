@@ -12,14 +12,17 @@ import UIKit
 
 class ExploreViewModel {
     
+    var userManager = UserManager.shared
     var firestoreManager = FirestoreManager.shared
     var fetchedPackages = Box<[Package]>([])
+    // var fetchedProfileImages = Box<[UIImage]>([])
+    
     var hotsPaths = Box<[String]>([])
     
     // fetch searched packages
     func fetchedSearchedPackages(by tags: [String]) {
         
-        var copyTags = tags
+        let copyTags = tags
 
         firestoreManager.searchPackages(by: copyTags) { result in
             
@@ -54,6 +57,20 @@ class ExploreViewModel {
         }
     }
     
+    // Fetch userProfile images
+//    func fetchUserProfileImages(from packages: [Package]) {
+//        
+//        self.userManager.downloadImages(from: urls, completion: { result in
+//            switch result {
+//            case .success(let images):
+//                self.fetchedProfileImages.value = images
+//                
+//            case .failure(let error):
+//                print(error)
+//            }
+//        })
+//    }
+    
     // fetch initial packages
     func fetchPackages(from collection: PackageCollection) {
         
@@ -62,7 +79,7 @@ class ExploreViewModel {
             case .success(let packages):
                 self?.fetchedPackages.value = packages
                 
-                self?.hotsPaths.value = packages.map{ $0.docPath }
+                self?.hotsPaths.value = packages.map { $0.docPath }
                 
             case .failure(let error):
                 print("unable to fetch packages: \(error)")

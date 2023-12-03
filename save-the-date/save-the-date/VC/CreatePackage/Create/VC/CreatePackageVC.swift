@@ -72,7 +72,6 @@ class CreatePackageViewController: PackageBaseViewController {
         
         print(self.regionTags)
         tableView.reloadData()
-        
     }
     
     override func viewDidLoad() {
@@ -260,6 +259,7 @@ extension CreatePackageViewController {
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 
+                self.currentPackage.photoURL = self.userManager.currentUser.photoURL
                 self.currentPackage.info = info
                 self.currentPackage.regionTags = self.regionTags
                 self.currentPackage.weatherModules.sunny = self.sunnyModules

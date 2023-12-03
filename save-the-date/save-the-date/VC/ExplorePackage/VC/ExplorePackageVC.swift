@@ -56,7 +56,10 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     var inputTags = ["Taipei City", "Da’an District"]
     
     var hotsPaths = [String]()
+    
     var fetchedPackages = [Package]()
+    // var fetchedProfileImages = [UIImage]()
+    
     var packageAuthorLabel = UILabel()
     var onLike: ((UITableViewCell, Bool) -> Void)?
     var onTapped: ((Int) -> Void)?
@@ -97,7 +100,11 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         super.setup()
         
         // Notification Center listener
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCredentialsUpdate(notification:)), name: .userCredentialsUpdated, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleCredentialsUpdate(notification:)),
+            name: .userCredentialsUpdated,
+            object: nil)
         
         // Setup picker
         cityPicker.dataSource = self
@@ -113,6 +120,15 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
                 self?.tableView.reloadData()
             }
         }
+        
+        // Binding for profileImages
+//        viewModel.fetchedProfileImages.bind { images in
+//            self.fetchedProfileImages = images
+//            
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
+//        }
         
         // Binding for path
         viewModel.hotsPaths.bind { paths in
