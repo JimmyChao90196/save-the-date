@@ -28,20 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             GMSServices.provideAPIKey("AIzaSyDKpRUS5pK0qBRxosBaXhazzsyWING1GxY")
             
             FirebaseApp.configure()
-            
-//            if let launchUrlString = ProcessInfo.processInfo.environment["LAUNCH_URL"],
-//               let url = URL(string: launchUrlString) {
-//                
-//                // Check for a deep link
-//                
-//                pendingDeepLink = url
-//            }
-            
-            // Check for a deep link
-            if let url = launchOptions?[.url] as? URL {
-                pendingDeepLink = url
-            }
-            
+
             return true
         }
 
@@ -49,8 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ app: UIApplication,
         open url: URL,
         options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        return GIDSignIn.sharedInstance.handle(url)
-    }
+            
+            if GIDSignIn.sharedInstance.handle(url) {
+                return true
+            }
+
+            return false
+        }
     
     // MARK: UISceneSession Lifecycle
     
