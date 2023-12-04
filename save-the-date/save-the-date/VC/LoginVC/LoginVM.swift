@@ -37,6 +37,7 @@ class LoginViewModel {
     // Sign in to firebase with google
     func signInToFirebaseWithGoogle(idToken: String, accessToken: String) {
         let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+        
         Auth.auth().signIn(with: credential) { [weak self] authResult, error in
             guard let strongSelf = self else { return }
             if let error = error {
@@ -50,6 +51,7 @@ class LoginViewModel {
                 // The user's ID, unique to the Firebase project.
                 // Do NOT use this value to authenticate with your backend server,
                 // if you have one. Use getTokenWithCompletion:completion: instead.
+                
                 let uid = user.uid
                 let email = user.email
                 let photoURL = user.photoURL?.absoluteString

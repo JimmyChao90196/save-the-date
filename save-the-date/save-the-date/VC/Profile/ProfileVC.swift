@@ -28,6 +28,12 @@ class ProfileViewController: ExplorePackageViewController {
     // UI elements
     var profileBGImage = UIImageView(image: UIImage(resource: .profileBG))
     var profilePicture = UIImageView(image: UIImage(systemName: "person.crop.circle.fill"))
+    
+    var descriptionView = UIView()
+    var descriptionContent = UILabel()
+    var descriptionHBlock = UIView()
+    var descriptionVBlock = UIView()
+    
     var userNameLabel = UILabel()
     var leftDivider = UIView()
     var rightDivider = UIView()
@@ -63,7 +69,6 @@ class ProfileViewController: ExplorePackageViewController {
         }
     }
     
-    
     // On event
     var onLoggedIn: ((User) -> Void)?
     
@@ -83,9 +88,9 @@ class ProfileViewController: ExplorePackageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         navigationItem.rightBarButtonItem = testButton
         navigationItem.searchController = nil
+        navigationItem.leftBarButtonItem = nil
         
         dataBinding()
         setupOnEvent()
@@ -101,17 +106,24 @@ class ProfileViewController: ExplorePackageViewController {
     override func setup() {
         super.setup()
         view.addSubviews([
-            selectionView,
             profileBGImage,
             profilePicture,
             leftDivider,
             rightDivider,
-            userNameLabel
+            userNameLabel,
+            descriptionView,
+            descriptionHBlock,
+            descriptionVBlock,
+            descriptionContent,
+            selectionView
         ])
         
         self.selectionView.dataSource = self
         self.selectionView.delegate = self
-        self.selectionView.backgroundColor = .blue
+        self.selectionView.setBoarderColor(.black)
+            .setCornerRadius(15)
+            .setBoarderWidth(3)
+            .setbackgroundColor(.hexToUIColor(hex: "#87D6DD"))
         
         profilePicture.setCornerRadius(35).contentMode = .scaleAspectFill
         profilePicture.tintColor = .hexToUIColor(hex: "#3F3A3A")
@@ -120,6 +132,7 @@ class ProfileViewController: ExplorePackageViewController {
         
         profileBGImage.contentMode = .scaleToFill
         
+        // Dividers
         leftDivider.backgroundColor = .darkGray
         rightDivider.backgroundColor = .darkGray
         
@@ -129,13 +142,57 @@ class ProfileViewController: ExplorePackageViewController {
         
         // Hide folded view
         foldedView.isHidden = true
+        
+        // Set background view
+        view.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
+        tableView.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
+        
+        // Description view
+        descriptionView.setCornerRadius(10)
+            .setBoarderColor(.black)
+            .setBoarderWidth(2.5)
+        descriptionHBlock.backgroundColor = .blue
+        descriptionVBlock.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
+        descriptionContent.numberOfLines = 0
+        descriptionContent.textAlignment = .center
+        descriptionContent.setFont(UIFont(name: "ChalkboardSE-Regular", size: 14)!)
+            .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
+            .text = "Be kind, for everyone you meet is fighting a hard battle."
     }
     
     override func setupConstraint() {
         
+        // Description
+        descriptionView.snp.makeConstraints { make in
+            make.top.equalTo(profileBGImage.snp.bottom).offset(10)
+            make.bottom.equalTo(selectionView.snp.top).offset(-10)
+            make.leading.equalTo(userNameLabel.snp.trailing).offset(40)
+            make.trailing.equalToSuperview().offset(-20)
+        }
+        
+        descriptionContent.snp.makeConstraints { make in
+            make.centerY.equalTo(descriptionView.snp.centerY)
+            make.leading.equalTo(descriptionView.snp.leading).offset(15)
+            make.trailing.equalTo(descriptionView.snp.trailing).offset(-15)
+        }
+        
+        descriptionHBlock.snp.makeConstraints { make in
+            make.leading.equalTo(descriptionView.snp.leading).offset(-5)
+            make.trailing.equalTo(descriptionView.snp.trailing).offset(5)
+            make.centerY.equalTo(descriptionView.snp.centerY)
+            make.height.equalTo(25)
+        }
+        
+        descriptionVBlock.snp.makeConstraints { make in
+            make.top.equalTo(descriptionView.snp.top).offset(-5)
+            make.bottom.equalTo(descriptionView.snp.bottom).offset(5)
+            make.centerX.equalTo(descriptionView.snp.centerX)
+            make.width.equalTo(100)
+        }
+        
         userNameLabel.snp.makeConstraints { make in
             make.top.equalTo(profilePicture.snp.bottom).offset(10)
-            make.leading.equalToSuperview().offset(15)
+            make.centerX.equalTo(profilePicture.snp.centerX)
         }
         
         profileBGImage.snp.makeConstraints { make in
@@ -147,7 +204,7 @@ class ProfileViewController: ExplorePackageViewController {
         
         profilePicture.snp.makeConstraints { make in
             make.centerY.equalTo(profileBGImage.snp.bottom)
-            make.leading.equalToSuperview().offset(100)
+            make.leading.equalToSuperview().offset(25)
             make.height.equalTo(70)
             make.width.equalTo(70)
         }
@@ -169,8 +226,8 @@ class ProfileViewController: ExplorePackageViewController {
         selectionView.snp.makeConstraints { make in
             make.top.equalTo(profilePicture.snp.bottom).offset(50)
             make.height.equalTo(50)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
         }
         
         tableView.snp.makeConstraints { make in
@@ -290,7 +347,7 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
     }
     
     func colorOfBar(selectionView: SelectionView ) -> UIColor? {
-        return .blue
+        return .black
     }
     
     func numberOfButtons(selectionView: SelectionView) -> Int {
@@ -316,6 +373,7 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
 
 // MARK: - Table view dataSource method -
 extension ProfileViewController {
+    
     override func numberOfSections(
         in tableView: UITableView) -> Int {
             1

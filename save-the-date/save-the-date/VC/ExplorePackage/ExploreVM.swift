@@ -16,7 +16,6 @@ class ExploreViewModel {
     var firestoreManager = FirestoreManager.shared
     var fetchedPackages = Box<[Package]>([])
     var fetchedProfileImages = Box<[UIImage]>([])
-    
     var hotsPaths = Box<[String]>([])
     
     // fetch searched packages

@@ -40,10 +40,12 @@ class ExploreBaseViewController: UIViewController {
     func setup() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = .clear
     }
     
     func addTo() {
         view.addSubviews([tableView])
+        
     }
     
     func setupConstraint() {
