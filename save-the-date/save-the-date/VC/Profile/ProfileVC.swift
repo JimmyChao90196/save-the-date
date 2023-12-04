@@ -199,7 +199,7 @@ class ProfileViewController: ExplorePackageViewController {
         
         userNameLabel.snp.makeConstraints { make in
             make.top.equalTo(profilePicture.snp.bottom).offset(10)
-            make.centerX.equalTo(profilePicture.snp.centerX)
+            make.leading.equalToSuperview().offset(20)
         }
         
         profileBGImage.snp.makeConstraints { make in

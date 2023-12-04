@@ -144,10 +144,13 @@ class MultiUserViewController: CreatePackageViewController {
     // Prepare share sheet
     func prepareShareSheet() {
         
-        let shareSheetVC = UIActivityViewController(
-            activityItems: [documentPath],
-            applicationActivities: nil)
-        present(shareSheetVC, animated: true)
+        if let shareUrl = URL(string: "saveTheDate://joinSession?id=\(documentPath)") {
+            
+            let shareSheetVC = UIActivityViewController(
+                activityItems: [shareUrl],
+                applicationActivities: nil)
+            present(shareSheetVC, animated: true)
+        }
     }
     
     // Leave multi-user

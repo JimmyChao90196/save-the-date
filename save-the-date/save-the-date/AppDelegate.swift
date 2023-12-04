@@ -17,6 +17,7 @@ import GoogleSignIn
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var pendingDeepLink: URL?
 
     func application(
         _ application: UIApplication,
@@ -28,15 +29,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             FirebaseApp.configure()
             
-            // Google
-
+//            if let launchUrlString = ProcessInfo.processInfo.environment["LAUNCH_URL"],
+//               let url = URL(string: launchUrlString) {
+//                
+//                // Check for a deep link
+//                
+//                pendingDeepLink = url
+//            }
+            
+            // Check for a deep link
+            if let url = launchOptions?[.url] as? URL {
+                pendingDeepLink = url
+            }
             
             return true
         }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         return GIDSignIn.sharedInstance.handle(url)
-        
     }
     
     // MARK: UISceneSession Lifecycle
@@ -55,4 +68,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         // Called when the user discards a scene session.
     }
+}
+
+// MARK: - Notification -
+extension Notification.Name {
+    static let joinSessionNotification = Notification.Name("joinSessionNotification")
 }

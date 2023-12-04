@@ -9,6 +9,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>saveTheDate</string>
 				<string>com.googleusercontent.apps.743554878223-0dh0hb1v08fqit68qhe993cfksteedi5</string>
 			</array>
 		</dict>

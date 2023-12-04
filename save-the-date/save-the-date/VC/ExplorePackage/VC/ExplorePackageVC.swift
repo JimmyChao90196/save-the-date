@@ -314,7 +314,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         foldedView.snp.makeConstraints { make in
             make.top.equalTo(view.snp_topMargin)
             make.width.equalTo(200)
-            make.bottom.equalTo(view.snp_bottomMargin)
+            make.bottom.equalTo(view.snp.bottom)
         }
         
         // Set the initial position off-screen

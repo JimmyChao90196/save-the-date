@@ -49,6 +49,13 @@
             ReferencedContainer = "container:save-the-date.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "LAUNCH_URL"
+            value = "saveTheDate://joinSession?id=uL1SKTRi39PQ6u4lgULW"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <LocationScenarioReference
          identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
          referenceType = "1">

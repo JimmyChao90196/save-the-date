@@ -70,6 +70,7 @@ class ExploreTableViewCell: UITableViewCell {
         // Setup title
         packageTitleLabel.setbackgroundColor(.clear)
             .setFont(UIFont(name: "ChalkboardSE-Regular", size: 20)!)
+            .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
             .textAlignment = .center
         
         // Setup author

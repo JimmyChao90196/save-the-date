@@ -32,7 +32,7 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
     // MARK: View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Add observer
         NotificationCenter.default.addObserver(
             self,
@@ -88,9 +88,17 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
             
             return nav
         }
+        
+        // Process any pending deep link
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+           let deepLinkURL = appDelegate.pendingDeepLink {
+            appDelegate.pendingDeepLink = nil // Clear the pending deep link
+            handleDeepLink(url: deepLinkURL)
+        }
     }
     
     // MARK: - Additional method -
+    
     @objc func handleCredentialsUpdate(notification: Notification) {
         if let credentials = notification.object as? UserCredentialsPack {
             // Handle the credentials update
@@ -137,4 +145,43 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
                 }
             }
         }
+}
+
+extension TabbarController {
+
+    func handleDeepLink(url: URL) {
+        // Parse the URL to get the necessary information
+        // Example: Extracting a session ID for a "joinSession" action
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+              let queryItems = components.queryItems,
+              let sessionId = queryItems.first(where: { $0.name == "id" })?.value else {
+            print("Invalid deep link URL")
+            return
+        }
+        
+        // Determine which tab to switch to based on the deep link
+        let targetTabIndex = 1 // Change this index based on your app's tabs
+
+        // Ensure the tabIndex is within the bounds of your view controllers
+        guard targetTabIndex < self.viewControllers?.count ?? 0 else {
+            print("Invalid tab index")
+            return
+        }
+
+        // Switch to the specified tab
+        self.selectedIndex = targetTabIndex
+
+        // Get the navigation controller for that tab
+        if let navController = self.viewControllers?[targetTabIndex] as? UINavigationController {
+            // Clear any existing view controllers on the stack if necessary
+            navController.popToRootViewController(animated: false)
+
+            // Create an instance of MultiUserViewController and set its properties
+            let multiUserVC = MultiUserViewController()
+            multiUserVC.documentPath = sessionId // or any other property you need to set
+
+            // Push the MultiUserViewController onto the navigation stack
+            navController.pushViewController(multiUserVC, animated: true)
+        }
+    }
 }
