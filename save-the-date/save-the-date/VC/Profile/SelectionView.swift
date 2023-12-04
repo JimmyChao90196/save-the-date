@@ -33,7 +33,7 @@ class SelectionView: UIView {
     private var buttons: [UIButton] = [ ]
     
     private var barView: UIView = UIView()
-    private var barViewLeadingConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var barViewCenterConstraint: NSLayoutConstraint = NSLayoutConstraint()
     
     weak var delegate: SelectionViewProtocol?
     weak var dataSource: SelectionViewDataSource? {
@@ -118,13 +118,14 @@ class SelectionView: UIView {
         let firstButton = buttons[0]
         barView.translatesAutoresizingMaskIntoConstraints = false
         barView.backgroundColor = dataSource.colorOfBar?(selectionView: self) ?? .blue
-        barViewLeadingConstraint = barView.leadingAnchor.constraint(equalTo: firstButton.leadingAnchor)
+        
+        barViewCenterConstraint = barView.centerXAnchor.constraint(equalTo: firstButton.centerXAnchor)
         
         NSLayoutConstraint.activate([
-            barView.topAnchor.constraint(equalTo: buttonStack.bottomAnchor, constant: 5),
-            barView.widthAnchor.constraint(equalTo: firstButton.widthAnchor),
-            barView.heightAnchor.constraint(equalToConstant: 1),
-            barViewLeadingConstraint
+            barView.topAnchor.constraint(equalTo: buttonStack.bottomAnchor, constant: 0.0),
+            barView.widthAnchor.constraint(equalTo: firstButton.widthAnchor, multiplier: 0.5),
+            barView.heightAnchor.constraint(equalToConstant: 2.5),
+            barViewCenterConstraint
         ])
     }
     
@@ -179,9 +180,10 @@ class SelectionView: UIView {
     // Add animation to the this action.
     private func animateBarView() {
         let selectedButton = buttons[selectedButtonIndex]
-        barViewLeadingConstraint.isActive = false
-        barViewLeadingConstraint = barView.leadingAnchor.constraint(equalTo: selectedButton.leadingAnchor)
-        barViewLeadingConstraint.isActive = true
+        barViewCenterConstraint.isActive = false
+        barViewCenterConstraint = barView.centerXAnchor.constraint(
+            equalTo: selectedButton.centerXAnchor)
+        barViewCenterConstraint.isActive = true
         
         // This animation will animated not only constraint, but all the UI-related update.
         UIView.animate(withDuration: 0.3) {

@@ -37,6 +37,7 @@ class ProfileViewController: ExplorePackageViewController {
     var userNameLabel = UILabel()
     var leftDivider = UIView()
     var rightDivider = UIView()
+    var selectionDivider = UIView()
     
     // Packages
     var stateOfPackages = PackageState.favoriteState
@@ -115,17 +116,22 @@ class ProfileViewController: ExplorePackageViewController {
             descriptionHBlock,
             descriptionVBlock,
             descriptionContent,
-            selectionView
+            selectionView,
+            selectionDivider
         ])
         
         self.selectionView.dataSource = self
         self.selectionView.delegate = self
         self.selectionView.setBoarderColor(.black)
             .setCornerRadius(15)
-            .setBoarderWidth(3)
+            .setBoarderWidth(2)
             .setbackgroundColor(.hexToUIColor(hex: "#87D6DD"))
         
-        profilePicture.setCornerRadius(35).contentMode = .scaleAspectFill
+        profilePicture.setCornerRadius(35)
+            .setBoarderColor(.black)
+            .setBoarderWidth(2.0)
+            .contentMode = .scaleAspectFill
+        
         profilePicture.tintColor = .hexToUIColor(hex: "#3F3A3A")
         profilePicture.backgroundColor = .white
         profilePicture.clipsToBounds = true
@@ -135,6 +141,7 @@ class ProfileViewController: ExplorePackageViewController {
         // Dividers
         leftDivider.backgroundColor = .darkGray
         rightDivider.backgroundColor = .darkGray
+        selectionDivider.backgroundColor = .darkGray
         
         userNameLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 24)!)
             .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
@@ -144,15 +151,15 @@ class ProfileViewController: ExplorePackageViewController {
         foldedView.isHidden = true
         
         // Set background view
-        view.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
-        tableView.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
+        tableView.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
+        view.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
         
         // Description view
         descriptionView.setCornerRadius(10)
             .setBoarderColor(.black)
             .setBoarderWidth(2.5)
-        descriptionHBlock.backgroundColor = .blue
-        descriptionVBlock.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
+        descriptionHBlock.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
+        descriptionVBlock.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
         descriptionContent.numberOfLines = 0
         descriptionContent.textAlignment = .center
         descriptionContent.setFont(UIFont(name: "ChalkboardSE-Regular", size: 14)!)
@@ -223,15 +230,22 @@ class ProfileViewController: ExplorePackageViewController {
             make.height.equalTo(2.5)
         }
         
+        selectionDivider.snp.makeConstraints { make in
+            make.top.equalTo(selectionView.snp.bottom).offset(10)
+            make.height.equalTo(2.0)
+            make.leading.equalToSuperview().offset(50)
+            make.trailing.equalToSuperview().offset(-50)
+        }
+        
         selectionView.snp.makeConstraints { make in
             make.top.equalTo(profilePicture.snp.bottom).offset(50)
             make.height.equalTo(50)
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().offset(-20)
+            make.left.equalToSuperview().offset(5)
+            make.right.equalToSuperview().offset(-5)
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(selectionView.snp.bottom)
+            make.top.equalTo(selectionDivider.snp.bottom).offset(7.5)
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
             make.bottom.equalTo(view.snp_bottomMargin)
@@ -393,7 +407,18 @@ extension ProfileViewController {
                 withIdentifier: ExploreTableViewCell.reuseIdentifier,
                 for: indexPath) as? ExploreTableViewCell else { return UITableViewCell() }
             
+            let authorNameArray = currentPackages[indexPath.row].info.author
+            let authorName = authorNameArray.joined(separator: " ")
+            
+            let tags = viewModel.createTagsView(
+                for: indexPath,
+                packages: currentPackages)
+            
+            cell.configureStackView(with: tags)
+            cell.packageAuthor.text = " by \(authorName) "
+            
             cell.packageTitleLabel.text = currentPackages[indexPath.row].info.title
+            
             cell.heartImageView.isHidden = true
             cell.onLike = nil
             cell.authorPicture.image = currentProfileImages[indexPath.row]

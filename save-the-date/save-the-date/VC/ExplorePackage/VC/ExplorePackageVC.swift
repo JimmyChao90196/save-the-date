@@ -497,7 +497,9 @@ extension ExplorePackageViewController {
             let authorNameArray = fetchedPackages[indexPath.row].info.author
             let authorName = authorNameArray.joined(separator: " ")
             
-            let tags = createTagView(for: indexPath)
+            let tags = viewModel.createTagsView(
+                for: indexPath,
+                packages: fetchedPackages)
             
             cell.configureStackView(with: tags)
             cell.packageAuthor.text = " by \(authorName) "
@@ -517,31 +519,6 @@ extension ExplorePackageViewController {
 
 // MARK: - Additional method -
 extension ExplorePackageViewController {
-    
-    private func createTagView(for indexPath: IndexPath) -> [UIView] {
-        // Example: create UIImageViews or UILabels based on your model
-        
-        let tags = fetchedPackages[indexPath.row].regionTags.prefix(2)
-        
-        var labelArray = [UILabel]()
-        let colors = [UIColor.hexToUIColor(hex: "#86CEFF"), UIColor.hexToUIColor(hex: "#8691FF")]
-        
-        // Tags label with random color
-        for (index, tag) in tags.enumerated() {
-            let label = UILabel()
-            label.text = tag
-            label.font = UIFont(name: "HelveticaNeue", size: 15)
-            label.textColor = .black
-            label.textAlignment = .center
-            
-            label.backgroundColor = colors[index]
-            
-            label.layer.cornerRadius = 5
-            label.layer.masksToBounds = true
-            labelArray.append(label)
-        }
-        return labelArray
-    }
     
     @objc func handleCredentialsUpdate(notification: Notification) {
         if let credentials = notification.object as? UserCredentialsPack {
@@ -662,9 +639,9 @@ extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDat
                 currentDistrict = currentCity.districts[row]
                 self.inputTags[1] = currentDistrict
             }
-            print(self.inputTags)
             
-            let tags = createTagsArray()
+            print(self.inputTags)
+            let tags = viewModel.createTagsView(inputTags: inputTags)
             DispatchQueue.main.async {
                 self.configureStackView(with: tags)
             }
@@ -687,33 +664,4 @@ extension ExplorePackageViewController {
             dynamicStackView.addArrangedSubview(element)
         }
     }
-    
-    private func createTagsArray() -> [UIView] {
-        // Example: create UIImageViews or UILabels based on your model
-        
-        let tags = inputTags
-        
-        var labelArray = [UILabel]()
-        
-        // Tags label with random color
-        for tag in tags {
-            let label = UILabel()
-            label.text = tag
-            label.font = UIFont(name: "ChalboardSE-Regular", size: 18)
-            label.textColor = .black
-            label.textAlignment = .center
-            label.backgroundColor = .lightGray
-            label.setCornerRadius(10)
-                .setBoarderColor(.black)
-                .setBoarderWidth(1)
-                .clipsToBounds = true
-            
-            label.layer.cornerRadius = 5
-            label.layer.masksToBounds = true
-            labelArray.append(label)
-        }
-        return labelArray
-    }
 }
-
-

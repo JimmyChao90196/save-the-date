@@ -9,6 +9,7 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestoreSwift
 import UIKit
+import SnapKit
 
 class ExploreViewModel {
     
@@ -112,5 +113,59 @@ class ExploreViewModel {
             
             self.fetchPackages(from: .publishedColl)
         }
+    }
+    
+    // MARK: - Create tags view -
+    func createTagsView(for indexPath: IndexPath, packages: [Package]) -> [UIView] {
+        // Example: create UIImageViews or UILabels based on your model
+        
+        let tags = packages[indexPath.row].regionTags.prefix(2)
+        
+        var labelArray = [UILabel]()
+        let colors = [UIColor.hexToUIColor(hex: "#86CEFF"), UIColor.hexToUIColor(hex: "#8691FF")]
+        
+        // Tags label with random color
+        for (index, tag) in tags.enumerated() {
+            let label = UILabel()
+            label.text = tag
+            label.font = UIFont(name: "HelveticaNeue", size: 15)
+            label.textColor = .black
+            label.textAlignment = .center
+            label.backgroundColor = colors[index]
+            label.layer.cornerRadius = 5
+            label.layer.masksToBounds = true
+            
+            labelArray.append(label)
+        }
+        return labelArray
+    }
+    
+    func createTagsView(inputTags: [String]) -> [UIView] {
+        // Example: create UIImageViews or UILabels based on your model
+        
+        var labelArray = [UILabel]()
+        
+        // Tags label with random color
+        for tag in inputTags {
+            let label = UILabel()
+            label.text = tag
+            label.font = UIFont(name: "ChalboardSE-Regular", size: 18)
+            label.textColor = .black
+            label.textAlignment = .center
+            label.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
+            label.setCornerRadius(10)
+                .setBoarderColor(.black)
+                .setBoarderWidth(1)
+                .clipsToBounds = true
+            
+            label.snp.makeConstraints { make in
+                make.height.equalTo(30)
+            }
+            
+            label.layer.cornerRadius = 5
+            label.layer.masksToBounds = true
+            labelArray.append(label)
+        }
+        return labelArray
     }
 }

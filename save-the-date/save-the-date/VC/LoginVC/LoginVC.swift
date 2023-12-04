@@ -38,18 +38,34 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    // Fake images that is about to be replaced with signin with apple
+    var appleSignInImage = UIImageView(image: UIImage(resource: .signInWithAppleFakeIcon))
+    
+    // Guide label
+    var guideLabel = UILabel()
+    
+    // icons
+    var upperIcon = UIImageView(image: UIImage(resource: .travelIcon01))
+    var lowerIcon = UIImageView(image: UIImage(resource: .travelIcon02))
+    
+    // Divider
+    var dividerUpperLeft = UIView()
+    var dividerUpperRight = UIView()
+    var dividerLowerLeft = UIView()
+    var dividerLowerRight = UIView()
+    
     // On event
     var onLoggedIn: ((User) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .hexToUIColor(hex: "#FF4E4E")
         
         dataBinding()
         viewModel.configureGoogleSignIn()
-        
         addTo()
         setupConstraint()
+        setup()
         
     }
     
@@ -74,16 +90,99 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func setup() {
+        guideLabel.text = "Please sign in"
+        guideLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 20)!)
+        guideLabel.textColor = .hexToUIColor(hex: "#3F3A3A")
+        
+        googleSignInButton.style = .wide
+        googleSignInButton.setCornerRadius(20)
+            .clipsToBounds = true
+        appleSignInImage.setCornerRadius(20)
+            .clipsToBounds = true
+        
+        // Setup divider
+        dividerUpperLeft.backgroundColor = .lightGray
+        dividerUpperRight.backgroundColor = .lightGray
+        dividerLowerLeft.backgroundColor = .lightGray
+        dividerLowerRight.backgroundColor = .lightGray
+    }
+    
     func addTo() {
-        view.addSubviews([googleSignInButton])
+        view.addSubviews([
+            googleSignInButton,
+            guideLabel,
+            upperIcon,
+            lowerIcon,
+            dividerUpperLeft,
+            dividerUpperRight,
+            dividerLowerLeft,
+            dividerLowerRight,
+            appleSignInImage
+        ])
     }
     
     func setupConstraint() {
+        
+        guideLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(25)
+            make.centerX.equalToSuperview()
+        }
+        
+        upperIcon.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(guideLabel.snp.bottom).offset(20)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+        }
+        
+        dividerUpperLeft.snp.makeConstraints { make in
+            make.centerY.equalTo(upperIcon.snp.centerY)
+            make.left.equalToSuperview().offset(80)
+            make.right.equalTo(upperIcon.snp.left).offset(-10)
+            make.height.equalTo(1)
+        }
+        
+        dividerUpperRight.snp.makeConstraints { make in
+            make.centerY.equalTo(upperIcon.snp.centerY)
+            make.right.equalToSuperview().offset(-80)
+            make.left.equalTo(upperIcon.snp.right).offset(10)
+            make.height.equalTo(1)
+        }
+        
         googleSignInButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(40)
-            make.width.equalTo(150)
-            make.height.equalTo(50)
+            make.top.equalTo(upperIcon.snp.bottom).offset(20)
+            make.width.equalTo(223)
+            make.height.equalTo(15)
+        }
+        
+        appleSignInImage.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(googleSignInButton.snp.bottom).offset(10)
+            make.width.equalTo(215)
+            make.height.equalTo(40)
+        }
+        
+        lowerIcon.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(appleSignInImage.snp.bottom).offset(20)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+        }
+        
+        dividerLowerLeft.snp.makeConstraints { make in
+            make.centerY.equalTo(lowerIcon.snp.centerY)
+            make.left.equalToSuperview().offset(80)
+            make.right.equalTo(lowerIcon.snp.left).offset(-10)
+            make.height.equalTo(1)
+        }
+        
+        dividerLowerRight.snp.makeConstraints { make in
+            make.centerY.equalTo(lowerIcon.snp.centerY)
+            make.right.equalToSuperview().offset(-80)
+            make.left.equalTo(lowerIcon.snp.right).offset(10)
+            make.height.equalTo(1)
         }
     }
     

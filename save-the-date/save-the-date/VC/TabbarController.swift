@@ -124,9 +124,9 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
                     loginVC.modalPresentationStyle = .automatic
                     loginVC.modalTransitionStyle = .coverVertical
                     loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
-                        context.maximumDetentValue * 0.5
+                        context.maximumDetentValue * 0.35
                     })]
-                    // navigationController?.present(loginVC, animated: true)
+                    
                     nvc.present(loginVC, animated: true)
                     
                     return false
