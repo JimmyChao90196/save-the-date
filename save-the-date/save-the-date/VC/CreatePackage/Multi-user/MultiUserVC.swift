@@ -30,6 +30,9 @@ enum LeaveKind {
 
 class MultiUserViewController: CreatePackageViewController {
     
+    // Check entering way
+    var isEnteringWithLink = false
+    
     // Store listener
     var LSG: ListenerRegistration?
     

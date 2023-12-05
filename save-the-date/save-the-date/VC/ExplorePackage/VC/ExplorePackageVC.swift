@@ -19,6 +19,9 @@ import QuartzCore
 
 class ExplorePackageViewController: ExploreBaseViewController, ResultViewControllerDelegate {
     
+    // url
+    var url: URL?
+    
     // VM
     let viewModel = ExploreViewModel()
     
@@ -278,6 +281,14 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         tableView.backgroundColor = .clear
         tableView.backgroundView = UIImageView(image: UIImage(resource: .createBG03))
         tableView.backgroundView?.contentMode = .scaleToFill
+        
+        if url != nil {
+            DispatchQueue.main.async {
+                self.tagGuide.text = "\(String(describing: self.url))"
+            }
+            
+            handleDeepLink(url: url!)
+        }
     }
     
     override func setupConstraint() {
@@ -407,6 +418,14 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
 
 // MARK: - Additional method -
 extension ExplorePackageViewController {
+    
+    @objc private func handleDeepLinkNotification(_ notification: Notification) {
+        if let url = notification.object as? URL {
+            DispatchQueue.main.async {
+                self.tagGuide.text = "\(url)"
+            }
+        }
+    }
     
     func fetchPackages() {
         viewModel.fetchPackages(from: .publishedColl)
@@ -662,6 +681,42 @@ extension ExplorePackageViewController {
         // Add new elements
         for element in elements {
             dynamicStackView.addArrangedSubview(element)
+        }
+    }
+}
+
+extension ExplorePackageViewController {
+    func handleDeepLink(url: URL) {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+              let queryItems = components.queryItems,
+              let sessionId = queryItems.first(where: { $0.name == "id" })?.value else {
+            print("Invalid deep link URL")
+            return
+        }
+
+        let targetTabIndex = 1  // Index of the tab where the MultiUserViewController is located
+
+        // Ensure the target tab index is valid
+        guard targetTabIndex < (self.tabBarController?.viewControllers?.count ?? 0) else {
+            print("Invalid tab index")
+            return
+        }
+
+        // Switch to the target tab
+        self.tabBarController?.selectedIndex = targetTabIndex
+
+        // Get the navigation controller of the target tab
+        if let navController = self.tabBarController?.viewControllers?[targetTabIndex] as? UINavigationController {
+            // Clear any existing view controllers on the stack if necessary
+            navController.popToRootViewController(animated: false)
+
+            // Create and configure MultiUserViewController
+            let multiUserVC = MultiUserViewController()
+            multiUserVC.isEnteringWithLink = true
+            multiUserVC.documentPath = sessionId
+
+            // Push the MultiUserViewController onto the navigation stack
+            navController.pushViewController(multiUserVC, animated: true)
         }
     }
 }

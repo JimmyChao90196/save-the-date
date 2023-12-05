@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     var pendingDeepLink: URL?
+    var test: Int?
     
     func scene(
         _ scene: UIScene,
@@ -22,27 +23,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             guard let scene = (scene as? UIWindowScene) else { return }
             
+            let tabBarController = TabbarController()
+            
             // deeplink Open
             if connectionOptions.urlContexts.first?.url != nil {
               let urlinfo = connectionOptions.urlContexts.first?.url
                 
-                print ("Deeplink Open at SceneDelegate on App Start ::::::: \(String(describing: urlinfo))")
                 if urlinfo?.scheme == "saveTheDate" {
                     
                     pendingDeepLink = urlinfo
-                    
-                    let tabBarController = TabbarController()
                     tabBarController.pendingDeepLink = urlinfo
-                    window = UIWindow(windowScene: scene)
-                    window!.rootViewController = tabBarController
-                    window!.makeKeyAndVisible()
                 }
             }
             
-            let tabBarController = TabbarController()
+            // let tabBarController = TabbarController()
             window = UIWindow(windowScene: scene)
             window!.rootViewController = tabBarController
             window!.makeKeyAndVisible()
+            
+            // Pass value directly
+            if let tabbarController = self.window?.rootViewController as? UITabBarController,
+               let navigationController = tabbarController.viewControllers?.first as? UINavigationController,
+               let desiredController = navigationController.viewControllers.first as? ExplorePackageViewController {
+                   desiredController.url = pendingDeepLink
+            }
+
         }
     
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -103,4 +108,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             pendingDeepLink = url
         }
     }
+}
+
+extension Notification.Name {
+    static let deepLinkOpened = Notification.Name("DeepLinkOpenedNotification")
 }
