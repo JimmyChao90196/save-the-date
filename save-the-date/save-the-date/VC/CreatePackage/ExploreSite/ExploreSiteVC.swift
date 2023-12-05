@@ -115,7 +115,7 @@ class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
             .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
             .setBoarderWidth(1.5)
             .setCornerRadius(10)
-            .setTitle("Comfirm", for: .normal)
+            .setTitle("Confirm", for: .normal)
         
         // Customize image view
         placeImageView.image = UIImage(resource: .placeholder03)

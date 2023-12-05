@@ -24,6 +24,11 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     
     // VM
     let viewModel = ExploreViewModel()
+    var userCredentialsPack = UserCredentialsPack(
+        name: "",
+        email: "",
+        uid: "",
+        token: nil)
     
     // Stack view
     let dynamicStackView = UIStackView()
@@ -91,6 +96,13 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         handelOnEvent()
+        
+        // Add observer
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleCredentialsUpdate(notification:)),
+            name: .userCredentialsUpdated,
+            object: nil)
         
         // Setup scrollView
         self.recommandedScrollView.onTapped = self.onTapped
@@ -416,6 +428,15 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
 // MARK: - Additional method -
 extension ExplorePackageViewController {
     
+    @objc func handleCredentialsUpdate(notification: Notification) {
+        if let credentials = notification.object as? UserCredentialsPack {
+            // Handle the credentials update
+            print("Received new credentials: \(credentials)")
+            
+            self.userCredentialsPack = credentials
+        }
+    }
+    
     @objc private func handleDeepLinkNotification(_ notification: Notification) {
         if let url = notification.object as? URL {
             DispatchQueue.main.async {
@@ -536,13 +557,6 @@ extension ExplorePackageViewController {
 // MARK: - Additional method -
 extension ExplorePackageViewController {
     
-    @objc func handleCredentialsUpdate(notification: Notification) {
-        if let credentials = notification.object as? UserCredentialsPack {
-            // Handle the credentials update
-            print("Received new credentials: \(credentials)")
-        }
-    }
-    
     @objc func applyButtonTapped() {
         
         viewModel.fetchedSearchedPackages(by: self.inputTags)
@@ -559,6 +573,23 @@ extension ExplorePackageViewController {
         
         // On like button tapped
         onLike = { cell, isLike in
+            
+            let token = self.userCredentialsPack.token
+            
+            if token == nil || token == "" {
+                
+                let loginVC = LoginViewController()
+                loginVC.modalPresentationStyle = .automatic
+                loginVC.modalTransitionStyle = .coverVertical
+                loginVC.enteringKind = .create
+                loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
+                    context.maximumDetentValue * 0.35
+                })]
+                
+                self.navigationController?.present(loginVC, animated: true)
+                
+                return
+            }
             
             guard let indexPathToEdit = self.tableView.indexPath(for: cell)
             else { return }
@@ -589,6 +620,7 @@ extension ExplorePackageViewController {
                             message: "Successfully delete from favorite",
                             buttonText: "Ok")
                     }
+                
             }
         }
     }
@@ -663,6 +695,8 @@ extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDat
             }
             
             self.tagGuide.isHidden = true
+            
+            viewModel.fetchedSearchedPackages(by: self.inputTags)
         }
 }
 

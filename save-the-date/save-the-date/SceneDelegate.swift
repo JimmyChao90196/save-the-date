@@ -9,12 +9,12 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
-    // swiftlint: disable force_cast
-    static let shared = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
-    
     var window: UIWindow?
     var pendingDeepLink: URL?
     var test: Int?
+    
+    // swiftlint: disable force_cast
+    static let shared = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
     
     func scene(
         _ scene: UIScene,
@@ -24,6 +24,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             guard let scene = (scene as? UIWindowScene) else { return }
             
             let tabBarController = TabbarController()
+           
+            LKProgressHUD.shared.view = tabBarController.view
             
             // deeplink Open
             if connectionOptions.urlContexts.first?.url != nil {
@@ -47,7 +49,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                let desiredController = navigationController.viewControllers.first as? ExplorePackageViewController {
                    desiredController.url = pendingDeepLink
             }
-
         }
     
     func sceneDidDisconnect(_ scene: UIScene) {

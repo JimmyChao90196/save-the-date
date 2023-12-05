@@ -20,9 +20,7 @@ class LKProgressHUD {
 
     let hud = JGProgressHUD(style: .dark)
 
-    var view: UIView {
-        return SceneDelegate.shared.window?.rootViewController?.view ?? UIView()
-    }
+    var view = UIView()
 
     static func show(type: HUDType) {
         switch type {

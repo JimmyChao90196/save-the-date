@@ -176,11 +176,11 @@ extension ExploreTableViewCell {
     @objc func heartTapped() {
         isLike.toggle()
         
-        if isLike {
-            heartImageView.image = UIImage(systemName: "heart.fill")
-        } else {
-            heartImageView.image = UIImage(systemName: "heart")
-        }
+//        if isLike {
+//            heartImageView.image = UIImage(systemName: "heart.fill")
+//        } else {
+//            heartImageView.image = UIImage(systemName: "heart")
+//        }
         
         onLike?(self, isLike)
     }
