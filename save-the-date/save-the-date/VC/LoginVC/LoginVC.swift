@@ -20,6 +20,9 @@ class LoginViewController: UIViewController {
     // Manager
     var userManager = UserManager.shared
     
+    // Entering kind
+    var enteringKind = EnterKind.create
+    
     // Data
     var currentUserInfo = User()
     var userCredentialPack = UserCredentialsPack(
@@ -30,6 +33,7 @@ class LoginViewController: UIViewController {
     
     // VM
     let viewModel = LoginViewModel()
+    var count = 0
     
     // Google signin button
     lazy var googleSignInButton: GIDSignInButton = {
@@ -82,11 +86,57 @@ class LoginViewController: UIViewController {
         
         // Fetch user from google
         viewModel.userInfo.bind { userInfo in
+            
             self.currentUserInfo = userInfo
             
             self.onLoggedIn?(self.currentUserInfo)
             
-            self.dismiss(animated: true, completion: nil)
+            if self.count >= 1 {
+                
+                self.dismiss(animated: true) {
+                    
+                    switch self.enteringKind {
+                        
+                    case .deepLink(let docPath):
+                        
+                        let targetTabIndex = 1
+                        
+                        // Access the root TabBarController from the current UIWindowScene
+                        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                           let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
+                           let tabBarController = keyWindow.rootViewController as? UITabBarController {
+                            
+                            // Ensure the target tab index is valid
+                            guard targetTabIndex < tabBarController.viewControllers?.count ?? 0 else {
+                                print("Invalid tab index")
+                                return
+                            }
+                            
+                            // Switch to the target tab
+                            tabBarController.selectedIndex = targetTabIndex
+                            
+                            if let navController = tabBarController.viewControllers?[targetTabIndex] as?
+                                UINavigationController {
+                                // Clear any existing view controllers on the stack if necessary
+                                navController.popToRootViewController(animated: false)
+                                
+                                // Create and configure MultiUserViewController
+                                let multiUserVC = MultiUserViewController()
+                                multiUserVC.enterKind = .deepLink(docPath)
+                                multiUserVC.documentPath = docPath
+                                
+                                // Push the MultiUserViewController onto the navigation stack
+                                navController.pushViewController(multiUserVC, animated: true)
+                            }
+                        }
+                        
+                    default: print("harray!!!")
+                        
+                    }
+                }
+            }
+            
+            self.count += 1
         }
     }
     
@@ -187,8 +237,8 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Additional function -
-    
     @objc func googleSignInButtonTapped() {
+        
         // Start the sign in flow!
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] result, error in
             guard error == nil else { return }
@@ -200,6 +250,7 @@ class LoginViewController: UIViewController {
             viewModel.signInToFirebaseWithGoogle(
                 idToken: idToken,
                 accessToken: user.accessToken.tokenString)
+            
         }
     }
 }

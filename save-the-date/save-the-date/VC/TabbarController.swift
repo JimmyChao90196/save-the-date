@@ -127,6 +127,7 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
                     let loginVC = LoginViewController()
                     loginVC.modalPresentationStyle = .automatic
                     loginVC.modalTransitionStyle = .coverVertical
+                    loginVC.enteringKind = .create
                     loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
                         context.maximumDetentValue * 0.35
                     })]
@@ -140,5 +141,5 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
                     return true
                 }
             }
-        }    
+        }
 }

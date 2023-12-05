@@ -20,6 +20,7 @@ import Hover
 enum EnterKind {
     case create
     case enter
+    case deepLink(String)
 }
 
 enum LeaveKind {
@@ -49,6 +50,9 @@ class MultiUserViewController: CreatePackageViewController {
             
         case .enter:
             enterSesstionTapped()
+            
+        case .deepLink(let docPath):
+            enterSesstionWithLinkTapped(docPath: docPath)
         }
     }
     
@@ -144,9 +148,7 @@ class MultiUserViewController: CreatePackageViewController {
     }
     
     // MARK: - Triggered functions -
-    // Prepare share sheet
     func prepareShareSheet() {
-        
         if let shareUrl = URL(string: "saveTheDate://joinSession?id=\(documentPath)") {
             
             let shareSheetVC = UIActivityViewController(
@@ -242,7 +244,6 @@ class MultiUserViewController: CreatePackageViewController {
                 // Dismiss loading
                 LKProgressHUD.dismiss()
             }
-            
         }
     }
     
@@ -258,8 +259,19 @@ class MultiUserViewController: CreatePackageViewController {
                 }
                 
                 Task {
-                    let sessionPackage = try? await self.firestoreManager.fetchPackage(
-                        withID: text)
+                    
+                    var copyText = text
+                    
+                    switch self.enterKind {
+                        
+                    case .deepLink(let path):
+                        copyText = path
+                        
+                    default:
+                        copyText = text
+                    }
+                    
+                    let sessionPackage = try? await self.firestoreManager.fetchPackage(withID: copyText)
                     
                     self.currentPackage = sessionPackage ?? Package()
                     self.sunnyModules = self.currentPackage.weatherModules.sunny
@@ -292,6 +304,44 @@ class MultiUserViewController: CreatePackageViewController {
                     }
                 }
             }
+    }
+    
+    @objc func enterSesstionWithLinkTapped(docPath: String) {
+        
+        Task {
+            
+            let sessionPackage = try? await self.firestoreManager.fetchPackage(withID: docPath)
+            
+            self.currentPackage = sessionPackage ?? Package()
+            self.sunnyModules = self.currentPackage.weatherModules.sunny
+            self.rainyModules = self.currentPackage.weatherModules.rainy
+            
+            // Add name and email
+            self.updateNameAndEmail(
+                sessionId: docPath,
+                name: self.userName,
+                email: self.userID)
+            
+            // Setup listener
+            self.LSG = self.firestoreManager.modulesListener(docPath: docPath) { newPackage in
+                
+                self.currentPackage = newPackage
+                self.sunnyModules = newPackage.weatherModules.sunny
+                self.rainyModules = newPackage.weatherModules.rainy
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            
+            self.documentPath = docPath
+            self.isMultiUser = true
+            self.setupAfterEvent(docPath: docPath)
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     // publish button
