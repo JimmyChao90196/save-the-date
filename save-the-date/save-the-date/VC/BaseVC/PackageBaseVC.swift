@@ -1045,7 +1045,6 @@ extension PackageBaseViewController {
                             transpVC.timeStamp = time
                             transpVC.actionKind = .edit(indexPath)
                             self.navigationController?.pushViewController(transpVC, animated: true)
-                            
                         }
                     }
                 
