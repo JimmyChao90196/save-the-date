@@ -13,4 +13,5 @@ target 'save-the-date' do
   pod 'Hover'
   pod 'JGProgressHUD'
   pod 'GoogleSignIn','~> 7.0'
+  pod 'IQKeyboardManager'
 end

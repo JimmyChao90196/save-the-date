@@ -13,6 +13,11 @@
 		742CD0772B04C36D00CA3011 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0752B04C36D00CA3011 /* Main.storyboard */; };
 		742CD0792B04C36E00CA3011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0782B04C36E00CA3011 /* Assets.xcassets */; };
 		742CD07C2B04C36E00CA3011 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD07A2B04C36E00CA3011 /* LaunchScreen.storyboard */; };
+		7432EFE52B207439008D2280 /* ChatRightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE02B207439008D2280 /* ChatRightTableViewCell.swift */; };
+		7432EFE62B207439008D2280 /* ChatTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE12B207439008D2280 /* ChatTableView.swift */; };
+		7432EFE72B207439008D2280 /* ChatLeftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE22B207439008D2280 /* ChatLeftTableViewCell.swift */; };
+		7432EFE82B207439008D2280 /* AdminChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE32B207439008D2280 /* AdminChatVC.swift */; };
+		7432EFE92B207439008D2280 /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE42B207439008D2280 /* CustomShape.swift */; };
 		74363FAC2B1B10C1000AE762 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 74363FAB2B1B10C1000AE762 /* FirebaseAnalytics */; };
 		74363FAE2B1B10C1000AE762 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 74363FAD2B1B10C1000AE762 /* FirebaseAnalyticsOnDeviceConversion */; };
 		74363FB02B1B10C1000AE762 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 74363FAF2B1B10C1000AE762 /* FirebaseAnalyticsSwift */; };
@@ -122,6 +127,11 @@
 		742CD0782B04C36E00CA3011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		742CD07B2B04C36E00CA3011 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		742CD07D2B04C36E00CA3011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7432EFE02B207439008D2280 /* ChatRightTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRightTableViewCell.swift; sourceTree = "<group>"; };
+		7432EFE12B207439008D2280 /* ChatTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableView.swift; sourceTree = "<group>"; };
+		7432EFE22B207439008D2280 /* ChatLeftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLeftTableViewCell.swift; sourceTree = "<group>"; };
+		7432EFE32B207439008D2280 /* AdminChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminChatVC.swift; sourceTree = "<group>"; };
+		7432EFE42B207439008D2280 /* CustomShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
 		74363FE22B1B166A000AE762 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		74363FE42B1B2072000AE762 /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
 		74363FE62B1B4AA3000AE762 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -451,6 +461,11 @@
 		74DE46682B089BE400B6F648 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				7432EFE32B207439008D2280 /* AdminChatVC.swift */,
+				7432EFE22B207439008D2280 /* ChatLeftTableViewCell.swift */,
+				7432EFE02B207439008D2280 /* ChatRightTableViewCell.swift */,
+				7432EFE12B207439008D2280 /* ChatTableView.swift */,
+				7432EFE42B207439008D2280 /* CustomShape.swift */,
 				74DE46692B089C0200B6F648 /* ChatVC.swift */,
 				7452ECBE2B2050E900729371 /* ChatVM.swift */,
 			);
@@ -707,11 +722,13 @@
 			files = (
 				74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */,
 				747AF5CE2B08BD0000091CD9 /* ExploreBaseVC.swift in Sources */,
+				7432EFE72B207439008D2280 /* ChatLeftTableViewCell.swift in Sources */,
 				74DE46642B08995700B6F648 /* TabbarController.swift in Sources */,
 				74DE46372B087B2E00B6F648 /* UserModel.swift in Sources */,
 				744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */,
 				74363FE52B1B2072000AE762 /* ProfileVM.swift in Sources */,
 				744B57252B0609DE00B3ABAA /* TranspTableViewCell.swift in Sources */,
+				7432EFE82B207439008D2280 /* AdminChatVC.swift in Sources */,
 				74DE46622B0886CD00B6F648 /* FirestoreManager.swift in Sources */,
 				74225BF12B19B1BE00D408C1 /* ExploreModel.swift in Sources */,
 				744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */,
@@ -743,12 +760,15 @@
 				74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */,
 				74DE46672B089B9800B6F648 /* ExplorePackageVC.swift in Sources */,
 				74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */,
+				7432EFE92B207439008D2280 /* CustomShape.swift in Sources */,
 				74C013252B0BD60700569897 /* GradientView.swift in Sources */,
 				74C63D122B1AED8F0053030B /* LoginVC.swift in Sources */,
+				7432EFE52B207439008D2280 /* ChatRightTableViewCell.swift in Sources */,
 				74B828572B04DB7700A42850 /* ModuleTableView.swift in Sources */,
 				744B57232B0609AC00B3ABAA /* TransTableView.swift in Sources */,
 				74E453A42B0F22CB0017BDCD /* MultiUserVC.swift in Sources */,
 				744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */,
+				7432EFE62B207439008D2280 /* ChatTableView.swift in Sources */,
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,
 				7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */,
 				7439AFED2B074F6700A28C09 /* RouteVC.swift in Sources */,
