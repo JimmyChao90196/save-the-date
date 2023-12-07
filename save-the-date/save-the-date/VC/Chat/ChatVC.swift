@@ -9,10 +9,10 @@
 import Foundation
 import UIKit
 import IQKeyboardManagerSwift
+import SnapKit
 
 class ChatViewController: UIViewController {
     
-    // let chatManager = ChatManager.shared
     var firebaseManage = FirestoreManager.shared
 
     var titleView = UILabel()
@@ -20,25 +20,13 @@ class ChatViewController: UIViewController {
     
     var viewModel = ChatViewModel()
     var userManager = UserManager.shared
+    var currentBundle = ChatBundle(messages: [], participants: [], roomID: "")
     
     let footerView = UIView()
     var inputField = UITextField()
     
     // var isUser = false
-    var isUserInTheRoom = true {
-        didSet {
-            if isUserInTheRoom == false {
-                IQKeyboardManager.shared.enable = false
-                inputField.isEnabled = false
-                inputField.placeholder = "Can't type if user is not in the room"
-                
-            } else {
-                IQKeyboardManager.shared.enable = true
-                inputField.isEnabled = true
-                inputField.placeholder = " Aa"
-            }
-        }
-    }
+    var isUserInTheRoom = true
     
     var kickButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
@@ -64,10 +52,23 @@ class ChatViewController: UIViewController {
         setup()
         setupConstranit()
         tableView.reloadData()
+        
+        // Listener
+        recieveMessage()
+        
         // scrollToBottom()
         
-        // socketIOManager.listenOnLeave()
-        updateInCommingMessage()
+        // Binding
+        viewModel.currentBundle.bind { bundle in
+            
+            self.currentBundle = bundle
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+            self.scrollToBottom()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,16 +87,21 @@ class ChatViewController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
     }
     
-    // MARK: - Button Action -
-    // Send button clicked
+    // MARK: - Additional method
     @objc func sendButtonClicked() {
         guard let text = inputField.text, !text.isEmpty else { return }
         
-        viewModel.userAppendMessages(
+        // Send message to firebase, but update UI first
+        viewModel.sendMessage(
+            currentUser: userManager.currentUser,
             inputText: text,
-            time: Date().timeIntervalSince1970)
+            docPath: currentBundle.roomID
+        )
         
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        
         scrollToBottom()
         inputField.text = ""
     }
@@ -113,9 +119,7 @@ class ChatViewController: UIViewController {
     
     func scrollToBottom() {
         
-        if tableView.numberOfRows(inSection: 0) == 0 {
-            return
-        }
+        if tableView.numberOfRows(inSection: 0) == 0 { return }
         
         DispatchQueue.main.async { [self] in
             let indexPath = IndexPath(
@@ -127,7 +131,7 @@ class ChatViewController: UIViewController {
     }
     
     // MARK: - Action for incomming event
-    func updateInCommingMessage() {
+    func recieveMessage() {
         
         // MARK: - Handle user leave event -
 //        socketIOManager.recievedConnectionResult = { result in
@@ -146,54 +150,6 @@ class ChatViewController: UIViewController {
 //        }
         
         // MARK: - Handle message recieved event -
-//        socketIOManager.recievedUserToken = { userToken in
-//            
-//            self.presentSimpleAlert(title: "Success", message: "User enter the room", buttonText: "Ok") {
-//                self.isUserInTheRoom.toggle()
-//            }
-//        
-//            // Fetch chat history
-//            self.chatManager.fetchHistory(userToken: userToken ) { result in
-//                switch result {
-//                case .success(let history):
-//                    print("Successfully fetched history: \(history)")
-//                    self.chatProvider.conversationHistory.append(contentsOf: history)
-//                    
-//                    DispatchQueue.main.async {
-//                        self.tableView.reloadData()
-//                        self.scrollToBottom()
-//                    }
-//                    
-//                case .failure(let error):
-//                    print("Failed fetching history \(error)")
-//                }
-//            }
-//        }
-        
-        // Handle talk result
-//        socketIOManager.recievedTalkResult = { result in
-//            switch result {
-//                
-//            case .success(let successText):
-//                print("Look at message" + successText[0])
-//                print("Look at time " + successText[1])
-//                // self.chatProvider.userAppendMessages(inputText: successText)
-//                self.chatProvider.userAppendMessages(inputText: successText[0], time: successText[1])
-//                
-//                DispatchQueue.main.async { [self] in
-//                    tableView.reloadData()
-//                    scrollToBottom()
-//                }
-//                
-//            case .failure(let connectError):
-//                print(connectError)
-//                
-//                self.presentSimpleAlert(
-//                    title: "Error",
-//                    message: connectError.rawValue,
-//                    buttonText: "Ok")
-//            }
-//        }
         
         DispatchQueue.main.async { [self] in
             tableView.reloadData()
@@ -209,66 +165,58 @@ class ChatViewController: UIViewController {
         view.addSubviews([tableView, footerView])
         footerView.addSubviews([inputField, sendButton])
         
-        // switchButton.setTitleColor(.hexToUIColor(hex: "3F3A3A"), for: .normal)
-        
         sendButton.tintColor = .hexToUIColor(hex: "#3F3A3A")
         
         inputField.textAlignment = .left
-        inputField.placeholder = "User not in the room"
-        inputField.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
+        inputField.placeholder = "Aa"
         inputField.setCornerRadius(10)
-        
-        IQKeyboardManager.shared.enable = false
-        inputField.isEnabled = false
+        inputField.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
+        inputField.isEnabled = true
+        IQKeyboardManager.shared.enable = true
         
         tableView.delegate = self
         tableView.dataSource = self
         
         footerView.backgroundColor = .hexToUIColor(hex: "#F5F5F5")
-        footerView.setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
-        footerView.setBoarderWidth(1)
+        footerView.setBoarderColor(.lightGray)
+        footerView.setBoarderWidth(1.5)
         
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         
-//        kickButton.addTarget(self, action: #selector(kickButtonClicked), for: .touchUpInside)
-        
-        // Create a UIBarButtonItem with title "Click Me"
-//        let kickNavButton = UIBarButtonItem(
-//            title: "Kick",
-//            style: .plain,
-//            target: self,
-//            action: #selector(kickButtonClicked))
-
-        // Add the button to the navigation bar on the right side
-        // navigationItem.rightBarButtonItem = kickNavButton
-        
-        // Customize navigation bar
-        // UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
+        // Create the chatroom
+        viewModel.createChatRoom()
     }
     
     func setupConstranit() {
+     
+        footerView.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.height.equalTo(50)
+        }
         
-        sendButton.trailingConstr(to: view.trailingAnchor, -10)
-            .centerYConstr(to: footerView.centerYAnchor, 0)
-            .widthConstr(50)
-            .heightConstr(50)
+        inputField.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalTo(sendButton.snp.leading).offset(-10)
+            make.bottom.equalToSuperview().offset(-10)
+            make.top.equalToSuperview().offset(10)
+        }
         
-        footerView.leadingConstr(to: view.leadingAnchor, 0)
-            .trailingConstr(to: view.trailingAnchor, 10)
-            .bottomConstr(to: view.safeAreaLayoutGuide.bottomAnchor, 0)
-            .heightConstr(50)
+        sendButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-10)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
         
-        inputField.leadingConstr(to: footerView.trailingAnchor, 10)
-            .trailingConstr(to: sendButton.leadingAnchor, -10)
-            .bottomConstr(to: footerView.bottomAnchor, -10)
-            .topConstr(to: footerView.topAnchor, 10)
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor)
-        ])
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.topMargin)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalTo(footerView.snp.top)
+        }
+
     }
 }
 
@@ -280,11 +228,13 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MockData.conversationHistory.count
+        
+        currentBundle.messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let userEmail = MockData.conversationHistory[indexPath.row].userEmail
+        
+        let userEmail = currentBundle.messages[indexPath.row].userEmail
         
         let isUser = userEmail == userManager.currentUser.email ? true: false
         
@@ -296,10 +246,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             ) as? ChatRightTableViewCell else { return UITableViewCell()}
             
             cell.messageLabel.text =
-            MockData.conversationHistory[indexPath.row].content
+            currentBundle.messages[indexPath.row].content
             
             cell.timeLabel.text =
-            MockData.conversationHistory[indexPath.row].sendTime.customFormat()
+            currentBundle.messages[indexPath.row].sendTime.customFormat()
             
             cell.backgroundColor = .clear
             
@@ -315,10 +265,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             cell.profilePic.image = UIImage(systemName: "person.circle")
             
             cell.messageLabel.text =
-            MockData.conversationHistory[indexPath.row].content
+            currentBundle.messages[indexPath.row].content
             
             cell.timeLabel.text =
-            MockData.conversationHistory[indexPath.row].sendTime.customFormat()
+            currentBundle.messages[indexPath.row].sendTime.customFormat()
             
             cell.backgroundColor = .clear
 
@@ -326,13 +276,3 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-
-// MARK: - Configure title -
-//extension ChatViewController {
-//    func configureTitle() {
-//        titleView.customSetup("客服中心", "PingFangTC-Medium", 18, 0.0, hexColor: "#3F3A3A")
-//        titleView.textAlignment = .center
-//        titleView.translatesAutoresizingMaskIntoConstraints = false
-//        navigationItem.titleView = titleView
-//    }
-//}

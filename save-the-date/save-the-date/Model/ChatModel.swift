@@ -15,6 +15,12 @@ struct ChatMessage: Codable {
     let content: String
 }
 
+struct ChatBundle: Codable {
+    var messages: [ChatMessage]
+    var participants: [String]
+    var roomID: String
+}
+
 // Mock data
 
 struct MockData {

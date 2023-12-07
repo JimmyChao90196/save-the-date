@@ -139,6 +139,7 @@ extension FirestoreManager {
             let packageDocument = fdb.document(docPath)
             
             fdb.runTransaction({ (transaction, errorPointer) -> Any? in
+                
                 let packageSnapshot: DocumentSnapshot
                 do {
                     try packageSnapshot = transaction.getDocument(packageDocument)
