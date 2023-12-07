@@ -36,7 +36,6 @@ extension FirestoreManager {
                     print("Error decoding package: \(error)")
                 }
             }
-            
             return listenerRigsteration
         }
     

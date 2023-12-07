@@ -57,10 +57,9 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         return button
     }()
     
-    // Folded view
+    // inside folded view
     var cityPicker = UIPickerView()
     var districtPicker = UIPickerView()
-    
     var chooseCityLabel = UILabel()
     var chooseDistrictLabel = UILabel()
     
@@ -78,8 +77,8 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     // Folded view
     var foldedView = UIView()
     var foldedViewLeadingConstraint: NSLayoutConstraint!
-    
     var isFolded = true
+    
     var currentCity = TaiwanCityModel.taipei
     var currentDistrict = ""
     var inputTags = ["Taipei City", "Da’an District"]

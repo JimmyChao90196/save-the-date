@@ -7,15 +7,27 @@
 
 import Foundation
 import UIKit
+import FirebaseFirestore
 
 class ChatViewModel {
     
     let firestoreManager = FirestoreManager.shared
     
+    var LRG = Box<ListenerRegistration?>(nil)
     var currentBundle = Box(ChatBundle(
         messages: [],
         participants: [],
         roomID: ""))
+    
+    // Chat listener
+    func setupChatListener(docPath: String) {
+        let LRG = firestoreManager.chatListener(
+            docPath: docPath) { bundle in
+                self.currentBundle.value = bundle
+            }
+        
+        self.LRG.value = LRG
+    }
     
     // Create chatroom
     func createChatRoom(
@@ -33,6 +45,7 @@ class ChatViewModel {
             }
     }
     
+    // Send message
     func sendMessage(
         currentUser: User,
         inputText: String,

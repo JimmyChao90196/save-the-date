@@ -76,7 +76,7 @@ extension FirestoreManager {
                 errorPointer?.pointee = error
                 return nil
             }
-
+            
             var newMessages = chatBundle.messages
             newMessages.append(message)
             latestMessages = newMessages
@@ -101,4 +101,33 @@ extension FirestoreManager {
         })
     }
     
+    // MARK: - Chat listener -
+    
+    func chatListener(
+        docPath: String,
+        onChange: @escaping (ChatBundle) -> Void) -> ListenerRegistration? {
+            
+            let chatDocument = fdb.document(docPath)
+            
+            let listenerRigsteration = chatDocument.addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                do {
+                    let chatBundle = try Firestore.Decoder().decode(ChatBundle.self, from: data)
+                    
+                    onChange(chatBundle)
+                    
+                } catch let error {
+                    print("Error decoding bundle: \(error)")
+                }
+            }
+            
+            return listenerRigsteration
+        }
 }
