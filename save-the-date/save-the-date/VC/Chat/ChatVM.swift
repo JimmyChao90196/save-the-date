@@ -12,8 +12,10 @@ import FirebaseFirestore
 class ChatViewModel {
     
     let firestoreManager = FirestoreManager.shared
+    let userManager = UserManager.shared
     
     var LRG = Box<ListenerRegistration?>(nil)
+    var sessionPackages = Box<[Package]>([])
     var currentBundle = Box(ChatBundle(
         messages: [],
         participants: [],
@@ -74,5 +76,21 @@ class ChatViewModel {
                         print("Fail to send the message: \(error)")
                     }
                 }
+        }
+    
+    // Fetch sessionPackages
+    func fetchSessionPackages() {
+            
+        let paths = userManager.currentUser.sessionPackages
+        
+        print(paths)
+            Task {
+                do {
+                    let fetchedPackages = try await firestoreManager.fetchPackages(withIDs: paths)
+                    self.sessionPackages.value = fetchedPackages
+                } catch(let error) {
+                    print(error)
+                }
+            }
         }
 }

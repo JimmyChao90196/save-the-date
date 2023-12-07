@@ -70,6 +70,7 @@
 		748023ED2B0B390100878B12 /* SelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EC2B0B390100878B12 /* SelectionModel.swift */; };
 		748728282B15B41200EB347F /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */; };
 		74918CBD2B072FE700ED7D99 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74918CBC2B072FE700ED7D99 /* CoreLocation.framework */; };
+		74A60FBE2B21EA9D00398A10 /* SessionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A60FBD2B21EA9D00398A10 /* SessionTableView.swift */; };
 		74A8F9152B182C3500AE63F5 /* ExploreVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A8F9142B182C3500AE63F5 /* ExploreVM.swift */; };
 		74A8F9172B18379600AE63F5 /* CreateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A8F9162B18379600AE63F5 /* CreateVM.swift */; };
 		74A8F91C2B18391F00AE63F5 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A8F91B2B18391F00AE63F5 /* Box.swift */; };
@@ -159,6 +160,7 @@
 		748023EC2B0B390100878B12 /* SelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModel.swift; sourceTree = "<group>"; };
 		748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		74918CBC2B072FE700ED7D99 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		74A60FBD2B21EA9D00398A10 /* SessionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTableView.swift; sourceTree = "<group>"; };
 		74A8F9142B182C3500AE63F5 /* ExploreVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreVM.swift; sourceTree = "<group>"; };
 		74A8F9162B18379600AE63F5 /* CreateVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVM.swift; sourceTree = "<group>"; };
 		74A8F91B2B18391F00AE63F5 /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				7432EFE02B207439008D2280 /* ChatRightTableViewCell.swift */,
 				7432EFE12B207439008D2280 /* ChatTableView.swift */,
 				7432EFF12B21CD84008D2280 /* SessionTableViewCell.swift */,
+				74A60FBD2B21EA9D00398A10 /* SessionTableView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -751,6 +754,7 @@
 				74A8F91E2B18407E00AE63F5 /* ExploreSiteVM.swift in Sources */,
 				7432EFED2B207D4C008D2280 /* FirestoreManager+Chat.swift in Sources */,
 				74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */,
+				74A60FBE2B21EA9D00398A10 /* SessionTableView.swift in Sources */,
 				74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */,
 				748023ED2B0B390100878B12 /* SelectionModel.swift in Sources */,
 				74E453A12B0F16780017BDCD /* FirestoreManager+Transaction.swift in Sources */,

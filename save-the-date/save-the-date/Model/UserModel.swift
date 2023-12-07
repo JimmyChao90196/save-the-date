@@ -26,6 +26,7 @@ struct User: Codable {
     var forkedPackages: [String]
     var publishedPackages: [String]
     var privatePackages: [String]
+    var sessionPackages: [String]
     
     init(name: String = "Jimmy Chao",
          email: String = "jimmy@gmail.com",
@@ -35,7 +36,8 @@ struct User: Codable {
          favoritePackages: [String] = [],
          forkedPackages: [String] = [],
          publishedPackages: [String] = [],
-         privatePackages: [String] = []) {
+         privatePackages: [String] = [],
+         sessionPackages: [String] = []) {
         
         self.name = name
         self.email = email
@@ -46,5 +48,6 @@ struct User: Codable {
         self.forkedPackages = forkedPackages
         self.publishedPackages = publishedPackages
         self.privatePackages = privatePackages
+        self.sessionPackages = sessionPackages
     }
 }

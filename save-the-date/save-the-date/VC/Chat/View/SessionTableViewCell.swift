@@ -43,17 +43,7 @@ class SessionTableViewCell: UITableViewCell {
     }
     
     private func addTo() {
-        contentView.addSubviews([packageBG])
-        packageBG.addSubviews([
-            packageBGImageView,
-            packageTitleLabel,
-            heartImageView,
-            packageAuthor,
-            authorPicture,
-            dynamicStackView,
-            leftDivider,
-            rightDivider
-        ])
+        contentView.addSubviews([packageTitleLabel])
     }
     
     private func setup() {
@@ -114,9 +104,11 @@ class SessionTableViewCell: UITableViewCell {
 //        }
         
         packageTitleLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(leftDivider.snp.trailing).offset(10)
-            make.trailing.equalTo(rightDivider.snp.leading).offset(-10)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+            make.height.equalTo(50)
         }
         
 //        heartImageView.snp.makeConstraints { make in

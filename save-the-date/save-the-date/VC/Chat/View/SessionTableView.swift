@@ -1,14 +1,14 @@
 //
-//  ExploreTableView.swift
+//  SessionTableView.swift
 //  save-the-date
 //
-//  Created by JimmyChao on 2023/11/18.
+//  Created by JimmyChao on 2023/12/7.
 //
 
 import Foundation
 import UIKit
 
-class ExploreTableView: UITableView {
+class SessionTableView: UITableView {
 
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -21,7 +21,6 @@ class ExploreTableView: UITableView {
     
     func setupTableView() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.register(ExploreTableViewCell.self, forCellReuseIdentifier: ExploreTableViewCell.reuseIdentifier )
         self.register(SessionTableViewCell.self, forCellReuseIdentifier: SessionTableViewCell.reuseIdentifier)
         
         // Self sizing row height

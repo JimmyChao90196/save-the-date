@@ -15,16 +15,17 @@ import SnapKit
 class ChatViewController: UIViewController {
     
     var firebaseManage = FirestoreManager.shared
-
+    
     var titleView = UILabel()
     
     // TableViews
     var tableView = ChatTableView()
-    var sessionsTableView = ExploreTableView()
+    var sessionsTableView = SessionTableView()
     
     var viewModel = ChatViewModel()
     var userManager = UserManager.shared
     var currentBundle = ChatBundle(messages: [], participants: [], roomID: "")
+    var sessionPackages = [Package]()
     var LRG: ListenerRegistration?
     
     let footerView = UIView()
@@ -56,12 +57,22 @@ class ChatViewController: UIViewController {
     // MARK: - View did load -
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setup()
         setupConstranit()
         tableView.reloadData()
         
         // Listener
         setupListener()
+        
+        // Bind for session packages
+        viewModel.sessionPackages.bind { packages in
+            self.sessionPackages = packages
+            
+            DispatchQueue.main.async {
+                self.sessionsTableView.reloadData()
+            }
+        }
         
         // Binding for listener
         viewModel.LRG.bind { listenerRegistration in
@@ -100,10 +111,20 @@ class ChatViewController: UIViewController {
     
     // MARK: - Basic setup -
     func setup() {
-        tableView.backgroundColor = .white
+        sessionsTableView.setbackgroundColor(.blue)
+            .setCornerRadius(20)
+            .setBoarderWidth(2)
+            .setBoarderColor(.black)
+        
+        sessionsTableView.register(
+            SessionTableViewCell.self,
+            forCellReuseIdentifier: SessionTableViewCell.reuseIdentifier)
+        
         view.backgroundColor = .white
+        tableView.backgroundColor = .white
         
         view.addSubviews([tableView, footerView, foldedView])
+        foldedView.addSubviews([sessionsTableView])
         footerView.addSubviews([inputField, sendButton])
         
         sendButton.tintColor = .hexToUIColor(hex: "#3F3A3A")
@@ -118,6 +139,8 @@ class ChatViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        sessionsTableView.delegate = self
+        sessionsTableView.dataSource = self
         
         footerView.backgroundColor = .hexToUIColor(hex: "#F5F5F5")
         footerView.setBoarderColor(.lightGray)
@@ -146,13 +169,16 @@ class ChatViewController: UIViewController {
         swipeLeft.direction = .left
         self.view.addGestureRecognizer(swipeLeft)
         
+        // MARK: - Fetch session packages at the first place
+        viewModel.fetchSessionPackages()
+        
         // Create the chatroom
         // viewModel.createChatRoom()
     }
     
     // MARK: - Handle user leave event -
     func setupConstranit() {
-     
+        
         footerView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
@@ -181,10 +207,18 @@ class ChatViewController: UIViewController {
             make.bottom.equalTo(footerView.snp.top)
         }
         
+        sessionsTableView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.bottom.equalToSuperview().offset(-10)
+        }
+        
         foldedView.snp.makeConstraints { make in
             make.top.equalTo(view.snp_topMargin)
             make.width.equalTo(200)
-            make.bottom.equalTo(600)
+            // make.bottom.equalTo(600)
+            make.bottom.equalTo(view.snp.bottomMargin)
         }
         
         // Set the initial position off-screen
@@ -231,8 +265,8 @@ class ChatViewController: UIViewController {
             title: "Warning",
             message: "User is kicked out",
             buttonText: "Ok") {
-            self.navigationController?.popViewController(animated: true)
-        }
+                self.navigationController?.popViewController(animated: true)
+            }
     }
     
     func scrollToBottom() {
@@ -259,13 +293,16 @@ class ChatViewController: UIViewController {
             usingSpringWithDamping: 0.5,
             initialSpringVelocity: 0.3) {
                 self.foldedViewLeadingConstraint.constant = newConstant
-                self.view.layoutIfNeeded()
+                
+                DispatchQueue.main.async {
+                    self.view.layoutIfNeeded()
+                }
             }
     }
     
     // Setting up listener
     func setupListener() {
-
+        
         // viewModel.setupChatListener(docPath: currentBundle.roomID)
         viewModel.setupChatListener(docPath: "chatBundles/iyPYCGGIkx1CWv6Pki1O")
         
@@ -274,46 +311,81 @@ class ChatViewController: UIViewController {
             scrollToBottom()
         }
     }
-    
-    func configureChatCell(_ cell: UITableViewCell, with message: ChatMessage, isCurrentUser: Bool) {
-        // Common setup for all cells
-        cell.backgroundColor = .clear
-
-        if let chatCell = cell as? ChatRightTableViewCell, isCurrentUser {
-            // Configure right cell
-            chatCell.messageLabel.text = message.content
-            chatCell.timeLabel.text = message.sendTime.customFormat()
-        } else if let chatCell = cell as? ChatLeftTableViewCell {
-            // Configure left cell
-            chatCell.profilePic.image = UIImage(systemName: "person.circle")
-            chatCell.messageLabel.text = message.content
-            chatCell.timeLabel.text = message.sendTime.customFormat()
+    // MARK: - Cell Configuration -
+    func configureChatCell(
+        _ cell: UITableViewCell,
+        with message: ChatMessage,
+        isCurrentUser: Bool) {
+            // Common setup for all cells
+            cell.backgroundColor = .clear
+            
+            if let chatCell = cell as? ChatRightTableViewCell, isCurrentUser {
+                // Configure right cell
+                chatCell.messageLabel.text = message.content
+                chatCell.timeLabel.text = message.sendTime.customFormat()
+            } else if let chatCell = cell as? ChatLeftTableViewCell {
+                // Configure left cell
+                chatCell.profilePic.image = UIImage(systemName: "person.circle")
+                chatCell.messageLabel.text = message.content
+                chatCell.timeLabel.text = message.sendTime.customFormat()
+            }
         }
-    }
+    
+    func configureSessionCell(
+        _ cell: UITableViewCell,
+        intputText text: String) {
+            
+            if let sessionCell = cell as? SessionTableViewCell {
+                sessionCell.packageTitleLabel.text = text
+            }
+        }
 }
 
 // MARK: - Delegate and DataSource method -
 extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        currentBundle.messages.count
+        switch tableView {
+        case sessionsTableView: self.sessionPackages.count
+        default: currentBundle.messages.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let message = currentBundle.messages[indexPath.row]
-        let isUser = message.userEmail == userManager.currentUser.email
+        
+        switch tableView {
+        case sessionsTableView:
+            let cellIdentifier = SessionTableViewCell.reuseIdentifier
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: cellIdentifier,
+                for: indexPath)
+            
+            let title = self.sessionPackages[indexPath.row].info.title
+            configureSessionCell(cell, intputText: title)
+            
+            return cell
+            
+        default:
+            let message = currentBundle.messages[indexPath.row]
+            let isUser = message.userEmail == userManager.currentUser.email
+            
+            let cellIdentifier = isUser ?
+            ChatRightTableViewCell.reuseIdentifier :
+            ChatLeftTableViewCell.reuseIdentifier
+            
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: cellIdentifier,
+                for: indexPath)
+            
+            configureChatCell(cell, with: message, isCurrentUser: isUser)
 
-        let cellIdentifier = isUser ? ChatRightTableViewCell.reuseIdentifier : ChatLeftTableViewCell.reuseIdentifier
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-
-        configureChatCell(cell, with: message, isCurrentUser: isUser)
-
-        return cell
+            return cell
+        }
     }
 }

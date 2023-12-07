@@ -84,6 +84,7 @@ class LoginViewModel {
             case .success(let users): print("fetched users: \(users)")
                 self.userManager.currentUser = users.first ?? User()
                 self.userManager.currentUser.photoURL = user.photoURL
+                self.userInfo.value = users.first ?? User()
                 
             case .failure(let error): print("\(error), create new user instead")
                 
