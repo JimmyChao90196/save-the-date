@@ -18,6 +18,8 @@
 		7432EFE72B207439008D2280 /* ChatLeftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE22B207439008D2280 /* ChatLeftTableViewCell.swift */; };
 		7432EFE82B207439008D2280 /* AdminChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE32B207439008D2280 /* AdminChatVC.swift */; };
 		7432EFE92B207439008D2280 /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE42B207439008D2280 /* CustomShape.swift */; };
+		7432EFEB2B20775F008D2280 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFEA2B20775F008D2280 /* ChatModel.swift */; };
+		7432EFED2B207D4C008D2280 /* FirestoreManager+Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFEC2B207D4C008D2280 /* FirestoreManager+Chat.swift */; };
 		74363FAC2B1B10C1000AE762 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 74363FAB2B1B10C1000AE762 /* FirebaseAnalytics */; };
 		74363FAE2B1B10C1000AE762 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 74363FAD2B1B10C1000AE762 /* FirebaseAnalyticsOnDeviceConversion */; };
 		74363FB02B1B10C1000AE762 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 74363FAF2B1B10C1000AE762 /* FirebaseAnalyticsSwift */; };
@@ -104,7 +106,6 @@
 		74DE46622B0886CD00B6F648 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46612B0886CD00B6F648 /* FirestoreManager.swift */; };
 		74DE46642B08995700B6F648 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46632B08995700B6F648 /* TabbarController.swift */; };
 		74DE46672B089B9800B6F648 /* ExplorePackageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46662B089B9800B6F648 /* ExplorePackageVC.swift */; };
-		74DE466A2B089C0200B6F648 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46692B089C0200B6F648 /* ChatVC.swift */; };
 		74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE466C2B089C2400B6F648 /* ProfileVC.swift */; };
 		74DE466F2B089F8000B6F648 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE466E2B089F8000B6F648 /* NavigationController.swift */; };
 		74DE46722B08AD4600B6F648 /* PackageBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46712B08AD4600B6F648 /* PackageBaseVC.swift */; };
@@ -132,6 +133,8 @@
 		7432EFE22B207439008D2280 /* ChatLeftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLeftTableViewCell.swift; sourceTree = "<group>"; };
 		7432EFE32B207439008D2280 /* AdminChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminChatVC.swift; sourceTree = "<group>"; };
 		7432EFE42B207439008D2280 /* CustomShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
+		7432EFEA2B20775F008D2280 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		7432EFEC2B207D4C008D2280 /* FirestoreManager+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreManager+Chat.swift"; sourceTree = "<group>"; };
 		74363FE22B1B166A000AE762 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		74363FE42B1B2072000AE762 /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
 		74363FE62B1B4AA3000AE762 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -172,7 +175,6 @@
 		74DE46612B0886CD00B6F648 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		74DE46632B08995700B6F648 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		74DE46662B089B9800B6F648 /* ExplorePackageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePackageVC.swift; sourceTree = "<group>"; };
-		74DE46692B089C0200B6F648 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		74DE466C2B089C2400B6F648 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		74DE466E2B089F8000B6F648 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		74DE46712B08AD4600B6F648 /* PackageBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageBaseVC.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				74DE46362B087B2E00B6F648 /* UserModel.swift */,
 				748023EC2B0B390100878B12 /* SelectionModel.swift */,
 				74225BF02B19B1BE00D408C1 /* ExploreModel.swift */,
+				7432EFEA2B20775F008D2280 /* ChatModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				74E453A02B0F16780017BDCD /* FirestoreManager+Transaction.swift */,
 				74A8F91F2B186FF000AE63F5 /* FirestoreManager+Search.swift */,
 				74363FE62B1B4AA3000AE762 /* UserManager.swift */,
+				7432EFEC2B207D4C008D2280 /* FirestoreManager+Chat.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -466,7 +470,6 @@
 				7432EFE02B207439008D2280 /* ChatRightTableViewCell.swift */,
 				7432EFE12B207439008D2280 /* ChatTableView.swift */,
 				7432EFE42B207439008D2280 /* CustomShape.swift */,
-				74DE46692B089C0200B6F648 /* ChatVC.swift */,
 				7452ECBE2B2050E900729371 /* ChatVM.swift */,
 			);
 			path = Chat;
@@ -723,6 +726,7 @@
 				74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */,
 				747AF5CE2B08BD0000091CD9 /* ExploreBaseVC.swift in Sources */,
 				7432EFE72B207439008D2280 /* ChatLeftTableViewCell.swift in Sources */,
+				7432EFEB2B20775F008D2280 /* ChatModel.swift in Sources */,
 				74DE46642B08995700B6F648 /* TabbarController.swift in Sources */,
 				74DE46372B087B2E00B6F648 /* UserModel.swift in Sources */,
 				744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */,
@@ -734,6 +738,7 @@
 				744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */,
 				744B571E2B05E40B00B3ABAA /* ResultTableViewCell.swift in Sources */,
 				74A8F91E2B18407E00AE63F5 /* ExploreSiteVM.swift in Sources */,
+				7432EFED2B207D4C008D2280 /* FirestoreManager+Chat.swift in Sources */,
 				74DE466D2B089C2400B6F648 /* ProfileVC.swift in Sources */,
 				74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */,
 				748023ED2B0B390100878B12 /* SelectionModel.swift in Sources */,
@@ -741,7 +746,6 @@
 				74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */,
 				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,
 				74363FE72B1B4AA3000AE762 /* UserManager.swift in Sources */,
-				74DE466A2B089C0200B6F648 /* ChatVC.swift in Sources */,
 				74A8F9172B18379600AE63F5 /* CreateVM.swift in Sources */,
 				744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */,
 				74363FE32B1B166A000AE762 /* LoginVM.swift in Sources */,

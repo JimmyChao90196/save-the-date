@@ -11,11 +11,12 @@ import UIKit
 import IQKeyboardManagerSwift
 import IQKeyboardManager
 
-class AdminChatViewController: UIViewController {
+class ChatViewController: UIViewController {
     
-    let socketIOManager = SocketIOManager.shared
-    let keyChainManager = KeyChainManager.shared
-    let chatManager = ChatManager.shared
+    // let socketIOManager = SocketIOManager.shared
+    // let keyChainManager = KeyChainManager.shared
+    // let chatManager = ChatManager.shared
+    var firebaseManage = FirestoreManager.shared
 
     var titleView = UILabel()
     var tableView = ChatTableView()
