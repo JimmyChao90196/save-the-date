@@ -9,22 +9,23 @@
 import Foundation
 import UIKit
 import IQKeyboardManagerSwift
-import IQKeyboardManager
 
 class ChatViewController: UIViewController {
     
-    // let socketIOManager = SocketIOManager.shared
-    // let keyChainManager = KeyChainManager.shared
     // let chatManager = ChatManager.shared
     var firebaseManage = FirestoreManager.shared
 
     var titleView = UILabel()
     var tableView = ChatTableView()
-    var chatProvider = ChatProvider.shared
+    
+    var viewModel = ChatViewModel()
+    var userManager = UserManager.shared
+    
     let footerView = UIView()
     var inputField = UITextField()
-    var isUser = false
-    var isUserInTheRoom = false {
+    
+    // var isUser = false
+    var isUserInTheRoom = true {
         didSet {
             if isUserInTheRoom == false {
                 IQKeyboardManager.shared.enable = false
@@ -49,13 +50,6 @@ class ChatViewController: UIViewController {
         return button
     }()
     
-    var switchButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        button.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        button.setTitle("Admin", for: .normal)
-        return button
-    }()
-    
     var sendButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         
@@ -69,10 +63,10 @@ class ChatViewController: UIViewController {
         super.viewDidLoad()
         setup()
         setupConstranit()
-        configureTitle()
         tableView.reloadData()
         // scrollToBottom()
-        socketIOManager.listenOnLeave()
+        
+        // socketIOManager.listenOnLeave()
         updateInCommingMessage()
     }
     
@@ -95,45 +89,19 @@ class ChatViewController: UIViewController {
     // MARK: - Button Action -
     // Send button clicked
     @objc func sendButtonClicked() {
-        guard let text = inputField.text, !text.isEmpty, let token = keyChainManager.token else { return }
+        guard let text = inputField.text, !text.isEmpty else { return }
         
-        if self.isUser {
-            
-            chatProvider.userAppendMessages(inputText: text)
-            
-        } else {
-            
-            // Send message to socket
-            Task {
-                await socketIOManager.sendMessage("admin", message: text, token: "\(token)")
-                
-                let currentDate = Date()
-                let formatter = ISO8601DateFormatter()
-                formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-                let dateString = formatter.string(from: currentDate)
-                chatProvider.adminAppendMessages(inputText: text, time: dateString)
-                
-                // chatProvider.adminAppendMessages(inputText: text)
-                tableView.reloadData()
-                scrollToBottom()
-                inputField.text = ""
-            }
-        }
-    }
-    
-    // switch button clicked
-    @objc func switchButtonClicked() {
-        isUser.toggle()
-        if isUser {
-            switchButton.setTitle("User", for: .normal)
-        } else {
-            switchButton.setTitle("Admin", for: .normal)
-        }
+        viewModel.userAppendMessages(
+            inputText: text,
+            time: Date().timeIntervalSince1970)
+        
+        tableView.reloadData()
+        scrollToBottom()
+        inputField.text = ""
     }
     
     // Kick button action
     @objc func kickButtonClicked() {
-        socketIOManager.kickout(token: keyChainManager.token ?? "none")
         
         presentSimpleAlert(
             title: "Warning",
@@ -161,7 +129,7 @@ class ChatViewController: UIViewController {
     // MARK: - Action for incomming event
     func updateInCommingMessage() {
         
-        // Handle user leave event
+        // MARK: - Handle user leave event -
 //        socketIOManager.recievedConnectionResult = { result in
 //            
 //            switch result {
@@ -177,55 +145,55 @@ class ChatViewController: UIViewController {
 //            }
 //        }
         
-        // Handle token recieved event
-        socketIOManager.recievedUserToken = { userToken in
-            
-            self.presentSimpleAlert(title: "Success", message: "User enter the room", buttonText: "Ok") {
-                self.isUserInTheRoom.toggle()
-            }
-        
-            // Fetch chat history
-            self.chatManager.fetchHistory(userToken: userToken ) { result in
-                switch result {
-                case .success(let history):
-                    print("Successfully fetched history: \(history)")
-                    self.chatProvider.conversationHistory.append(contentsOf: history)
-                    
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.scrollToBottom()
-                    }
-                    
-                case .failure(let error):
-                    print("Failed fetching history \(error)")
-                }
-            }
-        }
+        // MARK: - Handle message recieved event -
+//        socketIOManager.recievedUserToken = { userToken in
+//            
+//            self.presentSimpleAlert(title: "Success", message: "User enter the room", buttonText: "Ok") {
+//                self.isUserInTheRoom.toggle()
+//            }
+//        
+//            // Fetch chat history
+//            self.chatManager.fetchHistory(userToken: userToken ) { result in
+//                switch result {
+//                case .success(let history):
+//                    print("Successfully fetched history: \(history)")
+//                    self.chatProvider.conversationHistory.append(contentsOf: history)
+//                    
+//                    DispatchQueue.main.async {
+//                        self.tableView.reloadData()
+//                        self.scrollToBottom()
+//                    }
+//                    
+//                case .failure(let error):
+//                    print("Failed fetching history \(error)")
+//                }
+//            }
+//        }
         
         // Handle talk result
-        socketIOManager.recievedTalkResult = { result in
-            switch result {
-                
-            case .success(let successText):
-                print("Look at message" + successText[0])
-                print("Look at time " + successText[1])
-                // self.chatProvider.userAppendMessages(inputText: successText)
-                self.chatProvider.userAppendMessages(inputText: successText[0], time: successText[1])
-                
-                DispatchQueue.main.async { [self] in
-                    tableView.reloadData()
-                    scrollToBottom()
-                }
-                
-            case .failure(let connectError):
-                print(connectError)
-                
-                self.presentSimpleAlert(
-                    title: "Error",
-                    message: connectError.rawValue,
-                    buttonText: "Ok")
-            }
-        }
+//        socketIOManager.recievedTalkResult = { result in
+//            switch result {
+//                
+//            case .success(let successText):
+//                print("Look at message" + successText[0])
+//                print("Look at time " + successText[1])
+//                // self.chatProvider.userAppendMessages(inputText: successText)
+//                self.chatProvider.userAppendMessages(inputText: successText[0], time: successText[1])
+//                
+//                DispatchQueue.main.async { [self] in
+//                    tableView.reloadData()
+//                    scrollToBottom()
+//                }
+//                
+//            case .failure(let connectError):
+//                print(connectError)
+//                
+//                self.presentSimpleAlert(
+//                    title: "Error",
+//                    message: connectError.rawValue,
+//                    buttonText: "Ok")
+//            }
+//        }
         
         DispatchQueue.main.async { [self] in
             tableView.reloadData()
@@ -239,9 +207,10 @@ class ChatViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubviews([tableView, footerView])
-        footerView.addSubviews([inputField, sendButton, switchButton])
+        footerView.addSubviews([inputField, sendButton])
         
-        switchButton.setTitleColor(.hexToUIColor(hex: "3F3A3A"), for: .normal)
+        // switchButton.setTitleColor(.hexToUIColor(hex: "3F3A3A"), for: .normal)
+        
         sendButton.tintColor = .hexToUIColor(hex: "#3F3A3A")
         
         inputField.textAlignment = .left
@@ -260,29 +229,24 @@ class ChatViewController: UIViewController {
         footerView.setBoarderWidth(1)
         
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
-        switchButton.addTarget(self, action: #selector(switchButtonClicked), for: .touchUpInside)
-        kickButton.addTarget(self, action: #selector(kickButtonClicked), for: .touchUpInside)
+        
+//        kickButton.addTarget(self, action: #selector(kickButtonClicked), for: .touchUpInside)
         
         // Create a UIBarButtonItem with title "Click Me"
-        let kickNavButton = UIBarButtonItem(
-            title: "Kick",
-            style: .plain,
-            target: self,
-            action: #selector(kickButtonClicked))
+//        let kickNavButton = UIBarButtonItem(
+//            title: "Kick",
+//            style: .plain,
+//            target: self,
+//            action: #selector(kickButtonClicked))
 
         // Add the button to the navigation bar on the right side
-        navigationItem.rightBarButtonItem = kickNavButton
+        // navigationItem.rightBarButtonItem = kickNavButton
         
         // Customize navigation bar
         // UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
     }
     
     func setupConstranit() {
-        
-        switchButton.leadingConstr(to: footerView.leadingAnchor, 10)
-            .centerYConstr(to: footerView.centerYAnchor, 0)
-            .heightConstr(40)
-            .widthConstr(55)
         
         sendButton.trailingConstr(to: view.trailingAnchor, -10)
             .centerYConstr(to: footerView.centerYAnchor, 0)
@@ -294,7 +258,7 @@ class ChatViewController: UIViewController {
             .bottomConstr(to: view.safeAreaLayoutGuide.bottomAnchor, 0)
             .heightConstr(50)
         
-        inputField.leadingConstr(to: switchButton.trailingAnchor, 10)
+        inputField.leadingConstr(to: footerView.trailingAnchor, 10)
             .trailingConstr(to: sendButton.leadingAnchor, -10)
             .bottomConstr(to: footerView.bottomAnchor, -10)
             .topConstr(to: footerView.topAnchor, 10)
@@ -309,68 +273,66 @@ class ChatViewController: UIViewController {
 }
 
 // MARK: - Delegate and DataSource method -
-extension AdminChatViewController: UITableViewDelegate, UITableViewDataSource {
+extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        chatProvider.conversationHistory.count
+        MockData.conversationHistory.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let isUser = chatProvider.conversationHistory[indexPath.row].isUser
+        let userEmail = MockData.conversationHistory[indexPath.row].userEmail
         
-        // Date formatter
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE HH:mm"
+        let isUser = userEmail == userManager.currentUser.email ? true: false
         
         switch isUser {
         case true:
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ChatLeftTableViewCell.reuseIdentifier,
-                for: indexPath
-            ) as? ChatLeftTableViewCell else { return UITableViewCell()}
-            
-            let date = chatProvider.conversationHistory[indexPath.row].sendTime
-            cell.profilePic.image = UIImage(resource: .icons36PxProfileSelected)
-            
-            cell.messageLabel.text = 
-            chatProvider.conversationHistory[indexPath.row].content
-            
-            cell.timeLabel.text =
-            chatProvider.conversationHistory[indexPath.row].sendTime.customFormat()
-            
-            cell.backgroundColor = .clear
-
-            return cell
-            
-        case false:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: ChatRightTableViewCell.reuseIdentifier,
                 for: indexPath
             ) as? ChatRightTableViewCell else { return UITableViewCell()}
             
-            cell.messageLabel.text = 
-            chatProvider.conversationHistory[indexPath.row].content
+            cell.messageLabel.text =
+            MockData.conversationHistory[indexPath.row].content
             
             cell.timeLabel.text =
-            chatProvider.conversationHistory[indexPath.row].sendTime.customFormat()
+            MockData.conversationHistory[indexPath.row].sendTime.customFormat()
             
             cell.backgroundColor = .clear
             
+            return cell
+            
+        case false:
+            
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ChatLeftTableViewCell.reuseIdentifier,
+                for: indexPath
+            ) as? ChatLeftTableViewCell else { return UITableViewCell()}
+            
+            cell.profilePic.image = UIImage(systemName: "person.circle")
+            
+            cell.messageLabel.text =
+            MockData.conversationHistory[indexPath.row].content
+            
+            cell.timeLabel.text =
+            MockData.conversationHistory[indexPath.row].sendTime.customFormat()
+            
+            cell.backgroundColor = .clear
+
             return cell
         }
     }
 }
 
 // MARK: - Configure title -
-extension AdminChatViewController {
-    func configureTitle() {
-        titleView.customSetup("客服中心", "PingFangTC-Medium", 18, 0.0, hexColor: "#3F3A3A")
-        titleView.textAlignment = .center
-        titleView.translatesAutoresizingMaskIntoConstraints = false
-        navigationItem.titleView = titleView
-    }
-}
+//extension ChatViewController {
+//    func configureTitle() {
+//        titleView.customSetup("客服中心", "PingFangTC-Medium", 18, 0.0, hexColor: "#3F3A3A")
+//        titleView.textAlignment = .center
+//        titleView.translatesAutoresizingMaskIntoConstraints = false
+//        navigationItem.titleView = titleView
+//    }
+//}

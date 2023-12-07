@@ -13,7 +13,7 @@ class ChatRightTableViewCell: UITableViewCell {
     static let reuseIdentifier = String(describing: ChatRightTableViewCell.self)
     
     var customView = CustomShapeView(
-        color: ChatProvider.userColor,
+        color: .darkGray,
         frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     
     var messageLabel = UILabel()
@@ -31,14 +31,6 @@ class ChatRightTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
     private func setup() {
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .right
@@ -48,7 +40,7 @@ class ChatRightTableViewCell: UITableViewCell {
         timeLabel.textColor = .lightGray
         
         textBG.setCornerRadius(12)
-            .setbackgroundColor(ChatProvider.userColor)
+            .setbackgroundColor(.darkGray)
     }
     
     private func addTo() {

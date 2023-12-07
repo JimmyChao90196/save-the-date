@@ -131,7 +131,7 @@ class LoginViewController: UIViewController {
                         }
                         
                     default: print("harray!!!")
-                        
+                        self.userManager.currentUser = userInfo
                     }
                 }
             }

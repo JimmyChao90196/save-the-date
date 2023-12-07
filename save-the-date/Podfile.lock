@@ -20,7 +20,6 @@ PODS:
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.1.1)
   - Hover (2.1.0)
-  - IQKeyboardManager (6.5.15)
   - IQKeyboardManagerSwift (6.5.15)
   - JGProgressHUD (2.2)
   - SnapKit (5.6.0)
@@ -31,7 +30,6 @@ DEPENDENCIES:
   - GooglePlaces
   - GoogleSignIn (~> 7.0)
   - Hover
-  - IQKeyboardManager
   - IQKeyboardManagerSwift
   - JGProgressHUD
   - SnapKit
@@ -46,7 +44,6 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - Hover
-    - IQKeyboardManager
     - IQKeyboardManagerSwift
     - JGProgressHUD
     - SnapKit
@@ -60,12 +57,11 @@ SPEC CHECKSUMS:
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
   Hover: b7821338bdaf54d0e46be24d603e443a869993e3
-  IQKeyboardManager: 22ffab9bd300ad493485a390a095f5db0c841776
   IQKeyboardManagerSwift: 79fab21f451441935788dc5d80ded21c32685904
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: e4be4ef9790888966703dc220035f186692849bd
+PODFILE CHECKSUM: 7eb85be4808ab73a958b2aa1dc25b32cb5114210
 
 COCOAPODS: 1.13.0

@@ -16,10 +16,11 @@
 		7432EFE52B207439008D2280 /* ChatRightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE02B207439008D2280 /* ChatRightTableViewCell.swift */; };
 		7432EFE62B207439008D2280 /* ChatTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE12B207439008D2280 /* ChatTableView.swift */; };
 		7432EFE72B207439008D2280 /* ChatLeftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE22B207439008D2280 /* ChatLeftTableViewCell.swift */; };
-		7432EFE82B207439008D2280 /* AdminChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE32B207439008D2280 /* AdminChatVC.swift */; };
+		7432EFE82B207439008D2280 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE32B207439008D2280 /* ChatVC.swift */; };
 		7432EFE92B207439008D2280 /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFE42B207439008D2280 /* CustomShape.swift */; };
 		7432EFEB2B20775F008D2280 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFEA2B20775F008D2280 /* ChatModel.swift */; };
 		7432EFED2B207D4C008D2280 /* FirestoreManager+Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFEC2B207D4C008D2280 /* FirestoreManager+Chat.swift */; };
+		7432EFEF2B215907008D2280 /* ChatVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7432EFEE2B215907008D2280 /* ChatVM.swift */; };
 		74363FAC2B1B10C1000AE762 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 74363FAB2B1B10C1000AE762 /* FirebaseAnalytics */; };
 		74363FAE2B1B10C1000AE762 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 74363FAD2B1B10C1000AE762 /* FirebaseAnalyticsOnDeviceConversion */; };
 		74363FB02B1B10C1000AE762 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 74363FAF2B1B10C1000AE762 /* FirebaseAnalyticsSwift */; };
@@ -62,7 +63,6 @@
 		744B57232B0609AC00B3ABAA /* TransTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57222B0609AC00B3ABAA /* TransTableView.swift */; };
 		744B57252B0609DE00B3ABAA /* TranspTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57242B0609DE00B3ABAA /* TranspTableViewCell.swift */; };
 		744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57262B060C9200B3ABAA /* TranspManager.swift */; };
-		7452ECBF2B2050E900729371 /* ChatVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7452ECBE2B2050E900729371 /* ChatVM.swift */; };
 		747AF5CE2B08BD0000091CD9 /* ExploreBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */; };
 		748023E82B09EC3C00878B12 /* DayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023E72B09EC3C00878B12 /* DayHeaderView.swift */; };
 		748023EB2B0B38DA00878B12 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EA2B0B38DA00878B12 /* SelectionView.swift */; };
@@ -131,10 +131,11 @@
 		7432EFE02B207439008D2280 /* ChatRightTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRightTableViewCell.swift; sourceTree = "<group>"; };
 		7432EFE12B207439008D2280 /* ChatTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableView.swift; sourceTree = "<group>"; };
 		7432EFE22B207439008D2280 /* ChatLeftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLeftTableViewCell.swift; sourceTree = "<group>"; };
-		7432EFE32B207439008D2280 /* AdminChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminChatVC.swift; sourceTree = "<group>"; };
+		7432EFE32B207439008D2280 /* ChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		7432EFE42B207439008D2280 /* CustomShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
 		7432EFEA2B20775F008D2280 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		7432EFEC2B207D4C008D2280 /* FirestoreManager+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreManager+Chat.swift"; sourceTree = "<group>"; };
+		7432EFEE2B215907008D2280 /* ChatVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVM.swift; sourceTree = "<group>"; };
 		74363FE22B1B166A000AE762 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		74363FE42B1B2072000AE762 /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
 		74363FE62B1B4AA3000AE762 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -150,7 +151,6 @@
 		744B57222B0609AC00B3ABAA /* TransTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransTableView.swift; sourceTree = "<group>"; };
 		744B57242B0609DE00B3ABAA /* TranspTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspTableViewCell.swift; sourceTree = "<group>"; };
 		744B57262B060C9200B3ABAA /* TranspManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspManager.swift; sourceTree = "<group>"; };
-		7452ECBE2B2050E900729371 /* ChatVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVM.swift; sourceTree = "<group>"; };
 		747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreBaseVC.swift; sourceTree = "<group>"; };
 		748023E72B09EC3C00878B12 /* DayHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayHeaderView.swift; sourceTree = "<group>"; };
 		748023EA2B0B38DA00878B12 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
@@ -465,12 +465,12 @@
 		74DE46682B089BE400B6F648 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				7432EFE32B207439008D2280 /* AdminChatVC.swift */,
+				7432EFEE2B215907008D2280 /* ChatVM.swift */,
+				7432EFE32B207439008D2280 /* ChatVC.swift */,
 				7432EFE22B207439008D2280 /* ChatLeftTableViewCell.swift */,
 				7432EFE02B207439008D2280 /* ChatRightTableViewCell.swift */,
 				7432EFE12B207439008D2280 /* ChatTableView.swift */,
 				7432EFE42B207439008D2280 /* CustomShape.swift */,
-				7452ECBE2B2050E900729371 /* ChatVM.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -732,7 +732,7 @@
 				744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */,
 				74363FE52B1B2072000AE762 /* ProfileVM.swift in Sources */,
 				744B57252B0609DE00B3ABAA /* TranspTableViewCell.swift in Sources */,
-				7432EFE82B207439008D2280 /* AdminChatVC.swift in Sources */,
+				7432EFE82B207439008D2280 /* ChatVC.swift in Sources */,
 				74DE46622B0886CD00B6F648 /* FirestoreManager.swift in Sources */,
 				74225BF12B19B1BE00D408C1 /* ExploreModel.swift in Sources */,
 				744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */,
@@ -750,7 +750,6 @@
 				744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */,
 				74363FE32B1B166A000AE762 /* LoginVM.swift in Sources */,
 				744B571C2B05DBA000B3ABAA /* ResultTableView.swift in Sources */,
-				7452ECBF2B2050E900729371 /* ChatVM.swift in Sources */,
 				74DE466F2B089F8000B6F648 /* NavigationController.swift in Sources */,
 				74DE46722B08AD4600B6F648 /* PackageBaseVC.swift in Sources */,
 				748023EB2B0B38DA00878B12 /* SelectionView.swift in Sources */,
@@ -761,6 +760,7 @@
 				74DE46782B08B4E500B6F648 /* ExploreTableViewCell.swift in Sources */,
 				748023E82B09EC3C00878B12 /* DayHeaderView.swift in Sources */,
 				74A8F9152B182C3500AE63F5 /* ExploreVM.swift in Sources */,
+				7432EFEF2B215907008D2280 /* ChatVM.swift in Sources */,
 				74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */,
 				74DE46672B089B9800B6F648 /* ExplorePackageVC.swift in Sources */,
 				74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */,

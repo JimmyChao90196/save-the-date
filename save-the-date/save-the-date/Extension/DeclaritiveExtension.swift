@@ -289,3 +289,19 @@ extension String {
         return dateFormatter.string(from: date)
     }
 }
+
+extension TimeInterval {
+    func customFormat() -> String {
+        // Create a Date object from the TimeInterval (which is seconds since reference date)
+        let date = Date(timeIntervalSinceReferenceDate: self)
+
+        // DateFormatter to format the Date object into the desired string format
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei") // Set timezone to Asia/Taipei
+        dateFormatter.dateFormat = "EEEE HH:mm:ss" // Weekday, hour, minute, second
+
+        // Format the Date object into a string
+        return dateFormatter.string(from: date)
+    }
+}

@@ -11,17 +11,17 @@ import Foundation
 class ChatLeftTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = String(describing: ChatLeftTableViewCell.self)
-    let chatManager = ChatProvider.shared
+    // let chatManager = ChatProvider.shared
     
     var customView = CustomShapeView(
-        color: ChatProvider.adminColor,
+        color: .lightGray,
         frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     
     var messageLabel = UILabel()
     var timeLabel = UILabel()
     var textBG = UIView()
     var profileBG = UIView()
-    var profilePic = UIImageView(image: UIImage(resource: .icons24PxCustomerService))
+    var profilePic = UIImageView(image: UIImage(systemName: "person.circle"))
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -48,7 +48,7 @@ class ChatLeftTableViewCell: UITableViewCell {
         customView.backgroundColor = .clear
         
         textBG.setCornerRadius(12)
-            .setbackgroundColor(ChatProvider.adminColor)
+            .setbackgroundColor(.lightGray)
         timeLabel.font = UIFont(name: "PingFangTC-Light", size: 12)
         timeLabel.textColor = .lightGray
         
