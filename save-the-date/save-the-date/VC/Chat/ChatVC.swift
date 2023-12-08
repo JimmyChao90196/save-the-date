@@ -18,10 +18,15 @@ class ChatViewController: UIViewController {
     
     var titleView = UILabel()
     
+    // Profile images
+    var profileImages = [String: UIImage?]()
+    
     // TableViews
     var tableView = ChatTableView()
     var sessionsTableView = SessionTableView()
     
+    // View Model
+    var count = 0
     var viewModel = ChatViewModel()
     var userManager = UserManager.shared
     var currentBundle = ChatBundle(messages: [], participants: [], roomID: "")
@@ -62,6 +67,17 @@ class ChatViewController: UIViewController {
         setupConstranit()
         tableView.reloadData()
         
+        // Binding for fetching user
+        viewModel.currentUser.bind { currentUser in
+            
+            if self.count >= 1 {
+                self.userManager.currentUser = currentUser
+                self.viewModel.fetchSessionPackages()
+            }
+            
+            self.count += 1
+        }
+        
         // Bind for session packages
         viewModel.sessionPackages.bind { packages in
             self.sessionPackages = packages
@@ -74,6 +90,14 @@ class ChatViewController: UIViewController {
         // Binding for listener
         viewModel.LRG.bind { listenerRegistration in
             self.LRG = listenerRegistration
+        }
+        
+        // Bind for profile photos
+        viewModel.profileImages.bind { profileImages in
+            
+            self.profileImages = profileImages
+            
+            self.tableView.reloadData()
         }
         
         // Binding for bundle
@@ -94,6 +118,8 @@ class ChatViewController: UIViewController {
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+        viewModel.fetchCurrentUser(self.userManager.currentUser.email)
         
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -202,14 +228,14 @@ class ChatViewController: UIViewController {
         }
         
         sessionsTableView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(10)
+            make.top.equalToSuperview()
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.bottom.equalToSuperview().offset(-10)
         }
         
         foldedView.snp.makeConstraints { make in
-            make.top.equalTo(view.snp_topMargin)
+            make.top.equalTo(view.snp_topMargin).offset(10)
             make.width.equalTo(200)
             // make.bottom.equalTo(600)
             make.bottom.equalTo(view.snp.bottomMargin)
@@ -306,7 +332,10 @@ class ChatViewController: UIViewController {
     func configureChatCell(
         _ cell: UITableViewCell,
         with message: ChatMessage,
-        isCurrentUser: Bool) {
+        isCurrentUser: Bool,
+        photoURL: String,
+        email: String
+    ) {
             // Common setup for all cells
             cell.backgroundColor = .clear
             
@@ -316,7 +345,9 @@ class ChatViewController: UIViewController {
                 chatCell.timeLabel.text = message.sendTime.customFormat()
             } else if let chatCell = cell as? ChatLeftTableViewCell {
                 // Configure left cell
-                chatCell.profilePic.image = UIImage(systemName: "person.circle")
+                viewModel.fetchImage(otherUserEmail: email, photoURL: photoURL)
+                chatCell.profilePic.contentMode = .scaleAspectFill
+                chatCell.profilePic.image = profileImages[email] ?? UIImage(systemName: "person.circle")
                 chatCell.messageLabel.text = message.content
                 chatCell.timeLabel.text = message.sendTime.customFormat()
             }
@@ -350,7 +381,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             let chatDocPath = self.sessionPackages[indexPath.row].chatDocPath
             setupListener(bundleID: chatDocPath)
             
-        default: tableView.deselectRow(at: indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+            
+        default:
+            tableView.deselectRow(at: indexPath, animated: true)
             
         }
     }
@@ -380,6 +414,8 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             let message = currentBundle.messages[indexPath.row]
             let isUser = message.userEmail == userManager.currentUser.email
+            let email = message.userEmail
+            let photoURL = message.photoURL
             
             let cellIdentifier = isUser ?
             ChatRightTableViewCell.reuseIdentifier :
@@ -389,7 +425,13 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                 withIdentifier: cellIdentifier,
                 for: indexPath)
             
-            configureChatCell(cell, with: message, isCurrentUser: isUser)
+            configureChatCell(
+                cell,
+                with: message,
+                isCurrentUser: isUser,
+                photoURL: photoURL,
+                email: email
+            )
 
             return cell
         }

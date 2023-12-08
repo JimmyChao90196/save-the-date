@@ -13,6 +13,21 @@ struct ChatMessage: Codable {
     let userEmail: String
     let userName: String
     let content: String
+    let photoURL: String
+    
+    init(sendTime: TimeInterval,
+         userEmail: String,
+         userName: String,
+         content: String,
+         photoURL: String = "") {
+        
+        self.sendTime = sendTime
+        self.userEmail = userEmail
+        self.userName = userName
+        self.content = content
+        self.photoURL = photoURL
+    }
+    
 }
 
 struct ChatBundle: Codable {

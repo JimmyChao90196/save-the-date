@@ -14,6 +14,8 @@ class ChatViewModel {
     let firestoreManager = FirestoreManager.shared
     let userManager = UserManager.shared
     
+    var currentUser = Box(User())
+    var profileImages = Box<[String: UIImage?]>([:])
     var LRG = Box<ListenerRegistration?>(nil)
     var sessionPackages = Box<[Package]>([])
     var currentBundle = Box(ChatBundle(
@@ -58,7 +60,9 @@ class ChatViewModel {
                 sendTime: Date().timeIntervalSince1970,
                 userEmail: currentUser.email,
                 userName: currentUser.name,
-                content: inputText)
+                content: inputText,
+                photoURL: currentUser.photoURL
+            )
             
             // Apply message locally first
             currentBundle.value.messages.append(messageToSend)
@@ -87,9 +91,40 @@ class ChatViewModel {
                 do {
                     let fetchedPackages = try await firestoreManager.fetchPackages(withIDs: paths)
                     self.sessionPackages.value = fetchedPackages
-                } catch(let error) {
+                } catch {
                     print(error)
                 }
             }
         }
+    
+    // Fetch user
+    func fetchCurrentUser( _ userEmail: String) {
+
+        Task {
+            do {
+                let user = try await firestoreManager.fetchUser( userEmail )
+                self.currentUser.value = user
+                
+            } catch {
+            
+                print(error)
+            }
+        }
+    }
+    
+    // Fetch images
+    func fetchImage(otherUserEmail email: String, photoURL urlString: String) {
+        
+        if profileImages.value[email] != nil { return }
+        
+        userManager.downloadImage(urlString: urlString) { result in
+            switch result {
+            case .success(let fetchedImage):
+                self.profileImages.value[email] = fetchedImage
+                
+            case .failure(let error):
+                print("faild to fetch the photos \(error)")
+            }
+        }
+    }
 }

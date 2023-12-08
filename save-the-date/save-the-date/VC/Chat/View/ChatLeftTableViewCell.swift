@@ -7,6 +7,7 @@
 
 import UIKit
 import Foundation
+import SnapKit
 
 class ChatLeftTableViewCell: UITableViewCell {
     
@@ -55,6 +56,7 @@ class ChatLeftTableViewCell: UITableViewCell {
         profileBG.clipsToBounds = true
         profilePic.clipsToBounds = true
         profilePic.backgroundColor = .clear
+        profilePic.contentMode = .scaleAspectFill
         profileBG.setCornerRadius(20)
             .setbackgroundColor(.hexToUIColor(hex: "#CBCBCB"))
     }
@@ -82,10 +84,9 @@ class ChatLeftTableViewCell: UITableViewCell {
             .heightConstr(40)
             .widthConstr(40)
         
-        profilePic.leadingConstr(to: profileBG.leadingAnchor, 5)
-            .trailingConstr(to: profileBG.trailingAnchor, -5)
-            .topConstr(to: profileBG.topAnchor, 5)
-            .bottomConstr(to: profileBG.bottomAnchor, -5)
+        profilePic.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         timeLabel.leadingConstr(to: textBG.leadingAnchor, 0)
             .topConstr(to: textBG.bottomAnchor, 2)
