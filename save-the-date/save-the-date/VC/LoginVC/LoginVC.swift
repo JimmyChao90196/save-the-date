@@ -129,7 +129,7 @@ class LoginViewController: UIViewController {
                                 navController.pushViewController(multiUserVC, animated: true)
                             }
                         }
-                        
+                        self.userManager.currentUser = userInfo
                     default: print("harray!!!")
                         self.userManager.currentUser = userInfo
                     }

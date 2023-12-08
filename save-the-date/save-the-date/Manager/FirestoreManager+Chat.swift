@@ -22,8 +22,8 @@ extension FirestoreManager {
             do {
                 // Create a document reference first
                 let newDocumentRef = fdb.collection("chatBundles").document()
-                let newDocumentID = newDocumentRef.documentID
-                var newChatBundle = ChatBundle(
+                // let newDocumentID = newDocumentRef.documentID
+                let newChatBundle = ChatBundle(
                     messages: [],
                     participants: participants,
                     roomID: newDocumentRef.path)
@@ -43,6 +43,33 @@ extension FirestoreManager {
             } catch {
                 // Handle encoding errors
                 completion(.failure(error))
+            }
+        }
+    
+    // MARK: - Update chatroom
+    func updateChatRoom(
+        newPerson: String,
+        docPath: String,
+        perform operation: PackageOperation,
+        completion: ((Result<String, Error>) -> Void)? ) {
+            
+            let chatRef = fdb.document(docPath)
+            let fieldPath = "participants"
+            
+            var fieldOperation = FieldValue.arrayUnion([newPerson])
+            switch operation {
+            case .add:
+                fieldOperation = FieldValue.arrayUnion([newPerson])
+            case .remove:
+                fieldOperation = FieldValue.arrayRemove([newPerson])
+            }
+            
+            chatRef.updateData([fieldPath: fieldOperation ]) { error in
+                if let error = error {
+                    completion?(.failure(error))
+                } else {
+                    completion?(.success("Success"))
+                }
             }
         }
     

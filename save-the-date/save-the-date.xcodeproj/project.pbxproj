@@ -71,6 +71,8 @@
 		748728282B15B41200EB347F /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */; };
 		74918CBD2B072FE700ED7D99 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74918CBC2B072FE700ED7D99 /* CoreLocation.framework */; };
 		74A60FBE2B21EA9D00398A10 /* SessionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A60FBD2B21EA9D00398A10 /* SessionTableView.swift */; };
+		74A60FC02B22EB8700398A10 /* MultiUserVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A60FBF2B22EB8700398A10 /* MultiUserVM.swift */; };
+		74A60FC22B22EBF300398A10 /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A60FC12B22EBF300398A10 /* ChatManager.swift */; };
 		74A8F9152B182C3500AE63F5 /* ExploreVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A8F9142B182C3500AE63F5 /* ExploreVM.swift */; };
 		74A8F9172B18379600AE63F5 /* CreateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A8F9162B18379600AE63F5 /* CreateVM.swift */; };
 		74A8F91C2B18391F00AE63F5 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A8F91B2B18391F00AE63F5 /* Box.swift */; };
@@ -161,6 +163,8 @@
 		748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		74918CBC2B072FE700ED7D99 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		74A60FBD2B21EA9D00398A10 /* SessionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTableView.swift; sourceTree = "<group>"; };
+		74A60FBF2B22EB8700398A10 /* MultiUserVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiUserVM.swift; sourceTree = "<group>"; };
+		74A60FC12B22EBF300398A10 /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
 		74A8F9142B182C3500AE63F5 /* ExploreVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreVM.swift; sourceTree = "<group>"; };
 		74A8F9162B18379600AE63F5 /* CreateVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVM.swift; sourceTree = "<group>"; };
 		74A8F91B2B18391F00AE63F5 /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
@@ -439,6 +443,7 @@
 				74A8F91F2B186FF000AE63F5 /* FirestoreManager+Search.swift */,
 				74363FE62B1B4AA3000AE762 /* UserManager.swift */,
 				7432EFEC2B207D4C008D2280 /* FirestoreManager+Chat.swift */,
+				74A60FC12B22EBF300398A10 /* ChatManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -512,6 +517,7 @@
 			isa = PBXGroup;
 			children = (
 				74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */,
+				74A60FBF2B22EB8700398A10 /* MultiUserVM.swift */,
 			);
 			path = "Multi-user";
 			sourceTree = "<group>";
@@ -750,6 +756,7 @@
 				74DE46622B0886CD00B6F648 /* FirestoreManager.swift in Sources */,
 				74225BF12B19B1BE00D408C1 /* ExploreModel.swift in Sources */,
 				744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */,
+				74A60FC02B22EB8700398A10 /* MultiUserVM.swift in Sources */,
 				744B571E2B05E40B00B3ABAA /* ResultTableViewCell.swift in Sources */,
 				74A8F91E2B18407E00AE63F5 /* ExploreSiteVM.swift in Sources */,
 				7432EFED2B207D4C008D2280 /* FirestoreManager+Chat.swift in Sources */,
@@ -761,6 +768,7 @@
 				74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */,
 				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,
 				74363FE72B1B4AA3000AE762 /* UserManager.swift in Sources */,
+				74A60FC22B22EBF300398A10 /* ChatManager.swift in Sources */,
 				74A8F9172B18379600AE63F5 /* CreateVM.swift in Sources */,
 				744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */,
 				74363FE32B1B166A000AE762 /* LoginVM.swift in Sources */,

@@ -66,7 +66,7 @@ class FirestoreManager {
             var packageCopy = package
             
             // Change this to ref
-            packageCopy.info.id = newDocumentID
+            // packageCopy.info.id = newDocumentID
             packageCopy.docPath = newDocumentRef.path
             
             // Encode your package object into JSON and converted it to a dictionary
@@ -136,6 +136,27 @@ class FirestoreManager {
         }
         
         packageRef.updateData([fieldPath: fieldOperation ]) { error in
+            if let error = error {
+                print("Error updating package: \(error)")
+            } else {
+                completion()
+            }
+        }
+    }
+    
+    // MARK: - Update package just for chat -
+    func updatePackage(
+        infoToUpdate newValue: String,
+        docPath: String,
+        toPath path: String,
+        perform operation: PackageOperation,
+        completion: @escaping () -> Void
+    ) {
+        
+        let packageRef = fdb.document(docPath)
+        let fieldPath = path
+        
+        packageRef.updateData([fieldPath: newValue ]) { error in
             if let error = error {
                 print("Error updating package: \(error)")
             } else {

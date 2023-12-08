@@ -62,9 +62,6 @@ class ChatViewController: UIViewController {
         setupConstranit()
         tableView.reloadData()
         
-        // Listener
-        setupListener()
-        
         // Bind for session packages
         viewModel.sessionPackages.bind { packages in
             self.sessionPackages = packages
@@ -171,9 +168,6 @@ class ChatViewController: UIViewController {
         
         // MARK: - Fetch session packages at the first place
         viewModel.fetchSessionPackages()
-        
-        // Create the chatroom
-        // viewModel.createChatRoom()
     }
     
     // MARK: - Handle user leave event -
@@ -294,17 +288,14 @@ class ChatViewController: UIViewController {
             initialSpringVelocity: 0.3) {
                 self.foldedViewLeadingConstraint.constant = newConstant
                 
-                DispatchQueue.main.async {
-                    self.view.layoutIfNeeded()
-                }
+                self.view.layoutIfNeeded()
             }
     }
     
     // Setting up listener
-    func setupListener() {
+    func setupListener(bundleID: String) {
         
-        // viewModel.setupChatListener(docPath: currentBundle.roomID)
-        viewModel.setupChatListener(docPath: "chatBundles/iyPYCGGIkx1CWv6Pki1O")
+        viewModel.setupChatListener(docPath: bundleID)
         
         DispatchQueue.main.async { [self] in
             tableView.reloadData()
@@ -346,7 +337,22 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true)
+        switch tableView {
+            
+        case sessionsTableView:
+            
+            // Remove previous LRG
+            if LRG != nil {
+                LRG?.remove()
+            }
+            
+            // Find docpath
+            let chatDocPath = self.sessionPackages[indexPath.row].chatDocPath
+            setupListener(bundleID: chatDocPath)
+            
+        default: tableView.deselectRow(at: indexPath, animated: true)
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -39,9 +39,35 @@ class MultiUserViewController: CreatePackageViewController {
     
     var enterKind = EnterKind.enter
     
+    // Chat bundle
+    var currentBundle = ChatBundle(
+        messages: [],
+        participants: [],
+        roomID: "")
+    
+    // VM
+    var count = 0
+    var viewModle = MultiUserViewModel()
+    
     // MARK: - Common function -
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Data binding
+        viewModle.currentChatBundle.bind { [weak self] bundle in
+                
+            guard let self = self else { return }
+            
+            if self.count >= 1 {
+            self.currentBundle = bundle
+            
+                viewModle.updatePackage(
+                    pathToUpdate: bundle.roomID,
+                    packageToUpdate: documentPath)
+            }
+        }
+        
+        self.count += 1
         
         // Create or enter session
         switch enterKind {
@@ -190,10 +216,9 @@ class MultiUserViewController: CreatePackageViewController {
         
         let packageColl = PackageCollection.sessionColl
         let packageState = PackageState.sessitonState
+
         
-        // Show loading
-        LKProgressHUD.show()
-        
+        // Prepare to upload newPackage
         let info = Info(title: "unNamed",
                         author: [self.userName],
                         authorEmail: [self.userID],
@@ -206,6 +231,9 @@ class MultiUserViewController: CreatePackageViewController {
         self.currentPackage.weatherModules.rainy = self.rainyModules
         
         self.firestoreManager.uploadPackage(self.currentPackage, packageColl) { [weak self] result in
+            
+            // Show loading
+            LKProgressHUD.show()
             
             switch result {
             case .success(let docPath):
@@ -236,6 +264,11 @@ class MultiUserViewController: CreatePackageViewController {
                     DispatchQueue.main.async {
                         self?.tableView.reloadData()
                     }
+                    
+                    // Create chatroom
+                    guard let currentEmail = self?.userManager.currentUser.email else { return }
+                    self?.viewModle.createChatRoom(with: [currentEmail])
+                    
                 }
                 
             case .failure(let error):
@@ -283,6 +316,13 @@ class MultiUserViewController: CreatePackageViewController {
                         name: self.userName,
                         email: self.userID)
                     
+                    // Update user packages
+                    self.firestoreManager.updateUserPackages(
+                        email: self.userID,
+                        packageType: .sessionColl,
+                        docPath: text,
+                        perform: .add) { }
+                    
                     // Setup listener
                     self.LSG = self.firestoreManager.modulesListener(docPath: text) { newPackage in
                         
@@ -302,6 +342,11 @@ class MultiUserViewController: CreatePackageViewController {
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
+                    
+                    // Update chatroom at the end
+                    let currentEmail = self.userManager.currentUser.email
+                    let chatDocPath = self.self.currentPackage.chatDocPath
+                    self.viewModle.updateChatRoom(newEmail: currentEmail, docPath: chatDocPath)
                 }
             }
     }
@@ -322,6 +367,13 @@ class MultiUserViewController: CreatePackageViewController {
                 name: self.userName,
                 email: self.userID)
             
+            // Update user packages
+            self.firestoreManager.updateUserPackages(
+                email: self.userID,
+                packageType: .sessionColl,
+                docPath: docPath,
+                perform: .add) { }
+            
             // Setup listener
             self.LSG = self.firestoreManager.modulesListener(docPath: docPath) { newPackage in
                 
@@ -341,6 +393,11 @@ class MultiUserViewController: CreatePackageViewController {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
+            
+            // Update chatroom at the end
+            let currentEmail = self.userManager.currentUser.email
+            let chatDocPath = self.self.currentPackage.chatDocPath
+            self.viewModle.updateChatRoom(newEmail: currentEmail, docPath: chatDocPath)
         }
     }
     

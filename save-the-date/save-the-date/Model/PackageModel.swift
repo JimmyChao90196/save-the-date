@@ -15,6 +15,7 @@ struct Package: Codable, Hashable {
     var weatherModules: WeatherModules
     var regionTags: [String]
     var docPath: String
+    var chatDocPath: String
     var photoURL: String
     
     // init
@@ -22,12 +23,14 @@ struct Package: Codable, Hashable {
          weatherModules: WeatherModules = WeatherModules(sunny: [], rainy: []),
          regionTags: [String] = [],
          docPath: String = "",
+         chatDocPath: String = "",
          photoURL: String = ""
     ) {
         self.info = info
         self.weatherModules = weatherModules
         self.regionTags = regionTags
         self.docPath = docPath
+        self.chatDocPath = chatDocPath
         self.photoURL = photoURL
     }
     

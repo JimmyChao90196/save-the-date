@@ -33,8 +33,7 @@ class ChatViewModel {
     
     // Create chatroom
     func createChatRoom(
-        with participants: [String] = ["myname90196@gmail.com",
-                                       "40548154@gm.nfu.edu.tw"]) {
+        with participants: [String] = []) {
         firestoreManager.createChatRoom(
             with: participants) { result in
                 switch result {
@@ -42,7 +41,7 @@ class ChatViewModel {
                     self.currentBundle.value = newBundle
                     
                 case .failure(let error):
-                    print(error)
+                    print("Couldn't fetch any chat history \(error)")
                 }
             }
     }

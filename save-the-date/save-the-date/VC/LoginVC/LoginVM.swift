@@ -60,13 +60,19 @@ class LoginViewModel {
                     uid: uid,
                     token: token ?? "")
                 
-                self?.userInfo.value = User(
+//                self?.userInfo.value = User(
+//                    name: name ?? "",
+//                    email: email ?? "",
+//                    photoURL: photoURL ?? "",
+//                    uid: uid)
+                
+                let newUser = User(
                     name: name ?? "",
                     email: email ?? "",
                     photoURL: photoURL ?? "",
                     uid: uid)
                 
-                self?.checkIfUserExist(by: self?.userInfo.value ?? User())
+                self?.checkIfUserExist(by: newUser)
             }
         }
     }
@@ -94,6 +100,7 @@ class LoginViewModel {
                     photoURL: user.photoURL,
                     uid: user.uid)
                 
+                self.userInfo.value = newUser
                 self.userManager.currentUser = newUser
                 self.firestoreManager.addUserWithJson(newUser) { }
             }
