@@ -14,10 +14,13 @@ import FirebaseAuthInterop
 import FirebaseAuth
 
 import AuthenticationServices
+import CryptoKit
 
 import SnapKit
 
 class LoginViewController: UIViewController {
+    
+    fileprivate var currentNonce: String?
     
     // Manager
     var userManager = UserManager.shared
@@ -38,20 +41,20 @@ class LoginViewController: UIViewController {
     var count = 0
     
     // Google signin button
-    lazy var googleSignInButton: GIDSignInButton = {
+    var googleSignInButton: GIDSignInButton = {
         let button = GIDSignInButton()
-        button.addTarget(self, action: #selector(googleSignInButtonTapped), for: .touchUpInside)
+        button.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
         return button
     }()
     
-    lazy var appleSignInButton: ASAuthorizationAppleIDButton = {
-        let button = ASAuthorizationAppleIDButton()
-        button.addTarget(self, action: #selector(googleSignInButtonTapped), for: .touchUpInside)
+    var appleSignInButton: ASAuthorizationAppleIDButton = {
+        let button = ASAuthorizationAppleIDButton(
+            authorizationButtonType: .signIn,
+            authorizationButtonStyle: .black
+        )
+        button.frame = CGRect(x: 0, y: 0, width: 200, height: 45)
         return button
     }()
-    
-    // Fake images that is about to be replaced with signin with apple
-    var appleSignInImage = UIImageView(image: UIImage(resource: .signInWithAppleFakeIcon))
     
     // Guide label
     var guideLabel = UILabel()
@@ -84,6 +87,12 @@ class LoginViewController: UIViewController {
     // Data binding
     func dataBinding() {
         
+        // Binding for nounce
+        viewModel.currentNonce.bind { nonce in
+            self.currentNonce = nonce
+        }
+        
+        // Binding for credential
         viewModel.userCredentialPack.bind { UCPack in
             self.userCredentialPack = UCPack
             
@@ -156,14 +165,16 @@ class LoginViewController: UIViewController {
         googleSignInButton.style = .wide
         googleSignInButton.setCornerRadius(20)
             .clipsToBounds = true
-        appleSignInImage.setCornerRadius(20)
-            .clipsToBounds = true
         
         // Setup divider
         dividerUpperLeft.backgroundColor = .lightGray
         dividerUpperRight.backgroundColor = .lightGray
         dividerLowerLeft.backgroundColor = .lightGray
         dividerLowerRight.backgroundColor = .lightGray
+        
+        // Sign in button setup
+        googleSignInButton.addTarget(self, action: #selector(googleSignInButtonTapped), for: .touchUpInside)
+        appleSignInButton.addTarget(self, action: #selector(appleSignInButtonTapped), for: .touchUpInside)
     }
     
     func addTo() {
@@ -177,7 +188,6 @@ class LoginViewController: UIViewController {
             dividerUpperRight,
             dividerLowerLeft,
             dividerLowerRight,
-            appleSignInImage
         ])
     }
     
@@ -212,15 +222,15 @@ class LoginViewController: UIViewController {
         googleSignInButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(upperIcon.snp.bottom).offset(20)
-            make.width.equalTo(220)
-            make.height.equalTo(15)
+            make.width.equalTo(200)
+            make.height.equalTo(50)
         }
         
         appleSignInButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(googleSignInButton.snp.bottom).offset(10)
-            make.width.equalTo(220)
-            make.height.equalTo(15)
+            make.width.equalTo(200)
+            make.height.equalTo(50)
         }
         
         lowerIcon.snp.makeConstraints { make in
@@ -245,7 +255,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    // MARK: - Additional function -
+    // MARK: - Google login function -
     @objc func googleSignInButtonTapped() {
         
         // Start the sign in flow!
@@ -256,15 +266,154 @@ class LoginViewController: UIViewController {
                   let idToken = user.idToken?.tokenString
             else { return }
             
-            viewModel.signInToFirebaseWithGoogle(
+            viewModel.firebaseSignInWithGoogle(
                 idToken: idToken,
                 accessToken: user.accessToken.tokenString)
-            
         }
+    }
+    
+    // Sign in with apple
+    @objc func appleSignInButtonTapped() {
+        
+        viewModel.configureAppleSignIn(delegationTarget: self)
     }
 }
 
 // MARK: - Notification -
 extension Notification.Name {
     static let userCredentialsUpdated = Notification.Name("userCredentialsUpdated")
+}
+
+// MARK: - Apple login function -
+extension LoginViewController: ASAuthorizationControllerDelegate {
+    
+    func firebaseSignInWithApple(credential: AuthCredential) {
+        Auth.auth().signIn(with: credential) { authResult, error in
+            guard error == nil else {
+                self.presentSimpleAlert(
+                    title: "Warning",
+                    message: "\(String(describing: error!.localizedDescription))",
+                    buttonText: "Okay")
+                return
+            }
+            
+            self.presentSimpleAlert(
+                title: "Success",
+                message: "Successfully logged in",
+                buttonText: "Okay") {
+                    
+                    self.getFirebaseUserInfo()
+                    
+                }
+        }
+    }
+        
+        // MARK: - Use Firebase to fetch user data
+    func getFirebaseUserInfo() {
+        let currentUser = Auth.auth().currentUser
+        guard let user = currentUser else {
+            self.presentSimpleAlert(
+                title: "Error",
+                message: "Unable to fetch the data",
+                buttonText: "Okay")
+            return
+        }
+        
+        let uid = user.uid
+        let email = user.email
+        let photoURL = user.photoURL
+        let name = user.displayName
+        let token = user.refreshToken
+        
+        presentSimpleAlert(
+            title: "User info",
+            message:  "UID: \(uid)\nEmail: \(email!)",
+            buttonText: "Okay") }
+    
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization) {
+            
+        // If login success
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            
+            guard let nonce = currentNonce else {
+                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+            }
+            
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                presentSimpleAlert(
+                    title: "Warning",
+                    message: "Unable to fetch identity token",
+                    buttonText: "Okay")
+                
+                return
+            }
+            
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                presentSimpleAlert(
+                    title: "Warning",
+                    message: "Unable to serialize token string from data\n\(appleIDToken.debugDescription)",
+                    buttonText: "Okay")
+                return
+            }
+            
+            // Create credential for sign in
+            let credential = OAuthProvider.credential(
+                withProviderID: "apple.com",
+                idToken: idTokenString,
+                rawNonce: nonce)
+            
+            // Connect with firebase
+            firebaseSignInWithApple(credential: credential)
+        }
+    }
+    
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithError error: Error) {
+            
+        // If login failed
+        switch error {
+        case ASAuthorizationError.canceled:
+            presentSimpleAlert(
+                title: "Error",
+                message: "User cancel sign in",
+                buttonText: "Okay")
+            
+        case ASAuthorizationError.failed:
+            presentSimpleAlert(
+                title: "Error",
+                message: "Request for authorization failed",
+                buttonText: "Okay")
+            
+        case ASAuthorizationError.invalidResponse:
+            presentSimpleAlert(
+                title: "Error",
+                message: "Request and no response",
+                buttonText: "Okay")
+            
+        case ASAuthorizationError.notHandled:
+            presentSimpleAlert(
+                title: "Error",
+                message: "Request not handled",
+                buttonText: "Okay")
+            
+        case ASAuthorizationError.unknown:
+            presentSimpleAlert(
+                title: "Error",
+                message: "Auth faild for unknow reason",
+                buttonText: "Okay")
+            
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - Present authorization controller
+extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return view.window!
+    }
 }
