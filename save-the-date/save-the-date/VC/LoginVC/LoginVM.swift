@@ -16,6 +16,11 @@ import FirebaseAuth
 import AuthenticationServices
 import CryptoKit
 
+enum SignInMethod {
+    case google
+    case apple(AuthCredential)
+}
+
 class LoginViewModel {
     
     typealias ASAuthDelegate = ASAuthorizationControllerDelegate
@@ -59,13 +64,26 @@ class LoginViewModel {
         }
     
     // Sign in to firebase with google
-    func firebaseSignInWithGoogle(idToken: String, accessToken: String) {
-        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+    func firebaseSignIn(with method: SignInMethod, idToken: String, accessToken: String) {
         
-        Auth.auth().signIn(with: credential) { [weak self] authResult, error in
-            guard let strongSelf = self else { return }
+        var credential: AuthCredential?
+        
+        switch method {
+            
+        case .google:
+            credential = GoogleAuthProvider.credential(
+                withIDToken: idToken,
+                accessToken: accessToken)
+            
+        case .apple(let appleCredential):
+            credential = appleCredential
+        }
+        
+        guard let credential else { return }
+        
+        Auth.auth().signIn(with: credential) { [weak self] _, error in
             if let error = error {
-                // Handle error
+                print("Firestore sign in error: \(error)")
                 return
             }
             
@@ -85,18 +103,18 @@ class LoginViewModel {
                     token: token ?? "")
                 
                 let newUser = User(
-                    name: name ?? "",
+                    name: name ?? "unKnown",
                     email: email ?? "",
                     photoURL: photoURL ?? "",
                     uid: uid)
                 
-                self?.checkIfUserExist(by: newUser)
+                self?.checkIfUserExist(signInMethod: method, by: newUser)
             }
         }
     }
     
     // Check user
-    func checkIfUserExist(by user: User) {
+    func checkIfUserExist(signInMethod method: SignInMethod ,by user: User) {
         
         if user.email == "jimmy@gmail.com" || user.email == "none" || user.email == "" {
             return
@@ -106,17 +124,40 @@ class LoginViewModel {
             
             switch result {
             case .success(let users): print("fetched users: \(users)")
-                self.userManager.currentUser = users.first ?? User()
-                self.userManager.currentUser.photoURL = user.photoURL
-                self.userInfo.value = users.first ?? User()
+                
+                switch method {
+                case .google:
+                    self.userManager.currentUser = users.first ?? User()
+                    self.userManager.currentUser.photoURL = user.photoURL
+                    self.userInfo.value = users.first ?? User()
+                    
+                case .apple(_):
+                    self.userManager.currentUser = users.first ?? User()
+                    self.userInfo.value = users.first ?? User()
+                }
                 
             case .failure(let error): print("\(error), create new user instead")
                 
-                let newUser = User(
-                    name: user.name,
-                    email: user.email,
-                    photoURL: user.photoURL,
-                    uid: user.uid)
+                var newUser = User()
+                
+                switch method {
+                    
+                case .google:
+                    
+                    newUser = User(
+                        name: user.name,
+                        email: user.email,
+                        photoURL: user.photoURL,
+                        uid: user.uid)
+                    
+                case .apple(_):
+                    
+                    newUser = User(
+                        name: user.name,
+                        email: user.email,
+                        photoURL: user.photoURL,
+                        uid: user.uid)
+                }
                 
                 self.userInfo.value = newUser
                 self.userManager.currentUser = newUser

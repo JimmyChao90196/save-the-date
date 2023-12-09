@@ -187,7 +187,7 @@ class LoginViewController: UIViewController {
             dividerUpperLeft,
             dividerUpperRight,
             dividerLowerLeft,
-            dividerLowerRight,
+            dividerLowerRight
         ])
     }
     
@@ -266,7 +266,8 @@ class LoginViewController: UIViewController {
                   let idToken = user.idToken?.tokenString
             else { return }
             
-            viewModel.firebaseSignInWithGoogle(
+            viewModel.firebaseSignIn(
+                with: .google,
                 idToken: idToken,
                 accessToken: user.accessToken.tokenString)
         }
@@ -287,48 +288,49 @@ extension Notification.Name {
 // MARK: - Apple login function -
 extension LoginViewController: ASAuthorizationControllerDelegate {
     
-    func firebaseSignInWithApple(credential: AuthCredential) {
-        Auth.auth().signIn(with: credential) { authResult, error in
-            guard error == nil else {
-                self.presentSimpleAlert(
-                    title: "Warning",
-                    message: "\(String(describing: error!.localizedDescription))",
-                    buttonText: "Okay")
-                return
-            }
-            
-            self.presentSimpleAlert(
-                title: "Success",
-                message: "Successfully logged in",
-                buttonText: "Okay") {
-                    
-                    self.getFirebaseUserInfo()
-                    
-                }
-        }
-    }
-        
-        // MARK: - Use Firebase to fetch user data
-    func getFirebaseUserInfo() {
-        let currentUser = Auth.auth().currentUser
-        guard let user = currentUser else {
-            self.presentSimpleAlert(
-                title: "Error",
-                message: "Unable to fetch the data",
-                buttonText: "Okay")
-            return
-        }
-        
-        let uid = user.uid
-        let email = user.email
-        let photoURL = user.photoURL
-        let name = user.displayName
-        let token = user.refreshToken
-        
-        presentSimpleAlert(
-            title: "User info",
-            message:  "UID: \(uid)\nEmail: \(email!)",
-            buttonText: "Okay") }
+//    func firebaseSignInWithApple(credential: AuthCredential) {
+//        Auth.auth().signIn(with: credential) { authResult, error in
+//            guard error == nil else {
+//                self.presentSimpleAlert(
+//                    title: "Warning",
+//                    message: "\(String(describing: error!.localizedDescription))",
+//                    buttonText: "Okay")
+//                return
+//            }
+//            
+//            self.presentSimpleAlert(
+//                title: "Success",
+//                message: "Successfully logged in",
+//                buttonText: "Okay") {
+//                    
+//                    self.getFirebaseUserInfo()
+//                    
+//                }
+//        }
+//    }
+//        
+//        // MARK: - Use Firebase to fetch user data
+//    func getFirebaseUserInfo() {
+//        let currentUser = Auth.auth().currentUser
+//        guard let user = currentUser else {
+//            self.presentSimpleAlert(
+//                title: "Error",
+//                message: "Unable to fetch the data",
+//                buttonText: "Okay")
+//            return
+//        }
+//        
+//        let uid = user.uid
+//        let email = user.email
+//        let photoURL = user.photoURL
+//        let name = user.displayName
+//        let token = user.refreshToken
+//        
+//        presentSimpleAlert(
+//            title: "User info",
+//            message: "UID: \(uid)\nEmail: \(email!)",
+//            buttonText: "Okay")
+//    }
     
     func authorizationController(
         controller: ASAuthorizationController,
@@ -365,7 +367,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 rawNonce: nonce)
             
             // Connect with firebase
-            firebaseSignInWithApple(credential: credential)
+            viewModel.firebaseSignIn(with: .apple(credential), idToken: "", accessToken: "")
         }
     }
     
