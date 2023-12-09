@@ -64,7 +64,10 @@ class LoginViewModel {
         }
     
     // Sign in to firebase with google
-    func firebaseSignIn(with method: SignInMethod, idToken: String, accessToken: String) {
+    func firebaseSignIn(
+        with method: SignInMethod,
+        idToken: String,
+        accessToken: String) {
         
         var credential: AuthCredential?
         
@@ -114,7 +117,9 @@ class LoginViewModel {
     }
     
     // Check user
-    func checkIfUserExist(signInMethod method: SignInMethod ,by user: User) {
+    func checkIfUserExist(
+        signInMethod method: SignInMethod,
+        by user: User) {
         
         if user.email == "jimmy@gmail.com" || user.email == "none" || user.email == "" {
             return
@@ -131,7 +136,10 @@ class LoginViewModel {
                     self.userManager.currentUser.photoURL = user.photoURL
                     self.userInfo.value = users.first ?? User()
                     
-                case .apple(_):
+                case .apple(let CREDS):
+                    
+                    print("\(CREDS)")
+                    
                     self.userManager.currentUser = users.first ?? User()
                     self.userInfo.value = users.first ?? User()
                 }
@@ -150,7 +158,9 @@ class LoginViewModel {
                         photoURL: user.photoURL,
                         uid: user.uid)
                     
-                case .apple(_):
+                case .apple(let CREDS):
+                    
+                    print("\(CREDS)")
                     
                     newUser = User(
                         name: user.name,

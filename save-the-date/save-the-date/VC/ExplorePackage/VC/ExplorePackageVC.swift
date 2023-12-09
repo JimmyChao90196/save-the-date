@@ -291,7 +291,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         view.backgroundColor = .clear
         tableView.backgroundColor = .clear
         tableView.backgroundView = UIImageView(image: UIImage(resource: .createBG03))
-        tableView.backgroundView?.contentMode = .scaleToFill
+        tableView.backgroundView?.contentMode = .scaleAspectFill
         
         // Handle deep link if exist
         if url != nil {
@@ -546,11 +546,15 @@ extension ExplorePackageViewController {
             return cell
         }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let packageDetailVC = PackageDetailViewController()
-        packageDetailVC.currentPackage = fetchedPackages[indexPath.row]
-        navigationController?.pushViewController(packageDetailVC, animated: true)
-    }
+    override func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath) {
+            
+            let packageDetailVC = PackageDetailViewController()
+            packageDetailVC.enterFrom = .explore
+            packageDetailVC.currentPackage = fetchedPackages[indexPath.row]
+            navigationController?.pushViewController(packageDetailVC, animated: true)
+        }
 }
 
 // MARK: - Additional method -
@@ -638,7 +642,6 @@ extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDat
     func updateSearchResults(for searchController: UISearchController) {
         
         guard let text = searchController.searchBar.text else { return }
-        
         self.viewModel.fetchedSearchedPackages(by: text)
     }
     

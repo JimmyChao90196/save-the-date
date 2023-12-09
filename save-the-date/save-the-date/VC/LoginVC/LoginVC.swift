@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
     // Google signin button
     var googleSignInButton: GIDSignInButton = {
         let button = GIDSignInButton()
-        button.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
+        button.frame = CGRect(x: 0, y: 0, width: 220, height: 50)
         return button
     }()
     
@@ -52,7 +52,7 @@ class LoginViewController: UIViewController {
             authorizationButtonType: .signIn,
             authorizationButtonStyle: .black
         )
-        button.frame = CGRect(x: 0, y: 0, width: 200, height: 45)
+        button.frame = CGRect(x: 0, y: 0, width: 220, height: 45)
         return button
     }()
     
@@ -162,9 +162,14 @@ class LoginViewController: UIViewController {
         guideLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 20)!)
         guideLabel.textColor = .hexToUIColor(hex: "#3F3A3A")
         
-        googleSignInButton.style = .wide
-        googleSignInButton.setCornerRadius(20)
-            .clipsToBounds = true
+        googleSignInButton.setbackgroundColor(.white)
+            .setCornerRadius(20)
+            .style = .wide
+        
+        appleSignInButton.setCornerRadius(20)
+        
+        googleSignInButton.clipsToBounds = true
+        appleSignInButton.clipsToBounds = true
         
         // Setup divider
         dividerUpperLeft.backgroundColor = .lightGray
@@ -275,7 +280,6 @@ class LoginViewController: UIViewController {
     
     // Sign in with apple
     @objc func appleSignInButtonTapped() {
-        
         viewModel.configureAppleSignIn(delegationTarget: self)
     }
 }
@@ -285,52 +289,8 @@ extension Notification.Name {
     static let userCredentialsUpdated = Notification.Name("userCredentialsUpdated")
 }
 
-// MARK: - Apple login function -
+// MARK: - Apple login Delegate function -
 extension LoginViewController: ASAuthorizationControllerDelegate {
-    
-//    func firebaseSignInWithApple(credential: AuthCredential) {
-//        Auth.auth().signIn(with: credential) { authResult, error in
-//            guard error == nil else {
-//                self.presentSimpleAlert(
-//                    title: "Warning",
-//                    message: "\(String(describing: error!.localizedDescription))",
-//                    buttonText: "Okay")
-//                return
-//            }
-//            
-//            self.presentSimpleAlert(
-//                title: "Success",
-//                message: "Successfully logged in",
-//                buttonText: "Okay") {
-//                    
-//                    self.getFirebaseUserInfo()
-//                    
-//                }
-//        }
-//    }
-//        
-//        // MARK: - Use Firebase to fetch user data
-//    func getFirebaseUserInfo() {
-//        let currentUser = Auth.auth().currentUser
-//        guard let user = currentUser else {
-//            self.presentSimpleAlert(
-//                title: "Error",
-//                message: "Unable to fetch the data",
-//                buttonText: "Okay")
-//            return
-//        }
-//        
-//        let uid = user.uid
-//        let email = user.email
-//        let photoURL = user.photoURL
-//        let name = user.displayName
-//        let token = user.refreshToken
-//        
-//        presentSimpleAlert(
-//            title: "User info",
-//            message: "UID: \(uid)\nEmail: \(email!)",
-//            buttonText: "Okay")
-//    }
     
     func authorizationController(
         controller: ASAuthorizationController,

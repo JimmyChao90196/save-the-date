@@ -87,6 +87,37 @@ class FirestoreManager {
         }
     }
     
+    // MARK: - Override packages -
+    func overridePackage(
+        _ targetPackage: Package,
+        completion: @escaping (Result<String, Error>) -> Void) {
+            
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        do {
+            // Create a document reference first
+            let newDocumentRef = fdb.document(targetPackage.docPath)
+            var packageCopy = targetPackage
+            
+            // Encode your package object into JSON and converted it to a dictionary
+            let jsonData = try encoder.encode(packageCopy)
+            let dictionary = try jsonData.toDictionary()
+            
+            // Upload the JSON dictionary to Firestore
+            newDocumentRef.setData(dictionary) { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(newDocumentRef.path))
+                }
+            }
+        } catch {
+            // Handle encoding errors
+            completion(.failure(error))
+        }
+    }
+    
     // MARK: - Update user -
     func updateUserPackages(
         email: String,

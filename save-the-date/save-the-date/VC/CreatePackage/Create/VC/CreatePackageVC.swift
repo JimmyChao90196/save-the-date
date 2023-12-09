@@ -36,9 +36,9 @@ class CreatePackageViewController: PackageBaseViewController {
         return button
     }()
     
-    lazy var saveButton: UIBarButtonItem = {
+    lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
-            title: "Save",
+            title: "Done",
             style: .plain,
             target: self,
             action: #selector(editButtonPressed))
@@ -237,7 +237,7 @@ extension CreatePackageViewController {
             shouldEdit = true
             tableView.setEditing(true, animated: true)
             
-            navigationItem.leftBarButtonItem = saveButton
+            navigationItem.leftBarButtonItem = doneButton
         }
     }
     

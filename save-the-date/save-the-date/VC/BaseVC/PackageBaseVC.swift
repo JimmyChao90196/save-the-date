@@ -156,7 +156,7 @@ class PackageBaseViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.setEditing(false, animated: true)
+        tableView.setEditing(false, animated: false)
         tableView.sectionHeaderTopPadding = 0.0
         
         // Configure buttons
@@ -291,7 +291,6 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             
         } else {
             cell.userIdLabel.text = ""
-            
         }
         
         if cellUserId == userID {
@@ -474,7 +473,6 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         } else {
             return true
         }
-        
     }
     
     // Move row at

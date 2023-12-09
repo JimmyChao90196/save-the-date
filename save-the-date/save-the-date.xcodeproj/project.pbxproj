@@ -68,6 +68,7 @@
 		748023E82B09EC3C00878B12 /* DayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023E72B09EC3C00878B12 /* DayHeaderView.swift */; };
 		748023EB2B0B38DA00878B12 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EA2B0B38DA00878B12 /* SelectionView.swift */; };
 		748023ED2B0B390100878B12 /* SelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EC2B0B390100878B12 /* SelectionModel.swift */; };
+		7486BCF52B246452008808B4 /* PackageDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7486BCF42B246452008808B4 /* PackageDetailVM.swift */; };
 		748728282B15B41200EB347F /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */; };
 		74918CBD2B072FE700ED7D99 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74918CBC2B072FE700ED7D99 /* CoreLocation.framework */; };
 		74A60FBE2B21EA9D00398A10 /* SessionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A60FBD2B21EA9D00398A10 /* SessionTableView.swift */; };
@@ -161,6 +162,7 @@
 		748023EA2B0B38DA00878B12 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		748023EC2B0B390100878B12 /* SelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModel.swift; sourceTree = "<group>"; };
 		7486BCF32B242933008808B4 /* save-the-date.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "save-the-date.entitlements"; sourceTree = "<group>"; };
+		7486BCF42B246452008808B4 /* PackageDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageDetailVM.swift; sourceTree = "<group>"; };
 		748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		74918CBC2B072FE700ED7D99 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		74A60FBD2B21EA9D00398A10 /* SessionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTableView.swift; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 				74A8F9182B1837C500AE63F5 /* VC */,
 				74A8F9192B1837EC00AE63F5 /* View */,
 				74A8F9142B182C3500AE63F5 /* ExploreVM.swift */,
+				7486BCF42B246452008808B4 /* PackageDetailVM.swift */,
 			);
 			path = ExplorePackage;
 			sourceTree = "<group>";
@@ -801,6 +804,7 @@
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,
 				7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */,
 				7439AFED2B074F6700A28C09 /* RouteVC.swift in Sources */,
+				7486BCF52B246452008808B4 /* PackageDetailVM.swift in Sources */,
 				74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */,
 				748728282B15B41200EB347F /* JGProgressHUDWrapper.swift in Sources */,
 				74B8285D2B04DF8800A42850 /* ExploreSiteVC.swift in Sources */,

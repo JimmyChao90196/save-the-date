@@ -388,6 +388,16 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
 // MARK: - Table view dataSource method -
 extension ProfileViewController {
     
+    override func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath) {
+            
+            let packageDetailVC = PackageDetailViewController()
+            packageDetailVC.enterFrom = .profile
+            packageDetailVC.currentPackage = currentPackages[indexPath.row]
+            navigationController?.pushViewController(packageDetailVC, animated: true)
+    }
+    
     override func numberOfSections(
         in tableView: UITableView) -> Int {
             1
