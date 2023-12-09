@@ -13,6 +13,8 @@ import FirebaseCore
 import FirebaseAuthInterop
 import FirebaseAuth
 
+import AuthenticationServices
+
 import SnapKit
 
 class LoginViewController: UIViewController {
@@ -38,6 +40,12 @@ class LoginViewController: UIViewController {
     // Google signin button
     lazy var googleSignInButton: GIDSignInButton = {
         let button = GIDSignInButton()
+        button.addTarget(self, action: #selector(googleSignInButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var appleSignInButton: ASAuthorizationAppleIDButton = {
+        let button = ASAuthorizationAppleIDButton()
         button.addTarget(self, action: #selector(googleSignInButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -161,6 +169,7 @@ class LoginViewController: UIViewController {
     func addTo() {
         view.addSubviews([
             googleSignInButton,
+            appleSignInButton,
             guideLabel,
             upperIcon,
             lowerIcon,
@@ -203,20 +212,20 @@ class LoginViewController: UIViewController {
         googleSignInButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(upperIcon.snp.bottom).offset(20)
-            make.width.equalTo(223)
+            make.width.equalTo(220)
             make.height.equalTo(15)
         }
         
-        appleSignInImage.snp.makeConstraints { make in
+        appleSignInButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(googleSignInButton.snp.bottom).offset(10)
-            make.width.equalTo(215)
-            make.height.equalTo(40)
+            make.width.equalTo(220)
+            make.height.equalTo(15)
         }
         
         lowerIcon.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(appleSignInImage.snp.bottom).offset(20)
+            make.top.equalTo(appleSignInButton.snp.bottom).offset(20)
             make.width.equalTo(20)
             make.height.equalTo(20)
         }
