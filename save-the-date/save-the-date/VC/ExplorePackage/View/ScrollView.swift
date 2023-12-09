@@ -31,6 +31,7 @@ class HorizontalImageScrollView: UIScrollView {
     private func setupScrollView() {
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
+        self.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
     }
     
     private func setupStackView() {
@@ -39,14 +40,14 @@ class HorizontalImageScrollView: UIScrollView {
         stackView.spacing = 10
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.backgroundColor = .lightGray
+        stackView.backgroundColor = .clear
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.heightAnchor.constraint(equalTo: heightAnchor)
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+            
         ])
     }
     
@@ -73,14 +74,14 @@ class HorizontalImageScrollView: UIScrollView {
             imageLabelView.label.setFont(UIFont(name: "HelveticaNeue-Bold", size: 40) ?? UIFont.systemFont(ofSize: 30))
             imageLabelView.setCornerRadius(20)
                 .setBoarderColor(.hexToUIColor(hex: "#3F3A3A"))
-                .setBoarderWidth(4)
+                .setBoarderWidth(2.5)
                 .clipsToBounds = true
             
             stackView.addArrangedSubview(imageLabelView)
 
             imageLabelView.snp.makeConstraints { make in
-                make.width.equalTo(100)
-                make.height.equalTo(100)
+                make.width.equalTo(80)
+                make.height.equalTo(80)
             }
         }
     }

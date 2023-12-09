@@ -105,6 +105,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         
         // Setup scrollView
         self.recommandedScrollView.onTapped = self.onTapped
+        self.recommandedScrollView.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
         view.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
         
         // add filter navgation button
@@ -216,7 +217,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         searchController.searchResultsUpdater = self
         
         fetchPackages()
-        recommandedScrollView.backgroundColor = .white
         recommandedScrollView.addImages(
             named: ["crown",
                     "crown-silver",
@@ -405,21 +405,21 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             make.top.equalTo(view.snp.topMargin)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.height.equalTo(4)
+            make.height.equalTo(3)
         }
         
         bannerTopDividerB.snp.makeConstraints { make in
             make.top.equalTo(dynamicStackView.snp.bottomMargin)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.height.equalTo(4)
+            make.height.equalTo(3)
         }
         
         bannerBottomDivider.snp.makeConstraints { make in
             make.top.equalTo(recommandedScrollView.snp.bottom)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.height.equalTo(4)
+            make.height.equalTo(3)
         }
     }
 }
