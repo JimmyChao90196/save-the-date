@@ -33,6 +33,8 @@ class PackageDetailViewController: PackageBaseViewController {
     var count = 0
     let packageDetailVM = PackageDetailViewModel()
     
+    // Info header view
+    
     // Nav item
     lazy var editButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -77,6 +79,23 @@ class PackageDetailViewController: PackageBaseViewController {
     
     override func setup() {
         super.setup()
+        
+        let headerView = CustomHeaderView()
+                
+        headerView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: tableView.bounds.width,
+            height: 175)
+        
+        let testImages = [
+            UIImage(resource: .placeholder01),
+            UIImage(resource: .placeholder02),
+            UIImage(resource: .placeholder03)
+        ]
+        
+        headerView.createAuthorImageViews(with: testImages)
+        tableView.tableHeaderView = headerView
         
         // Configure nav title
         self.title = "Package Detail"
@@ -157,6 +176,13 @@ class PackageDetailViewController: PackageBaseViewController {
     
 // MARK: - Additional function
     
+    override func configureConstraint() {
+        
+        super.configureConstraint()
+        
+
+    }
+    
     func enterEditModePressed() {
         packageDetailVM.enterPackageMode()
     }
@@ -231,51 +257,55 @@ class PackageDetailViewController: PackageBaseViewController {
 extension PackageDetailViewController {
     
     // Cell for row at
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = super.tableView(tableView, cellForRowAt: indexPath)
-        guard let cell = cell as? ModuleTableViewCell else { return UITableViewCell()}
-        
-        switch isInEditMode {
-        case true:
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             
-            cell.locationView.gestureRecognizers?.forEach { $0.isEnabled = true }
-            cell.transpView.gestureRecognizers?.forEach { $0.isEnabled = true }
+            let cell = super.tableView(tableView, cellForRowAt: indexPath)
+            guard let cell = cell as? ModuleTableViewCell else { return UITableViewCell()}
             
-        case false:
+            switch isInEditMode {
+            case true:
+                
+                cell.locationView.gestureRecognizers?.forEach { $0.isEnabled = true }
+                cell.transpView.gestureRecognizers?.forEach { $0.isEnabled = true }
+                
+            case false:
+                
+                cell.locationView.gestureRecognizers?.forEach { $0.isEnabled = false }
+                cell.transpView.gestureRecognizers?.forEach { $0.isEnabled = false }
+            }
             
-            cell.locationView.gestureRecognizers?.forEach { $0.isEnabled = false }
-            cell.transpView.gestureRecognizers?.forEach { $0.isEnabled = false }
+            return cell
         }
-        
-        return cell
-    }
     
-    // View for header in section
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        switch isInEditMode {
-        case true:
-            guard let headerView = tableView.dequeueReusableHeaderFooterView(
-                withIdentifier: DayHeaderView.reuseIdentifier) as? DayHeaderView else { return UIView()}
+    // Header
+    override func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int) -> UIView? {
             
-            headerView.section = section
-            headerView.onAddModulePressed = self.onAddModulePressed
-            headerView.setDay(section)
-            headerView.addModuleButton.isHidden = false
-            return headerView
-            
-        case false:
-            
-            guard let headerView = tableView.dequeueReusableHeaderFooterView(
-                withIdentifier: DayHeaderView.reuseIdentifier) as? DayHeaderView else { return UIView()}
-            
-            headerView.section = section
-            headerView.setDay(section)
-            headerView.addModuleButton.isHidden = true
-            return headerView
+            switch isInEditMode {
+            case true:
+                guard let headerView = tableView.dequeueReusableHeaderFooterView(
+                    withIdentifier: DayHeaderView.reuseIdentifier) as? DayHeaderView else { return UIView()}
+                
+                headerView.section = section
+                headerView.onAddModulePressed = self.onAddModulePressed
+                headerView.setDay(section)
+                headerView.addModuleButton.isHidden = false
+                return headerView
+                
+            case false:
+                
+                guard let headerView = tableView.dequeueReusableHeaderFooterView(
+                    withIdentifier: DayHeaderView.reuseIdentifier) as? DayHeaderView else { return UIView()}
+                
+                headerView.section = section
+                headerView.setDay(section)
+                headerView.addModuleButton.isHidden = true
+                return headerView
+            }
         }
-    }
     
     // Can move row at
     override func tableView(

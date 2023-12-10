@@ -100,6 +100,12 @@ extension UILabel {
     }
     
     @discardableResult
+    func setChalkFont(_ size: CGFloat) -> Self {
+        self.font = UIFont(name: "ChalkboardSE-Regular", size: size)
+        return self
+    }
+    
+    @discardableResult
     func setTextColor(_ color: UIColor) -> Self {
         self.textColor = color
         return self

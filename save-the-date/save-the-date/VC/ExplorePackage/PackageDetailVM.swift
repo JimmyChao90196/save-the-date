@@ -18,6 +18,12 @@ class PackageDetailViewModel {
         isInEditMode.value = true
     }
     
+    // Fetch author images
+    func fetchAuthorImages() {
+        
+    }
+    
+    // Save reiveced packages
     func saveRevicedPackage(package: Package) {
         isInEditMode.value = false
         

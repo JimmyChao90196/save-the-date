@@ -69,6 +69,7 @@
 		748023EB2B0B38DA00878B12 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EA2B0B38DA00878B12 /* SelectionView.swift */; };
 		748023ED2B0B390100878B12 /* SelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023EC2B0B390100878B12 /* SelectionModel.swift */; };
 		7486BCF52B246452008808B4 /* PackageDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7486BCF42B246452008808B4 /* PackageDetailVM.swift */; };
+		7486BCF72B2587E9008808B4 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7486BCF62B2587E9008808B4 /* HeaderView.swift */; };
 		748728282B15B41200EB347F /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */; };
 		74918CBD2B072FE700ED7D99 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74918CBC2B072FE700ED7D99 /* CoreLocation.framework */; };
 		74A60FBE2B21EA9D00398A10 /* SessionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A60FBD2B21EA9D00398A10 /* SessionTableView.swift */; };
@@ -163,6 +164,7 @@
 		748023EC2B0B390100878B12 /* SelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModel.swift; sourceTree = "<group>"; };
 		7486BCF32B242933008808B4 /* save-the-date.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "save-the-date.entitlements"; sourceTree = "<group>"; };
 		7486BCF42B246452008808B4 /* PackageDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageDetailVM.swift; sourceTree = "<group>"; };
+		7486BCF62B2587E9008808B4 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		748728272B15B41200EB347F /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		74918CBC2B072FE700ED7D99 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		74A60FBD2B21EA9D00398A10 /* SessionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTableView.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				74DE46752B08B4D000B6F648 /* ExploreTableView.swift */,
 				74DE46772B08B4E500B6F648 /* ExploreTableViewCell.swift */,
 				74F796BE2B0CA4E40055E72F /* ScrollView.swift */,
+				7486BCF62B2587E9008808B4 /* HeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -803,6 +806,7 @@
 				7432EFE62B207439008D2280 /* ChatTableView.swift in Sources */,
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,
 				7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */,
+				7486BCF72B2587E9008808B4 /* HeaderView.swift in Sources */,
 				7439AFED2B074F6700A28C09 /* RouteVC.swift in Sources */,
 				7486BCF52B246452008808B4 /* PackageDetailVM.swift in Sources */,
 				74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */,
