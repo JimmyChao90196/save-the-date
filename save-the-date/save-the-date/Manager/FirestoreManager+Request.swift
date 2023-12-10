@@ -28,7 +28,7 @@ extension FirestoreManager {
                 target: docPath,
                 type: requestType.rawValue,
                 reason: "Too weird",
-                requestID: newID)
+                requestID: newRef.path)
             
             // Encode your user object into JSON
             let jsonData = try encoder.encode(newRequest)

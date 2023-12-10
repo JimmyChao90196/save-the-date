@@ -76,7 +76,20 @@ class ProfileViewController: ExplorePackageViewController {
     // VM
     let profileVM = ProfileViewModel()
     
-    // Nav button
+    // button
+    lazy var editBGImageButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        
+        // Your logic to customize the button
+        button.backgroundColor = .clear
+        button.setImage(UIImage(systemName: "pencil.circle"), for: .normal)
+        button.tintColor = .lightGray
+        
+        button.addTarget(self, action: #selector(editBGTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
     lazy var testButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
             image: UIImage(systemName: "square.and.pencil"),
@@ -117,7 +130,8 @@ class ProfileViewController: ExplorePackageViewController {
             descriptionVBlock,
             descriptionContent,
             selectionView,
-            selectionDivider
+            selectionDivider,
+            editBGImageButton
         ])
         
         self.selectionView.dataSource = self
@@ -136,7 +150,8 @@ class ProfileViewController: ExplorePackageViewController {
         profilePicture.backgroundColor = .white
         profilePicture.clipsToBounds = true
         
-        profileBGImage.contentMode = .scaleToFill
+        profileBGImage.contentMode = .scaleAspectFill
+        profileBGImage.clipsToBounds = true
         
         // Dividers
         leftDivider.backgroundColor = .darkGray
@@ -168,6 +183,13 @@ class ProfileViewController: ExplorePackageViewController {
     }
     
     override func setupConstraint() {
+        // Edit BG button
+        editBGImageButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
         
         // Description
         descriptionView.snp.makeConstraints { make in
@@ -253,6 +275,15 @@ class ProfileViewController: ExplorePackageViewController {
     }
     
  // MARK: - Additional function -
+    @objc func editBGTapped() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary // Or use .camera for taking a new photo
+        
+        // Present the image picker
+        self.present(imagePickerController, animated: true, completion: nil)
+    }
+    
     func setupOnEvent() {
         onLoggedIn = { [weak self] user in
             self?.profileVM.checkIfUserExist(by: user)
@@ -435,4 +466,27 @@ extension ProfileViewController {
             
             return cell
         }
+}
+
+// MARK: - Image picker delegate -
+extension ProfileViewController: 
+    UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate {
+    
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            
+        picker.dismiss(animated: true, completion: nil)
+
+        if let selectedImage = info[.originalImage] as? UIImage {
+            DispatchQueue.main.async {
+                self.profileBGImage.image = selectedImage
+            }
+        }
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
 }
