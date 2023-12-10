@@ -229,9 +229,31 @@ extension UIViewController {
         
         alert.addAction(action)
         
-        // If you want to add a cancel action as well
-        // let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        // alert.addAction(cancelAction)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func presentSimpleAlert(
+        by options: [String],
+        title: String,
+        message: String,
+        buttonText: String,
+        buttonAction: ((UIAlertAction) -> Void)? = nil) {
+            
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .actionSheet)
+        
+        for option in options {
+            let action = UIAlertAction(title: option, style: .destructive) { alertAction in
+                buttonAction?(alertAction)
+            }
+            alert.addAction(action)
+        }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            alert.addAction(cancelAction)
         
         DispatchQueue.main.async {
             self.present(alert, animated: true, completion: nil)

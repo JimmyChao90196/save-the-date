@@ -75,6 +75,28 @@ extension FirestoreManager {
             }
     }
     
+    func searchUsers(by emails: [String]) async throws -> [User] {
+        let userCollection = fdb.collection("users")
+        
+        do {
+            let querySnapshot = try await userCollection.whereField("email", in: emails).getDocuments()
+            var fetchedUsers = [User]()
+            
+            for document in querySnapshot.documents {
+                let jsonData = try JSONSerialization.data(withJSONObject: document.data(), options: [])
+                let fetchedUser = try JSONDecoder().decode(User.self, from: jsonData)
+                fetchedUsers.append(fetchedUser)
+            }
+
+            return fetchedUsers
+
+        } catch {
+            print("Error fetching users: \(error)")
+            throw error
+        }
+    }
+
+    
     // MARK: - Check if User exist -
     
     func checkUser(by user: User, completion: @escaping (Result<[User], Error>) -> Void) {

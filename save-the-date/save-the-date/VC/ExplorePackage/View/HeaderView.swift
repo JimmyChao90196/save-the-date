@@ -11,10 +11,17 @@ import SnapKit
 
 class CustomHeaderView: UIView {
     
+    // Custom tags view
+    var scrollView = UIScrollView()
+    var tagsStackView = UIStackView()
+    
+    // Label
     var packageTitleLabel = UILabel()
     var packageTagLabel = UILabel()
     var packageAuthorLabel = UILabel()
     
+    // Content
+    var packageTitle = UILabel()
     var authorProfileImages = [UIImageView]()
     
     var dividerA = UIView()
@@ -26,6 +33,7 @@ class CustomHeaderView: UIView {
             packageTitleLabel,
             packageTagLabel,
             packageAuthorLabel,
+            packageTitle,
             dividerA,
             dividerB
         ])
@@ -39,11 +47,16 @@ class CustomHeaderView: UIView {
     }
     
     func setup() {
-        packageTitleLabel.setChalkFont(16)
+        // Content
+        packageTitle.setChalkFont(24)
+            .text = ""
+        
+        // Label
+        packageTitleLabel.setChalkFont(18)
             .text = "Title :"
-        packageTagLabel.setChalkFont(16)
+        packageTagLabel.setChalkFont(18)
             .text = "Tags :"
-        packageAuthorLabel.setChalkFont(16)
+        packageAuthorLabel.setChalkFont(18)
             .text = "Author :"
         
         dividerA.backgroundColor = .lightGray
@@ -51,43 +64,96 @@ class CustomHeaderView: UIView {
     }
 
     func setupConstraints() {
+        
+        packageTitle.snp.makeConstraints { make in
+            make.centerY.equalTo(packageTitleLabel.snp.centerY)
+            make.leading.equalTo(packageTitleLabel.snp.trailing).offset(10)
+        }
+        
         packageTitleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(55)
             make.leading.equalToSuperview().offset(10)
-            make.height.equalTo(30)
+            make.height.equalTo(40)
         }
         
         dividerA.snp.makeConstraints { make in
-            make.top.equalTo(packageTitleLabel.snp.bottom).offset(7.5)
+            make.top.equalTo(packageTitleLabel.snp.bottom).offset(15)
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.height.equalTo(1)
         }
         
         packageAuthorLabel.snp.makeConstraints { make in
-            make.top.equalTo(packageTitleLabel.snp.bottom).offset(15)
+            make.top.equalTo(packageTitleLabel.snp.bottom).offset(30)
             make.leading.equalToSuperview().offset(10)
-            make.height.equalTo(30)
+            make.height.equalTo(40)
         }
         
         dividerB.snp.makeConstraints { make in
-            make.top.equalTo(packageAuthorLabel.snp.bottom).offset(7.5)
+            make.top.equalTo(packageAuthorLabel.snp.bottom).offset(15)
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.height.equalTo(1)
         }
         
         packageTagLabel.snp.makeConstraints { make in
-            make.top.equalTo(packageAuthorLabel.snp.bottom).offset(15)
+            make.top.equalTo(packageAuthorLabel.snp.bottom).offset(30)
             make.leading.equalToSuperview().offset(10)
-            make.height.equalTo(30)
-            make.bottom.equalToSuperview().offset(-15)
+            make.height.equalTo(40)
+            make.bottom.equalToSuperview().offset(-30)
         }
     }
 }
 
 // MARK: - Additional function -
 extension CustomHeaderView {
+    
+    func setupScrollView() {
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(scrollView)
+
+        scrollView.snp.makeConstraints { make in
+            make.centerY.equalTo(packageTagLabel.snp.centerY)
+            make.leading.equalTo(packageTagLabel.snp.trailing).offset(10)
+            make.trailing.equalToSuperview()
+            make.height.equalTo(40) // Adjust as needed
+        }
+
+        tagsStackView.axis = .horizontal
+        tagsStackView.spacing = 8
+        tagsStackView.alignment = .center
+        tagsStackView.distribution = .fillProportionally
+
+        scrollView.addSubview(tagsStackView)
+        tagsStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        tagsStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.height.equalTo(scrollView)
+        }
+    }
+
+    func createTagLabels(with tags: [String]) {
+        // Clear old tags
+        tagsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        for tag in tags {
+            let tagLabel = UILabel()
+            tagLabel.text = tag
+            tagLabel.backgroundColor = .lightGray
+            tagLabel.layer.cornerRadius = 10
+            tagLabel.clipsToBounds = true
+            tagLabel.textAlignment = .center
+            tagLabel.font = UIFont.systemFont(ofSize: 14) // Adjust as needed
+            tagLabel.textColor = .black
+            tagLabel.snp.makeConstraints { make in
+                make.height.equalTo(30) // Adjust as needed
+            }
+
+            tagsStackView.addArrangedSubview(tagLabel)
+        }
+    }
     
     func createAuthorImageViews(with images: [UIImage]) {
         // Remove old images first

@@ -33,9 +33,17 @@ class PackageDetailViewController: PackageBaseViewController {
     var count = 0
     let packageDetailVM = PackageDetailViewModel()
     
-    // Info header view
-    
     // Nav item
+    lazy var moreButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis"),
+            style: .plain,
+            target: self,
+            action: #selector(moreButtonPressed))
+        
+        return button
+    }()
+    
     lazy var editButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
             image: UIImage(systemName: "slider.horizontal.3"),
@@ -80,13 +88,14 @@ class PackageDetailViewController: PackageBaseViewController {
     override func setup() {
         super.setup()
         
+        // MARK: - Configure header view -
         let headerView = CustomHeaderView()
-                
+        
         headerView.frame = CGRect(
             x: 0,
             y: 0,
             width: tableView.bounds.width,
-            height: 175)
+            height: 265)
         
         let testImages = [
             UIImage(resource: .placeholder01),
@@ -94,7 +103,18 @@ class PackageDetailViewController: PackageBaseViewController {
             UIImage(resource: .placeholder03)
         ]
         
+        // Setup title
+        headerView.packageTitle.text = self.currentPackage.info.title
+        
+        // Setup images
+        packageDetailVM.fetchAuthorImages(emails: self.currentPackage.info.authorEmail)
         headerView.createAuthorImageViews(with: testImages)
+        
+        // Setup tags
+        let regionTags = self.currentPackage.regionTags
+        headerView.setupScrollView()
+        headerView.createTagLabels(with: regionTags)
+        
         tableView.tableHeaderView = headerView
         
         // Configure nav title
@@ -139,9 +159,7 @@ class PackageDetailViewController: PackageBaseViewController {
 
         packageDetailVM.shouldEdit(
             autherEmails: currentPackage.info.authorEmail,
-            from: enterFrom) { shouldEdit in
-                hoverButton.isHidden = !shouldEdit
-            }
+            from: enterFrom)
         
         view.addSubviews([hoverButton])
         
@@ -149,7 +167,23 @@ class PackageDetailViewController: PackageBaseViewController {
             make.edges.equalToSuperview()
         }
         
+        // Setup onConfirm event
+        onLocationComfirmWithAddress = { components in
+            self.viewModel.parseAddress(from: components, currentTags: self.regionTags)
+        }
+        
         // Data binding
+        packageDetailVM.shouldEdit.bind { value in
+            self.shouldEdit = value
+            self.hoverButton.isHidden = !self.shouldEdit
+        }
+        
+        packageDetailVM.authorImages.bind { fetchedImages in
+            DispatchQueue.main.async {
+                headerView.createAuthorImageViews(with: fetchedImages)
+            }
+        }
+        
         packageDetailVM.isInEditMode.bind { [weak self] isInEditMode in
             guard let self = self else { return }
             
@@ -162,9 +196,13 @@ class PackageDetailViewController: PackageBaseViewController {
                 self.title = "Edit Package"
                 
             case false:
-                navigationItem.rightBarButtonItems = []
-                self.title = "Package Detail"
                 
+                switch self.shouldEdit {
+                case true:  navigationItem.rightBarButtonItems = []
+                case false: navigationItem.rightBarButtonItems = [moreButton]
+                }
+                
+                self.title = "Package Detail"
             }
             
             // Reload table view at the end
@@ -176,11 +214,47 @@ class PackageDetailViewController: PackageBaseViewController {
     
 // MARK: - Additional function
     
-    override func configureConstraint() {
+    func submitHelperFunction(requestType: RequestType) {
         
-        super.configureConstraint()
-        
-
+        // Submitting report
+        self.packageDetailVM.submitRequest(
+            targetDocPath: self.currentPackage.docPath,
+            requestType: requestType) {
+                
+                // Present alert
+                self.presentSimpleAlert(
+                    title: "Success",
+                    message: "Successfully submitted the \(requestType.rawValue) reqeust",
+                    buttonText: "Okay")
+            }
+    }
+    
+    @objc func moreButtonPressed() {
+        let options = ["Report", "Restrict", "Block"]
+        presentSimpleAlert(
+            by: options,
+            title: "Perform action to this package",
+            message: "In appropreate content?",
+            buttonText: "Okay") { [weak self] alertAction in
+                let alertTitle = alertAction.title
+                switch alertTitle {
+                    
+                case "Report":
+                    
+                    self?.submitHelperFunction(requestType: .report)
+                    
+                case "Restrict":
+                    
+                    self?.submitHelperFunction(requestType: .restrict)
+                    
+                case "Block":
+                    
+                    self?.submitHelperFunction(requestType: .block)
+                    
+                default: print("Default")
+                    
+                }
+            }
     }
     
     func enterEditModePressed() {
@@ -190,8 +264,8 @@ class PackageDetailViewController: PackageBaseViewController {
     func saveButtonPressed() {
         self.currentPackage.weatherModules.sunny = self.sunnyModules
         self.currentPackage.weatherModules.rainy = self.rainyModules
+        self.currentPackage.regionTags = self.regionTags
         packageDetailVM.saveRevicedPackage(package: self.currentPackage)
-        
     }
     
     // Edit bar button pressed
