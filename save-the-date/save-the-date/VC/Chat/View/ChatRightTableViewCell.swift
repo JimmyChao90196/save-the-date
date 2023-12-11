@@ -13,7 +13,7 @@ class ChatRightTableViewCell: UITableViewCell {
     static let reuseIdentifier = String(describing: ChatRightTableViewCell.self)
     
     var customView = CustomShapeView(
-        color: .customLightRed,
+        color: .customLightRedterm,
         frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     
     var messageLabel = UILabel()

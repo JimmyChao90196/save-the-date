@@ -22,6 +22,7 @@ PODS:
   - Hover (2.1.0)
   - IQKeyboardManagerSwift (6.5.15)
   - JGProgressHUD (2.2)
+  - lottie-ios (4.3.4)
   - SnapKit (5.6.0)
   - SwiftLint (0.54.0)
 
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - Hover
   - IQKeyboardManagerSwift
   - JGProgressHUD
+  - lottie-ios
   - SnapKit
   - SwiftLint
 
@@ -46,6 +48,7 @@ SPEC REPOS:
     - Hover
     - IQKeyboardManagerSwift
     - JGProgressHUD
+    - lottie-ios
     - SnapKit
     - SwiftLint
 
@@ -59,9 +62,10 @@ SPEC CHECKSUMS:
   Hover: b7821338bdaf54d0e46be24d603e443a869993e3
   IQKeyboardManagerSwift: 79fab21f451441935788dc5d80ded21c32685904
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
+  lottie-ios: 3d98679b41fa6fd6aff2352b3953dbd3df8a397e
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 7eb85be4808ab73a958b2aa1dc25b32cb5114210
+PODFILE CHECKSUM: 76ae5f5415195a8aae2efea2c9ea0a3798e2e77f
 
 COCOAPODS: 1.13.0
