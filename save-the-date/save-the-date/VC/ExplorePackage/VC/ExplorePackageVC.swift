@@ -14,6 +14,7 @@ import CoreLocation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseCore
+import Lottie
 
 import QuartzCore
 
@@ -56,6 +57,9 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         
         return button
     }()
+    
+    // Animation view
+    var animateBGView = LottieAnimationView()
     
     // inside folded view
     var cityPicker = UIPickerView()
@@ -128,6 +132,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     override func addTo() {
         super.addTo()
         view.addSubviews([
+            animateBGView,
             recommandedScrollView,
             bannerTopDivider,
             bannerBottomDivider,
@@ -136,6 +141,8 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             tagGuide,
             foldedView
         ])
+        
+        view.sendSubviewToBack(animateBGView)
         
         foldedView.addSubviews([
             chooseCityLabel,
@@ -152,6 +159,12 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     
     override func setup() {
         super.setup()
+        
+        animateBGView = LottieAnimationView(name: "ChatBG")
+        animateBGView.isUserInteractionEnabled = false
+        animateBGView.contentMode = .scaleAspectFit
+        animateBGView.play()
+        animateBGView.loopMode = .loop
         
         // Notification Center listener
         NotificationCenter.default.addObserver(
@@ -300,6 +313,13 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     }
     
     override func setupConstraint() {
+        
+        animateBGView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.topMargin)
+            make.bottom.equalTo(view.snp.bottomMargin)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
         
         // Setup stack view
         dynamicStackView.snp.makeConstraints { make in

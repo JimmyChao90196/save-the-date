@@ -31,8 +31,6 @@ class ProfileViewController: ExplorePackageViewController {
     
     var descriptionView = UIView()
     var descriptionContent = UILabel()
-    var descriptionHBlock = UIView()
-    var descriptionVBlock = UIView()
     
     var userNameLabel = UILabel()
     var leftDivider = UIView()
@@ -126,8 +124,6 @@ class ProfileViewController: ExplorePackageViewController {
             rightDivider,
             userNameLabel,
             descriptionView,
-            descriptionHBlock,
-            descriptionVBlock,
             descriptionContent,
             selectionView,
             selectionDivider,
@@ -173,8 +169,6 @@ class ProfileViewController: ExplorePackageViewController {
         descriptionView.setCornerRadius(10)
             .setBoarderColor(.black)
             .setBoarderWidth(2.5)
-        descriptionHBlock.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
-        descriptionVBlock.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
         descriptionContent.numberOfLines = 0
         descriptionContent.textAlignment = .center
         descriptionContent.setFont(UIFont(name: "ChalkboardSE-Regular", size: 14)!)
@@ -203,20 +197,6 @@ class ProfileViewController: ExplorePackageViewController {
             make.centerY.equalTo(descriptionView.snp.centerY)
             make.leading.equalTo(descriptionView.snp.leading).offset(15)
             make.trailing.equalTo(descriptionView.snp.trailing).offset(-15)
-        }
-        
-        descriptionHBlock.snp.makeConstraints { make in
-            make.leading.equalTo(descriptionView.snp.leading).offset(-5)
-            make.trailing.equalTo(descriptionView.snp.trailing).offset(5)
-            make.centerY.equalTo(descriptionView.snp.centerY)
-            make.height.equalTo(25)
-        }
-        
-        descriptionVBlock.snp.makeConstraints { make in
-            make.top.equalTo(descriptionView.snp.top).offset(-5)
-            make.bottom.equalTo(descriptionView.snp.bottom).offset(5)
-            make.centerX.equalTo(descriptionView.snp.centerX)
-            make.width.equalTo(100)
         }
         
         userNameLabel.snp.makeConstraints { make in

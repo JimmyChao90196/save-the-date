@@ -17,6 +17,7 @@ import AuthenticationServices
 import CryptoKit
 
 import SnapKit
+import Lottie
 
 class LoginViewController: UIViewController {
     
@@ -63,6 +64,9 @@ class LoginViewController: UIViewController {
     var upperIcon = UIImageView(image: UIImage(resource: .travelIcon01))
     var lowerIcon = UIImageView(image: UIImage(resource: .travelIcon02))
     
+    // Animation view
+    var loginBGAnimation = LottieAnimationView()
+    
     // Divider
     var dividerUpperLeft = UIView()
     var dividerUpperRight = UIView()
@@ -74,14 +78,35 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .hexToUIColor(hex: "#FF4E4E")
+        view.backgroundColor = .white
+        
+        lottieAnimationSetup()
         
         dataBinding()
         viewModel.configureGoogleSignIn()
         addTo()
         setupConstraint()
         setup()
+    }
+    
+    func lottieAnimationSetup() {
         
+        // login animation setup
+        loginBGAnimation = LottieAnimationView(name: "LoginBG")
+        loginBGAnimation.contentMode = .scaleAspectFit
+        loginBGAnimation.isUserInteractionEnabled = false
+        loginBGAnimation.play()
+        loginBGAnimation.animationSpeed = 0.5
+        loginBGAnimation.loopMode = .autoReverse
+        let blurEffect = UIBlurEffect(style: .systemThinMaterialLight)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+                                
+        // Set the frame or use Auto Layout to constrain the blurEffectView
+        blurEffectView.frame = loginBGAnimation.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        // Add the blur view to the view hierarchy
+        loginBGAnimation.addSubview(blurEffectView)
     }
     
     // Data binding
@@ -157,17 +182,22 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // MARK: - Setup -
     func setup() {
+        
+        view.setBoarderColor(.black)
+            .setBoarderWidth(3)
+            .setCornerRadius(25)
+            .clipsToBounds = true
+        
+        // Guide Label
         guideLabel.text = "Please sign in"
         guideLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 20)!)
         guideLabel.textColor = .hexToUIColor(hex: "#3F3A3A")
         
-        googleSignInButton.setbackgroundColor(.white)
-            .setCornerRadius(20)
-            .style = .wide
+        appleSignInButton.setCornerRadius(2.0)
         
-        appleSignInButton.setCornerRadius(20)
-        
+        googleSignInButton.style = .wide
         googleSignInButton.clipsToBounds = true
         appleSignInButton.clipsToBounds = true
         
@@ -184,6 +214,7 @@ class LoginViewController: UIViewController {
     
     func addTo() {
         view.addSubviews([
+            loginBGAnimation,
             googleSignInButton,
             appleSignInButton,
             guideLabel,
@@ -192,11 +223,19 @@ class LoginViewController: UIViewController {
             dividerUpperLeft,
             dividerUpperRight,
             dividerLowerLeft,
-            dividerLowerRight
+            dividerLowerRight,
         ])
+        
     }
     
     func setupConstraint() {
+        
+        loginBGAnimation.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview().offset(20)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
         
         guideLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(25)
@@ -234,8 +273,8 @@ class LoginViewController: UIViewController {
         appleSignInButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(googleSignInButton.snp.bottom).offset(10)
-            make.width.equalTo(200)
-            make.height.equalTo(50)
+            make.width.equalTo(195)
+            make.height.equalTo(45)
         }
         
         lowerIcon.snp.makeConstraints { make in

@@ -11,6 +11,7 @@ import UIKit
 import IQKeyboardManagerSwift
 import FirebaseFirestore
 import SnapKit
+import Lottie
 
 class ChatViewController: UIViewController {
     
@@ -35,6 +36,10 @@ class ChatViewController: UIViewController {
     
     let footerView = UIView()
     var inputField = UITextField()
+    
+    // Animation view
+    var menuHintAnimationView = LottieAnimationView()
+    var chatBGAnimationView = LottieAnimationView()
     
     // Folded view
     var foldedView = UIView()
@@ -149,6 +154,19 @@ class ChatViewController: UIViewController {
 // MARK: - Setup -
     func setup() {
         
+        // Seting animation view
+        chatBGAnimationView = LottieAnimationView(name: "ChatBG")
+        chatBGAnimationView.isUserInteractionEnabled = false
+        chatBGAnimationView.contentMode = .scaleAspectFill
+        chatBGAnimationView.play()
+        chatBGAnimationView.loopMode = .loop
+        
+        menuHintAnimationView = LottieAnimationView(name: "MenuHint")
+        menuHintAnimationView.isUserInteractionEnabled = false
+        menuHintAnimationView.play()
+        menuHintAnimationView.loopMode = .loop
+        
+        tableView.backgroundColor = .clear
         // Setup menu title
         menuTitle.setChalkFont(21)
             .setTextColor(.black)
@@ -172,10 +190,12 @@ class ChatViewController: UIViewController {
         tableView.backgroundColor = .clear
         
         view.addSubviews([
+            chatBGAnimationView,
+            menuHintAnimationView,
             tableView,
             footerView,
-            foldedView,
-            topDivider
+            topDivider,
+            foldedView
         ])
         
         foldedView.addSubviews([
@@ -239,6 +259,14 @@ class ChatViewController: UIViewController {
     
     // MARK: - Handle user leave event -
     func setupConstranit() {
+        
+        chatBGAnimationView.snp.makeConstraints { make in
+            make.edges.equalTo(tableView)
+        }
+        
+        menuHintAnimationView.snp.makeConstraints { make in
+            make.edges.equalTo(tableView)
+        }
         
         // set top divider
         topDivider.snp.makeConstraints { make in
@@ -320,6 +348,10 @@ class ChatViewController: UIViewController {
     // Menu button
     @objc func menuButtonPressed() {
         viewModel.animateMenu(nil)
+        
+        DispatchQueue.main.async {
+            self.menuHintAnimationView.isHidden = true
+        }
     }
     
     // swipe action
