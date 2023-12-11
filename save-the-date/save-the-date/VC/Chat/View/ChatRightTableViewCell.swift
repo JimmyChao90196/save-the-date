@@ -13,7 +13,7 @@ class ChatRightTableViewCell: UITableViewCell {
     static let reuseIdentifier = String(describing: ChatRightTableViewCell.self)
     
     var customView = CustomShapeView(
-        color: .darkGray,
+        color: .customLightRed,
         frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     
     var messageLabel = UILabel()
@@ -40,7 +40,7 @@ class ChatRightTableViewCell: UITableViewCell {
         timeLabel.textColor = .lightGray
         
         textBG.setCornerRadius(12)
-            .setbackgroundColor(.darkGray)
+            .setbackgroundColor(.customLightRed)
     }
     
     private func addTo() {
@@ -50,7 +50,7 @@ class ChatRightTableViewCell: UITableViewCell {
         messageLabel.textAlignment = .center
         timeLabel.textAlignment = .center
         timeLabel.setTextColor(.gray)
-        messageLabel.setTextColor(.white)
+        messageLabel.setTextColor(.black)
     }
 
     private func setupConstraint() {

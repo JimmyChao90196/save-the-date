@@ -39,14 +39,19 @@ class ChatViewController: UIViewController {
     // Folded view
     var foldedView = UIView()
     var foldedViewLeadingConstraint: NSLayoutConstraint!
-    var isFolded = true
+    var isFold = true
+    var menuTitle = UILabel()
+    var topDivider = UIView()
+    var menuTitleDividerLeft = UIView()
+    var menuTitleDividerRight = UIView()
     
-    var kickButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
-        
-        // Your logic to customize the button
-        button.backgroundColor = .blue
-        button.setTitle("leave the room", for: .normal)
+    // Nav item
+    lazy var menuButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "menucard"),
+            style: .plain,
+            target: self,
+            action: #selector(menuButtonPressed))
         
         return button
     }()
@@ -66,6 +71,15 @@ class ChatViewController: UIViewController {
         setup()
         setupConstranit()
         tableView.reloadData()
+        
+        // Bind for folding
+        viewModel.isFold.bind { isFold in
+            if isFold == true {
+                self.animateConstraint(newConstant: -200)
+            } else {
+                self.animateConstraint(newConstant: 0)
+            }
+        }
         
         // Binding for fetching user
         viewModel.currentUser.bind { currentUser in
@@ -132,9 +146,20 @@ class ChatViewController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
     }
     
-    // MARK: - Basic setup -
+// MARK: - Setup -
     func setup() {
-        sessionsTableView.setbackgroundColor(.blue)
+        
+        // Setup menu title
+        menuTitle.setChalkFont(21)
+            .setTextColor(.black)
+            .text = "Sessions"
+        
+        menuTitleDividerLeft.setbackgroundColor(.black)
+        menuTitleDividerRight.setbackgroundColor(.black)
+        topDivider.setbackgroundColor(.black)
+        
+        // Setup session table view
+        sessionsTableView.setbackgroundColor(.clear)
             .setCornerRadius(20)
             .setBoarderWidth(2)
             .setBoarderColor(.black)
@@ -143,12 +168,25 @@ class ChatViewController: UIViewController {
             SessionTableViewCell.self,
             forCellReuseIdentifier: SessionTableViewCell.reuseIdentifier)
         
-        view.backgroundColor = .white
-        tableView.backgroundColor = .white
+        view.backgroundColor = .customLightGrey
+        tableView.backgroundColor = .clear
         
-        view.addSubviews([tableView, footerView, foldedView])
-        foldedView.addSubviews([sessionsTableView])
-        footerView.addSubviews([inputField, sendButton])
+        view.addSubviews([
+            tableView,
+            footerView,
+            foldedView,
+            topDivider
+        ])
+        
+        foldedView.addSubviews([
+            sessionsTableView,
+            menuTitle,
+            menuTitleDividerLeft,
+            menuTitleDividerRight])
+        
+        footerView.addSubviews([
+            inputField,
+            sendButton])
         
         sendButton.tintColor = .hexToUIColor(hex: "#3F3A3A")
         
@@ -171,8 +209,11 @@ class ChatViewController: UIViewController {
         
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         
+        // Setup nav item
+        self.navigationItem.leftBarButtonItem = menuButton
+        
         // Set initial foled value
-        isFolded = true
+        isFold = true
         
         // Setup fold view appearance
         foldedView.setbackgroundColor(.hexToUIColor(hex: "#FF4E4E"))
@@ -198,6 +239,14 @@ class ChatViewController: UIViewController {
     
     // MARK: - Handle user leave event -
     func setupConstranit() {
+        
+        // set top divider
+        topDivider.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.topMargin)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.height.equalTo(2)
+        }
         
         footerView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
@@ -227,17 +276,35 @@ class ChatViewController: UIViewController {
             make.bottom.equalTo(footerView.snp.top)
         }
         
+        menuTitle.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(20)
+            make.centerX.equalToSuperview()
+        }
+        
+        menuTitleDividerLeft.snp.makeConstraints { make in
+            make.trailing.equalTo(menuTitle.snp.leading).offset(-10)
+            make.centerY.equalTo(menuTitle.snp.centerY)
+            make.height.equalTo(2)
+            make.width.equalTo(40)
+        }
+        
+        menuTitleDividerRight.snp.makeConstraints { make in
+            make.leading.equalTo(menuTitle.snp.trailing).offset(10)
+            make.centerY.equalTo(menuTitle.snp.centerY)
+            make.height.equalTo(2)
+            make.width.equalTo(40)
+        }
+        
         sessionsTableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalTo(menuTitle.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.bottom.equalToSuperview().offset(-10)
         }
         
         foldedView.snp.makeConstraints { make in
-            make.top.equalTo(view.snp_topMargin).offset(10)
+            make.top.equalTo(view.snp_topMargin)
             make.width.equalTo(200)
-            // make.bottom.equalTo(600)
             make.bottom.equalTo(view.snp.bottomMargin)
         }
         
@@ -249,16 +316,15 @@ class ChatViewController: UIViewController {
     }
     
     // MARK: - Additional method -
+    
+    // Menu button
+    @objc func menuButtonPressed() {
+        viewModel.animateMenu(nil)
+    }
+    
+    // swipe action
     @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
-        
-        if gesture.direction == .right {
-            
-            animateConstraint(newConstant: 0)
-            
-        } else if gesture.direction == .left {
-            
-            animateConstraint(newConstant: -200)
-        }
+        viewModel.animateMenu(gesture)
     }
     
     @objc func sendButtonClicked() {

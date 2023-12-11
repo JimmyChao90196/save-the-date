@@ -14,6 +14,7 @@ class ChatViewModel {
     let firestoreManager = FirestoreManager.shared
     let userManager = UserManager.shared
     
+    var isFold = Box(true)
     var currentUser = Box(User())
     var profileImages = Box<[String: UIImage?]>([:])
     var LRG = Box<ListenerRegistration?>(nil)
@@ -22,6 +23,22 @@ class ChatViewModel {
         messages: [],
         participants: [],
         roomID: ""))
+    
+    // Animate menu
+    func animateMenu( _ gesture: UISwipeGestureRecognizer? ) {
+        
+        guard let gesture else {
+            isFold.value.toggle()
+            return
+        }
+        
+        // If it is swiped
+        if gesture.direction == .right {
+            isFold.value = false
+        } else if gesture.direction == .left {
+            isFold.value = true
+        }
+    }
     
     // Chat listener
     func setupChatListener(docPath: String) {

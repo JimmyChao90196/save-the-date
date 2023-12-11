@@ -15,7 +15,7 @@ class ChatLeftTableViewCell: UITableViewCell {
     // let chatManager = ChatProvider.shared
     
     var customView = CustomShapeView(
-        color: .lightGray,
+        color: .customDarkGrey,
         frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     
     var messageLabel = UILabel()
@@ -35,21 +35,13 @@ class ChatLeftTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
     private func setup() {
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .left
         customView.backgroundColor = .clear
         
         textBG.setCornerRadius(12)
-            .setbackgroundColor(.lightGray)
+            .setbackgroundColor(.customDarkGrey)
         timeLabel.font = UIFont(name: "PingFangTC-Light", size: 12)
         timeLabel.textColor = .lightGray
         
@@ -62,7 +54,12 @@ class ChatLeftTableViewCell: UITableViewCell {
     }
     
     private func addTo() {
-        contentView.addSubviews([textBG, profileBG, timeLabel, customView])
+        contentView.addSubviews([
+            textBG,
+            profileBG,
+            timeLabel,
+            customView])
+        
         textBG.addSubviews([messageLabel])
         profileBG.addSubviews([profilePic])
         
