@@ -24,6 +24,6 @@ class TranspTableView: UITableView {
         self.register(TranspTableViewCell.self, forCellReuseIdentifier: TranspTableViewCell.reuseIdentifier)
         self.rowHeight = UITableView.automaticDimension
         self.estimatedRowHeight = 150
-        self.separatorStyle = .none
+        self.separatorStyle = .singleLine
     }
 }

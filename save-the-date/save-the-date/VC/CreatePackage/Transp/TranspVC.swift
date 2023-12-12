@@ -7,12 +7,20 @@
 
 import UIKit
 import CoreLocation
+import Lottie
+import SnapKit
 
 protocol TranspViewControllerDelegate: AnyObject {
     func didTapTransp(with coordinate: CLLocationCoordinate2D, targetTransp: Transportation)
 }
 
 class TranspViewController: UIViewController {
+    
+    // AnimationView
+    var weatherAnimationView = LottieAnimationView()
+    
+    // VM
+    let viewModel = TranspViewModel()
 
     var delgate: TranspViewControllerDelegate?
     var tableView = TranspTableView()
@@ -27,21 +35,42 @@ class TranspViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Setup animation
+        weatherAnimationView = LottieAnimationView(name: "Weather")
+        weatherAnimationView.isUserInteractionEnabled = false
+        weatherAnimationView.contentMode = .scaleAspectFit
+        weatherAnimationView.play()
+        weatherAnimationView.animationSpeed = 0.3
+        weatherAnimationView.loopMode = .loop
+        
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.frame = view.bounds
-        view.backgroundColor = .clear
+        
+        view.backgroundColor = .customLightGrey
+        tableView.backgroundColor = .clear
         
         addTo()
+        setupConstranit()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
-    }
-    
+
     private func addTo() {
-        view.addSubviews([tableView])
+        view.addSubviews([tableView, weatherAnimationView])
+    }
+    
+    func setupConstranit() {
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp_topMargin)
+            make.bottom.equalTo(view.snp_bottomMargin)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        
+        weatherAnimationView.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(50)
+        }
     }
 }
 
@@ -60,6 +89,8 @@ extension TranspViewController: UITableViewDataSource, UITableViewDelegate {
         else { return UITableViewCell() }
         
         let iconName = TranspManager.allCases[indexPath.row].transIcon
+        cell.backgroundColor = .clear
+        cell.transLabel.text = TranspManager.allCases[indexPath.row].rawValue
         cell.transIcon.image = UIImage(systemName: iconName)
         
         return cell

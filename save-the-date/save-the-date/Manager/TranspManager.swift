@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import MapKit
     
-enum TranspManager: CaseIterable {
+enum TranspManager: String, CaseIterable {
     case car
     case bus
     case train
@@ -40,7 +40,6 @@ enum TranspManager: CaseIterable {
         case .bicycle: return "bicycle"
             
         case .walk: return "figure.walk"
-            
         }
     }
     
