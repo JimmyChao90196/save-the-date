@@ -118,7 +118,7 @@ class ModuleTableViewCell: UITableViewCell {
         // BgImageView
         bgImageView.clipsToBounds = true
         bgImageView.setCornerRadius(20)
-            .contentMode = .scaleAspectFill
+            .contentMode = .scaleToFill
     }
     
     @objc func deleteButtonPressed() {
@@ -160,7 +160,10 @@ class ModuleTableViewCell: UITableViewCell {
         }
         
         bgImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(30)
         }
         
         gradientView.snp.makeConstraints { make in

@@ -215,6 +215,8 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
+            
+            LKProgressHUD.dismiss()
         }
         
         // Binding for path
@@ -466,6 +468,7 @@ extension ExplorePackageViewController {
     
     func fetchPackages() {
         viewModel.fetchPackages(from: .publishedColl)
+        LKProgressHUD.show()
     }
     
     func setupFoldedView() {

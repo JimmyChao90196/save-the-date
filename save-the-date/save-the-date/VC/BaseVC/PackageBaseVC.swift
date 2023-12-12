@@ -379,6 +379,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
             
             let rawIndex = findModuleIndex(modules: self.sunnyModules, from: indexPath)
@@ -500,7 +501,7 @@ extension PackageBaseViewController {
     
     func changeBGImage() {
         
-        self.bgImageView.contentMode = .scaleAspectFit
+        self.bgImageView.contentMode = .scaleAspectFill
         self.bgView.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
         self.tableView.contentMode = .scaleAspectFit
         
