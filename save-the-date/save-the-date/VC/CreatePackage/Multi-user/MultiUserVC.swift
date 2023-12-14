@@ -310,7 +310,15 @@ class MultiUserViewController: CreatePackageViewController {
                         copyText = text
                     }
                     
-                    let sessionPackage = try? await self.firestoreManager.fetchPackage(withID: copyText)
+                    let sessionPackage = try? await 
+                    self.firestoreManager.fetchPackageMU(withID: copyText)
+                    
+                    if sessionPackage == nil {
+                        
+                        LKProgressHUD.showFailure(text: "Wrong session ID")
+                        self.navigationController?.popViewController(animated: true)
+                        return
+                    }
                     
                     self.currentPackage = sessionPackage ?? Package()
                     self.sunnyModules = self.currentPackage.weatherModules.sunny

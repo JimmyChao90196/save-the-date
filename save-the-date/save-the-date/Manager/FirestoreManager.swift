@@ -275,6 +275,46 @@ class FirestoreManager {
             throw error
         }
     }
+    
+    // Fetch package for multi-user
+    func fetchPackageMU(
+        withID docPath: String) async throws -> Package? {
+            
+            do {
+                
+                let path = docPath.components(separatedBy: "/").last
+                
+                let documentRef = fdb.document("sessionPackages/" + (path ?? ""))
+                
+                let document = try await documentRef.getDocument()
+                
+                guard let packageData = document.data(), document.exists else {
+                    // Handle the case where the document doesn't exist or has no data
+                    throw NSError(
+                        domain: "PackageError",
+                        code: 0,
+                        userInfo: [NSLocalizedDescriptionKey: "No data found for package"])
+                }
+                
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: packageData, options: [])
+                    let package = try JSONDecoder().decode(Package.self, from: jsonData)
+                    print("\(package)")
+                    return package
+                } catch {
+                    // Handle JSON serialization or decoding error
+                    print("JSON: \(error)")
+                    
+                    throw error
+                }
+                
+            } catch {
+                print("Firestore: \(error)")
+                
+                // Handle Firestore document fetch error
+                throw error
+            }
+        }
 
     // MARK: - Fetch json packages -
     func fetchJsonPackages(
