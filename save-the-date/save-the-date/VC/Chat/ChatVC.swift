@@ -138,7 +138,7 @@ class ChatViewController: UIViewController {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
-        viewModel.fetchCurrentUser(self.userManager.currentUser.email)
+        viewModel.fetchCurrentUser(self.userManager.currentUser.uid)
         
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -432,7 +432,7 @@ class ChatViewController: UIViewController {
         with message: ChatMessage,
         isCurrentUser: Bool,
         photoURL: String,
-        email: String
+        userId: String
     ) {
             // Common setup for all cells
             cell.backgroundColor = .clear
@@ -443,9 +443,12 @@ class ChatViewController: UIViewController {
                 chatCell.timeLabel.text = message.sendTime.customFormat()
             } else if let chatCell = cell as? ChatLeftTableViewCell {
                 // Configure left cell
-                viewModel.fetchImage(otherUserEmail: email, photoURL: photoURL)
+                viewModel.fetchImage(otherUserId: userId, photoURL: photoURL)
                 chatCell.profilePic.contentMode = .scaleAspectFill
-                chatCell.profilePic.image = profileImages[email] ?? UIImage(systemName: "person.circle")
+                chatCell.profilePic.image = profileImages[userId] ??
+                UIImage(systemName: "person.circle")
+                chatCell.profilePic.tintColor = .customUltraGrey
+                
                 chatCell.messageLabel.text = message.content
                 chatCell.timeLabel.text = message.sendTime.customFormat()
             }
@@ -511,8 +514,8 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             
         default:
             let message = currentBundle.messages[indexPath.row]
-            let isUser = message.userEmail == userManager.currentUser.email
-            let email = message.userEmail
+            let isUser = message.userId == userManager.currentUser.uid
+            let uid = message.userId
             let photoURL = message.photoURL
             
             let cellIdentifier = isUser ?
@@ -528,7 +531,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                 with: message,
                 isCurrentUser: isUser,
                 photoURL: photoURL,
-                email: email
+                userId: uid
             )
 
             return cell

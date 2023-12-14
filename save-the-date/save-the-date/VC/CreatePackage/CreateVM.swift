@@ -13,6 +13,18 @@ class CreateViewModel {
     
     let regionTags = Box<[String]>([])
     
+    // Check if the package is empty
+    func shouldPublish(
+        sunnyModule: [PackageModule],
+        rainyModule: [PackageModule]) -> Bool {
+            
+        if sunnyModule == [] && rainyModule == [] {
+            return false
+        } else {
+            return true
+        }
+    }
+    
     // ParseAddress
     func parseAddress(
         from addressComponents: [GMSAddressComponent]?,

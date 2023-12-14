@@ -223,7 +223,7 @@ class LoginViewController: UIViewController {
             dividerUpperLeft,
             dividerUpperRight,
             dividerLowerLeft,
-            dividerLowerRight,
+            dividerLowerRight
         ])
         
     }
@@ -303,9 +303,10 @@ class LoginViewController: UIViewController {
     @objc func googleSignInButtonTapped() {
         
         // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] result, error in
+        GIDSignIn.sharedInstance.signIn(
+            withPresenting: self) { [unowned self] result, error in
+                
             guard error == nil else { return }
-            
             guard let user = result?.user,
                   let idToken = user.idToken?.tokenString
             else { return }

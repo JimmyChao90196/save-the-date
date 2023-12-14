@@ -107,7 +107,7 @@ class PackageDetailViewController: PackageBaseViewController {
         headerView.packageTitle.text = self.currentPackage.info.title
         
         // Setup images
-        packageDetailVM.fetchAuthorImages(emails: self.currentPackage.info.authorEmail)
+        packageDetailVM.fetchAuthorImages(ids: self.currentPackage.info.authorId)
         headerView.createAuthorImageViews(with: testImages)
         
         // Setup tags
@@ -158,7 +158,7 @@ class PackageDetailViewController: PackageBaseViewController {
         hoverButton.tintColor = .white
 
         packageDetailVM.shouldEdit(
-            autherEmails: currentPackage.info.authorEmail,
+            authorIds: currentPackage.info.authorId,
             from: enterFrom)
         
         view.addSubviews([hoverButton])

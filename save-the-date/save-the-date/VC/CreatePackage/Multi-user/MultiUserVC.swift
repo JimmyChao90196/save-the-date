@@ -129,8 +129,8 @@ class MultiUserViewController: CreatePackageViewController {
     
     // MARK: - Additional function -
     // Firestore function implementation
-    func updateNameAndEmail(sessionId: String, name: String, email: String) {
-        // Add user name and email to package
+    func updateNameAndUid(sessionId: String, name: String, uid: String) {
+        // Add user name and userId to package
         self.firestoreManager.updatePackage(
             infoToUpdate: self.userName,
             docPath: sessionId,
@@ -140,7 +140,7 @@ class MultiUserViewController: CreatePackageViewController {
         self.firestoreManager.updatePackage(
             infoToUpdate: self.userID,
             docPath: sessionId,
-            toPath: .authorEmail,
+            toPath: .authorId,
             perform: .add) {}
     }
     
@@ -225,7 +225,7 @@ class MultiUserViewController: CreatePackageViewController {
                 // Prepare to upload newPackage
                 let info = Info(title: sessionName ?? "unName",
                                 author: [self.userName],
-                                authorEmail: [self.userID],
+                                authorId: [self.userID],
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 
@@ -242,7 +242,7 @@ class MultiUserViewController: CreatePackageViewController {
                     switch result {
                     case .success(let docPath):
                         self?.firestoreManager.updateUserPackages(
-                            email: self?.userID ?? "",
+                            userId: self?.userID ?? "",
                             packageType: packageColl,
                             docPath: docPath,
                             perform: .add
@@ -250,6 +250,7 @@ class MultiUserViewController: CreatePackageViewController {
                             
                             // Setup listener
                             self?.LSG = self?.firestoreManager.modulesListener(docPath: docPath) { newPackage in
+                                self?.currentPackage = newPackage
                                 self?.sunnyModules = newPackage.weatherModules.sunny
                                 self?.rainyModules = newPackage.weatherModules.rainy
                                 
@@ -270,8 +271,8 @@ class MultiUserViewController: CreatePackageViewController {
                             }
                             
                             // Create chatroom
-                            guard let currentEmail = self?.userManager.currentUser.email else { return }
-                            self?.viewModle.createChatRoom(with: [currentEmail])
+                            guard let currentId = self?.userManager.currentUser.uid else { return }
+                            self?.viewModle.createChatRoom(with: [currentId])
                             
                         }
                         
@@ -315,15 +316,15 @@ class MultiUserViewController: CreatePackageViewController {
                     self.sunnyModules = self.currentPackage.weatherModules.sunny
                     self.rainyModules = self.currentPackage.weatherModules.rainy
                     
-                    // Add name and email
-                    self.updateNameAndEmail(
+                    // Add name and uid
+                    self.updateNameAndUid(
                         sessionId: text,
                         name: self.userName,
-                        email: self.userID)
+                        uid: self.userID)
                     
                     // Update user packages
                     self.firestoreManager.updateUserPackages(
-                        email: self.userID,
+                        userId: self.userID,
                         packageType: .sessionColl,
                         docPath: text,
                         perform: .add) { }
@@ -349,9 +350,9 @@ class MultiUserViewController: CreatePackageViewController {
                     }
                     
                     // Update chatroom at the end
-                    let currentEmail = self.userManager.currentUser.email
+                    let currentUid = self.userManager.currentUser.uid
                     let chatDocPath = self.self.currentPackage.chatDocPath
-                    self.viewModle.updateChatRoom(newEmail: currentEmail, docPath: chatDocPath)
+                    self.viewModle.updateChatRoom(newId: currentUid, docPath: chatDocPath)
                 }
             }
     }
@@ -366,15 +367,15 @@ class MultiUserViewController: CreatePackageViewController {
             self.sunnyModules = self.currentPackage.weatherModules.sunny
             self.rainyModules = self.currentPackage.weatherModules.rainy
             
-            // Add name and email
-            self.updateNameAndEmail(
+            // Add name and id
+            self.updateNameAndUid(
                 sessionId: docPath,
                 name: self.userName,
-                email: self.userID)
+                uid: self.userID)
             
             // Update user packages
             self.firestoreManager.updateUserPackages(
-                email: self.userID,
+                userId: self.userID,
                 packageType: .sessionColl,
                 docPath: docPath,
                 perform: .add) { }
@@ -400,9 +401,9 @@ class MultiUserViewController: CreatePackageViewController {
             }
             
             // Update chatroom at the end
-            let currentEmail = self.userManager.currentUser.email
+            let currentUid = self.userManager.currentUser.uid
             let chatDocPath = self.self.currentPackage.chatDocPath
-            self.viewModle.updateChatRoom(newEmail: currentEmail, docPath: chatDocPath)
+            self.viewModle.updateChatRoom(newId: currentUid, docPath: chatDocPath)
         }
     }
     
@@ -410,6 +411,20 @@ class MultiUserViewController: CreatePackageViewController {
     func publishPressedMU() {
         
         let packageColl = PackageCollection.publishedColl
+        
+        let shouldPub = self.viewModel.shouldPublish(
+            sunnyModule: self.sunnyModules,
+            rainyModule: self.rainyModules)
+        
+        if !shouldPub {
+            // upload package
+            presentSimpleAlert(
+                title: "Error",
+                message: "Please at least add a location for this package",
+                buttonText: "Okay") {
+                    return
+                }
+        }
         
         // upload package
         presentAlertWithTextField(
@@ -419,7 +434,7 @@ class MultiUserViewController: CreatePackageViewController {
                 guard let text else { return }
                 
                 self.currentPackage.info.title = text
-                print("\(self.currentPackage.info.authorEmail)")
+                print("\(self.currentPackage.info.authorId)")
                 
                 self.currentPackage.photoURL = self.userManager.currentUser.photoURL
                 self.currentPackage.weatherModules.sunny = self.sunnyModules
@@ -430,10 +445,10 @@ class MultiUserViewController: CreatePackageViewController {
                     case .success(let docPath):
                         
                         let dispatchGroup = DispatchGroup()
-                        for email in self?.currentPackage.info.authorEmail ?? [] {
+                        for uid in self?.currentPackage.info.authorId ?? [] {
                             dispatchGroup.enter()
                             self?.firestoreManager.updateUserPackages(
-                                email: email,
+                                userId: uid,
                                 packageType: packageColl,
                                 docPath: docPath,
                                 perform: .add

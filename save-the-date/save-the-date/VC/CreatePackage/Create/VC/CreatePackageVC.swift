@@ -247,6 +247,20 @@ extension CreatePackageViewController {
         let packageColl = PackageCollection.publishedColl
         let packageState = PackageState.publishedState
         
+        let shouldPub = self.viewModel.shouldPublish(
+            sunnyModule: self.sunnyModules,
+            rainyModule: self.rainyModules)
+        
+        if !shouldPub {
+            // upload package
+            presentSimpleAlert(
+                title: "Error",
+                message: "Please at least add a location for this package",
+                buttonText: "Okay") {
+                    return
+                }
+        }
+        
         // upload package
         presentAlertWithTextField(
             title: "Almost done",
@@ -255,7 +269,7 @@ extension CreatePackageViewController {
                 guard let text else { return }
                 let info = Info(title: text,
                                 author: [self.userName],
-                                authorEmail: [self.userID],
+                                authorId: [self.userID],
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 
@@ -269,7 +283,7 @@ extension CreatePackageViewController {
                     switch result {
                     case .success(let documentID):
                         self?.firestoreManager.updateUserPackages(
-                            email: self?.userID ?? "",
+                            userId: self?.userID ?? "",
                             packageType: packageColl,
                             docPath: documentID,
                             perform: .add

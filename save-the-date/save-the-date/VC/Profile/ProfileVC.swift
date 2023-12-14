@@ -18,7 +18,6 @@ class ProfileViewController: ExplorePackageViewController {
     var selectionView = SelectionView()
     
     // About to be replaced
-    var count = 0
     var currentUser = User()
     
     var draftIDs = [String]()
@@ -27,7 +26,7 @@ class ProfileViewController: ExplorePackageViewController {
     
     // UI elements
     var profileBGImage = UIImageView(image: UIImage(resource: .profileBG))
-    var profilePicture = UIImageView(image: UIImage(systemName: "person.crop.circle.fill"))
+    var profilePicture = UIImageView(image: UIImage(systemName: "person.circle"))
     
     var descriptionView = UIView()
     var descriptionContent = UILabel()
@@ -72,6 +71,7 @@ class ProfileViewController: ExplorePackageViewController {
     var onLoggedIn: ((User) -> Void)?
     
     // VM
+    var countCurrentUserDataBinding = 0
     let profileVM = ProfileViewModel()
     
     // button
@@ -111,8 +111,7 @@ class ProfileViewController: ExplorePackageViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        profileVM.fetchCurrentUser(userManager.currentUser.email)
-        // fetchOperation()
+        profileVM.fetchCurrentUser(userManager.currentUser.uid)
     }
     
     override func setup() {
@@ -274,32 +273,38 @@ class ProfileViewController: ExplorePackageViewController {
         
         // Fetch profileImage
         profileVM.profileImage.bind { profileImage in
-            self.userManager.userProfileImage = profileImage
             
-            DispatchQueue.main.async {
-                self.profilePicture.image = self.userManager.userProfileImage
+            if profileImage != UIImage() {
+                
+                self.userManager.userProfileImage = profileImage
+                
+                DispatchQueue.main.async {
+                    self.profilePicture.image = self.userManager.userProfileImage ??
+                    UIImage(systemName: "person.circle")
+                }
             }
         }
         
         // Fetch packages
         profileVM.currentUser.bind { fetchedUser in
             
-            self.currentUser = fetchedUser
-            
-            // This is stupid
-            if self.count != 0 {
+            if fetchedUser.uid != "" {
+                
+                self.currentUser = fetchedUser
+                
+                // This is stupid
                 self.userManager.currentUser = fetchedUser
-            }
-            self.count += 1
-            
-            // fetch profile image
-            self.profileVM.fetchUserProfileImage()
-            
-            DispatchQueue.main.async {
-                self.userNameLabel.text = fetchedUser.name
-                self.fetchOperation()
-                self.tableView.reloadData()
-                self.profilePicture.image = self.userManager.userProfileImage
+                
+                // fetch profile image
+                self.profileVM.fetchUserProfileImage()
+                
+                DispatchQueue.main.async {
+                    self.userNameLabel.text = fetchedUser.name
+                    self.fetchOperation()
+                    self.tableView.reloadData()
+                    self.profilePicture.image = self.userManager.userProfileImage ??
+                    UIImage(systemName: "person.circle")
+                }
             }
         }
         
@@ -443,6 +448,7 @@ extension ProfileViewController {
             cell.heartImageView.isHidden = true
             cell.onLike = nil
             cell.authorPicture.image = currentProfileImages[indexPath.row]
+            cell.authorPicture.tintColor = .customUltraGrey
             
             return cell
         }

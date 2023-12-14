@@ -24,6 +24,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     var url: URL?
     
     // VM
+    var count = 0
     let viewModel = ExploreViewModel()
     var userCredentialsPack = UserCredentialsPack(
         name: "",
@@ -91,6 +92,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     
     var fetchedPackages = [Package]()
     var fetchedProfileImages = [UIImage]()
+    var fetchedProfileImagesDic = [String: UIImage]()
     
     var packageAuthorLabel = UILabel()
     var onLike: ((UITableViewCell, Bool) -> Void)?
@@ -208,12 +210,17 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             self?.viewModel.fetchUserProfileImages(from: packages)
         }
         
-        // Binding for profileImages
-        viewModel.fetchedProfileImages.bind { images in
-            self.fetchedProfileImages = images
+        // Fetched profile images
+        viewModel.fetchedProfileImagesDic.bind { imagesDic in
             
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+            if imagesDic != [:] {
+                
+                self.fetchedProfileImagesDic = imagesDic
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+                LKProgressHUD.dismiss()
             }
             
             LKProgressHUD.dismiss()
@@ -230,7 +237,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         // Setup search bar
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
-        
         fetchPackages()
         recommandedScrollView.addImages(
             named: ["crown",
@@ -538,8 +544,8 @@ extension ExplorePackageViewController {
                 for: indexPath) as? ExploreTableViewCell else { return UITableViewCell() }
             
             let likedByArray = fetchedPackages[indexPath.row].info.likedBy
-            let isInFavorite = likedByArray.contains { email in
-                email == userManager.currentUser.email
+            let isInFavorite = likedByArray.contains { uid in
+                uid == userManager.currentUser.uid
             }
             
             // Handle isLike logic
@@ -555,6 +561,7 @@ extension ExplorePackageViewController {
             
             let authorNameArray = fetchedPackages[indexPath.row].info.author
             let authorName = authorNameArray.joined(separator: " ")
+            let authorPhotoURL = fetchedPackages[indexPath.row].photoURL
             
             let tags = viewModel.createTagsView(
                 for: indexPath,
@@ -563,7 +570,10 @@ extension ExplorePackageViewController {
             cell.configureStackView(with: tags)
             cell.packageAuthor.text = " by \(authorName) "
             cell.packageTitleLabel.text = fetchedPackages[indexPath.row].info.title
-            cell.authorPicture.image = fetchedProfileImages[indexPath.row]
+            
+            cell.authorPicture.image = fetchedProfileImagesDic[authorPhotoURL]
+            
+            cell.authorPicture.tintColor = .customUltraGrey
             cell.onLike = self.onLike
             
             return cell
@@ -626,7 +636,7 @@ extension ExplorePackageViewController {
             case true:
                 
                 self.viewModel.afterLiked(
-                    email: self.userManager.currentUser.email,
+                    userId: self.userManager.currentUser.uid,
                     docPath: docPath,
                     perform: .add) {
                         self.presentSimpleAlert(
@@ -638,7 +648,7 @@ extension ExplorePackageViewController {
             case false:
                 
                 self.viewModel.afterLiked(
-                    email: self.userManager.currentUser.email,
+                    userId: self.userManager.currentUser.uid,
                     docPath: docPath,
                     perform: .remove) {
                         self.presentSimpleAlert(

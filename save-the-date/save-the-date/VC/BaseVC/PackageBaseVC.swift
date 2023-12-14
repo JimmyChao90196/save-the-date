@@ -38,7 +38,7 @@ class PackageBaseViewController: UIViewController {
     var userManager = UserManager.shared
     
     var userID: String {
-        return userManager.currentUser.email
+        return userManager.currentUser.uid
     }
     
     var userName: String {

@@ -32,7 +32,13 @@ class ProfileViewModel {
     // Check user
     func checkIfUserExist(by user: User) {
         
+        /*
         if user.email == "jimmy@gmail.com" || user.email == "none" || user.email == "" {
+            return
+        }
+        */
+        
+        if user.uid == "none" || user.uid == "" {
             return
         }
         
@@ -55,11 +61,11 @@ class ProfileViewModel {
     }
     
     // Fetch user
-    func fetchCurrentUser( _ userEmail: String) {
+    func fetchCurrentUser( _ userId: String) {
 
         Task {
             do {
-                let user = try await firestoreManager.fetchUser( userEmail )
+                let user = try await firestoreManager.fetchUser( userId )
                 self.currentUser.value = user
                 
             } catch {
@@ -79,6 +85,8 @@ class ProfileViewModel {
                 
             case .failure(let error):
                 print(error)
+                // Return a default image instead
+                self.profileImage.value = UIImage(systemName: "person.circle")!
             }
         }
     }

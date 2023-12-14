@@ -39,11 +39,11 @@ class PackageDetailViewModel {
     }
     
     // Fetch author images
-    func fetchAuthorImages(emails: [String]) {
+    func fetchAuthorImages(ids: [String]) {
         Task {
             
             do {
-                let users = try await firestoreManager.searchUsers(by: emails)
+                let users = try await firestoreManager.searchUsers(by: ids)
                 let photoURLs = users.map { $0.photoURL }
                 
                 userManager.downloadImages(from: photoURLs) { result in
@@ -82,12 +82,12 @@ class PackageDetailViewModel {
     }
     
     func shouldEdit(
-        autherEmails emails: [String],
+        authorIds: [String],
         from viewContorller: EnterFrom) {
             
             var isProfile = false
             var shouldEdit = false
-            let isUser = emails.contains { $0 == userManager.currentUser.email }
+            let isUser = authorIds.contains { $0 == userManager.currentUser.uid }
             switch viewContorller {
                 
             case .explore: isProfile = false

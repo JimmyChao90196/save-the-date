@@ -75,11 +75,11 @@ extension FirestoreManager {
             }
     }
     
-    func searchUsers(by emails: [String]) async throws -> [User] {
+    func searchUsers(by userIds: [String]) async throws -> [User] {
         let userCollection = fdb.collection("users")
         
         do {
-            let querySnapshot = try await userCollection.whereField("email", in: emails).getDocuments()
+            let querySnapshot = try await userCollection.whereField("uid", in: userIds).getDocuments()
             var fetchedUsers = [User]()
             
             for document in querySnapshot.documents {
@@ -104,7 +104,7 @@ extension FirestoreManager {
         let userCollection = fdb.collection("users")
         
         userCollection
-            .whereField("email", isEqualTo: user.email)
+            .whereField("uid", isEqualTo: user.uid)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")

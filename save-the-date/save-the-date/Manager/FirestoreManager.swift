@@ -36,7 +36,7 @@ class FirestoreManager {
             let dictionary = try jsonData.toDictionary()
             
             // Upload the JSON dictionary to Firestore
-            fdb.collection("users").document(user.email).setData(dictionary) { error in
+            fdb.collection("users").document(user.uid).setData(dictionary) { error in
                 if let error = error {
                     print("uploaded failed: \(error)")
                 } else {
@@ -120,14 +120,14 @@ class FirestoreManager {
     
     // MARK: - Update user -
     func updateUserPackages(
-        email: String,
+        userId: String,
         packageType: PackageCollection,
         docPath: String,
         perform operation: PackageOperation,
         completion: @escaping () -> Void
     ) {
         
-        let userRef = fdb.collection("users").document(email)
+        let userRef = fdb.collection("users").document(userId)
         var fieldOperation = FieldValue.arrayUnion([docPath])
         
         switch operation {
@@ -198,9 +198,9 @@ class FirestoreManager {
     
     // MARK: - Fetch favorite packages -
     func fetchUser(
-        _ userEmail: String) async throws -> User {
+        _ userId: String) async throws -> User {
         do {
-            let document = try await fdb.collection("users").document(userEmail).getDocument()
+            let document = try await fdb.collection("users").document(userId).getDocument()
             
             guard document.exists, let userData = document.data() else {
                 throw FirestoreError.userNotFound
