@@ -258,6 +258,7 @@ class ProfileViewController: ExplorePackageViewController {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.sourceType = .photoLibrary // Or use .camera for taking a new photo
+        imagePickerController.allowsEditing = true
         
         // Present the image picker
         self.present(imagePickerController, animated: true, completion: nil)
@@ -466,6 +467,12 @@ extension ProfileViewController:
         picker.dismiss(animated: true, completion: nil)
 
         if let selectedImage = info[.originalImage] as? UIImage {
+            
+            // Upload to firebase
+            firestoreManager.uploadStoragePhoto(
+                targetImage: selectedImage,
+                userId: self.userManager.currentUser.uid)
+            
             DispatchQueue.main.async {
                 self.profileBGImage.image = selectedImage
             }

@@ -57,6 +57,7 @@
 		74363FE72B1B4AA3000AE762 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74363FE62B1B4AA3000AE762 /* UserManager.swift */; };
 		7439AFED2B074F6700A28C09 /* RouteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7439AFEC2B074F6700A28C09 /* RouteVC.swift */; };
 		7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7439AFEE2B0753FE00A28C09 /* RouteManager.swift */; };
+		74426E102B2B1D2200A636D5 /* FirestoreManager+CloudStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74426E0F2B2B1D2200A636D5 /* FirestoreManager+CloudStorage.swift */; };
 		7443C0F02B1B02F400EDA21A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7443C0EF2B1B02F300EDA21A /* GoogleService-Info.plist */; };
 		744B57132B05C57800B3ABAA /* ResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57122B05C57800B3ABAA /* ResultVC.swift */; };
 		744B57152B05D59400B3ABAA /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */; };
@@ -159,6 +160,7 @@
 		74363FE62B1B4AA3000AE762 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		7439AFEC2B074F6700A28C09 /* RouteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteVC.swift; sourceTree = "<group>"; };
 		7439AFEE2B0753FE00A28C09 /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
+		74426E0F2B2B1D2200A636D5 /* FirestoreManager+CloudStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreManager+CloudStorage.swift"; sourceTree = "<group>"; };
 		7443C0EF2B1B02F300EDA21A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		744B57122B05C57800B3ABAA /* ResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultVC.swift; sourceTree = "<group>"; };
 		744B57142B05D59400B3ABAA /* GooglePlacesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 				7432EFEC2B207D4C008D2280 /* FirestoreManager+Chat.swift */,
 				74A60FC12B22EBF300398A10 /* ChatManager.swift */,
 				7486BCFA2B25B6F9008808B4 /* FirestoreManager+Request.swift */,
+				74426E0F2B2B1D2200A636D5 /* FirestoreManager+CloudStorage.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -869,6 +872,7 @@
 				7432EFE62B207439008D2280 /* ChatTableView.swift in Sources */,
 				74B828502B04DABB00A42850 /* DeclaritiveExtension.swift in Sources */,
 				7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */,
+				74426E102B2B1D2200A636D5 /* FirestoreManager+CloudStorage.swift in Sources */,
 				7486BCF72B2587E9008808B4 /* HeaderView.swift in Sources */,
 				7439AFED2B074F6700A28C09 /* RouteVC.swift in Sources */,
 				7486BCF52B246452008808B4 /* PackageDetailVM.swift in Sources */,
@@ -1035,9 +1039,10 @@
 				DEVELOPMENT_TEAM = U69A9BL6B7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "save-the-date/Info.plist";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Please provide your location";
-				INFOPLIST_KEY_NSLocationUsageDescription = "Please provide your location";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please provide your location";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Please provide your location to get a better user experience when using google map";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Please provide your location to get a better user experience when using google map";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please provide your location to get a better user experience when using google map";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow us to access photos from your device to provide a better user experience";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1072,9 +1077,10 @@
 				DEVELOPMENT_TEAM = U69A9BL6B7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "save-the-date/Info.plist";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Please provide your location";
-				INFOPLIST_KEY_NSLocationUsageDescription = "Please provide your location";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please provide your location";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Please provide your location to get a better user experience when using google map";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Please provide your location to get a better user experience when using google map";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please provide your location to get a better user experience when using google map";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow us to access photos from your device to provide a better user experience";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

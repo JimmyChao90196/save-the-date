@@ -7,6 +7,10 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
+import FirebaseCore
+import FirebaseAuth
+
 import UIKit
 
 enum PublishError: Error {
@@ -22,6 +26,7 @@ enum FirestoreError: Error {
 class FirestoreManager {
     static let shared = FirestoreManager()
     let fdb =  Firestore.firestore()
+    let storage = Storage.storage()
     
     // MARK: - Add user with json
     func addUserWithJson(_ user: User, completion: @escaping () -> Void) {
@@ -62,7 +67,7 @@ class FirestoreManager {
             // Create a document reference first
             let packageColl = packageColl.rawValue
             let newDocumentRef = fdb.collection(packageColl).document()
-            let newDocumentID = newDocumentRef.documentID
+            // let newDocumentID = newDocumentRef.documentID
             var packageCopy = package
             
             // Change this to ref
@@ -98,7 +103,7 @@ class FirestoreManager {
         do {
             // Create a document reference first
             let newDocumentRef = fdb.document(targetPackage.docPath)
-            var packageCopy = targetPackage
+            let packageCopy = targetPackage
             
             // Encode your package object into JSON and converted it to a dictionary
             let jsonData = try encoder.encode(packageCopy)
