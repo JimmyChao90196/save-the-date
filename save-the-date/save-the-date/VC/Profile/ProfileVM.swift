@@ -13,6 +13,8 @@ import FirebaseStorage
 import FirebaseCore
 import FirebaseFirestoreSwift
 
+import ImageIO
+
 class ProfileViewModel {
     
     let firestoreManager = FirestoreManager.shared
@@ -70,6 +72,13 @@ class ProfileViewModel {
         }
     }
     
+    func updateUserName(_ name: String) {
+        
+        firestoreManager.updateUserName(
+            userId: self.userManager.currentUser.uid,
+            newName: name) {}
+    }
+    
     // Upload to firebase storage
     func uploadImages(
         type: ImageType,
@@ -86,7 +95,7 @@ class ProfileViewModel {
                         self.firestoreManager.updateUserPhoto(
                             userId: self.userManager.currentUser.uid,
                             imageUrl: url,
-                            type: .profileCover) {}
+                            type: type) {}
                         
                     case .failure(let error):
                         print(error)
@@ -111,18 +120,19 @@ class ProfileViewModel {
     }
     
     func fetchProfileCoverImage(with urlString: String) {
+        
         userManager.downloadImage(urlString: urlString) { result in
             switch result {
             case .success(let image):
                 print(image as Any)
                 
                 self.profileCoverImage.value = image ??
-                UIImage(systemName: "photo.artframe")!
+                UIImage(resource: .placeholder01)
                 
             case .failure(let error):
                 print(error)
                 // Return a default image instead
-                self.profileCoverImage.value = UIImage(systemName: "photo.artframe")!
+                self.profileCoverImage.value = UIImage(resource: .placeholder01)
             }
         }
     }
@@ -148,6 +158,57 @@ class ProfileViewModel {
                 print(error)
             }
         })
+    }
+    
+    // Calculate aspect ratio
+    func calculateAspectRatioSize(for image: UIImage, maxWidth: CGFloat, maxHeight: CGFloat) -> CGSize {
+        let aspectRatio = image.size.width / image.size.height
+
+        var targetWidth = maxWidth
+        var targetHeight = targetWidth / aspectRatio
+
+        if targetHeight > maxHeight {
+            targetHeight = maxHeight
+            targetWidth = targetHeight * aspectRatio
+        }
+
+        return CGSize(width: targetWidth, height: targetHeight)
+    }
+    
+    // Down sampling
+    func downsample(
+        image: UIImage,
+        to pointSize: CGSize,
+        scale: CGFloat = UIScreen.main.scale,
+        completion: @escaping (UIImage?) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let imageData = image.jpegData(compressionQuality: 1.0) ?? image.pngData() else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+
+            let options: [CFString: Any] = [
+                kCGImageSourceShouldCache: false,
+                kCGImageSourceCreateThumbnailFromImageAlways: true,
+                kCGImageSourceCreateThumbnailWithTransform: true,
+                kCGImageSourceThumbnailMaxPixelSize: max(pointSize.width, pointSize.height) * scale
+            ]
+
+            guard let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil),
+                  let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary) else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+
+            let processedImage = UIImage(cgImage: downsampledImage)
+            DispatchQueue.main.async {
+                completion(processedImage)
+            }
+        }
     }
     
     // Fetch packages

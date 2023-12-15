@@ -125,7 +125,11 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchPackages()
+        
+        if type(of: self) == ExplorePackageViewController.self {
+            fetchPackages()
+        }
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -208,6 +212,10 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             
             self?.fetchedPackages = packages
             self?.viewModel.fetchUserProfileImages(from: packages)
+            if type(of: self) == ExplorePackageViewController.self {
+                
+                LKProgressHUD.dismiss()
+            }
         }
         
         // Fetched profile images
@@ -216,14 +224,15 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             if imagesDic != [:] {
                 
                 self.fetchedProfileImagesDic = imagesDic
+                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    if type(of: self) == ExplorePackageViewController.self {
+                        
+                        LKProgressHUD.dismiss()
+                    }
                 }
-                
-                LKProgressHUD.dismiss()
             }
-            
-            LKProgressHUD.dismiss()
         }
         
         // Binding for path
@@ -768,7 +777,6 @@ extension ExplorePackageViewController {
         loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
             context.maximumDetentValue * 0.35
         })]
-        
         navigationController?.present(loginVC, animated: true)
     }
 }

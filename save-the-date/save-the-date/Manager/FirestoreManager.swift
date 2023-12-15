@@ -140,7 +140,24 @@ class FirestoreManager {
                 fieldPath = "coverURL"
             }
             
-            ref.updateData([fieldPath: imageUrl ]) { error in
+            ref.updateData([fieldPath: imageUrl]) { error in
+                if let error = error {
+                    print("Error updating user: \(error)")
+                } else {
+                    completion()
+                }
+            }
+        }
+    
+    func updateUserName(
+        userId: String,
+        newName: String,
+        completion: @escaping () -> Void) {
+            
+            let ref = fdb.collection("users").document(userId)
+            var fieldPath = "name"
+            
+            ref.updateData([fieldPath: newName]) { error in
                 if let error = error {
                     print("Error updating user: \(error)")
                 } else {
@@ -311,10 +328,9 @@ class FirestoreManager {
         withID docPath: String) async throws -> Package? {
             
             do {
-                
-                let path = docPath.components(separatedBy: "/").last
-                
-                let documentRef = fdb.document("sessionPackages/" + (path ?? ""))
+//                var newPath = docPath
+//                let documentRef = fdb.collection("sessionPackages").document(newPath)
+                let documentRef = fdb.document(docPath)
                 
                 let document = try await documentRef.getDocument()
                 

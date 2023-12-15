@@ -64,12 +64,6 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
             viewController.title = tab.rawValue
             let nav = NavigationController(rootViewController: viewController)
             
-            // Save for later use
-            // if tab == .catalog {
-            // nav.navigationBar.standardAppearance.shadowColor = .clear
-            // nav.navigationBar.scrollEdgeAppearance?.shadowColor = .clear}
-            // if tab == .cart { nav.activateBadge() }
-            
             switch tab {
             case .explorePackage:
                 nav.tabBarItem.tag = 0

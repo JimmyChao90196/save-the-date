@@ -91,7 +91,7 @@ class ExploreTableViewCell: UITableViewCell {
         authorPicture.setCornerRadius(15)
             .setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
             .setBoarderWidth(2.0)
-            .contentMode = .scaleAspectFit
+            .contentMode = .scaleAspectFill
         
         // Setup the stack view
         dynamicStackView.axis = .horizontal

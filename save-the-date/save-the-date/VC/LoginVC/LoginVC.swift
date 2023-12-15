@@ -172,8 +172,15 @@ class LoginViewController: UIViewController {
                             }
                         }
                         self.userManager.currentUser = userInfo
+                        
+                        LKProgressHUD.dismiss()
+                        LKProgressHUD.showSuccess(text: "Login success")
+                        
                     default: print("harray!!!")
                         self.userManager.currentUser = userInfo
+                        
+                        LKProgressHUD.dismiss()
+                        LKProgressHUD.showSuccess(text: "Login success")
                     }
                 }
             }
@@ -302,6 +309,8 @@ class LoginViewController: UIViewController {
     // MARK: - Google login function -
     @objc func googleSignInButtonTapped() {
         
+        LKProgressHUD.show()
+        
         // Start the sign in flow!
         GIDSignIn.sharedInstance.signIn(
             withPresenting: self) { [unowned self] result, error in
@@ -320,6 +329,9 @@ class LoginViewController: UIViewController {
     
     // Sign in with apple
     @objc func appleSignInButtonTapped() {
+        
+        LKProgressHUD.show()
+        
         viewModel.configureAppleSignIn(delegationTarget: self)
     }
 }

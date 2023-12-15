@@ -238,7 +238,7 @@ extension UIViewController {
         by options: [String],
         title: String,
         message: String,
-        buttonText: String,
+        buttonText: String = "Cancel",
         buttonAction: ((UIAlertAction) -> Void)? = nil) {
             
         let alert = UIAlertController(
