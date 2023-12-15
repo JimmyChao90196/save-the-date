@@ -101,7 +101,9 @@ class UserManager {
     }
     
     // download images
-    func downloadImagesToDic(from urlStrings: [String], completion: @escaping (Result<[String: UIImage], Error>) -> Void) {
+    func downloadImagesToDic(
+        from urlStrings: [String],
+        completion: @escaping (Result<[String: UIImage], Error>) -> Void) {
         var imagesDic: [String: UIImage] = [:]
         let dispatchGroup = DispatchGroup()
 

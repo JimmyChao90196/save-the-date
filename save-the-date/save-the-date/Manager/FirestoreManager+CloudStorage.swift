@@ -12,28 +12,55 @@ import FirebaseFirestoreSwift
 import FirebaseStorage
 import FirebaseAuth
 
+enum ImageType {
+    case profileImage
+    case profileCover
+}
+
+enum UploadDownloadImageError: Error {
+    case userImageURLNotFound
+    case uploadFaild
+}
+
 extension FirestoreManager {
     
     // MARK: - Downloading the url
-    func fetchStorageURL(storagePath path: String) {
-        
-        let storageRef = storage.reference().child(path)
-        
-        storageRef.downloadURL { fetchedURL, error in
-            guard let url = fetchedURL, error == nil else { return }
+    func fetchStorageURL(
+        storagePath path: String,
+        completion: @escaping (Result<String, Error>) -> Void) {
             
-            let urlString = url.absoluteString
-            print("Download \(urlString)")
+            let storageRef = storage.reference().child(path)
             
-            UserDefaults.standard.set(urlString, forKey: "url")
+            storageRef.downloadURL { fetchedURL, error in
+                guard let url = fetchedURL, error == nil else {
+                    completion(.failure( UploadDownloadImageError.userImageURLNotFound ))
+                    return
+                }
+                
+                let urlString = url.absoluteString
+                print("Download \(urlString)")
+                completion(.success(urlString))
+                
+                UserDefaults.standard.set(urlString, forKey: "url")
+            }
         }
-    }
     
     // MARK: - Uploading the data
-    func uploadStoragePhoto(targetImage: UIImage, userId: String) {
+    func uploadStoragePhoto(
+        type: ImageType,
+        targetImage: UIImage,
+        userId: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
         
         // Create a root reference
-        let path = "userProfile/\(userId).png"
+        var path = "userProfile/\(userId).png"
+        
+        switch type {
+        case .profileImage: path = "userProfile/\(userId).png"
+        case .profileCover: path = "userCover/\(userId).png"
+        }
+        
         let storageRef = storage.reference().child(path)
         
         guard let imageData = targetImage.pngData() else { return }
@@ -41,10 +68,20 @@ extension FirestoreManager {
         storageRef.putData(imageData, metadata: nil) { _, error in
             guard error == nil else {
                 print("Failed to upload")
+                completion(.failure(UploadDownloadImageError.uploadFaild))
                 return
             }
             
-            self.fetchStorageURL(storagePath: path)
+            self.fetchStorageURL(storagePath: path) { result in
+                    switch result {
+                    case .success(let url):
+                        completion(.success(url))
+                        
+                    case .failure(let error):
+                        completion(.failure(error))
+                        
+                    }
+                }
         }
     }
 }

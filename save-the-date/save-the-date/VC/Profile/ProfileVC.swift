@@ -25,7 +25,8 @@ class ProfileViewController: ExplorePackageViewController {
     var priIDs = [String]()
     
     // UI elements
-    var profileBGImage = UIImageView(image: UIImage(resource: .profileBG))
+    var profileCoverImage = UIImage(systemName: "photo.artframe")
+    var profileCoverImageView = UIImageView(image: UIImage(systemName: "photo.artframe"))
     var profilePicture = UIImageView(image: UIImage(systemName: "person.circle"))
     
     var descriptionView = UIView()
@@ -117,7 +118,7 @@ class ProfileViewController: ExplorePackageViewController {
     override func setup() {
         super.setup()
         view.addSubviews([
-            profileBGImage,
+            profileCoverImageView,
             profilePicture,
             leftDivider,
             rightDivider,
@@ -145,8 +146,9 @@ class ProfileViewController: ExplorePackageViewController {
         profilePicture.backgroundColor = .white
         profilePicture.clipsToBounds = true
         
-        profileBGImage.contentMode = .scaleAspectFill
-        profileBGImage.clipsToBounds = true
+        profileCoverImageView.contentMode = .scaleAspectFill
+        profileCoverImageView.tintColor = .customUltraGrey
+        profileCoverImageView.clipsToBounds = true
         
         // Dividers
         leftDivider.backgroundColor = .darkGray
@@ -155,7 +157,10 @@ class ProfileViewController: ExplorePackageViewController {
         
         userNameLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 24)!)
             .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
-            .text = "Jimmy"
+            .text = "Unknow"
+        
+        // Fetch profileCover
+        profileVM.fetchProfileCoverImage(with: self.userManager.currentUser.coverURL)
         
         // Hide folded view
         foldedView.isHidden = true
@@ -186,7 +191,7 @@ class ProfileViewController: ExplorePackageViewController {
         
         // Description
         descriptionView.snp.makeConstraints { make in
-            make.top.equalTo(profileBGImage.snp.bottom).offset(10)
+            make.top.equalTo(profileCoverImageView.snp.bottom).offset(10)
             make.bottom.equalTo(selectionView.snp.top).offset(-10)
             make.leading.equalTo(userNameLabel.snp.trailing).offset(40)
             make.trailing.equalToSuperview().offset(-20)
@@ -203,7 +208,7 @@ class ProfileViewController: ExplorePackageViewController {
             make.leading.equalToSuperview().offset(20)
         }
         
-        profileBGImage.snp.makeConstraints { make in
+        profileCoverImageView.snp.makeConstraints { make in
             make.top.equalTo(view.snp_topMargin)
             make.height.equalTo(190)
             make.left.equalToSuperview()
@@ -211,7 +216,7 @@ class ProfileViewController: ExplorePackageViewController {
         }
         
         profilePicture.snp.makeConstraints { make in
-            make.centerY.equalTo(profileBGImage.snp.bottom)
+            make.centerY.equalTo(profileCoverImageView.snp.bottom)
             make.leading.equalToSuperview().offset(25)
             make.height.equalTo(70)
             make.width.equalTo(70)
@@ -220,14 +225,14 @@ class ProfileViewController: ExplorePackageViewController {
         leftDivider.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalTo(profilePicture.snp.leading).offset(-10)
-            make.top.equalTo(profileBGImage.snp.bottom).offset(-15)
+            make.top.equalTo(profileCoverImageView.snp.bottom).offset(-15)
             make.height.equalTo(2.5)
         }
         
         rightDivider.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-10)
             make.leading.equalTo(profilePicture.snp.trailing).offset(10)
-            make.top.equalTo(profileBGImage.snp.bottom).offset(-15)
+            make.top.equalTo(profileCoverImageView.snp.bottom).offset(-15)
             make.height.equalTo(2.5)
         }
         
@@ -271,6 +276,15 @@ class ProfileViewController: ExplorePackageViewController {
     }
     
     func dataBinding() {
+        
+        // Fetch coverImage
+        profileVM.profileCoverImage.bind { image in
+            if image != UIImage() {
+                DispatchQueue.main.async {
+                    self.profileCoverImageView.image = image
+                }
+            }
+        }
         
         // Fetch profileImage
         profileVM.profileImage.bind { profileImage in
@@ -468,13 +482,17 @@ extension ProfileViewController:
 
         if let selectedImage = info[.originalImage] as? UIImage {
             
-            // Upload to firebase
-            firestoreManager.uploadStoragePhoto(
-                targetImage: selectedImage,
-                userId: self.userManager.currentUser.uid)
+            // Upload to firebase storage
+//            firestoreManager.uploadStoragePhoto(
+//                targetImage: selectedImage,
+//                userId: self.userManager.currentUser.uid)
+            
+            profileVM.uploadImages(
+                type: .profileCover,
+                targetImage: selectedImage)
             
             DispatchQueue.main.async {
-                self.profileBGImage.image = selectedImage
+                self.profileCoverImageView.image = selectedImage
             }
         }
     }

@@ -28,15 +28,10 @@ class ProfileViewModel {
     
     var currentUser = Box(User())
     var profileImage = Box(UIImage())
+    var profileCoverImage = Box(UIImage())
     
     // Check user
     func checkIfUserExist(by user: User) {
-        
-        /*
-        if user.email == "jimmy@gmail.com" || user.email == "none" || user.email == "" {
-            return
-        }
-        */
         
         if user.uid == "none" || user.uid == "" {
             return
@@ -75,6 +70,30 @@ class ProfileViewModel {
         }
     }
     
+    // Upload to firebase storage
+    func uploadImages(
+        type: ImageType,
+        targetImage: UIImage) {
+            
+            self.firestoreManager.uploadStoragePhoto(
+                type: type,
+                targetImage: targetImage,
+                userId: self.userManager.currentUser.uid) { result in
+                    switch result {
+                    case .success(let url):
+                        print(String(describing: url))
+                        
+                        self.firestoreManager.updateUserPhoto(
+                            userId: self.userManager.currentUser.uid,
+                            imageUrl: url,
+                            type: .profileCover) {}
+                        
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+        }
+    
     // Fetch user photos
     func fetchUserProfileImage() {
         userManager.downloadImage { result in
@@ -87,6 +106,23 @@ class ProfileViewModel {
                 print(error)
                 // Return a default image instead
                 self.profileImage.value = UIImage(systemName: "person.circle")!
+            }
+        }
+    }
+    
+    func fetchProfileCoverImage(with urlString: String) {
+        userManager.downloadImage(urlString: urlString) { result in
+            switch result {
+            case .success(let image):
+                print(image as Any)
+                
+                self.profileCoverImage.value = image ??
+                UIImage(systemName: "photo.artframe")!
+                
+            case .failure(let error):
+                print(error)
+                // Return a default image instead
+                self.profileCoverImage.value = UIImage(systemName: "photo.artframe")!
             }
         }
     }

@@ -120,11 +120,7 @@ class LoginViewModel {
     func checkIfUserExist(
         signInMethod method: SignInMethod,
         by user: User) {
-            
-//            if user.email == "jimmy@gmail.com" || user.email == "none" || user.email == "" {
-//                return
-//            }
-            
+
             if user.uid == "none" || user.uid == "" {
                 return
             }
@@ -138,7 +134,7 @@ class LoginViewModel {
                     case .google:
                         
                         self.userManager.currentUser = users.first ?? User()
-                        self.userManager.currentUser.photoURL = user.photoURL
+                        // self.userManager.currentUser.photoURL = user.photoURL
                         self.userInfo.value = users.first ?? User()
                         
                     case .apple(let CREDS):

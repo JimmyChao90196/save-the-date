@@ -19,6 +19,7 @@ struct User: Codable {
     var name: String
     var email: String
     var photoURL: String
+    var coverURL: String
     var uid: String
     
     var draftPackages: [String]
@@ -31,6 +32,7 @@ struct User: Codable {
     init(name: String = "Jimmy Chao",
          email: String = "jimmy@gmail.com",
          photoURL: String = "",
+         coverURL: String = "",
          uid: String = "",
          draftPackages: [String] = [],
          favoritePackages: [String] = [],
@@ -42,6 +44,7 @@ struct User: Codable {
         self.name = name
         self.email = email
         self.photoURL = photoURL
+        self.coverURL = coverURL
         self.uid = uid
         self.draftPackages = draftPackages
         self.favoritePackages = favoritePackages

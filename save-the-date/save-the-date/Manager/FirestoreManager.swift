@@ -124,6 +124,31 @@ class FirestoreManager {
     }
     
     // MARK: - Update user -
+    func updateUserPhoto(
+        userId: String,
+        imageUrl: String,
+        type: ImageType,
+        completion: @escaping () -> Void) {
+            
+            let ref = fdb.collection("users").document(userId)
+            var fieldPath = ""
+            
+            switch type {
+            case .profileImage:
+                fieldPath = "photoURL"
+            case .profileCover:
+                fieldPath = "coverURL"
+            }
+            
+            ref.updateData([fieldPath: imageUrl ]) { error in
+                if let error = error {
+                    print("Error updating user: \(error)")
+                } else {
+                    completion()
+                }
+            }
+        }
+    
     func updateUserPackages(
         userId: String,
         packageType: PackageCollection,
