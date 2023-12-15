@@ -445,6 +445,7 @@ class MultiUserViewController: CreatePackageViewController {
                 print("\(self.currentPackage.info.authorId)")
                 
                 self.currentPackage.photoURL = self.userManager.currentUser.photoURL
+                self.currentPackage.regionTags = self.regionTags
                 self.currentPackage.weatherModules.sunny = self.sunnyModules
                 self.currentPackage.weatherModules.rainy = self.rainyModules
                 
