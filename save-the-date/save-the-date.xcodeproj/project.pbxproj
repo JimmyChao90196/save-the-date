@@ -10,7 +10,6 @@
 		74225BF12B19B1BE00D408C1 /* ExploreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74225BF02B19B1BE00D408C1 /* ExploreModel.swift */; };
 		7427B20F2B27F0B100B10EDA /* TranspVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427B20E2B27F0B100B10EDA /* TranspVM.swift */; };
 		7427B2152B28011800B10EDA /* Weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 7427B2142B28011800B10EDA /* Weather.json */; };
-		7427B2172B28035600B10EDA /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427B2162B28035600B10EDA /* LaunchScreenViewController.swift */; };
 		742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742CD06F2B04C36C00CA3011 /* AppDelegate.swift */; };
 		742CD0722B04C36C00CA3011 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742CD0712B04C36C00CA3011 /* SceneDelegate.swift */; };
 		742CD0772B04C36D00CA3011 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742CD0752B04C36D00CA3011 /* Main.storyboard */; };
@@ -127,6 +126,7 @@
 		74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46732B08B35300B6F648 /* PackageDetailVC.swift */; };
 		74DE46762B08B4D000B6F648 /* ExploreTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46752B08B4D000B6F648 /* ExploreTableView.swift */; };
 		74DE46782B08B4E500B6F648 /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE46772B08B4E500B6F648 /* ExploreTableViewCell.swift */; };
+		74E209522B2D7B9600477E13 /* TabbarVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E209512B2D7B9600477E13 /* TabbarVM.swift */; };
 		74E453A12B0F16780017BDCD /* FirestoreManager+Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E453A02B0F16780017BDCD /* FirestoreManager+Transaction.swift */; };
 		74E453A42B0F22CB0017BDCD /* MultiUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */; };
 		74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F796BE2B0CA4E40055E72F /* ScrollView.swift */; };
@@ -138,7 +138,6 @@
 		74225BF02B19B1BE00D408C1 /* ExploreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreModel.swift; sourceTree = "<group>"; };
 		7427B20E2B27F0B100B10EDA /* TranspVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspVM.swift; sourceTree = "<group>"; };
 		7427B2142B28011800B10EDA /* Weather.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Weather.json; sourceTree = "<group>"; };
-		7427B2162B28035600B10EDA /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		742CD06C2B04C36C00CA3011 /* save-the-date.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "save-the-date.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		742CD06F2B04C36C00CA3011 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		742CD0712B04C36C00CA3011 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -212,6 +211,7 @@
 		74DE46732B08B35300B6F648 /* PackageDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageDetailVC.swift; sourceTree = "<group>"; };
 		74DE46752B08B4D000B6F648 /* ExploreTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableView.swift; sourceTree = "<group>"; };
 		74DE46772B08B4E500B6F648 /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
+		74E209512B2D7B9600477E13 /* TabbarVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarVM.swift; sourceTree = "<group>"; };
 		74E453A02B0F16780017BDCD /* FirestoreManager+Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreManager+Transaction.swift"; sourceTree = "<group>"; };
 		74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiUserVC.swift; sourceTree = "<group>"; };
 		74F796BE2B0CA4E40055E72F /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
@@ -449,6 +449,7 @@
 		74B8284D2B04D99300A42850 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				74E209512B2D7B9600477E13 /* TabbarVM.swift */,
 				74DE46632B08995700B6F648 /* TabbarController.swift */,
 				74DE466E2B089F8000B6F648 /* NavigationController.swift */,
 				74363FE12B1B1654000AE762 /* LoginVC */,
@@ -457,7 +458,6 @@
 				74DE46652B089B6A00B6F648 /* ExplorePackage */,
 				74B8285E2B04DFD800A42850 /* CreatePackage */,
 				74DE46702B08AD1000B6F648 /* BaseVC */,
-				7427B2162B28035600B10EDA /* LaunchScreenViewController.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -846,7 +846,6 @@
 				744B571C2B05DBA000B3ABAA /* ResultTableView.swift in Sources */,
 				74DE466F2B089F8000B6F648 /* NavigationController.swift in Sources */,
 				74DE46722B08AD4600B6F648 /* PackageBaseVC.swift in Sources */,
-				7427B2172B28035600B10EDA /* LaunchScreenViewController.swift in Sources */,
 				748023EB2B0B38DA00878B12 /* SelectionView.swift in Sources */,
 				742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */,
 				74A8F91C2B18391F00AE63F5 /* Box.swift in Sources */,
@@ -874,6 +873,7 @@
 				7439AFEF2B0753FE00A28C09 /* RouteManager.swift in Sources */,
 				74426E102B2B1D2200A636D5 /* FirestoreManager+CloudStorage.swift in Sources */,
 				7486BCF72B2587E9008808B4 /* HeaderView.swift in Sources */,
+				74E209522B2D7B9600477E13 /* TabbarVM.swift in Sources */,
 				7439AFED2B074F6700A28C09 /* RouteVC.swift in Sources */,
 				7486BCF52B246452008808B4 /* PackageDetailVM.swift in Sources */,
 				74B8285B2B04DF1900A42850 /* PackageManager.swift in Sources */,

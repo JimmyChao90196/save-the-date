@@ -119,11 +119,13 @@ class LoginViewController: UIViewController {
         
         // Binding for credential
         viewModel.userCredentialPack.bind { UCPack in
-            self.userCredentialPack = UCPack
-            
-            NotificationCenter.default.post(
-                name: .userCredentialsUpdated,
-                object: UCPack)
+            if UCPack.uid != "" {
+                self.userCredentialPack = UCPack
+                
+                NotificationCenter.default.post(
+                    name: .userCredentialsUpdated,
+                    object: UCPack)
+            }
         }
         
         // Fetch user from google

@@ -19,7 +19,7 @@ class ExploreTableViewCell: UITableViewCell {
     let packageAuthor = UILabel()
     let packageBGImageView = UIImageView(image: UIImage(resource: .exploreCellBackground))
     let packageBG = UIView()
-    let authorPicture = UIImageView(image: UIImage(resource: .redProfile))
+    let authorPicture = UIImageView(image: UIImage(systemName: "person.circle"))
     let heartImageView = UIImageView(image: UIImage(systemName: "heart"))
     
     // Divider

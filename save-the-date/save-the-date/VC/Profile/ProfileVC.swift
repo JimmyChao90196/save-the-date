@@ -14,13 +14,20 @@ import FirebaseCore
 import FirebaseFirestoreSwift
 import ImageIO
 
+enum WaitingList {
+    case profile
+    case cover
+    case fav
+    case pub
+    case draft
+}
+
 class ProfileViewController: ExplorePackageViewController {
     
     var selectionView = SelectionView()
     
     // About to be replaced
     var currentUser = User()
-    
     var draftIDs = [String]()
     var pubIDs = [String]()
     var priIDs = [String]()
@@ -76,6 +83,14 @@ class ProfileViewController: ExplorePackageViewController {
     var onLoggedIn: ((User) -> Void)?
     
     // VM
+    var waitingList: [WaitingList: Bool] = [
+        .cover: false,
+        .profile: false,
+        .fav: false,
+        .pub: false,
+        .draft: false
+    ]
+    
     var countCurrentUserDataBinding = 0
     let profileVM = ProfileViewModel()
     
@@ -310,8 +325,9 @@ class ProfileViewController: ExplorePackageViewController {
             if image != UIImage() {
                 DispatchQueue.main.async {
                     self.profileCoverImageView.image = image
+                    self.waitingList[.cover] = true
                     
-                    LKProgressHUD.dismiss()
+                    self.profileVM.shouldDismiss(list: self.waitingList)
                 }
             }
         }
@@ -326,7 +342,9 @@ class ProfileViewController: ExplorePackageViewController {
                     self.profilePicture.image = self.userManager.userProfileImage ??
                     UIImage(systemName: "person.circle")
                     
-                    LKProgressHUD.dismiss()
+                    self.waitingList[.profile] = true
+                    
+                    self.profileVM.shouldDismiss(list: self.waitingList)
                 }
             }
         }
@@ -343,6 +361,9 @@ class ProfileViewController: ExplorePackageViewController {
                 
                 // fetch profile image
                 self.profileVM.fetchUserProfileImage()
+                self.profileVM.fetchProfileCoverImage(
+                    with: self.userManager.currentUser.coverURL)
+                LKProgressHUD.show()
                 
                 DispatchQueue.main.async {
                     self.userNameLabel.text = fetchedUser.name
@@ -361,6 +382,8 @@ class ProfileViewController: ExplorePackageViewController {
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.waitingList[.fav] = true
+                self.profileVM.shouldDismiss(list: self.waitingList)
             }
         }
         
@@ -369,6 +392,8 @@ class ProfileViewController: ExplorePackageViewController {
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.waitingList[.pub] = true
+                self.profileVM.shouldDismiss(list: self.waitingList)
             }
         }
         
@@ -377,6 +402,8 @@ class ProfileViewController: ExplorePackageViewController {
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.waitingList[.draft] = true
+                self.profileVM.shouldDismiss(list: self.waitingList)
             }
         }
         
@@ -444,12 +471,20 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
             
             switch selectionIndex {
             case 0: stateOfPackages = .favoriteState
+                waitingList[.fav] = false
+                
             case 1: stateOfPackages = .publishedState
+                waitingList[.pub] = false
+                
             case 2: stateOfPackages = .draftState
+                waitingList[.draft] = false
+                
             default: stateOfPackages = .favoriteState
+                waitingList[.fav] = false
             }
             
             self.fetchOperation()
+            LKProgressHUD.show()
         }
 }
 
@@ -497,7 +532,12 @@ extension ProfileViewController {
             cell.packageTitleLabel.text = currentPackages[indexPath.row].info.title
             cell.heartImageView.isHidden = true
             cell.onLike = nil
-            cell.authorPicture.image = currentProfileImages[indexPath.row]
+            
+            
+            if currentProfileImages.isEmpty == false {
+                cell.authorPicture.image = currentProfileImages[indexPath.row]
+            }
+            
             cell.authorPicture.tintColor = .customUltraGrey
             
             return cell

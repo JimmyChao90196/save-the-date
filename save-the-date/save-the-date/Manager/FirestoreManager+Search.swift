@@ -96,9 +96,7 @@ extension FirestoreManager {
         }
     }
 
-    
     // MARK: - Check if User exist -
-    
     func checkUser(by user: User, completion: @escaping (Result<[User], Error>) -> Void) {
         
         let userCollection = fdb.collection("users")

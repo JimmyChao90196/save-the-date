@@ -32,6 +32,20 @@ class ProfileViewModel {
     var profileImage = Box(UIImage())
     var profileCoverImage = Box(UIImage())
     
+    // Should dismiss or not
+    func shouldDismiss(list: [WaitingList: Bool]) {
+        var copyList = list.enumerated()
+        
+        copyList.forEach { _, element in
+            if element.value == false {
+                return
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+            LKProgressHUD.dismiss()
+        }
+    }
+    
     // Check user
     func checkIfUserExist(by user: User) {
         

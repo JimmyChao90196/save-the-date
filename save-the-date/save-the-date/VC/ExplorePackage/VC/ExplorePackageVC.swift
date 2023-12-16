@@ -470,6 +470,7 @@ extension ExplorePackageViewController {
             print("Received new credentials: \(credentials)")
             
             self.userCredentialsPack = credentials
+            self.userManager.userCredentialsPack = credentials
         }
     }
     
@@ -619,7 +620,8 @@ extension ExplorePackageViewController {
         // On like button tapped
         onLike = { cell, isLike in
             
-            let token = self.userCredentialsPack.token
+            // let token = self.userCredentialsPack.token
+            let token = self.userManager.userCredentialsPack.token
             
             if token == nil || token == "" {
                 

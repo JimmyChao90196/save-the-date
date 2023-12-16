@@ -12,6 +12,11 @@ class UserManager {
     static let shared = UserManager()
     var currentUser = User()
     var userProfileImage: UIImage?
+    var userCredentialsPack = UserCredentialsPack(
+            name: "",
+            email: "",
+            uid: "",
+            token: nil)
     
     // Fetch user photo
     func downloadImage( completion: @escaping (Result<UIImage?, Error>) -> Void) {
