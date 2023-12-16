@@ -134,7 +134,6 @@ class LoginViewModel {
                     case .google:
                         
                         self.userManager.currentUser = users.first ?? User()
-                        // self.userManager.currentUser.photoURL = user.photoURL
                         self.userInfo.value = users.first ?? User()
                         
                     case .apple(let CREDS):

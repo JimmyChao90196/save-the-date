@@ -299,19 +299,10 @@ class MultiUserViewController: CreatePackageViewController {
                 
                 Task {
                     
-                    var copyText = text
+                    let id = "sessionPackages/\(text)"
                     
-                    switch self.enterKind {
-                        
-                    case .deepLink(let path):
-                        copyText = path
-                        
-                    default:
-                        copyText = text
-                    }
-                    
-                    let sessionPackage = try? await 
-                    self.firestoreManager.fetchPackageMU(withID: copyText)
+                    let sessionPackage = try? await
+                    self.firestoreManager.fetchPackage(withID: id)
                     
                     if sessionPackage == nil {
                         
@@ -326,7 +317,7 @@ class MultiUserViewController: CreatePackageViewController {
                     
                     // Add name and uid
                     self.updateNameAndUid(
-                        sessionId: text,
+                        sessionId: id,
                         name: self.userName,
                         uid: self.userID)
                     
@@ -334,11 +325,11 @@ class MultiUserViewController: CreatePackageViewController {
                     self.firestoreManager.updateUserPackages(
                         userId: self.userID,
                         packageType: .sessionColl,
-                        docPath: text,
+                        docPath: id,
                         perform: .add) { }
                     
                     // Setup listener
-                    self.LSG = self.firestoreManager.modulesListener(docPath: text) { newPackage in
+                    self.LSG = self.firestoreManager.modulesListener(docPath: id) { newPackage in
                         
                         self.currentPackage = newPackage
                         self.sunnyModules = newPackage.weatherModules.sunny
@@ -349,9 +340,9 @@ class MultiUserViewController: CreatePackageViewController {
                         }
                     }
                     
-                    self.documentPath = text
+                    self.documentPath = id
                     self.isMultiUser = true
-                    self.setupAfterEvent(docPath: text)
+                    self.setupAfterEvent(docPath: id)
                     
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
