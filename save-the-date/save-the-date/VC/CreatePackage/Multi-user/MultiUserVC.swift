@@ -20,6 +20,7 @@ import Hover
 enum EnterKind {
     case create
     case enter
+    case demo(String)
     case deepLink(String)
 }
 
@@ -71,6 +72,11 @@ class MultiUserViewController: CreatePackageViewController {
         
         // Create or enter session
         switch enterKind {
+            
+        case .demo(let id):
+            print("about to enter demo session: \(id)")
+            enterSesstionTapped()
+            
         case .create:
             createSessionTapped()
             
@@ -287,73 +293,28 @@ class MultiUserViewController: CreatePackageViewController {
     }
     
     @objc func enterSesstionTapped() {
-        presentAlertWithTextField(
-            title: "Warning",
-            message: "Please enter the session ID",
-            buttonText: "Okay") { text in
-                guard let text else {
-                    
-                    self.navigationController?.popViewController(animated: true)
-                    return
-                }
-                
-                Task {
-                    
-                    let id = "sessionPackages/\(text)"
-                    
-                    let sessionPackage = try? await
-                    self.firestoreManager.fetchPackage(withID: id)
-                    
-                    if sessionPackage == nil {
-                        
-                        LKProgressHUD.showFailure(text: "Wrong session ID")
+        
+        var id = "sessionPackages/"
+        
+        switch self.enterKind {
+            
+        case .demo(let demoId):
+            id = "sessionPackages/\(demoId)"
+            enterSessionHelper(id: id)
+            
+        default:
+            
+            presentAlertWithTextField(
+                title: "Warning",
+                message: "Please enter the session ID",
+                buttonText: "Okay") { text in
+                    guard let text else {
                         self.navigationController?.popViewController(animated: true)
-                        return
-                    }
-                    
-                    self.currentPackage = sessionPackage ?? Package()
-                    self.sunnyModules = self.currentPackage.weatherModules.sunny
-                    self.rainyModules = self.currentPackage.weatherModules.rainy
-                    
-                    // Add name and uid
-                    self.updateNameAndUid(
-                        sessionId: id,
-                        name: self.userName,
-                        uid: self.userID)
-                    
-                    // Update user packages
-                    self.firestoreManager.updateUserPackages(
-                        userId: self.userID,
-                        packageType: .sessionColl,
-                        docPath: id,
-                        perform: .add) { }
-                    
-                    // Setup listener
-                    self.LSG = self.firestoreManager.modulesListener(docPath: id) { newPackage in
-                        
-                        self.currentPackage = newPackage
-                        self.sunnyModules = newPackage.weatherModules.sunny
-                        self.rainyModules = newPackage.weatherModules.rainy
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
-                    
-                    self.documentPath = id
-                    self.isMultiUser = true
-                    self.setupAfterEvent(docPath: id)
-                    
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                    
-                    // Update chatroom at the end
-                    let currentUid = self.userManager.currentUser.uid
-                    let chatDocPath = self.self.currentPackage.chatDocPath
-                    self.viewModle.updateChatRoom(newId: currentUid, docPath: chatDocPath)
+                        return }
+                    id = "sessionPackages/\(text)"
+                    self.enterSessionHelper(id: id)
                 }
-            }
+        }
     }
     
     @objc func enterSesstionWithLinkTapped(docPath: String) {
@@ -394,6 +355,64 @@ class MultiUserViewController: CreatePackageViewController {
             self.documentPath = docPath
             self.isMultiUser = true
             self.setupAfterEvent(docPath: docPath)
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+            // Update chatroom at the end
+            let currentUid = self.userManager.currentUser.uid
+            let chatDocPath = self.self.currentPackage.chatDocPath
+            self.viewModle.updateChatRoom(newId: currentUid, docPath: chatDocPath)
+        }
+    }
+    
+    // Helper function when entering the session
+    func enterSessionHelper(id: String) {
+        Task {
+            
+            let sessionPackage = try? await
+            self.firestoreManager.fetchPackage(withID: id)
+            
+            if sessionPackage == nil {
+                
+                LKProgressHUD.showFailure(text: "Wrong session ID")
+                self.navigationController?.popViewController(animated: true)
+                return
+            }
+            
+            self.currentPackage = sessionPackage ?? Package()
+            self.sunnyModules = self.currentPackage.weatherModules.sunny
+            self.rainyModules = self.currentPackage.weatherModules.rainy
+            
+            // Add name and uid
+            self.updateNameAndUid(
+                sessionId: id,
+                name: self.userName,
+                uid: self.userID)
+            
+            // Update user packages
+            self.firestoreManager.updateUserPackages(
+                userId: self.userID,
+                packageType: .sessionColl,
+                docPath: id,
+                perform: .add) { }
+            
+            // Setup listener
+            self.LSG = self.firestoreManager.modulesListener(docPath: id) { newPackage in
+                
+                self.currentPackage = newPackage
+                self.sunnyModules = newPackage.weatherModules.sunny
+                self.rainyModules = newPackage.weatherModules.rainy
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            
+            self.documentPath = id
+            self.isMultiUser = true
+            self.setupAfterEvent(docPath: id)
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()

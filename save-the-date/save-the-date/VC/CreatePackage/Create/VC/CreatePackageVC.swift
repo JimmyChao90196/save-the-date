@@ -109,6 +109,12 @@ class CreatePackageViewController: PackageBaseViewController {
         )
         
         let items = [
+
+            HoverItem(
+                title: "Demo session",
+                image: UIImage(systemName: "door.left.hand.open"),
+                onTap: { self.enterDemoSessionPressed() }),
+            
             HoverItem(
                 title: "Enter multi-user session",
                 image: UIImage(systemName: "person.2.fill"),
@@ -147,6 +153,25 @@ class CreatePackageViewController: PackageBaseViewController {
 
 // MARK: - Additional function -
 extension CreatePackageViewController {
+    
+    // Enter demo session button pressed
+    @objc func enterDemoSessionPressed() {
+        
+        presentLeavingAlert(
+            title: "You are about to enter multi-user mode",
+            message: "Save or publish before leaving") { leaveKind in
+                
+            switch leaveKind {
+            case .publish: print("1")
+            case .saveAsDraft: print("2")
+            case .discardChanges: print("3")
+            }
+            
+            let multiVC = MultiUserViewController()
+            multiVC.enterKind = .demo("n0QeFTCNN439aIJVCvF2")
+            self.navigationController?.pushViewController(multiVC, animated: true)
+        }
+    }
     
     // Multiuser button pressed
     @objc func enterMultiUserPressed() {
