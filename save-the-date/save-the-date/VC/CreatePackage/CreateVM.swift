@@ -14,13 +14,17 @@ class CreateViewModel {
     let regionTags = Box<[String]>([])
     
     // Fake rating system.
-    func ratingForIndexPath(indexPath: IndexPath, minimumRating: Double = 2.0) -> String {
+    func ratingForIndexPath(indexPath: IndexPath, minimumRating: Double = 3.0) -> String {
+        // Use the hash value of the index path as a seed substitute
+        let seed = indexPath.hashValue
+        var rng = SeededGenerator(seed: seed)
+
         // Ensure minimumRating is within the valid range (0 to 5)
         let clampedMinimumRating = min(max(minimumRating, 0.0), 5.0)
 
         // Generate a random rating between clampedMinimumRating and 5
         let maxRating = 5
-        let rating = max(Double.random(in: 0...5), clampedMinimumRating)
+        let rating = max(Double.random(in: 0...5, using: &rng), clampedMinimumRating)
 
         // Convert rating to star strings
         let fullStarCount = Int(rating)
@@ -29,6 +33,20 @@ class CreateViewModel {
         let emptyStarString = String(repeating: "☆", count: emptyStarCount)
 
         return fullStarString + emptyStarString
+    }
+
+    // Custom random number generator using a hash value as a seed
+    struct SeededGenerator: RandomNumberGenerator {
+        private var state: UInt64
+
+        init(seed: Int) {
+            state = UInt64(abs(seed))
+        }
+
+        mutating func next() -> UInt64 {
+            state = 6364136223846793005 &* state &+ 1
+            return state
+        }
     }
 
     // Check if the package is empty

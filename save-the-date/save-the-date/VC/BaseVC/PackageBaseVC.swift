@@ -358,7 +358,11 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             cell.bgImageView.contentMode = .scaleAspectFit
         }
         // Set arrivedtime
-        cell.arrivedTimeLabel.text = viewModel.ratingForIndexPath(indexPath: indexPath)
+        if cell.siteTitle.text != "None" {
+            cell.arrivedTimeLabel.text = viewModel.ratingForIndexPath(indexPath: indexPath)
+        } else {
+            cell.arrivedTimeLabel.text = String(repeating: "☆", count: 5)
+        }
         
         return cell
     }
