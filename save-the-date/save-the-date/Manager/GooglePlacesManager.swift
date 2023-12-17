@@ -51,6 +51,9 @@ final class GooglePlacesManager {
     
     public func resolvePhoto(from photoMetaData: GMSPlacePhotoMetadata) async throws -> UIImage {
         return try await withCheckedThrowingContinuation { continuation in
+            
+            var copyMetaData = photoMetaData
+            
             client.loadPlacePhoto(photoMetaData) { photo, error in
                 if let error = error {
                     continuation.resume(throwing: error)

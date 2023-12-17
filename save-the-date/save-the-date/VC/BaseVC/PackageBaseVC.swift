@@ -355,6 +355,8 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             cell.bgImageView.image = UIImage(resource: .site05)
             cell.bgImageView.contentMode = .scaleAspectFit
         }
+        // Set arrivedtime
+        cell.arrivedTimeLabel.text = viewModel.ratingForIndexPath(indexPath: indexPath)
         
         return cell
     }
