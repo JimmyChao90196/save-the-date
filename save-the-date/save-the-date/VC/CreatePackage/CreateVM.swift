@@ -26,7 +26,6 @@ class CreateViewModel {
         let maxRating = 5
         let rating = max(Double.random(in: 0...5, using: &rng), clampedMinimumRating)
 
-        // Convert rating to star strings
         let fullStarCount = Int(rating)
         let fullStarString = String(repeating: "★", count: fullStarCount)
         let emptyStarCount = maxRating - fullStarCount
