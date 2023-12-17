@@ -285,10 +285,12 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         
         // Handle location and transportation tapped
         let cellUserId = module[rawIndex].lockInfo.userId
+        let cellUserName = module[rawIndex].lockInfo.userName
         
         if cellUserId != "" {
-            cell.userIdLabel.text = cellUserId.components(separatedBy: "@")[0]
-            
+            // cell.userIdLabel.text = cellUserId
+            cell.userIdLabel.text = cellUserName
+             
         } else {
             cell.userIdLabel.text = ""
         }
@@ -1017,6 +1019,7 @@ extension PackageBaseViewController {
                 self.firestoreManager.lockModuleWithTrans(
                     docPath: self.documentPath,
                     userId: userID,
+                    userName: userName,
                     time: time,
                     when: weatherState) { newPackage, newIndex, isLate in
                         
@@ -1095,6 +1098,7 @@ extension PackageBaseViewController {
                 self.firestoreManager.lockModuleWithTrans(
                     docPath: self.documentPath,
                     userId: userID,
+                    userName: userName,
                     time: time,
                     when: weatherState
                 ) { newPackage, newIndex, isLate in

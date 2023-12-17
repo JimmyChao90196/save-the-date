@@ -76,7 +76,14 @@ struct PackageModule: Codable, Equatable {
 // MARK: - Lock Info -
 struct LockInfo: Codable {
     var userId: String
+    var userName: String
     var timestamp: TimeInterval
+    
+    init(userId: String, userName: String = "", timestamp: TimeInterval) {
+        self.userId = userId
+        self.userName = userName
+        self.timestamp = timestamp
+    }
 }
 
 // MARK: - WeatherModules
