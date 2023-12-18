@@ -933,6 +933,17 @@ extension PackageBaseViewController {
                     latitude: destCoordDic["lat"] ?? 0,
                     longitude: destCoordDic["lng"] ?? 0)
                 
+                // Breaking system
+                if sourceCoord.latitude == 0 || destCoord.latitude == 0 {
+                    LKProgressHUD.dismiss()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        LKProgressHUD.showFailure(text: "Not enough data provided")
+                    }
+                    
+                    return
+                }
+                
                 self.routeManager.fetchTravelTime(
                     with: transp.transpType,
                     from: sourceCoord,
