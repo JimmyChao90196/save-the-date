@@ -57,7 +57,7 @@ class ChatViewController: UIViewController {
         
         label.setChalkFont(20)
             .setTextColor(.white)
-            .setbackgroundColor(.standardColorRed)
+            .setbackgroundColor(.standardColorCyan)
             .setCornerRadius(10)
             .setBoarderColor(.black)
             .setBoarderWidth(2.5)
@@ -535,10 +535,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
             sessionNameTitle.text = self.sessionPackages[indexPath.row].info.title
             sessionNameTitle.isHidden = false
+            animateConstraint(newConstant: -200)
             
         default:
-            
-            tableView.deselectRow(at: indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: false)
         }
     }
     
@@ -578,6 +578,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: cellIdentifier,
                 for: indexPath)
+            cell.selectionStyle = .none
             
             // Move down cell a bit
             if indexPath.row == 0 {
