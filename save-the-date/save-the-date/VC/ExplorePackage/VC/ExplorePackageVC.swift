@@ -212,6 +212,12 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             
             self?.fetchedPackages = packages
             self?.viewModel.fetchUserProfileImages(from: packages)
+            
+            // Reload tableView
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+            
             if type(of: self) == ExplorePackageViewController.self {
                 
                 LKProgressHUD.dismiss()
@@ -224,13 +230,13 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             if imagesDic != [:] {
                 
                 self.fetchedProfileImagesDic = imagesDic
-                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
-                    if type(of: self) == ExplorePackageViewController.self {
-                        
-                        LKProgressHUD.dismiss()
-                    }
+                }
+                
+                if type(of: self) == ExplorePackageViewController.self {
+                    
+                    LKProgressHUD.dismiss()
                 }
             }
         }
