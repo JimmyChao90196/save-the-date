@@ -7,6 +7,10 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
+import FirebaseCore
+import FirebaseAuth
+
 import UIKit
 
 enum PublishError: Error {
@@ -22,6 +26,7 @@ enum FirestoreError: Error {
 class FirestoreManager {
     static let shared = FirestoreManager()
     let fdb =  Firestore.firestore()
+    let storage = Storage.storage()
     
     // MARK: - Add user with json
     func addUserWithJson(_ user: User, completion: @escaping () -> Void) {
@@ -36,7 +41,7 @@ class FirestoreManager {
             let dictionary = try jsonData.toDictionary()
             
             // Upload the JSON dictionary to Firestore
-            fdb.collection("users").document(user.email).setData(dictionary) { error in
+            fdb.collection("users").document(user.uid).setData(dictionary) { error in
                 if let error = error {
                     print("uploaded failed: \(error)")
                 } else {
@@ -62,7 +67,7 @@ class FirestoreManager {
             // Create a document reference first
             let packageColl = packageColl.rawValue
             let newDocumentRef = fdb.collection(packageColl).document()
-            let newDocumentID = newDocumentRef.documentID
+            // let newDocumentID = newDocumentRef.documentID
             var packageCopy = package
             
             // Change this to ref
@@ -98,7 +103,7 @@ class FirestoreManager {
         do {
             // Create a document reference first
             let newDocumentRef = fdb.document(targetPackage.docPath)
-            var packageCopy = targetPackage
+            let packageCopy = targetPackage
             
             // Encode your package object into JSON and converted it to a dictionary
             let jsonData = try encoder.encode(packageCopy)
@@ -119,15 +124,57 @@ class FirestoreManager {
     }
     
     // MARK: - Update user -
+    func updateUserPhoto(
+        userId: String,
+        imageUrl: String,
+        type: ImageType,
+        completion: @escaping () -> Void) {
+            
+            let ref = fdb.collection("users").document(userId)
+            var fieldPath = ""
+            
+            switch type {
+            case .profileImage:
+                fieldPath = "photoURL"
+            case .profileCover:
+                fieldPath = "coverURL"
+            }
+            
+            ref.updateData([fieldPath: imageUrl]) { error in
+                if let error = error {
+                    print("Error updating user: \(error)")
+                } else {
+                    completion()
+                }
+            }
+        }
+    
+    func updateUserName(
+        userId: String,
+        newName: String,
+        completion: @escaping () -> Void) {
+            
+            let ref = fdb.collection("users").document(userId)
+            var fieldPath = "name"
+            
+            ref.updateData([fieldPath: newName]) { error in
+                if let error = error {
+                    print("Error updating user: \(error)")
+                } else {
+                    completion()
+                }
+            }
+        }
+    
     func updateUserPackages(
-        email: String,
+        userId: String,
         packageType: PackageCollection,
         docPath: String,
         perform operation: PackageOperation,
         completion: @escaping () -> Void
     ) {
         
-        let userRef = fdb.collection("users").document(email)
+        let userRef = fdb.collection("users").document(userId)
         var fieldOperation = FieldValue.arrayUnion([docPath])
         
         switch operation {
@@ -198,9 +245,9 @@ class FirestoreManager {
     
     // MARK: - Fetch favorite packages -
     func fetchUser(
-        _ userEmail: String) async throws -> User {
+        _ userId: String) async throws -> User {
         do {
-            let document = try await fdb.collection("users").document(userEmail).getDocument()
+            let document = try await fdb.collection("users").document(userId).getDocument()
             
             guard document.exists, let userData = document.data() else {
                 throw FirestoreError.userNotFound
@@ -275,6 +322,46 @@ class FirestoreManager {
             throw error
         }
     }
+    
+    // Fetch package for multi-user
+    func fetchPackageMU(
+        withID docPath: String) async throws -> Package? {
+            
+            do {
+                var newPath = docPath
+                let documentRef = fdb.document("sessionPackages/\(docPath)")
+
+                // let documentRef = fdb.document(docPath)
+                
+                let document = try await documentRef.getDocument()
+                
+                guard let packageData = document.data(), document.exists else {
+                    // Handle the case where the document doesn't exist or has no data
+                    throw NSError(
+                        domain: "PackageError",
+                        code: 0,
+                        userInfo: [NSLocalizedDescriptionKey: "No data found for package"])
+                }
+                
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: packageData, options: [])
+                    let package = try JSONDecoder().decode(Package.self, from: jsonData)
+                    print("\(package)")
+                    return package
+                } catch {
+                    // Handle JSON serialization or decoding error
+                    print("JSON: \(error)")
+                    
+                    throw error
+                }
+                
+            } catch {
+                print("Firestore: \(error)")
+                
+                // Handle Firestore document fetch error
+                throw error
+            }
+        }
 
     // MARK: - Fetch json packages -
     func fetchJsonPackages(

@@ -48,7 +48,7 @@ extension FirestoreManager {
     
     // MARK: - Update chatroom
     func updateChatRoom(
-        newPerson: String,
+        newId: String,
         docPath: String,
         perform operation: PackageOperation,
         completion: ((Result<String, Error>) -> Void)? ) {
@@ -56,12 +56,12 @@ extension FirestoreManager {
             let chatRef = fdb.document(docPath)
             let fieldPath = "participants"
             
-            var fieldOperation = FieldValue.arrayUnion([newPerson])
+            var fieldOperation = FieldValue.arrayUnion([newId])
             switch operation {
             case .add:
-                fieldOperation = FieldValue.arrayUnion([newPerson])
+                fieldOperation = FieldValue.arrayUnion([newId])
             case .remove:
-                fieldOperation = FieldValue.arrayRemove([newPerson])
+                fieldOperation = FieldValue.arrayRemove([newId])
             }
             
             chatRef.updateData([fieldPath: fieldOperation ]) { error in

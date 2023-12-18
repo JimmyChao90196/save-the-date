@@ -50,6 +50,26 @@ class ChatViewController: UIViewController {
     var menuTitleDividerLeft = UIView()
     var menuTitleDividerRight = UIView()
     
+    // UI
+    var sessionNameTitle: UILabel = {
+        
+        let label = UILabel()
+        
+        label.setChalkFont(20)
+            .setTextColor(.white)
+            .setbackgroundColor(.standardColorCyan)
+            .setCornerRadius(10)
+            .setBoarderColor(.black)
+            .setBoarderWidth(2.5)
+            .text = "testing"
+            
+        label.isHidden = true
+        label.clipsToBounds = true
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
     // Nav item
     lazy var menuButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -122,7 +142,16 @@ class ChatViewController: UIViewController {
         // Binding for bundle
         viewModel.currentBundle.bind { bundle in
             
-            self.currentBundle = bundle
+            var copyBundle = bundle
+            copyBundle.messages.insert(
+                ChatMessage(
+                    sendTime: TimeInterval(),
+                    userId: self.userManager.currentUser.uid,
+                    userName: self.userManager.currentUser.name,
+                    content: "placeholder"),
+                at: 0)
+            
+            self.currentBundle = copyBundle
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -138,7 +167,7 @@ class ChatViewController: UIViewController {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
-        viewModel.fetchCurrentUser(self.userManager.currentUser.email)
+        viewModel.fetchCurrentUser(self.userManager.currentUser.uid)
         
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -195,6 +224,7 @@ class ChatViewController: UIViewController {
             tableView,
             footerView,
             topDivider,
+            sessionNameTitle,
             foldedView
         ])
         
@@ -253,12 +283,28 @@ class ChatViewController: UIViewController {
         swipeLeft.direction = .left
         self.view.addGestureRecognizer(swipeLeft)
         
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(sendDemoMessage(_:)))
+        swipeUp.direction = .up
+        self.view.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(sendDemoMessage(_:)))
+        swipeDown.direction = .down
+        self.view.addGestureRecognizer(swipeDown)
+        
         // MARK: - Fetch session packages at the first place
         viewModel.fetchSessionPackages()
     }
     
     // MARK: - Handle user leave event -
     func setupConstranit() {
+        
+        // Set title
+        sessionNameTitle.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.snp.topMargin).offset(10)
+            make.width.equalTo(200)
+            make.height.equalTo(40)
+        }
         
         chatBGAnimationView.snp.makeConstraints { make in
             make.edges.equalTo(tableView)
@@ -359,6 +405,10 @@ class ChatViewController: UIViewController {
         viewModel.animateMenu(gesture)
     }
     
+    @objc func sendDemoMessage(_ gesture: UISwipeGestureRecognizer) {
+        viewModel.sendDemoMessage(gesture, roomID: currentBundle.roomID)
+    }
+    
     @objc func sendButtonClicked() {
         guard let text = inputField.text, !text.isEmpty else { return }
         
@@ -432,7 +482,7 @@ class ChatViewController: UIViewController {
         with message: ChatMessage,
         isCurrentUser: Bool,
         photoURL: String,
-        email: String
+        userId: String
     ) {
             // Common setup for all cells
             cell.backgroundColor = .clear
@@ -443,9 +493,12 @@ class ChatViewController: UIViewController {
                 chatCell.timeLabel.text = message.sendTime.customFormat()
             } else if let chatCell = cell as? ChatLeftTableViewCell {
                 // Configure left cell
-                viewModel.fetchImage(otherUserEmail: email, photoURL: photoURL)
+                viewModel.fetchImage(otherUserId: userId, photoURL: photoURL)
                 chatCell.profilePic.contentMode = .scaleAspectFill
-                chatCell.profilePic.image = profileImages[email] ?? UIImage(systemName: "person.circle")
+                chatCell.profilePic.image = profileImages[userId] ??
+                UIImage(systemName: "person.circle")
+                chatCell.profilePic.tintColor = .customUltraGrey
+                
                 chatCell.messageLabel.text = message.content
                 chatCell.timeLabel.text = message.sendTime.customFormat()
             }
@@ -480,10 +533,12 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             setupListener(bundleID: chatDocPath)
             
             tableView.deselectRow(at: indexPath, animated: true)
+            sessionNameTitle.text = self.sessionPackages[indexPath.row].info.title
+            sessionNameTitle.isHidden = false
+            animateConstraint(newConstant: -200)
             
         default:
-            tableView.deselectRow(at: indexPath, animated: true)
-            
+            tableView.deselectRow(at: indexPath, animated: false)
         }
     }
     
@@ -510,9 +565,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         default:
+            
             let message = currentBundle.messages[indexPath.row]
-            let isUser = message.userEmail == userManager.currentUser.email
-            let email = message.userEmail
+            let isUser = message.userId == userManager.currentUser.uid
+            let uid = message.userId
             let photoURL = message.photoURL
             
             let cellIdentifier = isUser ?
@@ -522,13 +578,21 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: cellIdentifier,
                 for: indexPath)
+            cell.selectionStyle = .none
+            
+            // Move down cell a bit
+            if indexPath.row == 0 {
+                cell.isHidden = true
+            } else {
+                cell.isHidden = false
+            }
             
             configureChatCell(
                 cell,
                 with: message,
                 isCurrentUser: isUser,
                 photoURL: photoURL,
-                email: email
+                userId: uid
             )
 
             return cell

@@ -12,14 +12,14 @@ class ExploreTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = String(describing: ExploreTableViewCell.self)
     
-    let dynamicStackView = UIStackView()
+    // let dynamicStackView = UIStackView()
     
     // UI
     let packageTitleLabel = UILabel()
     let packageAuthor = UILabel()
     let packageBGImageView = UIImageView(image: UIImage(resource: .exploreCellBackground))
     let packageBG = UIView()
-    let authorPicture = UIImageView(image: UIImage(resource: .redProfile))
+    let authorPicture = UIImageView(image: UIImage(systemName: "person.circle"))
     let heartImageView = UIImageView(image: UIImage(systemName: "heart"))
     
     // Divider
@@ -49,7 +49,7 @@ class ExploreTableViewCell: UITableViewCell {
             heartImageView,
             packageAuthor,
             authorPicture,
-            dynamicStackView,
+            // dynamicStackView,
             leftDivider,
             rightDivider
         ])
@@ -91,14 +91,14 @@ class ExploreTableViewCell: UITableViewCell {
         authorPicture.setCornerRadius(15)
             .setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
             .setBoarderWidth(2.0)
-            .contentMode = .scaleAspectFit
+            .contentMode = .scaleAspectFill
         
         // Setup the stack view
-        dynamicStackView.axis = .horizontal
-        dynamicStackView.spacing = 10
-        dynamicStackView.alignment = .center
-        dynamicStackView.distribution = .fillProportionally
-        dynamicStackView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+//        dynamicStackView.axis = .horizontal
+//        dynamicStackView.spacing = 10
+//        dynamicStackView.alignment = .center
+//        dynamicStackView.distribution = .fillProportionally
+//        dynamicStackView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         // Divider
         leftDivider.setbackgroundColor(.hexToUIColor(hex: "#3F3A3A"))
@@ -137,11 +137,11 @@ class ExploreTableViewCell: UITableViewCell {
             make.height.equalTo(20)
         }
         
-        dynamicStackView.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.leading.equalTo(packageAuthor.snp.trailing).offset(10)
-            make.trailing.equalTo(rightDivider.snp.leading).offset(-10)
-        }
+//        dynamicStackView.snp.makeConstraints { make in
+//            make.bottom.equalToSuperview()
+//            make.leading.equalTo(packageAuthor.snp.trailing).offset(10)
+//            make.trailing.equalTo(rightDivider.snp.leading).offset(-10)
+//        }
         
         packageTitleLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -191,16 +191,16 @@ extension ExploreTableViewCell {
     
     func configureStackView(with elements: [UIView]) {
         // Clear existing arrangedSubviews
-        dynamicStackView.arrangedSubviews.forEach {
-            $0.removeFromSuperview()
-        }
+//        dynamicStackView.arrangedSubviews.forEach {
+//            $0.removeFromSuperview()
+//        }
 
         packageAuthor.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         packageAuthor.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         // Add new elements
-        for element in elements {
-            dynamicStackView.addArrangedSubview(element)
-        }
+//        for element in elements {
+//            dynamicStackView.addArrangedSubview(element)
+//        }
     }
 }

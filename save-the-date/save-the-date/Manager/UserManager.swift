@@ -12,6 +12,11 @@ class UserManager {
     static let shared = UserManager()
     var currentUser = User()
     var userProfileImage: UIImage?
+    var userCredentialsPack = UserCredentialsPack(
+            name: "",
+            email: "",
+            uid: "",
+            token: nil)
     
     // Fetch user photo
     func downloadImage( completion: @escaping (Result<UIImage?, Error>) -> Void) {
@@ -67,13 +72,20 @@ class UserManager {
         var encounteredError: Error?
 
         for urlString in urlStrings {
+            
+            if urlString.isEmpty {
+                images.append(UIImage(systemName: "person.circle")!)
+                continue
+            }
+
             guard let url = URL(string: urlString) else { continue }
 
             dispatchGroup.enter()
-            URLSession.shared.dataTask(with: url) { data, response, error in
+            URLSession.shared.dataTask(with: url) { data, _, error in
                 defer { dispatchGroup.leave() }
 
                 if let error = error {
+                    print("Error downloading image: \(error)")
                     encounteredError = error
                     return
                 }
@@ -92,5 +104,48 @@ class UserManager {
             }
         }
     }
+    
+    // download images
+    func downloadImagesToDic(
+        from urlStrings: [String],
+        completion: @escaping (Result<[String: UIImage], Error>) -> Void) {
+        var imagesDic: [String: UIImage] = [:]
+        let dispatchGroup = DispatchGroup()
 
+        var encounteredError: Error?
+
+        for urlString in urlStrings {
+            
+            if urlString.isEmpty {
+                imagesDic[""] = UIImage(systemName: "person.circle")!
+                continue
+            }
+
+            guard let url = URL(string: urlString) else { continue }
+
+            dispatchGroup.enter()
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                defer { dispatchGroup.leave() }
+
+                if let error = error {
+                    print("Error downloading image: \(error)")
+                    encounteredError = error
+                    return
+                }
+
+                if let data = data, let image = UIImage(data: data) {
+                    imagesDic[urlString] = image
+                    // images.append(image)
+                }
+            }.resume()
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            if let error = encounteredError {
+                completion(.failure(error))
+            } else {
+                completion(.success(imagesDic))
+            }
+        }
+    }
 }

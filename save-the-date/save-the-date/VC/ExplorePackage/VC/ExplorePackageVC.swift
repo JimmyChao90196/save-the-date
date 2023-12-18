@@ -24,6 +24,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     var url: URL?
     
     // VM
+    var count = 0
     let viewModel = ExploreViewModel()
     var userCredentialsPack = UserCredentialsPack(
         name: "",
@@ -54,6 +55,20 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         
         // Adding an action
         button.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var clearButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        
+        // Your logic to customize the button
+        button.setTitleColor(.customDarkGrey, for: .normal)
+        button.setTitle("Clear", for: .normal)
+        button.isHidden = true
+        
+        // Adding an action
+        button.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -91,6 +106,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     
     var fetchedPackages = [Package]()
     var fetchedProfileImages = [UIImage]()
+    var fetchedProfileImagesDic = [String: UIImage]()
     
     var packageAuthorLabel = UILabel()
     var onLike: ((UITableViewCell, Bool) -> Void)?
@@ -123,7 +139,11 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchPackages()
+        
+        if type(of: self) == ExplorePackageViewController.self {
+            fetchPackages()
+        }
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -139,6 +159,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             bannerTopDividerB,
             dynamicStackView,
             tagGuide,
+            clearButton,
             foldedView
         ])
         
@@ -206,17 +227,33 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             
             self?.fetchedPackages = packages
             self?.viewModel.fetchUserProfileImages(from: packages)
-        }
-        
-        // Binding for profileImages
-        viewModel.fetchedProfileImages.bind { images in
-            self.fetchedProfileImages = images
             
+            // Reload tableView
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
             }
             
-            LKProgressHUD.dismiss()
+            if type(of: self) == ExplorePackageViewController.self {
+                
+                LKProgressHUD.dismiss()
+            }
+        }
+        
+        // Fetched profile images
+        viewModel.fetchedProfileImagesDic.bind { imagesDic in
+            
+            if imagesDic != [:] {
+                
+                self.fetchedProfileImagesDic = imagesDic
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+                if type(of: self) == ExplorePackageViewController.self {
+                    
+                    LKProgressHUD.dismiss()
+                }
+            }
         }
         
         // Binding for path
@@ -230,7 +267,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         // Setup search bar
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
-        
         fetchPackages()
         recommandedScrollView.addImages(
             named: ["crown",
@@ -326,9 +362,16 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         // Setup stack view
         dynamicStackView.snp.makeConstraints { make in
             make.top.equalTo(view.snp.topMargin)
-            make.leading.equalToSuperview().offset(50)
-            make.trailing.equalToSuperview().offset(-50)
+            make.leading.equalToSuperview().offset(15)
             make.height.equalTo(50)
+        }
+        
+        clearButton.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.topMargin)
+            make.centerY.equalTo(dynamicStackView.snp.centerY)
+            make.leading.equalTo(dynamicStackView.snp.trailing).offset(5)
+            make.trailing.equalToSuperview().offset(-10)
+            make.width.equalTo(60)
         }
         
         // Tag guide
@@ -455,6 +498,7 @@ extension ExplorePackageViewController {
             print("Received new credentials: \(credentials)")
             
             self.userCredentialsPack = credentials
+            self.userManager.userCredentialsPack = credentials
         }
     }
     
@@ -466,13 +510,23 @@ extension ExplorePackageViewController {
         }
     }
     
+    @objc func clearButtonTapped() {
+        dynamicStackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
+        
+        self.fetchPackages()
+        
+        clearButton.isHidden = true
+        tagGuide.isHidden = false
+    }
+    
     func fetchPackages() {
         viewModel.fetchPackages(from: .publishedColl)
         LKProgressHUD.show()
     }
     
     func setupFoldedView() {
-        
         isFolded = true
         
         foldedView.setbackgroundColor(.hexToUIColor(hex: "#FF4E4E"))
@@ -538,8 +592,8 @@ extension ExplorePackageViewController {
                 for: indexPath) as? ExploreTableViewCell else { return UITableViewCell() }
             
             let likedByArray = fetchedPackages[indexPath.row].info.likedBy
-            let isInFavorite = likedByArray.contains { email in
-                email == userManager.currentUser.email
+            let isInFavorite = likedByArray.contains { uid in
+                uid == userManager.currentUser.uid
             }
             
             // Handle isLike logic
@@ -555,6 +609,7 @@ extension ExplorePackageViewController {
             
             let authorNameArray = fetchedPackages[indexPath.row].info.author
             let authorName = authorNameArray.joined(separator: " ")
+            let authorPhotoURL = fetchedPackages[indexPath.row].photoURL
             
             let tags = viewModel.createTagsView(
                 for: indexPath,
@@ -563,7 +618,13 @@ extension ExplorePackageViewController {
             cell.configureStackView(with: tags)
             cell.packageAuthor.text = " by \(authorName) "
             cell.packageTitleLabel.text = fetchedPackages[indexPath.row].info.title
-            cell.authorPicture.image = fetchedProfileImages[indexPath.row]
+            
+            if fetchedProfileImagesDic == [:] {
+                cell.authorPicture.image = UIImage(systemName: "person.circle")
+            } else {
+                cell.authorPicture.image = fetchedProfileImagesDic[authorPhotoURL]
+            }
+            cell.authorPicture.tintColor = .customUltraGrey
             cell.onLike = self.onLike
             
             return cell
@@ -600,7 +661,8 @@ extension ExplorePackageViewController {
         // On like button tapped
         onLike = { cell, isLike in
             
-            let token = self.userCredentialsPack.token
+            // let token = self.userCredentialsPack.token
+            let token = self.userManager.userCredentialsPack.token
             
             if token == nil || token == "" {
                 
@@ -626,7 +688,7 @@ extension ExplorePackageViewController {
             case true:
                 
                 self.viewModel.afterLiked(
-                    email: self.userManager.currentUser.email,
+                    userId: self.userManager.currentUser.uid,
                     docPath: docPath,
                     perform: .add) {
                         self.presentSimpleAlert(
@@ -638,7 +700,7 @@ extension ExplorePackageViewController {
             case false:
                 
                 self.viewModel.afterLiked(
-                    email: self.userManager.currentUser.email,
+                    userId: self.userManager.currentUser.uid,
                     docPath: docPath,
                     perform: .remove) {
                         self.presentSimpleAlert(
@@ -646,7 +708,6 @@ extension ExplorePackageViewController {
                             message: "Successfully delete from favorite",
                             buttonText: "Ok")
                     }
-                
             }
         }
     }
@@ -720,6 +781,7 @@ extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDat
             }
             
             self.tagGuide.isHidden = true
+            self.clearButton.isHidden = false
             
             viewModel.fetchedSearchedPackages(by: self.inputTags)
         }
@@ -758,7 +820,6 @@ extension ExplorePackageViewController {
         loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
             context.maximumDetentValue * 0.35
         })]
-        
         navigationController?.present(loginVC, animated: true)
     }
 }

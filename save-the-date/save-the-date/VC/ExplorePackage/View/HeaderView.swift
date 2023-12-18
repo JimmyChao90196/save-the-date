@@ -49,14 +49,18 @@ class CustomHeaderView: UIView {
     func setup() {
         // Content
         packageTitle.setChalkFont(24)
+            .setTextColor(.black)
             .text = ""
         
         // Label
         packageTitleLabel.setChalkFont(18)
+            .setTextColor(.black)
             .text = "Title :"
         packageTagLabel.setChalkFont(18)
+            .setTextColor(.black)
             .text = "Tags :"
         packageAuthorLabel.setChalkFont(18)
+            .setTextColor(.black)
             .text = "Author :"
         
         dividerA.backgroundColor = .lightGray
@@ -168,6 +172,7 @@ extension CustomHeaderView {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.setBoarderColor(.black)
                 .setBoarderWidth(1.25)
+                .tintColor = .customUltraGrey
 
             addSubview(imageView)
             authorProfileImages.append(imageView)

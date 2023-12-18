@@ -20,6 +20,10 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
         uid: "",
         token: nil)
     
+    var userManager = UserManager.shared
+    
+    let viewModel = TabbarViewModel()
+    
     enum Tab: String {
         case explorePackage = "Explore"
         case createPackage = "Create Package"
@@ -45,6 +49,19 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
         
         delegate = self
         
+        // Always check if signed in
+        viewModel.checkSignIn()
+        
+        // Data binding
+        viewModel.userCredentialPack.bind { credPack in
+            self.userCredentialsPack = credPack
+            self.userManager.userCredentialsPack = credPack
+            
+            NotificationCenter.default.post(
+                name: .userCredentialsUpdated,
+                object: credPack)
+        }
+        
         let tabBarApearance = UITabBarAppearance()
         tabBarApearance.backgroundColor = .white
         tabBar.scrollEdgeAppearance = tabBarApearance
@@ -63,12 +80,6 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
             
             viewController.title = tab.rawValue
             let nav = NavigationController(rootViewController: viewController)
-            
-            // Save for later use
-            // if tab == .catalog {
-            // nav.navigationBar.standardAppearance.shadowColor = .clear
-            // nav.navigationBar.scrollEdgeAppearance?.shadowColor = .clear}
-            // if tab == .cart { nav.activateBadge() }
             
             switch tab {
             case .explorePackage:

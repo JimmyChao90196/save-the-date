@@ -238,7 +238,7 @@ extension UIViewController {
         by options: [String],
         title: String,
         message: String,
-        buttonText: String,
+        buttonText: String = "Cancel",
         buttonAction: ((UIAlertAction) -> Void)? = nil) {
             
         let alert = UIAlertController(
@@ -321,7 +321,7 @@ extension String {
 extension TimeInterval {
     func customFormat() -> String {
         // Create a Date object from the TimeInterval (which is seconds since reference date)
-        let date = Date(timeIntervalSinceReferenceDate: self)
+        let date = Date(timeIntervalSince1970: self)
 
         // DateFormatter to format the Date object into the desired string format
         let dateFormatter = DateFormatter()

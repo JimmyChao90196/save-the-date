@@ -21,8 +21,8 @@ class MultiUserViewModel {
     
     // Create chatroom
     func createChatRoom(
-        with participants: [String] = ["myname90196@gmail.com",
-                                       "40548154@gm.nfu.edu.tw"]) {
+        with participants: [String] = ["participant1",
+                                       "participant2"]) {
         firestoreManager.createChatRoom(
             with: participants) { result in
                 switch result {
@@ -38,10 +38,10 @@ class MultiUserViewModel {
     }
     
     // Add people to the chatroom
-    func updateChatRoom( newEmail newPerson: String, docPath: String ) {
+    func updateChatRoom( newId: String, docPath: String ) {
         
         firestoreManager.updateChatRoom(
-            newPerson: newPerson,
+            newId: newId,
             docPath: docPath,
             perform: .add) { result in
                 switch result {

@@ -109,6 +109,12 @@ class CreatePackageViewController: PackageBaseViewController {
         )
         
         let items = [
+
+            HoverItem(
+                title: "Demo session",
+                image: UIImage(systemName: "door.left.hand.open"),
+                onTap: { self.enterDemoSessionPressed() }),
+            
             HoverItem(
                 title: "Enter multi-user session",
                 image: UIImage(systemName: "person.2.fill"),
@@ -147,6 +153,25 @@ class CreatePackageViewController: PackageBaseViewController {
 
 // MARK: - Additional function -
 extension CreatePackageViewController {
+    
+    // Enter demo session button pressed
+    @objc func enterDemoSessionPressed() {
+        
+        presentLeavingAlert(
+            title: "You are about to enter multi-user mode",
+            message: "Save or publish before leaving") { leaveKind in
+                
+            switch leaveKind {
+            case .publish: print("1")
+            case .saveAsDraft: print("2")
+            case .discardChanges: print("3")
+            }
+            
+            let multiVC = MultiUserViewController()
+            multiVC.enterKind = .demo("7L28rnq1dOEakDXgTIeQ")
+            self.navigationController?.pushViewController(multiVC, animated: true)
+        }
+    }
     
     // Multiuser button pressed
     @objc func enterMultiUserPressed() {
@@ -247,6 +272,20 @@ extension CreatePackageViewController {
         let packageColl = PackageCollection.publishedColl
         let packageState = PackageState.publishedState
         
+        let shouldPub = self.viewModel.shouldPublish(
+            sunnyModule: self.sunnyModules,
+            rainyModule: self.rainyModules)
+        
+        if !shouldPub {
+            // upload package
+            presentSimpleAlert(
+                title: "Error",
+                message: "Please at least add a location for this package",
+                buttonText: "Okay") {
+                    return
+                }
+        }
+        
         // upload package
         presentAlertWithTextField(
             title: "Almost done",
@@ -255,7 +294,7 @@ extension CreatePackageViewController {
                 guard let text else { return }
                 let info = Info(title: text,
                                 author: [self.userName],
-                                authorEmail: [self.userID],
+                                authorId: [self.userID],
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 
@@ -269,7 +308,7 @@ extension CreatePackageViewController {
                     switch result {
                     case .success(let documentID):
                         self?.firestoreManager.updateUserPackages(
-                            email: self?.userID ?? "",
+                            userId: self?.userID ?? "",
                             packageType: packageColl,
                             docPath: documentID,
                             perform: .add

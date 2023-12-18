@@ -76,7 +76,14 @@ struct PackageModule: Codable, Equatable {
 // MARK: - Lock Info -
 struct LockInfo: Codable {
     var userId: String
+    var userName: String
     var timestamp: TimeInterval
+    
+    init(userId: String, userName: String = "", timestamp: TimeInterval) {
+        self.userId = userId
+        self.userName = userName
+        self.timestamp = timestamp
+    }
 }
 
 // MARK: - WeatherModules
@@ -113,7 +120,7 @@ struct Transportation: Codable {
 struct Info: Codable {
     var title: String
     var author: [String]
-    var authorEmail: [String]
+    var authorId: [String]
     var id: String
     var rate: Double
     var state: String
@@ -124,7 +131,7 @@ struct Info: Codable {
     
     init(title: String = "packageTitle",
          author: [String] = ["red"],
-         authorEmail: [String] = ["red@gmail.com"],
+         authorId: [String] = ["red@gmail.com"],
          id: String = "none",
          rate: Double = 5.0,
          state: String = "published",
@@ -135,7 +142,7 @@ struct Info: Codable {
     ) {
         self.title = title
         self.author = author
-        self.authorEmail = authorEmail
+        self.authorId = authorId
         self.id = id
         self.rate = rate
         self.state = state
@@ -171,7 +178,7 @@ enum PackageFieldPath: String {
     case likedBy
     case draft
     case author
-    case authorEmail
+    case authorId
 }
 
 enum PackageOperation: String {

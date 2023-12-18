@@ -119,11 +119,13 @@ class LoginViewController: UIViewController {
         
         // Binding for credential
         viewModel.userCredentialPack.bind { UCPack in
-            self.userCredentialPack = UCPack
-            
-            NotificationCenter.default.post(
-                name: .userCredentialsUpdated,
-                object: UCPack)
+            if UCPack.uid != "" {
+                self.userCredentialPack = UCPack
+                
+                NotificationCenter.default.post(
+                    name: .userCredentialsUpdated,
+                    object: UCPack)
+            }
         }
         
         // Fetch user from google
@@ -172,8 +174,15 @@ class LoginViewController: UIViewController {
                             }
                         }
                         self.userManager.currentUser = userInfo
+                        
+                        LKProgressHUD.dismiss()
+                        LKProgressHUD.showSuccess(text: "Login success")
+                        
                     default: print("harray!!!")
                         self.userManager.currentUser = userInfo
+                        
+                        LKProgressHUD.dismiss()
+                        LKProgressHUD.showSuccess(text: "Login success")
                     }
                 }
             }
@@ -223,7 +232,7 @@ class LoginViewController: UIViewController {
             dividerUpperLeft,
             dividerUpperRight,
             dividerLowerLeft,
-            dividerLowerRight,
+            dividerLowerRight
         ])
         
     }
@@ -302,10 +311,13 @@ class LoginViewController: UIViewController {
     // MARK: - Google login function -
     @objc func googleSignInButtonTapped() {
         
+        LKProgressHUD.show()
+        
         // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] result, error in
+        GIDSignIn.sharedInstance.signIn(
+            withPresenting: self) { [unowned self] result, error in
+                
             guard error == nil else { return }
-            
             guard let user = result?.user,
                   let idToken = user.idToken?.tokenString
             else { return }
@@ -319,6 +331,9 @@ class LoginViewController: UIViewController {
     
     // Sign in with apple
     @objc func appleSignInButtonTapped() {
+        
+        LKProgressHUD.show()
+        
         viewModel.configureAppleSignIn(delegationTarget: self)
     }
 }

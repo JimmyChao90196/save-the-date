@@ -17,6 +17,7 @@ class ExploreViewModel {
     var firestoreManager = FirestoreManager.shared
     var fetchedPackages = Box<[Package]>([])
     var fetchedProfileImages = Box<[UIImage]>([])
+    var fetchedProfileImagesDic = Box<[String: UIImage]>([:])
     var hotsPaths = Box<[String]>([])
     
     // fetch searched packages
@@ -60,10 +61,10 @@ class ExploreViewModel {
     func fetchUserProfileImages(from packages: [Package]) {
         let urls = packages.map { $0.photoURL }
         
-        self.userManager.downloadImages(from: urls, completion: { result in
+        self.userManager.downloadImagesToDic(from: urls, completion: { result in
             switch result {
-            case .success(let images):
-                self.fetchedProfileImages.value = images
+            case .success(let imagesDic):
+                self.fetchedProfileImagesDic.value = imagesDic
                 
             case .failure(let error):
                 print(error)
@@ -88,7 +89,7 @@ class ExploreViewModel {
     
     // update user package
     func afterLiked(
-        email: String,
+        userId uid: String,
         docPath: String,
         perform: PackageOperation,
         completion: (() -> Void)?
@@ -96,16 +97,16 @@ class ExploreViewModel {
         
         // Update user package stack
         self.firestoreManager.updateUserPackages(
-            email: email,
+            userId: uid,
             packageType: .favoriteColl,
             docPath: docPath,
             perform: perform
         ) {
             completion?()
         }
-        // Update package email stack
+        // Update package uid stack
         self.firestoreManager.updatePackage(
-            infoToUpdate: email,
+            infoToUpdate: uid,
             docPath: docPath,
             toPath: .likedBy,
             perform: perform

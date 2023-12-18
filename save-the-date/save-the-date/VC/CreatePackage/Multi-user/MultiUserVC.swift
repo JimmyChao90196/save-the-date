@@ -20,6 +20,7 @@ import Hover
 enum EnterKind {
     case create
     case enter
+    case demo(String)
     case deepLink(String)
 }
 
@@ -71,6 +72,11 @@ class MultiUserViewController: CreatePackageViewController {
         
         // Create or enter session
         switch enterKind {
+            
+        case .demo(let id):
+            print("about to enter demo session: \(id)")
+            enterSesstionTapped()
+            
         case .create:
             createSessionTapped()
             
@@ -129,8 +135,8 @@ class MultiUserViewController: CreatePackageViewController {
     
     // MARK: - Additional function -
     // Firestore function implementation
-    func updateNameAndEmail(sessionId: String, name: String, email: String) {
-        // Add user name and email to package
+    func updateNameAndUid(sessionId: String, name: String, uid: String) {
+        // Add user name and userId to package
         self.firestoreManager.updatePackage(
             infoToUpdate: self.userName,
             docPath: sessionId,
@@ -140,7 +146,7 @@ class MultiUserViewController: CreatePackageViewController {
         self.firestoreManager.updatePackage(
             infoToUpdate: self.userID,
             docPath: sessionId,
-            toPath: .authorEmail,
+            toPath: .authorId,
             perform: .add) {}
     }
     
@@ -225,7 +231,7 @@ class MultiUserViewController: CreatePackageViewController {
                 // Prepare to upload newPackage
                 let info = Info(title: sessionName ?? "unName",
                                 author: [self.userName],
-                                authorEmail: [self.userID],
+                                authorId: [self.userID],
                                 rate: 0.0,
                                 state: packageState.rawValue)
                 
@@ -242,7 +248,7 @@ class MultiUserViewController: CreatePackageViewController {
                     switch result {
                     case .success(let docPath):
                         self?.firestoreManager.updateUserPackages(
-                            email: self?.userID ?? "",
+                            userId: self?.userID ?? "",
                             packageType: packageColl,
                             docPath: docPath,
                             perform: .add
@@ -250,6 +256,7 @@ class MultiUserViewController: CreatePackageViewController {
                             
                             // Setup listener
                             self?.LSG = self?.firestoreManager.modulesListener(docPath: docPath) { newPackage in
+                                self?.currentPackage = newPackage
                                 self?.sunnyModules = newPackage.weatherModules.sunny
                                 self?.rainyModules = newPackage.weatherModules.rainy
                                 
@@ -270,8 +277,8 @@ class MultiUserViewController: CreatePackageViewController {
                             }
                             
                             // Create chatroom
-                            guard let currentEmail = self?.userManager.currentUser.email else { return }
-                            self?.viewModle.createChatRoom(with: [currentEmail])
+                            guard let currentId = self?.userManager.currentUser.uid else { return }
+                            self?.viewModle.createChatRoom(with: [currentId])
                             
                         }
                         
@@ -286,74 +293,28 @@ class MultiUserViewController: CreatePackageViewController {
     }
     
     @objc func enterSesstionTapped() {
-        presentAlertWithTextField(
-            title: "Warning",
-            message: "Please enter the session ID",
-            buttonText: "Okay") { text in
-                guard let text else {
-                    
-                    self.navigationController?.popViewController(animated: true)
-                    return
+        
+        var id = "sessionPackages/"
+        
+        switch self.enterKind {
+            
+        case .demo(let demoId):
+            id = "sessionPackages/\(demoId)"
+            enterSessionHelper(id: id)
+            
+        default:
+            
+            presentAlertWithTextField(
+                title: "Warning",
+                message: "Please enter the session ID",
+                buttonText: "Okay") { text in
+                    guard let text else {
+                        self.navigationController?.popViewController(animated: true)
+                        return }
+                    id = "sessionPackages/\(text)"
+                    self.enterSessionHelper(id: id)
                 }
-                
-                Task {
-                    
-                    var copyText = text
-                    
-                    switch self.enterKind {
-                        
-                    case .deepLink(let path):
-                        copyText = path
-                        
-                    default:
-                        copyText = text
-                    }
-                    
-                    let sessionPackage = try? await self.firestoreManager.fetchPackage(withID: copyText)
-                    
-                    self.currentPackage = sessionPackage ?? Package()
-                    self.sunnyModules = self.currentPackage.weatherModules.sunny
-                    self.rainyModules = self.currentPackage.weatherModules.rainy
-                    
-                    // Add name and email
-                    self.updateNameAndEmail(
-                        sessionId: text,
-                        name: self.userName,
-                        email: self.userID)
-                    
-                    // Update user packages
-                    self.firestoreManager.updateUserPackages(
-                        email: self.userID,
-                        packageType: .sessionColl,
-                        docPath: text,
-                        perform: .add) { }
-                    
-                    // Setup listener
-                    self.LSG = self.firestoreManager.modulesListener(docPath: text) { newPackage in
-                        
-                        self.currentPackage = newPackage
-                        self.sunnyModules = newPackage.weatherModules.sunny
-                        self.rainyModules = newPackage.weatherModules.rainy
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
-                    
-                    self.documentPath = text
-                    self.isMultiUser = true
-                    self.setupAfterEvent(docPath: text)
-                    
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                    
-                    // Update chatroom at the end
-                    let currentEmail = self.userManager.currentUser.email
-                    let chatDocPath = self.self.currentPackage.chatDocPath
-                    self.viewModle.updateChatRoom(newEmail: currentEmail, docPath: chatDocPath)
-                }
-            }
+        }
     }
     
     @objc func enterSesstionWithLinkTapped(docPath: String) {
@@ -366,15 +327,15 @@ class MultiUserViewController: CreatePackageViewController {
             self.sunnyModules = self.currentPackage.weatherModules.sunny
             self.rainyModules = self.currentPackage.weatherModules.rainy
             
-            // Add name and email
-            self.updateNameAndEmail(
+            // Add name and id
+            self.updateNameAndUid(
                 sessionId: docPath,
                 name: self.userName,
-                email: self.userID)
+                uid: self.userID)
             
             // Update user packages
             self.firestoreManager.updateUserPackages(
-                email: self.userID,
+                userId: self.userID,
                 packageType: .sessionColl,
                 docPath: docPath,
                 perform: .add) { }
@@ -400,9 +361,67 @@ class MultiUserViewController: CreatePackageViewController {
             }
             
             // Update chatroom at the end
-            let currentEmail = self.userManager.currentUser.email
+            let currentUid = self.userManager.currentUser.uid
             let chatDocPath = self.self.currentPackage.chatDocPath
-            self.viewModle.updateChatRoom(newEmail: currentEmail, docPath: chatDocPath)
+            self.viewModle.updateChatRoom(newId: currentUid, docPath: chatDocPath)
+        }
+    }
+    
+    // Helper function when entering the session
+    func enterSessionHelper(id: String) {
+        Task {
+            
+            let sessionPackage = try? await
+            self.firestoreManager.fetchPackage(withID: id)
+            
+            if sessionPackage == nil {
+                
+                LKProgressHUD.showFailure(text: "Wrong session ID")
+                self.navigationController?.popViewController(animated: true)
+                return
+            }
+            
+            self.currentPackage = sessionPackage ?? Package()
+            self.sunnyModules = self.currentPackage.weatherModules.sunny
+            self.rainyModules = self.currentPackage.weatherModules.rainy
+            
+            // Add name and uid
+            self.updateNameAndUid(
+                sessionId: id,
+                name: self.userName,
+                uid: self.userID)
+            
+            // Update user packages
+            self.firestoreManager.updateUserPackages(
+                userId: self.userID,
+                packageType: .sessionColl,
+                docPath: id,
+                perform: .add) { }
+            
+            // Setup listener
+            self.LSG = self.firestoreManager.modulesListener(docPath: id) { newPackage in
+                
+                self.currentPackage = newPackage
+                self.sunnyModules = newPackage.weatherModules.sunny
+                self.rainyModules = newPackage.weatherModules.rainy
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            
+            self.documentPath = id
+            self.isMultiUser = true
+            self.setupAfterEvent(docPath: id)
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+            // Update chatroom at the end
+            let currentUid = self.userManager.currentUser.uid
+            let chatDocPath = self.self.currentPackage.chatDocPath
+            self.viewModle.updateChatRoom(newId: currentUid, docPath: chatDocPath)
         }
     }
     
@@ -410,6 +429,20 @@ class MultiUserViewController: CreatePackageViewController {
     func publishPressedMU() {
         
         let packageColl = PackageCollection.publishedColl
+        
+        let shouldPub = self.viewModel.shouldPublish(
+            sunnyModule: self.sunnyModules,
+            rainyModule: self.rainyModules)
+        
+        if !shouldPub {
+            // upload package
+            presentSimpleAlert(
+                title: "Error",
+                message: "Please at least add a location for this package",
+                buttonText: "Okay") {
+                    return
+                }
+        }
         
         // upload package
         presentAlertWithTextField(
@@ -419,9 +452,10 @@ class MultiUserViewController: CreatePackageViewController {
                 guard let text else { return }
                 
                 self.currentPackage.info.title = text
-                print("\(self.currentPackage.info.authorEmail)")
+                print("\(self.currentPackage.info.authorId)")
                 
                 self.currentPackage.photoURL = self.userManager.currentUser.photoURL
+                self.currentPackage.regionTags = self.regionTags
                 self.currentPackage.weatherModules.sunny = self.sunnyModules
                 self.currentPackage.weatherModules.rainy = self.rainyModules
                 
@@ -430,10 +464,10 @@ class MultiUserViewController: CreatePackageViewController {
                     case .success(let docPath):
                         
                         let dispatchGroup = DispatchGroup()
-                        for email in self?.currentPackage.info.authorEmail ?? [] {
+                        for uid in self?.currentPackage.info.authorId ?? [] {
                             dispatchGroup.enter()
                             self?.firestoreManager.updateUserPackages(
-                                email: email,
+                                userId: uid,
                                 packageType: packageColl,
                                 docPath: docPath,
                                 perform: .add

@@ -289,14 +289,13 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
                 self.currentPhoto = photoData
                 
                 let placeImage = try await self.googlePlacesManager.resolvePhoto(
-                    from: photoData )
+                    from: photoData,
+                    maxSize: CGSize(width: 512, height: 512))
                 
                 DispatchQueue.main.async {
                     self.placeImageView.image = placeImage
                 }
-                
-                // viewModel.fetchPlaceInfo(identifier: id)
-                // viewModel.parseAddress(from: place.addressComponents!)
+
                 self.onLocationComfirmWithAddress?(place.addressComponents)
                 
                 let location = Location(

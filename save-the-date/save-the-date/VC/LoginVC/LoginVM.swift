@@ -120,61 +120,61 @@ class LoginViewModel {
     func checkIfUserExist(
         signInMethod method: SignInMethod,
         by user: User) {
-        
-        if user.email == "jimmy@gmail.com" || user.email == "none" || user.email == "" {
-            return
-        }
-        
-        firestoreManager.checkUser(by: user) { result in
+
+            if user.uid == "none" || user.uid == "" {
+                return
+            }
             
-            switch result {
-            case .success(let users): print("fetched users: \(users)")
+            firestoreManager.checkUser(by: user) { result in
                 
-                switch method {
-                case .google:
-                    self.userManager.currentUser = users.first ?? User()
-                    self.userManager.currentUser.photoURL = user.photoURL
-                    self.userInfo.value = users.first ?? User()
+                switch result {
+                case .success(let users): print("fetched users: \(users)")
                     
-                case .apple(let CREDS):
+                    switch method {
+                    case .google:
+                        
+                        self.userManager.currentUser = users.first ?? User()
+                        self.userInfo.value = users.first ?? User()
+                        
+                    case .apple(let CREDS):
+                        
+                        print("\(CREDS)")
+                        
+                        self.userManager.currentUser = users.first ?? User()
+                        self.userInfo.value = users.first ?? User()
+                    }
                     
-                    print("\(CREDS)")
+                case .failure(let error): print("\(error), create new user instead")
                     
-                    self.userManager.currentUser = users.first ?? User()
-                    self.userInfo.value = users.first ?? User()
+                    var newUser = User()
+                    
+                    switch method {
+                        
+                    case .google:
+                        
+                        newUser = User(
+                            name: user.name,
+                            email: user.email,
+                            photoURL: user.photoURL,
+                            uid: user.uid)
+                        
+                    case .apple(let CREDS):
+                        
+                        print("\(CREDS)")
+                        
+                        newUser = User(
+                            name: user.name,
+                            email: user.email,
+                            photoURL: user.photoURL,
+                            uid: user.uid)
+                    }
+                    
+                    self.userInfo.value = newUser
+                    self.userManager.currentUser = newUser
+                    self.firestoreManager.addUserWithJson(newUser) { }
                 }
-                
-            case .failure(let error): print("\(error), create new user instead")
-                
-                var newUser = User()
-                
-                switch method {
-                    
-                case .google:
-                    
-                    newUser = User(
-                        name: user.name,
-                        email: user.email,
-                        photoURL: user.photoURL,
-                        uid: user.uid)
-                    
-                case .apple(let CREDS):
-                    
-                    print("\(CREDS)")
-                    
-                    newUser = User(
-                        name: user.name,
-                        email: user.email,
-                        photoURL: user.photoURL,
-                        uid: user.uid)
-                }
-                
-                self.userInfo.value = newUser
-                self.userManager.currentUser = newUser
-                self.firestoreManager.addUserWithJson(newUser) { }
             }
         }
-    }
 }
 
 // MARK: - Additional function -

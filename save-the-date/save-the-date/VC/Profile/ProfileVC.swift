@@ -12,22 +12,30 @@ import SnapKit
 import FirebaseStorage
 import FirebaseCore
 import FirebaseFirestoreSwift
+import ImageIO
+
+enum WaitingList {
+    case profile
+    case cover
+    case fav
+    case pub
+    case draft
+}
 
 class ProfileViewController: ExplorePackageViewController {
     
     var selectionView = SelectionView()
     
     // About to be replaced
-    var count = 0
     var currentUser = User()
-    
     var draftIDs = [String]()
     var pubIDs = [String]()
     var priIDs = [String]()
     
     // UI elements
-    var profileBGImage = UIImageView(image: UIImage(resource: .profileBG))
-    var profilePicture = UIImageView(image: UIImage(systemName: "person.crop.circle.fill"))
+    var profileCoverImage = UIImage(resource: .placeholder01)
+    var profileCoverImageView = UIImageView(image: UIImage(resource: .placeholder01))
+    var profilePicture = UIImageView(image: UIImage(systemName: "person.circle"))
     
     var descriptionView = UIView()
     var descriptionContent = UILabel()
@@ -68,41 +76,50 @@ class ProfileViewController: ExplorePackageViewController {
         }
     }
     
+    // Type
+    var imageType = ImageType.profileImage
+    
     // On event
     var onLoggedIn: ((User) -> Void)?
     
     // VM
+    var waitingList: [WaitingList: Bool] = [
+        .cover: false,
+        .profile: false,
+        .fav: false,
+        .pub: false,
+        .draft: false
+    ]
+    
+    var countCurrentUserDataBinding = 0
     let profileVM = ProfileViewModel()
     
     // button
     lazy var editBGImageButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        
-        // Your logic to customize the button
-        button.backgroundColor = .clear
-        button.setImage(UIImage(systemName: "pencil.circle"), for: .normal)
-        button.tintColor = .lightGray
-        
-        button.addTarget(self, action: #selector(editBGTapped), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var testButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
             image: UIImage(systemName: "square.and.pencil"),
             style: .plain,
             target: self,
-            action: #selector(testButtonPressed))
+            action: #selector(editBGTapped))
+        
+        return button
+    }()
+    
+    lazy var loginButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis"),
+            style: .plain,
+            target: self,
+            action: #selector(loginButtonPressed))
         
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = testButton
+        navigationItem.rightBarButtonItem = loginButton
         navigationItem.searchController = nil
-        navigationItem.leftBarButtonItem = nil
+        navigationItem.leftBarButtonItem = editBGImageButton
         
         dataBinding()
         setupOnEvent()
@@ -111,14 +128,13 @@ class ProfileViewController: ExplorePackageViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        profileVM.fetchCurrentUser(userManager.currentUser.email)
-        // fetchOperation()
+        profileVM.fetchCurrentUser(userManager.currentUser.uid)
     }
     
     override func setup() {
         super.setup()
         view.addSubviews([
-            profileBGImage,
+            profileCoverImageView,
             profilePicture,
             leftDivider,
             rightDivider,
@@ -126,8 +142,7 @@ class ProfileViewController: ExplorePackageViewController {
             descriptionView,
             descriptionContent,
             selectionView,
-            selectionDivider,
-            editBGImageButton
+            selectionDivider
         ])
         
         self.selectionView.dataSource = self
@@ -146,8 +161,9 @@ class ProfileViewController: ExplorePackageViewController {
         profilePicture.backgroundColor = .white
         profilePicture.clipsToBounds = true
         
-        profileBGImage.contentMode = .scaleAspectFill
-        profileBGImage.clipsToBounds = true
+        profileCoverImageView.contentMode = .scaleAspectFill
+        profileCoverImageView.tintColor = .customUltraGrey
+        profileCoverImageView.clipsToBounds = true
         
         // Dividers
         leftDivider.backgroundColor = .darkGray
@@ -156,7 +172,13 @@ class ProfileViewController: ExplorePackageViewController {
         
         userNameLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 24)!)
             .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
-            .text = "Jimmy"
+            .text = "Unknow"
+        
+        animateBGView.stop()
+        
+        // Fetch profileCover
+        profileVM.fetchProfileCoverImage(with: self.userManager.currentUser.coverURL)
+        LKProgressHUD.show()
         
         // Hide folded view
         foldedView.isHidden = true
@@ -173,21 +195,14 @@ class ProfileViewController: ExplorePackageViewController {
         descriptionContent.textAlignment = .center
         descriptionContent.setFont(UIFont(name: "ChalkboardSE-Regular", size: 14)!)
             .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
-            .text = "Be kind, for everyone you meet is fighting a hard battle."
+            .text = "Be kind, for everyone is fighting a hard battle."
     }
     
     override func setupConstraint() {
-        // Edit BG button
-        editBGImageButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            make.trailing.equalToSuperview().offset(-10)
-            make.width.equalTo(50)
-            make.height.equalTo(50)
-        }
         
         // Description
         descriptionView.snp.makeConstraints { make in
-            make.top.equalTo(profileBGImage.snp.bottom).offset(10)
+            make.top.equalTo(profileCoverImageView.snp.bottom).offset(10)
             make.bottom.equalTo(selectionView.snp.top).offset(-10)
             make.leading.equalTo(userNameLabel.snp.trailing).offset(40)
             make.trailing.equalToSuperview().offset(-20)
@@ -204,7 +219,7 @@ class ProfileViewController: ExplorePackageViewController {
             make.leading.equalToSuperview().offset(20)
         }
         
-        profileBGImage.snp.makeConstraints { make in
+        profileCoverImageView.snp.makeConstraints { make in
             make.top.equalTo(view.snp_topMargin)
             make.height.equalTo(190)
             make.left.equalToSuperview()
@@ -212,7 +227,7 @@ class ProfileViewController: ExplorePackageViewController {
         }
         
         profilePicture.snp.makeConstraints { make in
-            make.centerY.equalTo(profileBGImage.snp.bottom)
+            make.centerY.equalTo(profileCoverImageView.snp.bottom)
             make.leading.equalToSuperview().offset(25)
             make.height.equalTo(70)
             make.width.equalTo(70)
@@ -221,14 +236,14 @@ class ProfileViewController: ExplorePackageViewController {
         leftDivider.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalTo(profilePicture.snp.leading).offset(-10)
-            make.top.equalTo(profileBGImage.snp.bottom).offset(-15)
+            make.top.equalTo(profileCoverImageView.snp.bottom).offset(-15)
             make.height.equalTo(2.5)
         }
         
         rightDivider.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-10)
             make.leading.equalTo(profilePicture.snp.trailing).offset(10)
-            make.top.equalTo(profileBGImage.snp.bottom).offset(-15)
+            make.top.equalTo(profileCoverImageView.snp.bottom).offset(-15)
             make.height.equalTo(2.5)
         }
         
@@ -255,13 +270,45 @@ class ProfileViewController: ExplorePackageViewController {
     }
     
  // MARK: - Additional function -
-    @objc func editBGTapped() {
+    
+    func presentPicker() {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary // Or use .camera for taking a new photo
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
         
         // Present the image picker
         self.present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @objc func editBGTapped() {
+        
+        presentSimpleAlert(
+            by: ["Profile photo", "Cover photo", "User name"],
+            title: "Change photo",
+            message: "Which info you wanna change") { alertAction in
+                switch alertAction.title {
+                    
+                case "Profile photo": self.imageType = .profileImage
+                    self.presentPicker()
+                    
+                case "Cover photo": self.imageType = .profileCover
+                    self.presentPicker()
+                    
+                default:
+                    self.presentAlertWithTextField(
+                        title: "New name",
+                        message: "Please enter your new name",
+                        buttonText: "Okay") { text in
+                            guard let newName = text else { return }
+                            
+                            self.userNameLabel.text = newName
+                            self.currentUser.name = newName
+                            self.userManager.currentUser.name = newName
+                            self.profileVM.updateUserName(newName)
+                        }
+                }
+            }
     }
     
     func setupOnEvent() {
@@ -272,34 +319,60 @@ class ProfileViewController: ExplorePackageViewController {
     
     func dataBinding() {
         
+        // Fetch coverImage
+        profileVM.profileCoverImage.bind { image in
+            
+            if image != UIImage() {
+                DispatchQueue.main.async {
+                    self.profileCoverImageView.image = image
+                    self.waitingList[.cover] = true
+                    
+                    self.profileVM.shouldDismiss(list: self.waitingList)
+                }
+            }
+        }
+        
         // Fetch profileImage
         profileVM.profileImage.bind { profileImage in
-            self.userManager.userProfileImage = profileImage
             
-            DispatchQueue.main.async {
-                self.profilePicture.image = self.userManager.userProfileImage
+            if profileImage != UIImage() {
+                self.userManager.userProfileImage = profileImage
+                
+                DispatchQueue.main.async {
+                    self.profilePicture.image = self.userManager.userProfileImage ??
+                    UIImage(systemName: "person.circle")
+                    
+                    self.waitingList[.profile] = true
+                    
+                    self.profileVM.shouldDismiss(list: self.waitingList)
+                }
             }
         }
         
         // Fetch packages
         profileVM.currentUser.bind { fetchedUser in
             
-            self.currentUser = fetchedUser
-            
-            // This is stupid
-            if self.count != 0 {
+            if fetchedUser.uid != "" {
+                
+                self.currentUser = fetchedUser
+                
+                // This is stupid
                 self.userManager.currentUser = fetchedUser
-            }
-            self.count += 1
-            
-            // fetch profile image
-            self.profileVM.fetchUserProfileImage()
-            
-            DispatchQueue.main.async {
-                self.userNameLabel.text = fetchedUser.name
-                self.fetchOperation()
-                self.tableView.reloadData()
-                self.profilePicture.image = self.userManager.userProfileImage
+                
+                // fetch profile image
+                self.profileVM.fetchUserProfileImage()
+                self.profileVM.fetchProfileCoverImage(
+                    with: self.userManager.currentUser.coverURL)
+                LKProgressHUD.show()
+                
+                DispatchQueue.main.async {
+                    self.userNameLabel.text = fetchedUser.name
+                    self.fetchOperation()
+                    self.tableView.reloadData()
+                    self.profilePicture.image = self.userManager.userProfileImage ??
+                    UIImage(systemName: "person.circle")
+                    
+                }
             }
         }
         
@@ -309,6 +382,8 @@ class ProfileViewController: ExplorePackageViewController {
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.waitingList[.fav] = true
+                self.profileVM.shouldDismiss(list: self.waitingList)
             }
         }
         
@@ -317,6 +392,8 @@ class ProfileViewController: ExplorePackageViewController {
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.waitingList[.pub] = true
+                self.profileVM.shouldDismiss(list: self.waitingList)
             }
         }
         
@@ -325,6 +402,8 @@ class ProfileViewController: ExplorePackageViewController {
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.waitingList[.draft] = true
+                self.profileVM.shouldDismiss(list: self.waitingList)
             }
         }
         
@@ -345,15 +424,20 @@ class ProfileViewController: ExplorePackageViewController {
         }
     }
     
-    @objc func testButtonPressed() {
+    @objc func loginButtonPressed() {
         let loginVC = LoginViewController()
         
         loginVC.onLoggedIn = self.onLoggedIn
         
-        if let sheetPresentationController = loginVC.presentationController as? UISheetPresentationController {
-            sheetPresentationController.detents = [.medium()]
-            present(loginVC, animated: true)
-        }
+        loginVC.modalPresentationStyle = .automatic
+        loginVC.modalTransitionStyle = .coverVertical
+        loginVC.enteringKind = .create
+        loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
+            context.maximumDetentValue * 0.35
+        })]
+        
+        present(loginVC, animated: true)
+        
     }
 }
 
@@ -387,12 +471,20 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
             
             switch selectionIndex {
             case 0: stateOfPackages = .favoriteState
+                waitingList[.fav] = false
+                
             case 1: stateOfPackages = .publishedState
+                waitingList[.pub] = false
+                
             case 2: stateOfPackages = .draftState
+                waitingList[.draft] = false
+                
             default: stateOfPackages = .favoriteState
+                waitingList[.fav] = false
             }
             
             self.fetchOperation()
+            LKProgressHUD.show()
         }
 }
 
@@ -437,12 +529,16 @@ extension ProfileViewController {
             
             cell.configureStackView(with: tags)
             cell.packageAuthor.text = " by \(authorName) "
-            
             cell.packageTitleLabel.text = currentPackages[indexPath.row].info.title
-            
             cell.heartImageView.isHidden = true
             cell.onLike = nil
-            cell.authorPicture.image = currentProfileImages[indexPath.row]
+            
+            
+            if currentProfileImages.isEmpty == false {
+                cell.authorPicture.image = currentProfileImages[indexPath.row]
+            }
+            
+            cell.authorPicture.tintColor = .customUltraGrey
             
             return cell
         }
@@ -460,9 +556,40 @@ extension ProfileViewController:
         picker.dismiss(animated: true, completion: nil)
 
         if let selectedImage = info[.originalImage] as? UIImage {
-            DispatchQueue.main.async {
-                self.profileBGImage.image = selectedImage
+            
+            var targetSize = profileVM.calculateAspectRatioSize(
+                for: selectedImage,
+                maxWidth: 100,
+                maxHeight: 100)
+            
+            switch self.imageType {
+                
+            case .profileImage: print("do nothing")
+            case .profileCover:
+                targetSize = profileVM.calculateAspectRatioSize(
+                    for: selectedImage,
+                    maxWidth: 256,
+                    maxHeight: 256)
             }
+            
+            profileVM.downsample(
+                image: selectedImage,
+                to: targetSize) { image in
+                    guard let image else { return }
+                    
+                    self.profileVM.uploadImages(
+                        type: self.imageType,
+                        targetImage: image)
+                    
+                    DispatchQueue.main.async {
+                        
+                        switch self.imageType {
+                            
+                        case .profileImage: self.profilePicture.image = image
+                        case .profileCover: self.profileCoverImageView.image = image
+                        }
+                    }
+                }
         }
     }
 

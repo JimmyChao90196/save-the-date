@@ -90,6 +90,7 @@ extension FirestoreManager {
                 newPackage.weatherModules.sunny[newIndex ?? 0] =
                 localSunnyModules[localIndex ?? 0]
                 newPackage.weatherModules.sunny[newIndex ?? 0].lockInfo.userId = ""
+                newPackage.weatherModules.sunny[newIndex ?? 0].lockInfo.userName = ""
                 
                 path = "weatherModules.sunny"
                 value = newPackage.weatherModules.sunny.map({ try? $0.toDictionary() })
@@ -108,6 +109,7 @@ extension FirestoreManager {
                 newPackage.weatherModules.rainy[newIndex ?? 0] =
                 localRainyModules[localIndex ?? 0]
                 newPackage.weatherModules.rainy[newIndex ?? 0].lockInfo.userId = ""
+                newPackage.weatherModules.rainy[newIndex ?? 0].lockInfo.userName = ""
                 
                 path = "weatherModules.rainy"
                 value = newPackage.weatherModules.rainy.map({ try? $0.toDictionary() })
@@ -364,6 +366,7 @@ extension FirestoreManager {
     func lockModuleWithTrans(
         docPath: String,
         userId: String,
+        userName: String,
         time: TimeInterval,
         when weatherState: WeatherState,
         completion: ((Package, Int, Bool) -> Void)?
@@ -412,6 +415,7 @@ extension FirestoreManager {
                     return
                 } else {
                     newPackage.weatherModules.sunny[newIndex].lockInfo.userId = userId
+                    newPackage.weatherModules.sunny[newIndex].lockInfo.userName = userName
                     // newPackage.info.version += 1
                 }
                 
@@ -431,6 +435,7 @@ extension FirestoreManager {
                     return
                 } else {
                     newPackage.weatherModules.rainy[newIndex].lockInfo.userId = userId
+                    newPackage.weatherModules.rainy[newIndex].lockInfo.userName = userName
                     // newPackage.info.version += 1
                 }
                 

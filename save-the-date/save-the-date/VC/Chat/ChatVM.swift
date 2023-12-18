@@ -24,6 +24,23 @@ class ChatViewModel {
         participants: [],
         roomID: ""))
     
+    // Send demo message
+    func sendDemoMessage(
+        _ gesture: UISwipeGestureRecognizer?,
+        roomID: String
+    ) {
+        
+        guard let gesture else { return }
+        
+        // If it is swiped
+        if gesture.direction == .up {
+            sendMessage(currentUser: userManager.currentUser, inputText: "Very good idea", docPath: roomID)
+            
+        } else if gesture.direction == .down {
+            sendMessage(currentUser: userManager.currentUser, inputText: "Count me in please", docPath: roomID)
+        }
+    }
+    
     // Animate menu
     func animateMenu( _ gesture: UISwipeGestureRecognizer? ) {
         
@@ -75,7 +92,7 @@ class ChatViewModel {
             // Format the message
             let messageToSend = ChatMessage(
                 sendTime: Date().timeIntervalSince1970,
-                userEmail: currentUser.email,
+                userId: currentUser.uid,
                 userName: currentUser.name,
                 content: inputText,
                 photoURL: currentUser.photoURL
@@ -115,11 +132,11 @@ class ChatViewModel {
         }
     
     // Fetch user
-    func fetchCurrentUser( _ userEmail: String) {
+    func fetchCurrentUser( _ userId: String) {
 
         Task {
             do {
-                let user = try await firestoreManager.fetchUser( userEmail )
+                let user = try await firestoreManager.fetchUser( userId )
                 self.currentUser.value = user
                 
             } catch {
@@ -130,14 +147,14 @@ class ChatViewModel {
     }
     
     // Fetch images
-    func fetchImage(otherUserEmail email: String, photoURL urlString: String) {
+    func fetchImage(otherUserId ouid: String, photoURL urlString: String) {
         
-        if profileImages.value[email] != nil { return }
+        if profileImages.value[ouid] != nil { return }
         
         userManager.downloadImage(urlString: urlString) { result in
             switch result {
             case .success(let fetchedImage):
-                self.profileImages.value[email] = fetchedImage
+                self.profileImages.value[ouid] = fetchedImage
                 
             case .failure(let error):
                 print("faild to fetch the photos \(error)")

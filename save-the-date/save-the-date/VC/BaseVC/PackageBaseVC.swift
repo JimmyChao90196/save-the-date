@@ -38,7 +38,7 @@ class PackageBaseViewController: UIViewController {
     var userManager = UserManager.shared
     
     var userID: String {
-        return userManager.currentUser.email
+        return userManager.currentUser.uid
     }
     
     var userName: String {
@@ -285,10 +285,12 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         
         // Handle location and transportation tapped
         let cellUserId = module[rawIndex].lockInfo.userId
+        let cellUserName = module[rawIndex].lockInfo.userName
         
         if cellUserId != "" {
-            cell.userIdLabel.text = cellUserId.components(separatedBy: "@")[0]
-            
+            // cell.userIdLabel.text = cellUserId
+            cell.userIdLabel.text = cellUserName
+             
         } else {
             cell.userIdLabel.text = ""
         }
@@ -354,6 +356,12 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         case .rainy:
             cell.bgImageView.image = UIImage(resource: .site05)
             cell.bgImageView.contentMode = .scaleAspectFit
+        }
+        // Set arrivedtime
+        if cell.siteTitle.text != "None" {
+            cell.arrivedTimeLabel.text = viewModel.ratingForIndexPath(indexPath: indexPath)
+        } else {
+            cell.arrivedTimeLabel.text = String(repeating: "☆", count: 5)
         }
         
         return cell
@@ -925,6 +933,17 @@ extension PackageBaseViewController {
                     latitude: destCoordDic["lat"] ?? 0,
                     longitude: destCoordDic["lng"] ?? 0)
                 
+                // Breaking system
+                if sourceCoord.latitude == 0 || destCoord.latitude == 0 {
+                    LKProgressHUD.dismiss()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        LKProgressHUD.showFailure(text: "Not enough data provided")
+                    }
+                    
+                    return
+                }
+                
                 self.routeManager.fetchTravelTime(
                     with: transp.transpType,
                     from: sourceCoord,
@@ -1015,6 +1034,7 @@ extension PackageBaseViewController {
                 self.firestoreManager.lockModuleWithTrans(
                     docPath: self.documentPath,
                     userId: userID,
+                    userName: userName,
                     time: time,
                     when: weatherState) { newPackage, newIndex, isLate in
                         
@@ -1093,6 +1113,7 @@ extension PackageBaseViewController {
                 self.firestoreManager.lockModuleWithTrans(
                     docPath: self.documentPath,
                     userId: userID,
+                    userName: userName,
                     time: time,
                     when: weatherState
                 ) { newPackage, newIndex, isLate in
