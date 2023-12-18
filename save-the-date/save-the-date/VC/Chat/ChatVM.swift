@@ -24,6 +24,23 @@ class ChatViewModel {
         participants: [],
         roomID: ""))
     
+    // Send demo message
+    func sendDemoMessage(
+        _ gesture: UISwipeGestureRecognizer?,
+        roomID: String
+    ) {
+        
+        guard let gesture else { return }
+        
+        // If it is swiped
+        if gesture.direction == .up {
+            sendMessage(currentUser: userManager.currentUser, inputText: "Very good idea", docPath: roomID)
+            
+        } else if gesture.direction == .down {
+            sendMessage(currentUser: userManager.currentUser, inputText: "Count me in please", docPath: roomID)
+        }
+    }
+    
     // Animate menu
     func animateMenu( _ gesture: UISwipeGestureRecognizer? ) {
         

@@ -253,6 +253,14 @@ class ChatViewController: UIViewController {
         swipeLeft.direction = .left
         self.view.addGestureRecognizer(swipeLeft)
         
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(sendDemoMessage(_:)))
+        swipeUp.direction = .up
+        self.view.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(sendDemoMessage(_:)))
+        swipeDown.direction = .down
+        self.view.addGestureRecognizer(swipeDown)
+        
         // MARK: - Fetch session packages at the first place
         viewModel.fetchSessionPackages()
     }
@@ -357,6 +365,10 @@ class ChatViewController: UIViewController {
     // swipe action
     @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
         viewModel.animateMenu(gesture)
+    }
+    
+    @objc func sendDemoMessage(_ gesture: UISwipeGestureRecognizer) {
+        viewModel.sendDemoMessage(gesture, roomID: currentBundle.roomID)
     }
     
     @objc func sendButtonClicked() {
@@ -485,8 +497,8 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
             
         default:
-            tableView.deselectRow(at: indexPath, animated: true)
             
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     

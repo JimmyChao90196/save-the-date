@@ -74,7 +74,11 @@ final class GooglePlacesManager {
                 } else if let photo = photo {
                     continuation.resume(returning: photo)
                 } else {
-                    continuation.resume(throwing: NSError(domain: "com.yourapp.error", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"]))
+                    continuation.resume(
+                        throwing: NSError(
+                            domain: "com.yourapp.error",
+                            code: -1,
+                            userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"]))
                 }
             }
         }

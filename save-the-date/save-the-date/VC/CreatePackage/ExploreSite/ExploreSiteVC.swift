@@ -288,9 +288,6 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
                 guard let photoData = place.photos?.first else { return }
                 self.currentPhoto = photoData
                 
-//                let placeImage = try await self.googlePlacesManager.resolvePhoto(
-//                    from: photoData )
-                
                 let placeImage = try await self.googlePlacesManager.resolvePhoto(
                     from: photoData,
                     maxSize: CGSize(width: 512, height: 512))
