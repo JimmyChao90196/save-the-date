@@ -708,7 +708,6 @@ extension ExplorePackageViewController {
                             message: "Successfully delete from favorite",
                             buttonText: "Ok")
                     }
-                
             }
         }
     }

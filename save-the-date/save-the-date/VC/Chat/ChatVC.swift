@@ -50,6 +50,26 @@ class ChatViewController: UIViewController {
     var menuTitleDividerLeft = UIView()
     var menuTitleDividerRight = UIView()
     
+    // UI
+    var sessionNameTitle: UILabel = {
+        
+        let label = UILabel()
+        
+        label.setChalkFont(20)
+            .setTextColor(.white)
+            .setbackgroundColor(.standardColorRed)
+            .setCornerRadius(10)
+            .setBoarderColor(.black)
+            .setBoarderWidth(2.5)
+            .text = "testing"
+            
+        label.isHidden = true
+        label.clipsToBounds = true
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
     // Nav item
     lazy var menuButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -122,7 +142,16 @@ class ChatViewController: UIViewController {
         // Binding for bundle
         viewModel.currentBundle.bind { bundle in
             
-            self.currentBundle = bundle
+            var copyBundle = bundle
+            copyBundle.messages.insert(
+                ChatMessage(
+                    sendTime: TimeInterval(),
+                    userId: self.userManager.currentUser.uid,
+                    userName: self.userManager.currentUser.name,
+                    content: "placeholder"),
+                at: 0)
+            
+            self.currentBundle = copyBundle
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -195,6 +224,7 @@ class ChatViewController: UIViewController {
             tableView,
             footerView,
             topDivider,
+            sessionNameTitle,
             foldedView
         ])
         
@@ -267,6 +297,14 @@ class ChatViewController: UIViewController {
     
     // MARK: - Handle user leave event -
     func setupConstranit() {
+        
+        // Set title
+        sessionNameTitle.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.snp.topMargin).offset(10)
+            make.width.equalTo(200)
+            make.height.equalTo(40)
+        }
         
         chatBGAnimationView.snp.makeConstraints { make in
             make.edges.equalTo(tableView)
@@ -495,6 +533,8 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             setupListener(bundleID: chatDocPath)
             
             tableView.deselectRow(at: indexPath, animated: true)
+            sessionNameTitle.text = self.sessionPackages[indexPath.row].info.title
+            sessionNameTitle.isHidden = false
             
         default:
             
@@ -525,6 +565,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         default:
+            
             let message = currentBundle.messages[indexPath.row]
             let isUser = message.userId == userManager.currentUser.uid
             let uid = message.userId
@@ -537,6 +578,13 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: cellIdentifier,
                 for: indexPath)
+            
+            // Move down cell a bit
+            if indexPath.row == 0 {
+                cell.isHidden = true
+            } else {
+                cell.isHidden = false
+            }
             
             configureChatCell(
                 cell,
