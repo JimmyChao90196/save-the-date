@@ -20,6 +20,9 @@ class ProfileViewModel {
     let firestoreManager = FirestoreManager.shared
     let userManager = UserManager.shared
     
+    var currentPackages = Box<[Package]>([])
+    var currentProfileImages = Box<[UIImage]>([])
+    
     var favPackages = Box<[Package]>([])
     var pubPackages = Box<[Package]>([])
     var draftPackages = Box<[Package]>([])
@@ -163,9 +166,16 @@ class ProfileViewModel {
             case .success(let images):
                 switch state {
                 case .publishedState: self.pubProfileImages.value = images
+                    self.currentProfileImages.value = images
+                    
                 case .favoriteState: self.favProfileImages.value = images
+                    self.currentProfileImages.value = images
+                    
                 case .draftState: self.draftProfileImages.value = images
+                    self.currentProfileImages.value = images
+                    
                 default: self.favProfileImages.value = images
+                    self.currentProfileImages.value = images
                 }
                 
             case .failure(let error):
@@ -244,6 +254,7 @@ class ProfileViewModel {
                     
                     self.pubPackages.value = self.pubPackages.value.sorted {
                         $0.info.title < $1.info.title }
+                    self.currentPackages.value = self.pubPackages.value
                     
                     // Fetch profilePicture
                     fetchUserProfileImages(from: self.pubPackages.value, with: .publishedState)
@@ -257,6 +268,7 @@ class ProfileViewModel {
                     
                     self.favPackages.value = self.favPackages.value.sorted {
                         $0.info.title < $1.info.title }
+                    self.currentPackages.value = self.favPackages.value
                     
                     // Fetch profilePicture
                     fetchUserProfileImages(from: self.favPackages.value, with: .favoriteState)
@@ -270,6 +282,7 @@ class ProfileViewModel {
                     
                     self.draftPackages.value = self.draftPackages.value.sorted {
                         $0.info.title < $1.info.title }
+                    self.currentPackages.value = self.draftPackages.value
                     
                     // Fetch profilePicture
                     fetchUserProfileImages(from: self.draftPackages.value, with: .draftState)

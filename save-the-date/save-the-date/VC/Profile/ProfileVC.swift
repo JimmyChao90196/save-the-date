@@ -17,9 +17,7 @@ import ImageIO
 enum WaitingList {
     case profile
     case cover
-    case fav
-    case pub
-    case draft
+    case profileImages
 }
 
 class ProfileViewController: ExplorePackageViewController {
@@ -47,34 +45,10 @@ class ProfileViewController: ExplorePackageViewController {
     
     // Packages
     var stateOfPackages = PackageState.favoriteState
-    var favPackages = [Package]()
-    var pubPackages = [Package]()
-    var draftPackages = [Package]()
-    var currentPackages: [Package] {
-        
-        switch stateOfPackages {
-        case .favoriteState: return favPackages
-        case .publishedState: return pubPackages
-        case .draftState: return draftPackages
-        default: return favPackages
-            
-        }
-    }
+    var currentPackages = [Package]()
     
-    // Profile images
-    var favProfileImages = [UIImage]()
-    var pubProfileImages = [UIImage]()
-    var draftProfileImages = [UIImage]()
-    var currentProfileImages: [UIImage] {
-        
-        switch stateOfPackages {
-        case .favoriteState: return favProfileImages
-        case .publishedState: return pubProfileImages
-        case .draftState: return draftProfileImages
-        default: return favProfileImages
-            
-        }
-    }
+    // Package profile images
+    var currentProfileImages = [UIImage]()
     
     // Type
     var imageType = ImageType.profileImage
@@ -86,9 +60,7 @@ class ProfileViewController: ExplorePackageViewController {
     var waitingList: [WaitingList: Bool] = [
         .cover: false,
         .profile: false,
-        .fav: false,
-        .pub: false,
-        .draft: false
+        .profileImages: false
     ]
     
     var countCurrentUserDataBinding = 0
@@ -310,51 +282,18 @@ class ProfileViewController: ExplorePackageViewController {
         }
         
         // Fetch profileImages
-        profileVM.favProfileImages.bind { favProfileImages in
-            self.favProfileImages = favProfileImages
-            
+        profileVM.currentProfileImages.bind { currentProfileImages in
+            self.currentProfileImages = currentProfileImages
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                self.waitingList[.fav] = true
-                self.profileVM.shouldDismiss(list: self.waitingList)
-            }
-        }
-        
-        profileVM.pubProfileImages.bind { pubProfileImages in
-            self.pubProfileImages = pubProfileImages
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.waitingList[.pub] = true
-                self.profileVM.shouldDismiss(list: self.waitingList)
-            }
-        }
-        
-        profileVM.draftProfileImages.bind { draftProfileImages in
-            self.draftProfileImages = draftProfileImages
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.waitingList[.draft] = true
+                self.waitingList[.profileImages] = true
                 self.profileVM.shouldDismiss(list: self.waitingList)
             }
         }
         
         // Fetch packages
-        profileVM.favPackages.bind { favPackages in
-            self.favPackages = favPackages
-            
-        }
+        profileVM.currentPackages.bind { self.currentPackages = $0 }
         
-        profileVM.pubPackages.bind { pubPackages in
-            self.pubPackages = pubPackages
-
-        }
-        
-        profileVM.draftPackages.bind { draftPackages in
-            self.draftPackages = draftPackages
-
-        }
     }
     
     @objc func loginButtonPressed() {
@@ -403,17 +342,11 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
             
             switch selectionIndex {
             case 0: stateOfPackages = .favoriteState
-                waitingList[.fav] = false
-                
             case 1: stateOfPackages = .publishedState
-                waitingList[.pub] = false
-                
             case 2: stateOfPackages = .draftState
-                waitingList[.draft] = false
-                
             default: stateOfPackages = .favoriteState
-                waitingList[.fav] = false
             }
+            waitingList[.profileImages] = false
             
             self.fetchOperation()
             LKProgressHUD.show()
