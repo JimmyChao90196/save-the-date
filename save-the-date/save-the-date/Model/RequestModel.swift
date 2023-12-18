@@ -21,4 +21,3 @@ enum RequestType: String {
     case restrict
     case block
 }
-

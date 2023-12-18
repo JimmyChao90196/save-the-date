@@ -211,7 +211,11 @@ class ProfileViewModel {
             ]
 
             guard let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil),
-                  let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary) else {
+                  let downsampledImage = CGImageSourceCreateThumbnailAtIndex(
+                    imageSource,
+                    0,
+                    options as CFDictionary) else {
+                
                 DispatchQueue.main.async {
                     completion(nil)
                 }

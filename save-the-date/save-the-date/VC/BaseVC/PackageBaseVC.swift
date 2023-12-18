@@ -793,7 +793,8 @@ extension PackageBaseViewController {
                     self?.afterAppendComfirmed?(module)
                 }
                 
-            case .edit(_):
+            case .edit(let index):
+                print("index with no use \(index)")
                 if self?.weatherState == .sunny {
                     
                     if let rawIndex = self?.sunnyModules.firstIndex(where: {
@@ -1019,7 +1020,7 @@ extension PackageBaseViewController {
             
             var rawIndex = 0
             var time = 0.0
-            var id = ""
+            // var id = ""
             
             // Find time first
             if weatherState == .sunny {
@@ -1043,10 +1044,10 @@ extension PackageBaseViewController {
                         self.rainyModules = newPackage.weatherModules.rainy
                         
                         if self.weatherState == .sunny {
-                            id = self.sunnyModules[newIndex].lockInfo.userId
+                            // id = self.sunnyModules[newIndex].lockInfo.userId
                             time = self.sunnyModules[newIndex].lockInfo.timestamp
                         } else {
-                            id = self.rainyModules[newIndex].lockInfo.userId
+                            // id = self.rainyModules[newIndex].lockInfo.userId
                             time = self.rainyModules[newIndex].lockInfo.timestamp
                         }
                         

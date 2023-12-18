@@ -15,7 +15,12 @@ import UIKit
     var title: String
     var font: UIFont
     
-    init(displayColor: UIColor, unselectedColor: UIColor = .white, selectedColor: UIColor = .lightGray, title: String = "Placeholder", font: UIFont = .systemFont(ofSize: 18)) {
+    init(displayColor: UIColor,
+         unselectedColor: UIColor = .white,
+         selectedColor: UIColor = .lightGray,
+         title: String = "Placeholder",
+         font: UIFont = .systemFont(ofSize: 18)) {
+        
         self.displayColor = displayColor
         self.unselectedColor = unselectedColor
         self.selectedColor = selectedColor
