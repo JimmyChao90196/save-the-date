@@ -230,7 +230,7 @@ class PackageDetailViewController: PackageBaseViewController {
     }
     
     @objc func moreButtonPressed() {
-        let options = ["Report", "Restrict", "Block"]
+        let options = ["Report"]
         presentSimpleAlert(
             by: options,
             title: "Perform action to this package",

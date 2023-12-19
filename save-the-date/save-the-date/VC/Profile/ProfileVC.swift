@@ -344,6 +344,10 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
             case 0: stateOfPackages = .favoriteState
             case 1: stateOfPackages = .publishedState
             case 2: stateOfPackages = .draftState
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    LKProgressHUD.showFailure(text: "Not available yet")
+                }
+                
             default: stateOfPackages = .favoriteState
             }
             waitingList[.profileImages] = false
