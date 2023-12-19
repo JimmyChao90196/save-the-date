@@ -21,6 +21,52 @@ final class GooglePlacesManager {
     
     private init() {}
     
+    // Fetch place photo
+    func fetchPhotos(
+        photoReferences: [String: String],
+        maxWidth: Int = 360,
+        maxHeight: Int = 360,
+        completion: @escaping (Result<[String: UIImage], Error>) -> Void) {
+            
+            var images = [String: UIImage]()
+            let dispatchGroup = DispatchGroup()
+
+            for (index, photoReference) in photoReferences.enumerated() {
+            var components = URLComponents()
+            components.scheme = "https"
+            components.host = "maps.googleapis.com"
+            components.path = "/maps/api/place/photo"
+            components.queryItems = [
+                URLQueryItem(name: "maxwidth", value: String(maxWidth)),
+                URLQueryItem(name: "maxheight", value: String(maxHeight)),
+                URLQueryItem(name: "photoreference", value: photoReference.value),
+                URLQueryItem(name: "key", value: "AIzaSyDKpRUS5pK0qBRxosBaXhazzsyWING1GxY")
+            ]
+
+            guard let url = components.url else { continue }
+
+            dispatchGroup.enter()
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                defer { dispatchGroup.leave() }
+
+                if let error = error {
+                    print("Error fetching photo: \(error)")
+                    images[photoReference.key] = UIImage(resource: .site04)
+                    // continue
+                }
+
+                if let data = data, let image = UIImage(data: data) {
+                    images[photoReference.key] = image
+                    // images.append(image)
+                }
+            }.resume()
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            completion(.success(images))
+        }
+    }
+    
     public func findLocations(
         query: String,
         completion: @escaping (Result<[Location], Error>) -> Void

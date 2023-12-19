@@ -164,6 +164,7 @@ class ModuleTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
             make.trailing.equalToSuperview()
             make.leading.equalToSuperview().offset(30)
+            make.height.equalTo(90)
         }
         
         gradientView.snp.makeConstraints { make in

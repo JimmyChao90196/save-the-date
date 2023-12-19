@@ -11,7 +11,11 @@ import GooglePlaces
 
 class CreateViewModel {
     
+    let googlePlaceManger = GooglePlacesManager.shared
+    
     let regionTags = Box<[String]>([])
+    var sunnyPhotos = Box<[String: UIImage]>([:])
+    var rainyPhotos = Box<[String: UIImage]>([:])
     
     // Fake rating system.
     func ratingForIndexPath(indexPath: IndexPath, minimumRating: Double = 3.0) -> String {
@@ -99,4 +103,38 @@ class CreateViewModel {
         
         regionTags.value = Array(tagSet)
     }
+    
+    func mapToDictionary(module: [PackageModule]) -> [String: String] {
+        
+        var dict = [String: String]()
+        
+        for item in module {
+            dict[item.location.identifier] = item.location.photoReference
+        }
+        
+        return dict
+    }
+        
+    func fetchSitePhotos(
+        weatherState: WeatherState,
+        photoReferences: [String: String]?) {
+            
+            guard let photoReferences = photoReferences else { return }
+            
+            googlePlaceManger.fetchPhotos(
+                photoReferences: photoReferences) { result in
+                    switch result {
+                    case .success(let success):
+                        switch weatherState {
+                        case .sunny:
+                            self.sunnyPhotos.value = success
+                        case .rainy:
+                            self.rainyPhotos.value = success
+                        }
+                        
+                    case .failure(let failure):
+                        print("faild fetching photos: \(failure)")
+                    }
+                }
+        }
 }

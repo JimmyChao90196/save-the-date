@@ -168,7 +168,7 @@ extension CreatePackageViewController {
             }
             
             let multiVC = MultiUserViewController()
-            multiVC.enterKind = .demo("7L28rnq1dOEakDXgTIeQ")
+            multiVC.enterKind = .demo("9TiTHCzi4qZ7rkWmwYEf")
             self.navigationController?.pushViewController(multiVC, animated: true)
         }
     }

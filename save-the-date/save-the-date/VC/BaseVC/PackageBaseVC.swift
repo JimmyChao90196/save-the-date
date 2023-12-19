@@ -58,9 +58,21 @@ class PackageBaseViewController: UIViewController {
         }
     }
     
+    var sunnyPhotoReferences = [String: String]()
+    var rainyPhotoReferences = [String: String]()
+    var sunnyPhotos = [String: UIImage]()
+    var rainyPhotos = [String: UIImage]()
+    
     // Weather state can be switched
     var weatherState = WeatherState.sunny {
         didSet {
+            
+            switch weatherState {
+            case .sunny:
+                self.fetchPhotosHelperFunction(modules: sunnyModules)
+            case .rainy:
+                self.fetchPhotosHelperFunction(modules: rainyModules)
+            }
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -123,6 +135,16 @@ class PackageBaseViewController: UIViewController {
         return button
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        switch weatherState {
+        case .sunny:
+            self.fetchPhotosHelperFunction(modules: sunnyModules)
+        case .rainy:
+            self.fetchPhotosHelperFunction(modules: rainyModules)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -148,6 +170,22 @@ class PackageBaseViewController: UIViewController {
         // Data binding
         viewModel.regionTags.bind { tags in
             self.regionTags = tags
+        }
+        
+        viewModel.sunnyPhotos.bind { photos in
+            self.sunnyPhotos = photos
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        viewModel.rainyPhotos.bind { photos in
+            self.rainyPhotos = photos
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
         
         sunnyModules = currentPackage.weatherModules.sunny
@@ -257,11 +295,13 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             return UITableViewCell() }
         
         let module = weatherState == .sunny ? sunnyModules : rainyModules
+        let photos = weatherState == .sunny ? sunnyPhotos : rainyPhotos
         
         guard let rawIndex = findModuleIndex(modules: module, from: indexPath) else {return UITableViewCell()}
         let travelTime = module[rawIndex].transportation.travelTime
         let iconName = module[rawIndex].transportation.transpIcon
         let locationTitle = "\(module[rawIndex].location.shortName)"
+        let id = module[rawIndex].location.identifier
         
         // Location title
         cell.siteTitle.text = locationTitle
@@ -348,20 +388,34 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         // Travel time label
         cell.travelTimeLabel.text = formatTimeInterval(travelTime)
         
-        // ImageBG
-        switch weatherState {
-        case .sunny:
-            cell.bgImageView.image = UIImage(resource: .site04)
-            cell.bgImageView.contentMode = .scaleAspectFit
-        case .rainy:
-            cell.bgImageView.image = UIImage(resource: .site05)
-            cell.bgImageView.contentMode = .scaleAspectFit
+        // fetchPhotos
+        if photos != [String: UIImage]() {
+            cell.bgImageView.image = photos[id]
+            cell.bgImageView.contentMode = .scaleAspectFill
+        } else {
+            switch weatherState {
+            case .sunny:
+                cell.bgImageView.image = UIImage(resource: .site04)
+                cell.bgImageView.contentMode = .scaleAspectFit
+            case .rainy:
+                cell.bgImageView.image = UIImage(resource: .site05)
+                cell.bgImageView.contentMode = .scaleAspectFit
+            }
         }
+        
         // Set arrivedtime
         if cell.siteTitle.text != "None" {
             cell.arrivedTimeLabel.text = viewModel.ratingForIndexPath(indexPath: indexPath)
         } else {
             cell.arrivedTimeLabel.text = String(repeating: "☆", count: 5)
+            switch weatherState {
+            case .sunny:
+                cell.bgImageView.image = UIImage(resource: .site04)
+                cell.bgImageView.contentMode = .scaleAspectFit
+            case .rainy:
+                cell.bgImageView.image = UIImage(resource: .site05)
+                cell.bgImageView.contentMode = .scaleAspectFit
+            }
         }
         
         return cell
@@ -763,14 +817,37 @@ extension PackageBaseViewController {
         self.navigationController?.pushViewController(routeVC, animated: true)
     }
     
+    // Helper function
+    func fetchPhotosHelperFunction(modules: [PackageModule]) {
+        
+        var refs = [String: String]()
+        
+        switch self.weatherState {
+        case .sunny:
+            self.sunnyPhotoReferences = self.viewModel.mapToDictionary(module: modules)
+            refs = self.sunnyPhotoReferences
+        case .rainy:
+            self.rainyPhotoReferences = self.viewModel.mapToDictionary(module: modules)
+            refs = self.rainyPhotoReferences
+        }
+        
+        self.viewModel.fetchSitePhotos(
+            weatherState: self.weatherState,
+            photoReferences: refs)
+    }
+    
     // MARK: - Setup onEvents -
     func setupOnComfirm() {
         
         onLocationComfirmMU = { [weak self] location, id, time, actionKind in
+            
+            guard let self = self else { return }
+            
             switch actionKind {
             case .add( let section ):
                 
-                if self?.weatherState == .sunny {
+                if self.weatherState == .sunny {
+                    
                     let module = PackageModule(
                         location: location,
                         transportation: Transportation(
@@ -778,10 +855,13 @@ extension PackageBaseViewController {
                             travelTime: 0.0),
                         day: section)
                     
-                    self?.sunnyModules.append(module)
-                    self?.afterAppendComfirmed?(module)
+                    self.sunnyModules.append(module)
+                    self.afterAppendComfirmed?(module)
+                    
+                    fetchPhotosHelperFunction(modules: sunnyModules)
                     
                 } else {
+                    
                     let module = PackageModule(
                         location: location,
                         transportation: Transportation(
@@ -789,40 +869,48 @@ extension PackageBaseViewController {
                             travelTime: 0.0),
                         day: section)
                     
-                    self?.rainyModules.append(module)
-                    self?.afterAppendComfirmed?(module)
+                    self.rainyModules.append(module)
+                    self.afterAppendComfirmed?(module)
+                    
+                    fetchPhotosHelperFunction(modules: rainyModules)
                 }
                 
             case .edit(let index):
                 print("index with no use \(index)")
-                if self?.weatherState == .sunny {
+                if self.weatherState == .sunny {
                     
-                    if let rawIndex = self?.sunnyModules.firstIndex(where: {
+                    if let rawIndex = self.sunnyModules.firstIndex(where: {
                         if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
                             return true
                         } else { return false }
                         
                     }) {
-                        self?.sunnyModules[rawIndex].location = location
-                        self?.afterEditComfirmed?(rawIndex, time)
+                        self.sunnyModules[rawIndex].location = location
+                        self.afterEditComfirmed?(rawIndex, time)
+                        
+                        fetchPhotosHelperFunction(modules: sunnyModules)
                     }
                     
                 } else {
                     
-                    if let rawIndex = self?.rainyModules.firstIndex(where: {
+                    if let rawIndex = self.rainyModules.firstIndex(where: {
                         if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
                             return true
                         } else { return false }
                         
                     }) {
-                        self?.rainyModules[rawIndex].location = location
-                        self?.afterEditComfirmed?(rawIndex, time)
+                        self.rainyModules[rawIndex].location = location
+                        self.afterEditComfirmed?(rawIndex, time)
+                        
+                        fetchPhotosHelperFunction(modules: rainyModules)
                     }
                 }
             }
         }
         
         onLocationComfirm = { [weak self] location, action in
+            
+            guard let self = self else{ return }
             
             switch action {
             case .add(let section):
@@ -834,38 +922,41 @@ extension PackageBaseViewController {
                         travelTime: 0.0),
                     day: section)
                 
-                if self?.weatherState == .sunny {
-                    self?.sunnyModules.append(module)
+                if self.weatherState == .sunny {
+                    self.sunnyModules.append(module)
+                    fetchPhotosHelperFunction(modules: sunnyModules)
                     
                 } else {
-                    self?.rainyModules.append(module)
+                    self.rainyModules.append(module)
+                    fetchPhotosHelperFunction(modules: rainyModules)
                 }
                 
                 DispatchQueue.main.async {
-                    self?.tableView.reloadData()
+                    self.tableView.reloadData()
                 }
                 
             case .edit(let targetIndex):
 
-                if self?.weatherState == .sunny {
-                    
-                    if let index = self?.findModuleIndex(
-                        modules: self?.sunnyModules ?? [],
+                if self.weatherState == .sunny {
+                    if let index = self.findModuleIndex(
+                        modules: self.sunnyModules,
                         from: targetIndex) {
-                        self?.sunnyModules[index].location = location
+                        self.sunnyModules[index].location = location
                     }
+                    fetchPhotosHelperFunction(modules: sunnyModules)
                     
                 } else {
-                    
-                    if let index = self?.findModuleIndex(
-                        modules: self?.rainyModules ?? [],
+                    if let index = self.findModuleIndex(
+                        modules: self.rainyModules,
                         from: targetIndex) {
-                        self?.rainyModules[index].location = location
+                        self.rainyModules[index].location = location
                     }
+                    
+                    fetchPhotosHelperFunction(modules: rainyModules)
                 }
                 
                 DispatchQueue.main.async {
-                    self?.tableView.reloadData()
+                    self.tableView.reloadData()
                 }
             }
         }

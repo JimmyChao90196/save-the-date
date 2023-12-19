@@ -297,9 +297,13 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
                 guard let photoData = place.photos?.first else { return }
                 self.currentPhoto = photoData
                 
+                // Fetch photo
                 let placeImage = try await self.googlePlacesManager.resolvePhoto(
                     from: photoData,
                     maxSize: CGSize(width: 512, height: 512))
+                
+                // Fetch photo url
+                let photoReferences = try await viewModel.fetchPlacePhotoReferences(placeID: id)
                 
                 DispatchQueue.main.async {
                     self.placeImageView.image = placeImage
@@ -310,7 +314,9 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
                 let location = Location(
                     address: place.formattedAddress ?? "none",
                     shortName: place.name ?? "none",
-                    identifier: id)
+                    identifier: id,
+                    photoReference: photoReferences.first ?? ""
+                )
                 
                 self.selectedLocation = location
                 self.selectedLocation.coordinate["lat"] = coordinate.latitude
@@ -349,38 +355,6 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
             }
         }
     }
-//    
-//    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location) {
-//        
-//        self.selectedLocation = targetPlace
-//        self.selectedLocation.coordinate["lat"] = coordinate.latitude
-//        self.selectedLocation.coordinate["lng"] = coordinate.longitude
-//        
-//        placeTitle.text = selectedLocation.shortName
-//        
-//        // Hide keyboard and dismiss search VC
-//        searchVC.searchBar.resignFirstResponder()
-//        searchVC.dismiss(animated: true, completion: nil)
-//        
-//        // Set zoom level
-//        let zoomLevel = manager.accuracyAuthorization == .fullAccuracy ?
-//        preciseLocationZoomLevel : approximateLocationZoomLevel
-//        let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
-//                                              longitude: coordinate.longitude,
-//                                              zoom: zoomLevel)
-//        // Move to target
-//        googleMapView.animate(to: camera)
-//        
-//        // remove marker
-//        googleMapView.clear()
-//        let marker = GMSMarker()
-//        marker.position = CLLocationCoordinate2D(
-//            latitude: coordinate.latitude,
-//            longitude: coordinate.longitude)
-//        marker.title = targetPlace.shortName
-//        marker.snippet = targetPlace.address
-//        marker.map = googleMapView
-//    }
 }
 
 // MARK: - Google map delegate -

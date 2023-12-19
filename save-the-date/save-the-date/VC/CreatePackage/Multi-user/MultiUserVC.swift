@@ -347,6 +347,13 @@ class MultiUserViewController: CreatePackageViewController {
                 self.sunnyModules = newPackage.weatherModules.sunny
                 self.rainyModules = newPackage.weatherModules.rainy
                 
+                switch self.weatherState {
+                case .sunny:
+                    self.fetchPhotosHelperFunction(modules: self.sunnyModules)
+                case .rainy:
+                    self.fetchPhotosHelperFunction(modules: self.rainyModules)
+                }
+                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -404,6 +411,13 @@ class MultiUserViewController: CreatePackageViewController {
                 self.currentPackage = newPackage
                 self.sunnyModules = newPackage.weatherModules.sunny
                 self.rainyModules = newPackage.weatherModules.rainy
+                
+                switch self.weatherState {
+                case .sunny:
+                    self.fetchPhotosHelperFunction(modules: self.sunnyModules)
+                case .rainy:
+                    self.fetchPhotosHelperFunction(modules: self.rainyModules)
+                }
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()

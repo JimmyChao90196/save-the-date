@@ -98,15 +98,18 @@ struct Location: Codable {
     var shortName: String
     var identifier: String
     var coordinate: [String: Double]
+    var photoReference: String
     
     init(address: String,
          shortName: String,
          identifier: String,
-         coordinate: [String: Double] = ["lat": 0.0, "lng": 0.0]) {
+         coordinate: [String: Double] = ["lat": 0.0, "lng": 0.0],
+         photoReference: String = "") {
         self.address = address
         self.shortName = shortName
         self.identifier = identifier
         self.coordinate = coordinate
+        self.photoReference = photoReference
     }
 }
 
