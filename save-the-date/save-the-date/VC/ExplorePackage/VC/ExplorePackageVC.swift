@@ -718,9 +718,9 @@ extension ExplorePackageViewController {
 extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDataSource, UIPickerViewDelegate {
     
     // Did tap protocol
-    func didTapPlace(
+    func didTapPlace<T>(
         with coordinate: CLLocationCoordinate2D,
-        targetPlace: Location) {
+        and input: T) {
         }
     
     func updateSearchResults(for searchController: UISearchController) {

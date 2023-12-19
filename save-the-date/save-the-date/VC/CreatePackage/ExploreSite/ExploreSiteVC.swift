@@ -20,7 +20,7 @@ enum ActionKind {
 }
 
 protocol POIResultPortocol: AnyObject {
-    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace id: String)
+    func didTapPlace<T>(with coordinate: CLLocationCoordinate2D, and input: T)
 }
 
 class ExploreSiteViewController: UIViewController, CLLocationManagerDelegate {
@@ -273,11 +273,20 @@ extension ExploreSiteViewController: UISearchResultsUpdating {
 
 extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPortocol {
     
-    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace id: String) {
-        
-        // viewModel.fetchPlaceInfo(identifier: id)
+    func didTapPlace<T>(with coordinate: CLLocationCoordinate2D, and input: T) {
         
         Task {
+            
+            var id = ""
+            
+            if let val = input as? String {
+                id = val
+            } else if let val = input as? Location {
+                id = val.identifier
+            } else {
+                print("invalid input type")
+                return
+            }
             
             do {
                 // Show
@@ -340,38 +349,38 @@ extension ExploreSiteViewController: ResultViewControllerDelegate, POIResultPort
             }
         }
     }
-    
-    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location) {
-        
-        self.selectedLocation = targetPlace
-        self.selectedLocation.coordinate["lat"] = coordinate.latitude
-        self.selectedLocation.coordinate["lng"] = coordinate.longitude
-        
-        placeTitle.text = selectedLocation.shortName
-        
-        // Hide keyboard and dismiss search VC
-        searchVC.searchBar.resignFirstResponder()
-        searchVC.dismiss(animated: true, completion: nil)
-        
-        // Set zoom level
-        let zoomLevel = manager.accuracyAuthorization == .fullAccuracy ?
-        preciseLocationZoomLevel : approximateLocationZoomLevel
-        let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
-                                              longitude: coordinate.longitude,
-                                              zoom: zoomLevel)
-        // Move to target
-        googleMapView.animate(to: camera)
-        
-        // remove marker
-        googleMapView.clear()
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(
-            latitude: coordinate.latitude,
-            longitude: coordinate.longitude)
-        marker.title = targetPlace.shortName
-        marker.snippet = targetPlace.address
-        marker.map = googleMapView
-    }
+//    
+//    func didTapPlace(with coordinate: CLLocationCoordinate2D, targetPlace: Location) {
+//        
+//        self.selectedLocation = targetPlace
+//        self.selectedLocation.coordinate["lat"] = coordinate.latitude
+//        self.selectedLocation.coordinate["lng"] = coordinate.longitude
+//        
+//        placeTitle.text = selectedLocation.shortName
+//        
+//        // Hide keyboard and dismiss search VC
+//        searchVC.searchBar.resignFirstResponder()
+//        searchVC.dismiss(animated: true, completion: nil)
+//        
+//        // Set zoom level
+//        let zoomLevel = manager.accuracyAuthorization == .fullAccuracy ?
+//        preciseLocationZoomLevel : approximateLocationZoomLevel
+//        let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
+//                                              longitude: coordinate.longitude,
+//                                              zoom: zoomLevel)
+//        // Move to target
+//        googleMapView.animate(to: camera)
+//        
+//        // remove marker
+//        googleMapView.clear()
+//        let marker = GMSMarker()
+//        marker.position = CLLocationCoordinate2D(
+//            latitude: coordinate.latitude,
+//            longitude: coordinate.longitude)
+//        marker.title = targetPlace.shortName
+//        marker.snippet = targetPlace.address
+//        marker.map = googleMapView
+//    }
 }
 
 // MARK: - Google map delegate -
@@ -393,7 +402,7 @@ extension ExploreSiteViewController: GMSMapViewDelegate {
         print("You tapped \(name): \(placeID), \(location.latitude)/\(location.longitude)")
         
         DispatchQueue.main.async {
-            self.delgate?.didTapPlace(with: location, targetPlace: placeID)
+            self.delgate?.didTapPlace(with: location, and: placeID)
         }
     }
 }
