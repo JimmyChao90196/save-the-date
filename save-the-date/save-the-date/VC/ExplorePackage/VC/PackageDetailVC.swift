@@ -252,7 +252,6 @@ class PackageDetailViewController: PackageBaseViewController {
                     self?.submitHelperFunction(requestType: .block)
                     
                 default: print("Default")
-                    
                 }
             }
     }

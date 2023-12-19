@@ -349,12 +349,12 @@ extension CreatePackageViewController {
         alert.addAction(pubAction)
         
         // Save as draft action
-        let draftAction = UIAlertAction(title: "Save as draft", style: .default) { _ in
-            buttonAction?(LeaveKind.saveAsDraft)
-        }
-        alert.addAction(draftAction)
+//        let draftAction = UIAlertAction(title: "Save as draft", style: .default) { _ in
+//            buttonAction?(LeaveKind.saveAsDraft)
+//        }
+//        alert.addAction(draftAction)
         
-        let leaveWithoutSaveAction = UIAlertAction(title: "Leave without saving", style: .default) { _ in
+            let leaveWithoutSaveAction = UIAlertAction(title: "Leave without saving", style: .destructive) { _ in
             buttonAction?(LeaveKind.discardChanges)
         }
         alert.addAction(leaveWithoutSaveAction)
