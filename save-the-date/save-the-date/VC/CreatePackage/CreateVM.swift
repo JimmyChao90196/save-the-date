@@ -29,12 +29,10 @@ class CreateViewModel {
         // Generate a random rating between clampedMinimumRating and 5
         let maxRating = 5
         let rating = max(Double.random(in: 0...5, using: &rng), clampedMinimumRating)
-
         let fullStarCount = Int(rating)
         let fullStarString = String(repeating: "★", count: fullStarCount)
         let emptyStarCount = maxRating - fullStarCount
         let emptyStarString = String(repeating: "☆", count: emptyStarCount)
-
         return fullStarString + emptyStarString
     }
 

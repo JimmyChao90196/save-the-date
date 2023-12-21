@@ -335,7 +335,7 @@
 		74363FE12B1B1654000AE762 /* LoginVC */ = {
 			isa = PBXGroup;
 			children = (
-				74C63D112B1AED8F0053030B /* LoginVC.swift */,
+				74710CE82B34215C005899F7 /* VC */,
 				74363FE22B1B166A000AE762 /* LoginVM.swift */,
 			);
 			path = LoginVC;
@@ -362,6 +362,31 @@
 				7427B20E2B27F0B100B10EDA /* TranspVM.swift */,
 			);
 			path = Transp;
+			sourceTree = "<group>";
+		};
+		74710CE62B34211B005899F7 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				7432EFE32B207439008D2280 /* ChatVC.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		74710CE72B34213F005899F7 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				7474AC122B303A2100F673C7 /* ProfileVC+Constraint.swift */,
+				74DE466C2B089C2400B6F648 /* ProfileVC.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		74710CE82B34215C005899F7 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				74C63D112B1AED8F0053030B /* LoginVC.swift */,
+			);
+			path = VC;
 			sourceTree = "<group>";
 		};
 		747EDCB22B0DF9C900B0FA58 /* Create */ = {
@@ -532,9 +557,9 @@
 		74DE46682B089BE400B6F648 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				74710CE62B34211B005899F7 /* VC */,
 				7432EFF02B21CD39008D2280 /* View */,
 				7432EFEE2B215907008D2280 /* ChatVM.swift */,
-				7432EFE32B207439008D2280 /* ChatVC.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -542,10 +567,9 @@
 		74DE466B2B089C1900B6F648 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				74710CE72B34213F005899F7 /* VC */,
 				748023EA2B0B38DA00878B12 /* SelectionView.swift */,
-				74DE466C2B089C2400B6F648 /* ProfileVC.swift */,
 				74363FE42B1B2072000AE762 /* ProfileVM.swift */,
-				7474AC122B303A2100F673C7 /* ProfileVC+Constraint.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";

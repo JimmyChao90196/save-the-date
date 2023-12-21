@@ -292,8 +292,9 @@ class ProfileViewController: ExplorePackageViewController {
         }
         
         // Fetch packages
-        profileVM.currentPackages.bind { self.currentPackages = $0 }
-        
+        profileVM.currentPackages.bind {
+            self.currentPackages = $0
+        }
     }
     
     @objc func loginButtonPressed() {
@@ -341,15 +342,18 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
         selectionIndex: Int) {
             
             switch selectionIndex {
+                
             case 0: stateOfPackages = .favoriteState
+                
             case 1: stateOfPackages = .publishedState
+                
             case 2: stateOfPackages = .draftState
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     LKProgressHUD.showFailure(text: "Not available yet")
                 }
-                
             default: stateOfPackages = .favoriteState
             }
+            
             waitingList[.profileImages] = false
             
             self.fetchOperation()
@@ -368,7 +372,7 @@ extension ProfileViewController {
             packageDetailVC.enterFrom = .profile
             packageDetailVC.currentPackage = currentPackages[indexPath.row]
             navigationController?.pushViewController(packageDetailVC, animated: true)
-    }
+        }
     
     override func numberOfSections(
         in tableView: UITableView) -> Int {
@@ -409,7 +413,7 @@ extension ProfileViewController {
             cell.authorPicture.tintColor = .customUltraGrey
             
             return cell
-        }
+        }    
 }
 
 // MARK: - Image picker delegate -
@@ -421,45 +425,45 @@ extension ProfileViewController:
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             
-        picker.dismiss(animated: true, completion: nil)
-
-        if let selectedImage = info[.originalImage] as? UIImage {
+            picker.dismiss(animated: true, completion: nil)
             
-            var targetSize = profileVM.calculateAspectRatioSize(
-                for: selectedImage,
-                maxWidth: 100,
-                maxHeight: 100)
-            
-            switch self.imageType {
+            if let selectedImage = info[.originalImage] as? UIImage {
                 
-            case .profileImage: print("do nothing")
-            case .profileCover:
-                targetSize = profileVM.calculateAspectRatioSize(
+                var targetSize = profileVM.calculateAspectRatioSize(
                     for: selectedImage,
-                    maxWidth: 256,
-                    maxHeight: 256)
-            }
-            
-            profileVM.downsample(
-                image: selectedImage,
-                to: targetSize) { image in
-                    guard let image else { return }
+                    maxWidth: 100,
+                    maxHeight: 100)
+                
+                switch self.imageType {
                     
-                    self.profileVM.uploadImages(
-                        type: self.imageType,
-                        targetImage: image)
-                    
-                    DispatchQueue.main.async {
+                case .profileImage: print("do nothing")
+                case .profileCover:
+                    targetSize = profileVM.calculateAspectRatioSize(
+                        for: selectedImage,
+                        maxWidth: 256,
+                        maxHeight: 256)
+                }
+                
+                profileVM.downsample(
+                    image: selectedImage,
+                    to: targetSize) { image in
+                        guard let image else { return }
                         
-                        switch self.imageType {
+                        self.profileVM.uploadImages(
+                            type: self.imageType,
+                            targetImage: image)
+                        
+                        DispatchQueue.main.async {
                             
-                        case .profileImage: self.profilePicture.image = image
-                        case .profileCover: self.profileCoverImageView.image = image
+                            switch self.imageType {
+                                
+                            case .profileImage: self.profilePicture.image = image
+                            case .profileCover: self.profileCoverImageView.image = image
+                            }
                         }
                     }
-                }
+            }
         }
-    }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)

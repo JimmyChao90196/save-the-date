@@ -254,6 +254,7 @@ class ProfileViewModel {
                     
                     self.pubPackages.value = self.pubPackages.value.sorted {
                         $0.info.title < $1.info.title }
+                    
                     self.currentPackages.value = self.pubPackages.value
                     
                     // Fetch profilePicture

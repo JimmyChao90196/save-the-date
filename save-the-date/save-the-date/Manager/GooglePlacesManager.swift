@@ -24,8 +24,8 @@ final class GooglePlacesManager {
     // Fetch place photo
     func fetchPhotos(
         photoReferences: [String: String],
-        maxWidth: Int = 360,
-        maxHeight: Int = 360,
+        maxWidth: Int = 450,
+        maxHeight: Int = 450,
         completion: @escaping (Result<[String: UIImage], Error>) -> Void) {
             
             var images = [String: UIImage]()
