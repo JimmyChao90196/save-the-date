@@ -10,6 +10,8 @@ import Foundation
 enum FetchedError: Error {
     case userNoneFound
     case userImageNotFound
+    case placeNotFound
+    case placeDetailNotFound
 }
 
 extension FirestoreManager {
@@ -116,8 +118,8 @@ extension FirestoreManager {
                             
                             fetchedUsers.append(fetchedUser)
                         } catch {
+                            
                             print("Error decoding package: \(error)")
-                            // completion(.failure(error))
                             return
                         }
                     }

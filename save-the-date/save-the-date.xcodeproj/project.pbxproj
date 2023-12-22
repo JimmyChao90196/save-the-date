@@ -307,7 +307,7 @@
 				74B8284E2B04DA8B00A42850 /* Extension */,
 				744B57162B05D7A000B3ABAA /* Model */,
 				74B828592B04DF0D00A42850 /* Manager */,
-				74B8284D2B04D99300A42850 /* VC */,
+				74B8284D2B04D99300A42850 /* VCS */,
 				742CD06F2B04C36C00CA3011 /* AppDelegate.swift */,
 				742CD0712B04C36C00CA3011 /* SceneDelegate.swift */,
 				742CD0752B04C36D00CA3011 /* Main.storyboard */,
@@ -332,13 +332,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		74363FE12B1B1654000AE762 /* LoginVC */ = {
+		74363FE12B1B1654000AE762 /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				74710CE82B34215C005899F7 /* VC */,
 				74363FE22B1B166A000AE762 /* LoginVM.swift */,
 			);
-			path = LoginVC;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		744B57162B05D7A000B3ABAA /* Model */ = {
@@ -392,6 +392,7 @@
 		747EDCB22B0DF9C900B0FA58 /* Create */ = {
 			isa = PBXGroup;
 			children = (
+				74A8F9162B18379600AE63F5 /* CreateVM.swift */,
 				747EDCB42B0DF9DE00B0FA58 /* VC */,
 				747EDCB32B0DF9D800B0FA58 /* View */,
 			);
@@ -423,6 +424,42 @@
 				7439AFEC2B074F6700A28C09 /* RouteVC.swift */,
 			);
 			path = Route;
+			sourceTree = "<group>";
+		};
+		7484C0E62B3530CC00ED641A /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */,
+				744B57122B05C57800B3ABAA /* ResultVC.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		7484C0E72B3530E000ED641A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				744B571B2B05DBA000B3ABAA /* ResultTableView.swift */,
+				744B571D2B05E40B00B3ABAA /* ResultTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7484C0E82B353AA000ED641A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				748023EA2B0B38DA00878B12 /* SelectionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7484C0E92B353BBF00ED641A /* General */ = {
+			isa = PBXGroup;
+			children = (
+				74E209512B2D7B9600477E13 /* TabbarVM.swift */,
+				74DE46632B08995700B6F648 /* TabbarController.swift */,
+				74DE466E2B089F8000B6F648 /* NavigationController.swift */,
+			);
+			path = General;
 			sourceTree = "<group>";
 		};
 		748728262B15B3E900EB347F /* ThirdPartyWrapper */ = {
@@ -473,20 +510,19 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		74B8284D2B04D99300A42850 /* VC */ = {
+		74B8284D2B04D99300A42850 /* VCS */ = {
 			isa = PBXGroup;
 			children = (
-				74E209512B2D7B9600477E13 /* TabbarVM.swift */,
-				74DE46632B08995700B6F648 /* TabbarController.swift */,
-				74DE466E2B089F8000B6F648 /* NavigationController.swift */,
-				74363FE12B1B1654000AE762 /* LoginVC */,
+				74A8F91B2B18391F00AE63F5 /* Box.swift */,
+				7484C0E92B353BBF00ED641A /* General */,
+				74363FE12B1B1654000AE762 /* Login */,
 				74DE466B2B089C1900B6F648 /* Profile */,
 				74DE46682B089BE400B6F648 /* Chat */,
 				74DE46652B089B6A00B6F648 /* ExplorePackage */,
 				74B8285E2B04DFD800A42850 /* CreatePackage */,
-				74DE46702B08AD1000B6F648 /* BaseVC */,
+				74DE46702B08AD1000B6F648 /* Base */,
 			);
-			path = VC;
+			path = VCS;
 			sourceTree = "<group>";
 		};
 		74B8284E2B04DA8B00A42850 /* Extension */ = {
@@ -525,9 +561,6 @@
 				748023E92B0A124700878B12 /* Route */,
 				744B571F2B06089400B3ABAA /* Transp */,
 				74B8285F2B04DFE200A42850 /* ExploreSite */,
-				74A8F9162B18379600AE63F5 /* CreateVM.swift */,
-				74A8F91B2B18391F00AE63F5 /* Box.swift */,
-				74A8F91D2B18407E00AE63F5 /* ExploreSiteVM.swift */,
 			);
 			path = CreatePackage;
 			sourceTree = "<group>";
@@ -535,10 +568,9 @@
 		74B8285F2B04DFE200A42850 /* ExploreSite */ = {
 			isa = PBXGroup;
 			children = (
-				74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */,
-				744B57122B05C57800B3ABAA /* ResultVC.swift */,
-				744B571B2B05DBA000B3ABAA /* ResultTableView.swift */,
-				744B571D2B05E40B00B3ABAA /* ResultTableViewCell.swift */,
+				7484C0E72B3530E000ED641A /* View */,
+				7484C0E62B3530CC00ED641A /* VC */,
+				74A8F91D2B18407E00AE63F5 /* ExploreSiteVM.swift */,
 			);
 			path = ExploreSite;
 			sourceTree = "<group>";
@@ -568,19 +600,19 @@
 			isa = PBXGroup;
 			children = (
 				74710CE72B34213F005899F7 /* VC */,
-				748023EA2B0B38DA00878B12 /* SelectionView.swift */,
+				7484C0E82B353AA000ED641A /* View */,
 				74363FE42B1B2072000AE762 /* ProfileVM.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		74DE46702B08AD1000B6F648 /* BaseVC */ = {
+		74DE46702B08AD1000B6F648 /* Base */ = {
 			isa = PBXGroup;
 			children = (
 				74DE46712B08AD4600B6F648 /* PackageBaseVC.swift */,
 				747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */,
 			);
-			path = BaseVC;
+			path = Base;
 			sourceTree = "<group>";
 		};
 		74E453A22B0F22AC0017BDCD /* Multi-user */ = {

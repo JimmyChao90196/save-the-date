@@ -19,6 +19,7 @@ class CreateViewModel {
     
     // Fake rating system.
     func ratingForIndexPath(indexPath: IndexPath, minimumRating: Double = 3.0) -> String {
+        
         // Use the hash value of the index path as a seed substitute
         let seed = indexPath.hashValue
         var rng = SeededGenerator(seed: seed)
@@ -60,6 +61,33 @@ class CreateViewModel {
         } else {
             return true
         }
+    }
+
+    // Parse region tags
+    func parseRegionTags(package: Package) {
+        
+        let sunnyModules = package.weatherModules.sunny
+        let rainyModules = package.weatherModules.rainy
+        
+        let sunnyIds = sunnyModules.map { module in
+            return module.location.identifier
+        }
+        
+        let rainyIds = rainyModules.map { module in
+            return module.location.identifier
+        }
+        
+        let identifiers = sunnyIds + rainyIds
+        
+        googlePlaceManger.getCountriesAndCities(
+            for: identifiers) { result in
+                switch result {
+                case .success(let fetchedRegionTags):
+                    print(fetchedRegionTags.unique())
+                case .failure(let error):
+                    print(error)
+                }
+            }
     }
     
     // ParseAddress

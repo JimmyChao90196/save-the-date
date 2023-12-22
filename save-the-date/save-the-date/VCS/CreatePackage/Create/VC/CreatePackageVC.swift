@@ -292,18 +292,22 @@ extension CreatePackageViewController {
             message: "Please add name for your package",
             buttonText: "Okay") { text in
                 guard let text else { return }
-                let info = Info(title: text,
-                                author: [self.userName],
-                                authorId: [self.userID],
-                                rate: 0.0,
-                                state: packageState.rawValue)
                 
-                self.currentPackage.photoURL = self.userManager.currentUser.photoURL
+                let info = Info(
+                    title: text,
+                    author: [self.userName],
+                    authorId: [self.userID],
+                    rate: 0.0,
+                    state: packageState.rawValue)
+                
                 self.currentPackage.info = info
                 self.currentPackage.regionTags = self.regionTags
+                self.currentPackage.photoURL = self.userManager.currentUser.photoURL
                 self.currentPackage.weatherModules.sunny = self.sunnyModules
                 self.currentPackage.weatherModules.rainy = self.rainyModules
                 
+                self.viewModel.parseRegionTags(package: self.currentPackage)
+
                 self.firestoreManager.uploadPackage(self.currentPackage) { [weak self] result in
                     switch result {
                     case .success(let documentID):
@@ -329,6 +333,9 @@ extension CreatePackageViewController {
                         print("publish failed: \(error)")
                     }
                 }
+                
+                
+                
             }
     }
 }
