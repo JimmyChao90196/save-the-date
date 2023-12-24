@@ -33,8 +33,44 @@ class CreateViewModel {
     var sunnyPhotos = Box<[String: UIImage]>([:])
     var rainyPhotos = Box<[String: UIImage]>([:])
     
-    // Configure cell
-    func configureCellInState(
+    // Configure last cell
+    func configureLastCell(
+        cell: UITableViewCell,
+        tableView: UITableView,
+        indexPath: IndexPath) {
+            
+            guard let cell = cell as? ModuleTableViewCell else { return }
+            
+            let totalSections = tableView.numberOfSections
+            let totalRowsInLastSection = tableView.numberOfRows(inSection: totalSections - 1)
+            let isLastCell = indexPath.section == totalSections - 1 && indexPath.row == totalRowsInLastSection - 1
+            
+            if isLastCell {
+                cell.onTranspTapped = nil
+                cell.transpView.isHidden = true
+            } else {
+                cell.transpView.isHidden = false
+            }
+        }
+    
+    // Configure cell with different weather state
+    func configureCellInWeatherState(
+        cell: UITableViewCell,
+        state: WeatherState) {
+            guard let cell = cell as? ModuleTableViewCell else { return }
+            
+            switch state {
+            case .sunny:
+                cell.bgImageView.image = UIImage(resource: .site04)
+                cell.bgImageView.contentMode = .scaleAspectFit
+            case .rainy:
+                cell.bgImageView.image = UIImage(resource: .site05)
+                cell.bgImageView.contentMode = .scaleAspectFit
+            }
+        }
+    
+    // Configure cell with different MUState
+    func configureCellInMUState(
         cell: UITableViewCell,
         cellUserId: String,
         userId: String,
@@ -75,7 +111,7 @@ class CreateViewModel {
                 cell.transpIcon.tintColor = config.transpIconTintColor
                 cell.travelTimeLabel.setTextColor(config.travelLabelTextColor)
                 cell.siteTitle.setTextColor(config.siteTitletextColor)
-                cell.arrivedTimeLabel.setTextColor(config.arrivedTimeLabelTextColor)
+                cell.googleRating.setTextColor(config.arrivedTimeLabelTextColor)
                 cell.contentView.setBoarderColor(config.contentViewBoarderColor)
             }
     }

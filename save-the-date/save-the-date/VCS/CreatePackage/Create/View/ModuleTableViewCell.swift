@@ -19,7 +19,7 @@ class ModuleTableViewCell: UITableViewCell {
     var locationView = UIView()
     var bgImageView = UIImageView(image: UIImage(resource: .site04))
     var gradientView = GradientView()
-    var arrivedTimeLabel = UILabel()
+    var googleRating = UILabel()
     
     // transp view
     var transpView = UIView()
@@ -59,7 +59,7 @@ class ModuleTableViewCell: UITableViewCell {
             gradientView,
             deleteButton,
             siteTitle,
-            arrivedTimeLabel,
+            googleRating,
             userIdLabel
         ])
         
@@ -107,8 +107,8 @@ class ModuleTableViewCell: UITableViewCell {
             .setTextColor(.hexToUIColor(hex: "#3F3A3A"))
         
         // Arrived time label appearance
-        arrivedTimeLabel.text = "Should arrived at 8:00 am"
-        arrivedTimeLabel.setFont(UIFont(name: "ChalkboardSE-Regular", size: 16)!)
+        googleRating.text = "Should arrived at 8:00 am"
+        googleRating.setFont(UIFont(name: "ChalkboardSE-Regular", size: 16)!)
             .setTextColor(.darkGray)
         
         // Divider view appearance
@@ -176,7 +176,7 @@ class ModuleTableViewCell: UITableViewCell {
             make.top.equalToSuperview().offset(20)
         }
         
-        arrivedTimeLabel.snp.makeConstraints { make in
+        googleRating.snp.makeConstraints { make in
             make.leading.equalTo(siteTitle.snp.leading)
             make.bottom.equalToSuperview().offset(-10)
         }

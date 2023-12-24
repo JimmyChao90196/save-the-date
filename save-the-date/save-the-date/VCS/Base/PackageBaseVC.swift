@@ -303,6 +303,11 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         let locationTitle = "\(module[rawIndex].location.shortName)"
         let id = module[rawIndex].location.identifier
         
+        // Display user id and name
+        let cellUserId = module[rawIndex].lockInfo.userId
+        let cellUserName = module[rawIndex].lockInfo.userName
+        cell.userIdLabel.text = cellUserId != "" ? cellUserName: ""
+        
         // Location title
         cell.siteTitle.text = locationTitle
         
@@ -310,70 +315,34 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         cell.transpIcon.image = UIImage(systemName: iconName, withConfiguration: config)
         cell.transpIcon.contentMode = .scaleAspectFit
+        cell.travelTimeLabel.text = formatTimeInterval(travelTime)
         
         // Find last cell, and handel visibility
-        let totalSections = tableView.numberOfSections
-        let totalRowsInLastSection = tableView.numberOfRows(inSection: totalSections - 1)
-        let isLastCell = indexPath.section == totalSections - 1 && indexPath.row == totalRowsInLastSection - 1
+        viewModel.configureLastCell(
+            cell: cell,
+            tableView: tableView,
+            indexPath: indexPath)
         
-        if isLastCell {
-            cell.onTranspTapped = nil
-            cell.transpView.isHidden = true
-        } else {
-            cell.transpView.isHidden = false
-        }
-        
-        // Handle location and transportation tapped
-        let cellUserId = module[rawIndex].lockInfo.userId
-        let cellUserName = module[rawIndex].lockInfo.userName
-        
-        if cellUserId != "" {
-            // cell.userIdLabel.text = cellUserId
-            cell.userIdLabel.text = cellUserName
-             
-        } else {
-            cell.userIdLabel.text = ""
-        }
-        
-        // Configure cell
-        viewModel.configureCellInState(
+        // Configure cell appearance
+        viewModel.configureCellInMUState(
             cell: cell,
             cellUserId: cellUserId,
             userId: userID,
             onLocationTapped: self.onLocationTapped,
             onTranspTapped: self.onTranspTapped)
         
-        // Travel time label
-        cell.travelTimeLabel.text = formatTimeInterval(travelTime)
-        
-        // fetchPhotos
+        // Set BG photos
         if photos != [String: UIImage]() {
             cell.bgImageView.image = photos[id]
             cell.bgImageView.contentMode = .scaleAspectFill
-        } else {
-            switch weatherState {
-            case .sunny:
-                cell.bgImageView.image = UIImage(resource: .site04)
-                cell.bgImageView.contentMode = .scaleAspectFit
-            case .rainy:
-                cell.bgImageView.image = UIImage(resource: .site05)
-                cell.bgImageView.contentMode = .scaleAspectFit
-            }
         }
         
-        // Set arrivedtime
+        // Set rating
         if cell.siteTitle.text != "None" {
-            cell.arrivedTimeLabel.text = viewModel.ratingForIndexPath(indexPath: indexPath)
+            cell.googleRating.text = viewModel.ratingForIndexPath(indexPath: indexPath)
         } else {
-            cell.arrivedTimeLabel.text = String(repeating: "☆", count: 5)
-            switch weatherState {
-            case .sunny:
-                cell.bgImageView.image = UIImage(resource: .site04)
-                cell.bgImageView.contentMode = .scaleAspectFit
-            case .rainy:
-                cell.bgImageView.image = UIImage(resource: .site05)
-                cell.bgImageView.contentMode = .scaleAspectFit
-            }
+            cell.googleRating.text = String(repeating: "☆", count: 5)
+            viewModel.configureCellInWeatherState(cell: cell, state: weatherState)
         }
         
         return cell
