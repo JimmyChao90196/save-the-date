@@ -335,55 +335,13 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             cell.userIdLabel.text = ""
         }
         
-        if cellUserId == userID {
-            // Claimed by me already
-            cell.userIdLabel.isHidden = false
-            cell.userIdLabel.setbackgroundColor(.black)
-            cell.locationView.setBoarderColor(.black)
-            cell.userIdLabel.setTextColor(.white)
-            cell.transpIcon.tintColor = .lightGray
-            cell.travelTimeLabel.setTextColor(.darkGray)
-            
-            cell.siteTitle.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
-            cell.arrivedTimeLabel.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
-            
-            cell.onLocationTapped = self.onLocationTapped
-            cell.onTranspTapped = self.onTranspTapped
-            
-            cell.contentView.setBoarderColor(.clear)
-            
-        } else if cellUserId == "" {
-            // Unclaimed
-            cell.userIdLabel.isHidden = true
-            cell.locationView.setBoarderColor(.hexToUIColor(hex: "#AAAAAA"))
-            cell.transpIcon.tintColor = .lightGray
-            cell.travelTimeLabel.setTextColor(.darkGray)
-            
-            cell.siteTitle.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
-            cell.arrivedTimeLabel.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
-            
-            cell.onLocationTapped = self.onLocationTapped
-            cell.onTranspTapped = self.onTranspTapped
-            
-            cell.contentView.setBoarderColor(.clear)
-            
-        } else {
-            // Claimed by others
-            cell.userIdLabel.isHidden = false
-            cell.userIdLabel.setbackgroundColor(.hexToUIColor(hex: "#DADADA"))
-            cell.userIdLabel.setTextColor(.black)
-            cell.locationView.setBoarderColor(.hexToUIColor(hex: "#DADADA"))
-            cell.transpIcon.tintColor = .hexToUIColor(hex: "#DADADA")
-            cell.travelTimeLabel.setTextColor(.hexToUIColor(hex: "DADADA"))
-            
-            cell.siteTitle.setTextColor(.hexToUIColor(hex: "#DADADA"))
-            cell.arrivedTimeLabel.setTextColor(.hexToUIColor(hex: "#DADADA"))
-            
-            cell.onLocationTapped = nil
-            cell.onTranspTapped = nil
-            
-            cell.contentView.setBoarderColor(.hexToUIColor(hex: "#DADADA"))
-        }
+        // Configure cell
+        viewModel.configureCellInState(
+            cell: cell,
+            cellUserId: cellUserId,
+            userId: userID,
+            onLocationTapped: self.onLocationTapped,
+            onTranspTapped: self.onTranspTapped)
         
         // Travel time label
         cell.travelTimeLabel.text = formatTimeInterval(travelTime)
@@ -910,7 +868,7 @@ extension PackageBaseViewController {
         
         onLocationComfirm = { [weak self] location, action in
             
-            guard let self = self else{ return }
+            guard let self = self else { return }
             
             switch action {
             case .add(let section):

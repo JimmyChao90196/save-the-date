@@ -9,6 +9,22 @@ import Foundation
 import GoogleMaps
 import GooglePlaces
 
+// This is a cell configuration protocol
+protocol CellClaimingProtocol {
+    var userIdIsHidden: Bool { get }
+    var userIdBackgroundColor: UIColor { get }
+    var userIdTextColor: UIColor { get }
+    
+    var locationViewBoarderColor: UIColor { get }
+    var transpIconTintColor: UIColor { get }
+    var travelLabelTextColor: UIColor { get }
+    
+    var siteTitletextColor: UIColor { get }
+    var arrivedTimeLabelTextColor: UIColor { get }
+    
+    var contentViewBoarderColor: UIColor { get }
+}
+
 class CreateViewModel {
     
     let googlePlaceManger = GooglePlacesManager.shared
@@ -17,16 +33,63 @@ class CreateViewModel {
     var sunnyPhotos = Box<[String: UIImage]>([:])
     var rainyPhotos = Box<[String: UIImage]>([:])
     
+    // Configure cell
+    func configureCellInState(
+        cell: UITableViewCell,
+        cellUserId: String,
+        userId: String,
+        onLocationTapped: ((UITableViewCell) -> Void)?,
+        onTranspTapped: ((UITableViewCell) -> Void)?
+    ) {
+        guard let cell = cell as? ModuleTableViewCell else { return }
+        
+        if cellUserId == userId {
+            
+            cell.onLocationTapped = onLocationTapped
+            cell.onTranspTapped = onTranspTapped
+            configureCellAppearance(cell: cell, config: CellClaimedByUser())
+            
+        } else if cellUserId == "" {
+            
+            cell.onLocationTapped = onLocationTapped
+            cell.onTranspTapped = onTranspTapped
+            configureCellAppearance(cell: cell, config: Cellunclaimed())
+            
+        } else {
+            
+            cell.onLocationTapped = nil
+            cell.onTranspTapped = nil
+            configureCellAppearance(cell: cell, config: CellClaimedByOthers())
+        }
+    }
+    
+    func configureCellAppearance(
+        cell: UITableViewCell,
+        config: CellClaimingProtocol) {
+        
+            if let cell = cell as? ModuleTableViewCell {
+                cell.userIdLabel.isHidden = config.userIdIsHidden
+                cell.userIdLabel.setbackgroundColor(config.userIdBackgroundColor)
+                cell.userIdLabel.setTextColor(config.userIdTextColor)
+                cell.locationView.setBoarderColor(config.locationViewBoarderColor)
+                cell.transpIcon.tintColor = config.transpIconTintColor
+                cell.travelTimeLabel.setTextColor(config.travelLabelTextColor)
+                cell.siteTitle.setTextColor(config.siteTitletextColor)
+                cell.arrivedTimeLabel.setTextColor(config.arrivedTimeLabelTextColor)
+                cell.contentView.setBoarderColor(config.contentViewBoarderColor)
+            }
+    }
+    
     // Fake rating system.
     func ratingForIndexPath(indexPath: IndexPath, minimumRating: Double = 3.0) -> String {
         
         // Use the hash value of the index path as a seed substitute
         let seed = indexPath.hashValue
         var rng = SeededGenerator(seed: seed)
-
+        
         // Ensure minimumRating is within the valid range (0 to 5)
         let clampedMinimumRating = min(max(minimumRating, 0.0), 5.0)
-
+        
         // Generate a random rating between clampedMinimumRating and 5
         let maxRating = 5
         let rating = max(Double.random(in: 0...5, using: &rng), clampedMinimumRating)
@@ -36,32 +99,32 @@ class CreateViewModel {
         let emptyStarString = String(repeating: "☆", count: emptyStarCount)
         return fullStarString + emptyStarString
     }
-
+    
     // Custom random number generator using a hash value as a seed
     struct SeededGenerator: RandomNumberGenerator {
         private var state: UInt64
-
+        
         init(seed: Int) {
             state = UInt64(abs(seed))
         }
-
+        
         mutating func next() -> UInt64 {
             state = 6364136223846793005 &* state &+ 1
             return state
         }
     }
-
+    
     // Check if the package is empty
     func shouldPublish(
         sunnyModule: [PackageModule],
         rainyModule: [PackageModule]) -> Bool {
             
-        if sunnyModule == [] && rainyModule == [] {
-            return false
-        } else {
-            return true
+            if sunnyModule == [] && rainyModule == [] {
+                return false
+            } else {
+                return true
+            }
         }
-    }
     
     // ParseAddress
     func parseAddress(
@@ -73,7 +136,7 @@ class CreateViewModel {
         var country: String?
         
         guard let addressComponents else { return }
-
+        
         for component in addressComponents {
             // Check if the component is a city
             if component.types.contains("administrative_area_level_1") {
@@ -121,7 +184,7 @@ class CreateViewModel {
         
         return dict
     }
-        
+    
     func fetchSitePhotos(
         weatherState: WeatherState,
         photoReferences: [String: String]?) {
