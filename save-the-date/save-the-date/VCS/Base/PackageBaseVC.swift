@@ -49,12 +49,16 @@ class PackageBaseViewController: UIViewController {
     var currentPackage = Package()
     var sunnyModules = [PackageModule]() {
         didSet {
-            changeBGImage()
+            DispatchQueue.main.async {
+                self.changeBGImage()
+            }
         }
     }
     var rainyModules = [PackageModule]() {
         didSet {
-            changeBGImage()
+            DispatchQueue.main.async {
+                self.changeBGImage()
+            }
         }
     }
     
@@ -416,8 +420,18 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 
     // Can move row at
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        let rawIndex = viewModel.findModuleIndex(modules: self.sunnyModules, from: indexPath)
-        let id = self.sunnyModules[rawIndex ?? 0].lockInfo.userId
+        
+        var id = ""
+        var rawIndex = 0
+        
+        switch weatherState {
+        case .sunny:
+            rawIndex = viewModel.findModuleIndex(modules: self.sunnyModules, from: indexPath) ?? 0
+            id = self.sunnyModules[rawIndex].lockInfo.userId
+        case .rainy:
+            rawIndex = viewModel.findModuleIndex(modules: self.rainyModules, from: indexPath) ?? 0
+            id = self.rainyModules[rawIndex].lockInfo.userId
+        }
         
         if id != "" && id != "none" && id != "None" && id != userID {
             return false
@@ -486,81 +500,6 @@ extension PackageBaseViewController {
             source: source,
             dest: destination,
             weatherState: weatherState)
-        
-//        if weatherState == .sunny {
-//            
-//            // First find out the "raw" index of the module
-//            guard let sourceRowIndex = viewModel.findModuleIndex(
-//                modules: sunnyModules,
-//                from: source) else {return}
-//            guard let destRowIndex = viewModel.findModuleIndex(
-//                modules: sunnyModules,
-//                from: destination) else {return}
-//            
-//            // is in multi-user mode?
-//            if isMultiUser == true {
-//                
-//                currentPackage.weatherModules.sunny = sunnyModules
-//                
-//                // Swap first
-//                sunnyModules.swapAt(sourceRowIndex, destRowIndex)
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//                
-//                self.firestoreManager.swapModulesWithTrans(
-//                    docPath: documentPath,
-//                    sourceIndex: sourceRowIndex,
-//                    destIndex: destRowIndex,
-//                    with: currentPackage,
-//                    when: .sunny
-//                ) { currentPackage in
-//                        
-//                        self.currentPackage = currentPackage
-//                        self.sunnyModules = currentPackage.weatherModules.sunny
-//                    }
-//                
-//            } else {
-//                sunnyModules.swapAt(sourceRowIndex, destRowIndex)
-//            }
-//            
-//        } else {
-//            
-//            // First find out the "raw" index of the module
-//            guard let sourceRowIndex = viewModel.findModuleIndex(
-//                modules: rainyModules,
-//                from: source) else {return}
-//            guard let destRowIndex = viewModel.findModuleIndex(
-//                modules: rainyModules,
-//                from: destination) else {return}
-//            
-//            // is in multi-user mode?
-//            if isMultiUser == true {
-//                
-//                currentPackage.weatherModules.rainy = rainyModules
-//                
-//                // Swap first
-//                rainyModules.swapAt(sourceRowIndex, destRowIndex)
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//                
-//                self.firestoreManager.swapModulesWithTrans(
-//                    docPath: documentPath,
-//                    sourceIndex: sourceRowIndex,
-//                    destIndex: destRowIndex,
-//                    with: currentPackage,
-//                    when: .rainy
-//                ) { currentPackage in
-//                        
-//                        self.currentPackage = currentPackage
-//                        self.rainyModules = currentPackage.weatherModules.rainy
-//                    }
-//                
-//            } else {
-//                rainyModules.swapAt(sourceRowIndex, destRowIndex)
-//            }
-//        }
     }
     
     // Interval formatter
