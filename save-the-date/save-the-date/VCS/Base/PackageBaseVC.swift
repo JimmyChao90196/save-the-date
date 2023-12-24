@@ -168,6 +168,36 @@ class PackageBaseViewController: UIViewController {
     func setup() {
         
         // Data binding
+        viewModel.sunnyModules.bind { modules in
+            
+            self.sunnyModules = modules
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        viewModel.rainyModules.bind { modules in
+            self.rainyModules = modules
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        viewModel.currentPackage.bind { newPackage in
+            if newPackage != Package() {
+                
+                self.sunnyModules = newPackage.weatherModules.sunny
+                self.rainyModules = newPackage.weatherModules.rainy
+                self.currentPackage = newPackage
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        
         viewModel.regionTags.bind { tags in
             self.regionTags = tags
         }
@@ -372,25 +402,37 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         
         if editingStyle == .delete {
             
-            let rawIndex = viewModel.findModuleIndex(modules: self.sunnyModules, from: indexPath)
-            let id = self.sunnyModules[rawIndex ?? 0].lockInfo.userId
-            if id != "" && id != "none" && id != "None" && id != userID {
-                return
-            }
+//            let rawIndex = viewModel.findModuleIndex(modules: self.sunnyModules, from: indexPath)
+//            let id = self.sunnyModules[rawIndex ?? 0].lockInfo.userId
+//            if id != "" && id != "none" && id != "None" && id != userID {
+//                return
+//            }
             
             // Perform deletion of the item from your data source
-            if self.weatherState == .sunny {
+//            if self.weatherState == .sunny {
+            
+            currentPackage.weatherModules.sunny = sunnyModules
+            currentPackage.weatherModules.rainy = rainyModules
+            
+                viewModel.deleteModule(
+                    docPath: documentPath,
+                    currentPackage: currentPackage,
+                    indexPath: indexPath,
+                    userID: userID,
+                    weatherState: weatherState)
                 
-                let rawIndexForModule = self.viewModel.findModuleIndex(
-                    modules: self.sunnyModules,
-                    from: indexPath)
-//                let time = self.sunnyModules[rawIndexForModule ?? 0].lockInfo.timestamp
+//            } else {
                 
-                // Is in multi-user mode or not
-                if self.isMultiUser {
-                    
+//                let rawIndexForModule = self.viewModel.findModuleIndex(
+//                    modules: self.rainyModules,
+//                    from: indexPath)
+//                let time = self.rainyModules[rawIndexForModule ?? 0].lockInfo.timestamp
+//                
+//                // Is in multi-user mode or not
+//                if self.isMultiUser {
+//                    
 //                    // Delete first
-//                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
+//                    self.rainyModules.remove(at: rawIndexForModule ?? 0)
 //                    
 //                    DispatchQueue.main.async {
 //                        self.tableView.reloadData()
@@ -402,62 +444,21 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 //                        time: time,
 //                        targetIndex: rawIndexForModule ?? 0,
 //                        with: self.currentPackage,
-//                        when: .sunny
+//                        when: .rainy
 //                    ) { newPackage in
 //                        self.currentPackage = newPackage
 //                        self.sunnyModules = newPackage.weatherModules.sunny
 //                    }
-                    
-                    viewModel.deleteWithTrans(
-                        docPath: documentPath,
-                        currentPackage: currentPackage,
-                        indexPath: indexPath,
-                        userID: userID,
-                        weatherState: weatherState)
-                    
-                } else {
-                    
-                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
-                }
-                
-            } else {
-                
-                let rawIndexForModule = self.viewModel.findModuleIndex(
-                    modules: self.rainyModules,
-                    from: indexPath)
-                let time = self.rainyModules[rawIndexForModule ?? 0].lockInfo.timestamp
-                
-                // Is in multi-user mode or not
-                if self.isMultiUser {
-                    
-                    // Delete first
-                    self.rainyModules.remove(at: rawIndexForModule ?? 0)
-                    
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                    
-                    self.firestoreManager.deleteModuleWithTrans(
-                        
-                        docPath: self.documentPath,
-                        time: time,
-                        targetIndex: rawIndexForModule ?? 0,
-                        with: self.currentPackage,
-                        when: .rainy
-                    ) { newPackage in
-                        self.currentPackage = newPackage
-                        self.sunnyModules = newPackage.weatherModules.sunny
-                    }
-                    
-                } else {
-                    
-                    self.rainyModules.remove(at: rawIndexForModule ?? 0)
-                }
-            }
-                
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+//                    
+//                } else {
+//                    
+//                    self.rainyModules.remove(at: rawIndexForModule ?? 0)
+//                }
+//            }
+//                
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
         }
     }
 

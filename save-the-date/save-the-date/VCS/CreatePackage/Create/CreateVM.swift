@@ -35,8 +35,8 @@ class CreateViewModel {
     var rainyPhotos = Box<[String: UIImage]>([:])
     
     var currentPackage = Box<Package>(Package())
-    var sunnyModules = Box<PackageModule>(PackageModule())
-    var rainyModules = Box<PackageModule>(PackageModule())
+    var sunnyModules = Box<[PackageModule]>([])
+    var rainyModules = Box<[PackageModule]>([])
     
     // MARK: - Configure cell -
     // Configure last cell
@@ -240,39 +240,44 @@ class CreateViewModel {
     }
     
     // MARK: - delete functions -
-    func deleteWithTrans(
-        docPath: String,
+    func deleteModule(
+        docPath: String?,
         currentPackage: Package,
         indexPath: IndexPath,
         userID: String,
         weatherState: WeatherState) {
             
-        var modules = weatherState == .sunny ?
-        currentPackage.weatherModules.sunny:
-        currentPackage.weatherModules.rainy
-        
-        // Return if the cell is claimed.
-        let rawIndex = findModuleIndex(modules: modules, from: indexPath)
-        let id = modules[rawIndex ?? 0].lockInfo.userId
-        if id != "" && id != "none" && id != "None" && id != userID { return }
-        let time = modules[rawIndex ?? 0].lockInfo.timestamp
-        
-        switch weatherState {
-        case .sunny:
-            self.sunnyModules.value = modules.remove(at: rawIndex ?? 0)
-        case .rainy:
-            self.rainyModules.value = modules.remove(at: rawIndex ?? 0)
-        }
-        
-        firestoreManager.deleteModuleWithTrans(
-            docPath: docPath,
-            time: time,
-            targetIndex: rawIndex ?? 0,
-            with: currentPackage,
-            when: weatherState) { newPackage in
-                self.currentPackage.value = newPackage
+            var modules = weatherState == .sunny ?
+            currentPackage.weatherModules.sunny:
+            currentPackage.weatherModules.rainy
+            
+            // Return if the cell is claimed.
+            let rawIndex = findModuleIndex(modules: modules, from: indexPath)
+            let id = modules[rawIndex ?? 0].lockInfo.userId
+            if id != "" && id != "none" && id != "None" && id != userID { return }
+            let time = modules[rawIndex ?? 0].lockInfo.timestamp
+            
+            switch weatherState {
+            case .sunny:
+                modules.remove(at: rawIndex ?? 0)
+                self.sunnyModules.value = modules
+            case .rainy:
+                modules.remove(at: rawIndex ?? 0)
+                self.rainyModules.value = modules
             }
-    }
+            
+            if docPath != "" {
+                
+                firestoreManager.deleteModuleWithTrans(
+                    docPath: docPath ?? "",
+                    time: time,
+                    targetIndex: rawIndex ?? 0,
+                    with: currentPackage,
+                    when: weatherState) { newPackage in
+                        self.currentPackage.value = newPackage
+                    }
+            }
+        }
     
     // MARK: - Additional functions -
     
