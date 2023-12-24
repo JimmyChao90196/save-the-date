@@ -188,6 +188,7 @@ class PackageBaseViewController: UIViewController {
             }
         }
         
+        // Inject initial data
         sunnyModules = currentPackage.weatherModules.sunny
         rainyModules = currentPackage.weatherModules.rainy
         
@@ -297,7 +298,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         let module = weatherState == .sunny ? sunnyModules : rainyModules
         let photos = weatherState == .sunny ? sunnyPhotos : rainyPhotos
         
-        guard let rawIndex = findModuleIndex(modules: module, from: indexPath) else {return UITableViewCell()}
+        guard let rawIndex = viewModel.findModuleIndex(modules: module, from: indexPath) else {return UITableViewCell()}
         let travelTime = module[rawIndex].transportation.travelTime
         let iconName = module[rawIndex].transportation.transpIcon
         let locationTitle = "\(module[rawIndex].location.shortName)"
@@ -371,7 +372,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         
         if editingStyle == .delete {
             
-            let rawIndex = findModuleIndex(modules: self.sunnyModules, from: indexPath)
+            let rawIndex = viewModel.findModuleIndex(modules: self.sunnyModules, from: indexPath)
             let id = self.sunnyModules[rawIndex ?? 0].lockInfo.userId
             if id != "" && id != "none" && id != "None" && id != userID {
                 return
@@ -380,32 +381,39 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
             // Perform deletion of the item from your data source
             if self.weatherState == .sunny {
                 
-                let rawIndexForModule = self.findModuleIndex(
+                let rawIndexForModule = self.viewModel.findModuleIndex(
                     modules: self.sunnyModules,
                     from: indexPath)
-                let time = self.sunnyModules[rawIndexForModule ?? 0].lockInfo.timestamp
+//                let time = self.sunnyModules[rawIndexForModule ?? 0].lockInfo.timestamp
                 
                 // Is in multi-user mode or not
                 if self.isMultiUser {
                     
-                    // Delete first
-                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
+//                    // Delete first
+//                    self.sunnyModules.remove(at: rawIndexForModule ?? 0)
+//                    
+//                    DispatchQueue.main.async {
+//                        self.tableView.reloadData()
+//                    }
+//                    
+//                    self.firestoreManager.deleteModuleWithTrans(
+//                        
+//                        docPath: self.documentPath,
+//                        time: time,
+//                        targetIndex: rawIndexForModule ?? 0,
+//                        with: self.currentPackage,
+//                        when: .sunny
+//                    ) { newPackage in
+//                        self.currentPackage = newPackage
+//                        self.sunnyModules = newPackage.weatherModules.sunny
+//                    }
                     
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                    
-                    self.firestoreManager.deleteModuleWithTrans(
-                        
-                        docPath: self.documentPath,
-                        time: time,
-                        targetIndex: rawIndexForModule ?? 0,
-                        with: self.currentPackage,
-                        when: .sunny
-                    ) { newPackage in
-                            self.currentPackage = newPackage
-                            self.sunnyModules = newPackage.weatherModules.sunny
-                        }
+                    viewModel.deleteWithTrans(
+                        docPath: documentPath,
+                        currentPackage: currentPackage,
+                        indexPath: indexPath,
+                        userID: userID,
+                        weatherState: weatherState)
                     
                 } else {
                     
@@ -414,7 +422,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                 
             } else {
                 
-                let rawIndexForModule = self.findModuleIndex(
+                let rawIndexForModule = self.viewModel.findModuleIndex(
                     modules: self.rainyModules,
                     from: indexPath)
                 let time = self.rainyModules[rawIndexForModule ?? 0].lockInfo.timestamp
@@ -437,9 +445,9 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
                         with: self.currentPackage,
                         when: .rainy
                     ) { newPackage in
-                            self.currentPackage = newPackage
-                            self.sunnyModules = newPackage.weatherModules.sunny
-                        }
+                        self.currentPackage = newPackage
+                        self.sunnyModules = newPackage.weatherModules.sunny
+                    }
                     
                 } else {
                     
@@ -455,7 +463,7 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
 
     // Can move row at
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        let rawIndex = findModuleIndex(modules: self.sunnyModules, from: indexPath)
+        let rawIndex = viewModel.findModuleIndex(modules: self.sunnyModules, from: indexPath)
         let id = self.sunnyModules[rawIndex ?? 0].lockInfo.userId
         
         if id != "" && id != "none" && id != "None" && id != userID {
@@ -509,110 +517,9 @@ extension PackageBaseViewController {
             } else {
                 self.bgImageView.image = UIImage(resource: .createBG03)
             }
-        }
-    }
-    
-    // Find next indexPath
-    func findNextIndexPath(currentCell: UITableViewCell, in tableView: UITableView) -> IndexPath? {
-        guard let indexPath = tableView.indexPath(for: currentCell) else { return nil }
-
-        let currentSection = indexPath.section
-        let currentRow = indexPath.row
-        let totalSections = tableView.numberOfSections
-
-        // Check if the next cell is in the same section
-        if currentRow < tableView.numberOfRows(inSection: currentSection) - 1 {
-            return IndexPath(row: currentRow + 1, section: currentSection)
-        }
-        // Check if there's another section
-        else if currentSection < totalSections - 1 {
-            return IndexPath(row: 0, section: currentSection + 1)
-        }
-        
-        // No next cell (current cell is the last cell of the last section)
-        return nil
-    }
-    
-    // Find next
-    func findNextIndexPath(
-        currentIndex indexPath: IndexPath,
-        in tableView: UITableView) -> IndexPath? {
-        
-        let currentSection = indexPath.section
-        let currentRow = indexPath.row
-        let totalSections = tableView.numberOfSections
-
-        // Check if the next cell is in the same section
-        if currentRow < tableView.numberOfRows(inSection: currentSection) - 1 {
-            return IndexPath(row: currentRow + 1, section: currentSection)
-        }
-        // Check if there's another section
-        else if currentSection < totalSections - 1 {
-            return IndexPath(row: 0, section: currentSection + 1)
-        }
-        
-        // No next cell (current cell is the last cell of the last section)
-        return nil
-    }
-    
-    // Function to find the correct index
-    func findModuleIndex(modules: [PackageModule], day: Int, rowIndex: Int) -> Int? {
-        var count = 0
-        return modules.firstIndex { module in
-            if module.day == day {
-                if count == rowIndex {
-                    return true
-                }
-                count += 1
-            }
-            return false
-        }
-    }
-    
-    func findModuleIndex(modules: [PackageModule], from indexPath: IndexPath) -> Int? {
-        var count = 0
-        let moduleDay = indexPath.section
-        let row = indexPath.row
-        
-        return modules.firstIndex { module in
-            if module.day == moduleDay {
-                if count == row { return true }
-                count += 1
-            }
-            return false
-        }
-    }
-    
-    func findModuleIndecies(
-        modules: [PackageModule],
-        targetModuleDay: Int,
-        rowIndex: Int,
-        nextModuleDay: Int,
-        nextRowIndex: Int,
-        completion: (Int?, Int?) -> Void) {
             
-            // Target index
-            var targetCount = 0
-            let targetIndext = modules.firstIndex { module in
-                if module.day == targetModuleDay {
-                    if targetCount == rowIndex { return true }
-                    targetCount += 1
-                }
-                return false
-            }
-            
-            // Next index
-            var nextCount = 0
-            let nextIndext = modules.firstIndex { module in
-                if module.day == nextModuleDay {
-                    
-                    if nextCount == nextRowIndex { return true }
-                    nextCount += 1
-                }
-                return false
-            }
-            completion(targetIndext, nextIndext)
         }
+    }
     
     // Logic to swap module
     func movePackage(from source: IndexPath, to destination: IndexPath) {
@@ -620,10 +527,10 @@ extension PackageBaseViewController {
         if weatherState == .sunny {
             
             // First find out the "raw" index of the module
-            guard let sourceRowIndex = findModuleIndex(
+            guard let sourceRowIndex = viewModel.findModuleIndex(
                 modules: sunnyModules,
                 from: source) else {return}
-            guard let destRowIndex = findModuleIndex(
+            guard let destRowIndex = viewModel.findModuleIndex(
                 modules: sunnyModules,
                 from: destination) else {return}
             
@@ -657,10 +564,10 @@ extension PackageBaseViewController {
         } else {
             
             // First find out the "raw" index of the module
-            guard let sourceRowIndex = findModuleIndex(
+            guard let sourceRowIndex = viewModel.findModuleIndex(
                 modules: rainyModules,
                 from: source) else {return}
-            guard let destRowIndex = findModuleIndex(
+            guard let destRowIndex = viewModel.findModuleIndex(
                 modules: rainyModules,
                 from: destination) else {return}
             
@@ -865,7 +772,7 @@ extension PackageBaseViewController {
             case .edit(let targetIndex):
 
                 if self.weatherState == .sunny {
-                    if let index = self.findModuleIndex(
+                    if let index = self.viewModel.findModuleIndex(
                         modules: self.sunnyModules,
                         from: targetIndex) {
                         self.sunnyModules[index].location = location
@@ -873,7 +780,7 @@ extension PackageBaseViewController {
                     fetchPhotosHelperFunction(modules: sunnyModules)
                     
                 } else {
-                    if let index = self.findModuleIndex(
+                    if let index = self.viewModel.findModuleIndex(
                         modules: self.rainyModules,
                         from: targetIndex) {
                         self.rainyModules[index].location = location
@@ -914,13 +821,15 @@ extension PackageBaseViewController {
                 
                 if self.weatherState == .sunny {
                     
-                    let rawDestIndexPath = findNextIndexPath(currentIndex: targetIndex, in: self.tableView)
+                    let rawDestIndexPath = viewModel.findNextIndexPath(
+                        currentIndex: targetIndex,
+                        in: self.tableView)
                     
-                    sunnySourceRawIndex = findModuleIndex(
+                    sunnySourceRawIndex = viewModel.findModuleIndex(
                         modules: self.sunnyModules,
                         from: targetIndex) ?? 0
                     
-                    sunnyDestRawIndex = findModuleIndex(
+                    sunnyDestRawIndex = viewModel.findModuleIndex(
                         modules: self.sunnyModules,
                         from: rawDestIndexPath ?? IndexPath()) ?? 0
                     
@@ -929,13 +838,15 @@ extension PackageBaseViewController {
                     
                 } else {
                     
-                    let rawDestIndexPath = findNextIndexPath(currentIndex: targetIndex, in: self.tableView)
+                    let rawDestIndexPath = viewModel.findNextIndexPath(
+                        currentIndex: targetIndex,
+                        in: self.tableView)
                     
-                    rainySourceRawIndex = findModuleIndex(
+                    rainySourceRawIndex = viewModel.findModuleIndex(
                         modules: self.rainyModules,
                         from: targetIndex) ?? 0
                     
-                    rainyDestRawIndex = findModuleIndex(
+                    rainyDestRawIndex = viewModel.findModuleIndex(
                         modules: self.rainyModules,
                         from: rawDestIndexPath ?? IndexPath()) ?? 0
                     
@@ -1042,10 +953,10 @@ extension PackageBaseViewController {
             
             // Find time first
             if weatherState == .sunny {
-                rawIndex = findModuleIndex(modules: sunnyModules, from: indexPath) ?? 0
+                rawIndex = viewModel.findModuleIndex(modules: sunnyModules, from: indexPath) ?? 0
                 time = self.sunnyModules[rawIndex].lockInfo.timestamp
             } else {
-                rawIndex = findModuleIndex(modules: rainyModules, from: indexPath) ?? 0
+                rawIndex = viewModel.findModuleIndex(modules: rainyModules, from: indexPath) ?? 0
                 time = self.rainyModules[rawIndex].lockInfo.timestamp
             }
             
@@ -1114,7 +1025,7 @@ extension PackageBaseViewController {
                 var id = ""
                 if weatherState == .sunny {
                     
-                    guard let rawIndex = findModuleIndex(
+                    guard let rawIndex = viewModel.findModuleIndex(
                         modules: sunnyModules,
                         from: indexPath) else { return }
                     
@@ -1122,7 +1033,7 @@ extension PackageBaseViewController {
                     
                 } else {
                     
-                    guard let rawIndex = findModuleIndex(
+                    guard let rawIndex = viewModel.findModuleIndex(
                         modules: rainyModules,
                         from: indexPath) else { return }
                     

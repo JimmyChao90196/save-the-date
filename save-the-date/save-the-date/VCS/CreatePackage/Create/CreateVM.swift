@@ -28,11 +28,17 @@ protocol CellClaimingProtocol {
 class CreateViewModel {
     
     let googlePlaceManger = GooglePlacesManager.shared
+    let firestoreManager = FirestoreManager.shared
     
     let regionTags = Box<[String]>([])
     var sunnyPhotos = Box<[String: UIImage]>([:])
     var rainyPhotos = Box<[String: UIImage]>([:])
     
+    var currentPackage = Box<Package>(Package())
+    var sunnyModules = Box<PackageModule>(PackageModule())
+    var rainyModules = Box<PackageModule>(PackageModule())
+    
+    // MARK: - Configure cell -
     // Configure last cell
     func configureLastCell(
         cell: UITableViewCell,
@@ -149,6 +155,126 @@ class CreateViewModel {
             return state
         }
     }
+    
+    // MARK: - Find index function -
+    
+    // Function to find the correct index
+    func findModuleIndex(modules: [PackageModule], day: Int, rowIndex: Int) -> Int? {
+        var count = 0
+        return modules.firstIndex { module in
+            if module.day == day {
+                if count == rowIndex {
+                    return true
+                }
+                count += 1
+            }
+            return false
+        }
+    }
+    
+    func findModuleIndex(modules: [PackageModule], from indexPath: IndexPath) -> Int? {
+        var count = 0
+        let moduleDay = indexPath.section
+        let row = indexPath.row
+        
+        return modules.firstIndex { module in
+            if module.day == moduleDay {
+                if count == row { return true }
+                count += 1
+            }
+            return false
+        }
+    }
+    
+    func findModuleIndecies(
+        modules: [PackageModule],
+        targetModuleDay: Int,
+        rowIndex: Int,
+        nextModuleDay: Int,
+        nextRowIndex: Int,
+        completion: (Int?, Int?) -> Void) {
+            
+            // Target index
+            var targetCount = 0
+            let targetIndext = modules.firstIndex { module in
+                if module.day == targetModuleDay {
+                    if targetCount == rowIndex { return true }
+                    targetCount += 1
+                }
+                return false
+            }
+            
+            // Next index
+            var nextCount = 0
+            let nextIndext = modules.firstIndex { module in
+                if module.day == nextModuleDay {
+                    
+                    if nextCount == nextRowIndex { return true }
+                    nextCount += 1
+                }
+                return false
+            }
+            completion(targetIndext, nextIndext)
+        }
+    
+    // Find next indexPath
+    func findNextIndexPath(
+        currentIndex indexPath: IndexPath,
+        in tableView: UITableView) -> IndexPath? {
+        
+        let currentSection = indexPath.section
+        let currentRow = indexPath.row
+        let totalSections = tableView.numberOfSections
+
+        // Check if the next cell is in the same section
+        if currentRow < tableView.numberOfRows(inSection: currentSection) - 1 {
+            return IndexPath(row: currentRow + 1, section: currentSection)
+        }
+        // Check if there's another section
+        else if currentSection < totalSections - 1 {
+            return IndexPath(row: 0, section: currentSection + 1)
+        }
+        
+        // No next cell (current cell is the last cell of the last section)
+        return nil
+    }
+    
+    // MARK: - delete functions -
+    func deleteWithTrans(
+        docPath: String,
+        currentPackage: Package,
+        indexPath: IndexPath,
+        userID: String,
+        weatherState: WeatherState) {
+            
+        var modules = weatherState == .sunny ?
+        currentPackage.weatherModules.sunny:
+        currentPackage.weatherModules.rainy
+        
+        // Return if the cell is claimed.
+        let rawIndex = findModuleIndex(modules: modules, from: indexPath)
+        let id = modules[rawIndex ?? 0].lockInfo.userId
+        if id != "" && id != "none" && id != "None" && id != userID { return }
+        let time = modules[rawIndex ?? 0].lockInfo.timestamp
+        
+        switch weatherState {
+        case .sunny:
+            self.sunnyModules.value = modules.remove(at: rawIndex ?? 0)
+        case .rainy:
+            self.rainyModules.value = modules.remove(at: rawIndex ?? 0)
+        }
+        
+        firestoreManager.deleteModuleWithTrans(
+            docPath: docPath,
+            time: time,
+            targetIndex: rawIndex ?? 0,
+            with: currentPackage,
+            when: weatherState) { newPackage in
+                self.currentPackage.value = newPackage
+            }
+    }
+    
+    // MARK: - Additional functions -
     
     // Check if the package is empty
     func shouldPublish(
