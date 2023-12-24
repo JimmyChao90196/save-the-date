@@ -62,33 +62,6 @@ class CreateViewModel {
             return true
         }
     }
-
-    // Parse region tags
-    func parseRegionTags(package: Package) {
-        
-        let sunnyModules = package.weatherModules.sunny
-        let rainyModules = package.weatherModules.rainy
-        
-        let sunnyIds = sunnyModules.map { module in
-            return module.location.identifier
-        }
-        
-        let rainyIds = rainyModules.map { module in
-            return module.location.identifier
-        }
-        
-        let identifiers = sunnyIds + rainyIds
-        
-        googlePlaceManger.getCountriesAndCities(
-            for: identifiers) { result in
-                switch result {
-                case .success(let fetchedRegionTags):
-                    print(fetchedRegionTags.unique())
-                case .failure(let error):
-                    print(error)
-                }
-            }
-    }
     
     // ParseAddress
     func parseAddress(
@@ -104,16 +77,24 @@ class CreateViewModel {
         for component in addressComponents {
             // Check if the component is a city
             if component.types.contains("administrative_area_level_1") {
-                city = component.name
+                city = component.name.replacingOccurrences(of: " City", with: "")
+                city = city?.replacingOccurrences(of: " Country", with: "")
+                city = city?.replacingOccurrences(of: " County", with: "")
+                city = city?.replacingOccurrences(of: " Township", with: "")
             }
             // Check if the component is a district
             else if component.types.contains("administrative_area_level_2") {
-                district = component.name
+                district = component.name.replacingOccurrences(of: " City", with: "")
+                district = district?.replacingOccurrences(of: " Country", with: "")
+                district = district?.replacingOccurrences(of: " County", with: "")
+                district = district?.replacingOccurrences(of: " Township", with: "")
                 
             } else if component.types.contains("country") {
                 // This is the country
-                country = component.name
-                
+                country = component.name.replacingOccurrences(of: " City", with: "")
+                country = country?.replacingOccurrences(of: " Country", with: "")
+                country = country?.replacingOccurrences(of: " County", with: "")
+                country = country?.replacingOccurrences(of: " Township", with: "")
             }
         }
         

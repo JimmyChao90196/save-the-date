@@ -109,11 +109,13 @@ class CreatePackageViewController: PackageBaseViewController {
         )
         
         let items = [
-
+            /// Use this when you need to demo
+            /*
             HoverItem(
                 title: "Demo session",
                 image: UIImage(systemName: "door.left.hand.open"),
                 onTap: { self.enterDemoSessionPressed() }),
+             */
             
             HoverItem(
                 title: "Enter multi-user session",
@@ -305,9 +307,6 @@ extension CreatePackageViewController {
                 self.currentPackage.photoURL = self.userManager.currentUser.photoURL
                 self.currentPackage.weatherModules.sunny = self.sunnyModules
                 self.currentPackage.weatherModules.rainy = self.rainyModules
-                
-                self.viewModel.parseRegionTags(package: self.currentPackage)
-
                 self.firestoreManager.uploadPackage(self.currentPackage) { [weak self] result in
                     switch result {
                     case .success(let documentID):

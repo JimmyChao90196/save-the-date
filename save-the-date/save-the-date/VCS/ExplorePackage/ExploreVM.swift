@@ -29,16 +29,8 @@ class ExploreViewModel {
             
             switch result {
             case .success(let packages):
-                
-                var resultPackages = [Package]()
-                packages.forEach {
-                    
-                    if $0.regionTags.contains(where: { $0 == tags[1] }) {
-                        resultPackages.append($0)
-                    }
-                }
 
-                self.fetchedPackages.value = resultPackages
+                self.fetchedPackages.value = packages
                 
             case .failure(let error): print(error)
             }

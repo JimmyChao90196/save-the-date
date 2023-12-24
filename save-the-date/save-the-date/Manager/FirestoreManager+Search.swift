@@ -54,7 +54,7 @@ extension FirestoreManager {
         let packagesCollection = fdb.collection("publishedPackages")
         
         packagesCollection
-            .whereField("regionTags", arrayContains: tags.first!)
+            .whereField("regionTags", arrayContainsAny: tags)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")

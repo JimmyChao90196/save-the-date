@@ -40,10 +40,6 @@ class TabbarController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Force setting languege
-        UserDefaults.standard.set(["en"], forKey: "AppleLanguages")
-        UserDefaults.standard.synchronize()
-        
         // Add observer
         NotificationCenter.default.addObserver(
             self,

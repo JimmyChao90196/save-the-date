@@ -66,66 +66,14 @@ final class GooglePlacesManager {
             completion(.success(images))
         }
     }
-
-    func getCountriesAndCities(
-        for placeIDs: [String],
-        completion: @escaping (Result<[String], Error>) -> Void
-    ) {
-        var results: [String] = []
-        var encounteredError: Error?
-        let dispatchGroup = DispatchGroup()
-
-        for placeID in placeIDs {
-            dispatchGroup.enter()
-
-            client.lookUpPlaceID(placeID) { (place, error) in
-                defer { dispatchGroup.leave() }
-
-                if let error = error {
-                    encounteredError = error
-                    return
-                }
-
-                guard let place = place else {
-                    encounteredError = FetchedError.placeNotFound
-                    return
-                }
-
-                var country = ""
-                var city = ""
-
-                for component in place.addressComponents ?? [] {
-        
-                    if component.types.contains("country") {
-                        country = component.name
-                    } else if component.types.contains("locality") {
-                        city = component.name
-                    }
-                }
-
-                if !country.isEmpty || !city.isEmpty {
-                    results.append(city)
-                    results.append(country)
-                } else {
-                    encounteredError = FetchedError.placeDetailNotFound
-                }
-            }
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            if let error = encounteredError {
-                completion(.failure(error))
-            } else {
-                completion(.success(results))
-            }
-        }
-    }
     
     public func findLocations(
         query: String,
         completion: @escaping (Result<[Location], Error>) -> Void
     ) {
-        let filter = GMSAutocompleteFilter()
+        var filter = GMSAutocompleteFilter()
+        filter.accessibilityLanguage = "en"
+        
         client.findAutocompletePredictions(
             fromQuery: query,
             filter: filter,
@@ -186,7 +134,7 @@ final class GooglePlacesManager {
 
     public func resolveLocation(for identifier: String) async throws -> GMSPlace {
         return try await withCheckedThrowingContinuation { continuation in
-            
+            client.accessibilityLanguage = "en"
             client.fetchPlace(fromPlaceID: identifier, placeFields: .all, sessionToken: nil) { googlePlace, error in
                 if let error = error {
                     continuation.resume(throwing: error)
