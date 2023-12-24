@@ -90,34 +90,44 @@ extension CreateViewModel {
         }
     }
     
-    func locationEditLocal(
+    func locationEdit(
         weatherState: WeatherState,
         targetIndex: IndexPath,
         location: Location,
-        currentPackage: Package) {
+        currentPackage: Package, completion: (() -> Void)?) {
             
-            var modules = weatherState == .sunny ?
-            currentPackage.weatherModules.sunny:
-            currentPackage.weatherModules.rainy
+            var copyCurrentPackage = currentPackage
+            var sunnyModules = currentPackage.weatherModules.sunny
+            var rainyModules = currentPackage.weatherModules.rainy
             
-            let index = findModuleIndex(modules: modules, from: targetIndex)
-            
-            switch weatherState {
-            case .sunny:
-                modules[index ?? 0].location = location
-                self.sunnyModules.value = modules
-                self.currentPackage.value.weatherModules.sunny =
-                self.sunnyModules.value
+            if weatherState == .sunny {
+                if let index = findModuleIndex(
+                    modules: sunnyModules,
+                    from: targetIndex) {
+                    sunnyModules[index].location = location
+                    self.sunnyModules.value = sunnyModules
+                }
                 
-            case .rainy:
-                modules[index ?? 0].location = location
-                self.rainyModules.value = modules
-                self.currentPackage.value.weatherModules.rainy =
-                self.rainyModules.value
+            } else {
+                if let index = findModuleIndex(
+                    modules: rainyModules,
+                    from: targetIndex) {
+                    rainyModules[index].location = location
+                    self.rainyModules.value = rainyModules
+                }
             }
+            
+            copyCurrentPackage.weatherModules.sunny = sunnyModules
+            copyCurrentPackage.weatherModules.rainy = rainyModules
+            
+            self.currentPackage.value = copyCurrentPackage
+            self.sunnyModules.value = sunnyModules
+            self.rainyModules.value = rainyModules
             
             fetchPhotosHelperFunction(
                 when: weatherState,
-                with: self.currentPackage.value)
+                with: copyCurrentPackage)
+            
+            completion?()
         }
 }

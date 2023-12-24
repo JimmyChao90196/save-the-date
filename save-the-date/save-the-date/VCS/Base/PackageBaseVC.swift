@@ -588,45 +588,29 @@ extension PackageBaseViewController {
             switch action {
             case .add(let section):
                 
-//                let module = PackageModule(
-//                    location: location,
-//                    transportation: Transportation(
-//                        transpIcon: "plus.viewfinder",
-//                        travelTime: 0.0),
-//                    day: section)
-//                
-//                if self.weatherState == .sunny {
-//                    self.sunnyModules.append(module)
-//                    
-//                } else {
-//                    self.rainyModules.append(module)
-//                }
-//                
-//                currentPackage.weatherModules.sunny = sunnyModules
-//                currentPackage.weatherModules.rainy = rainyModules
-//                viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
-//                
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-                
-                viewModel.locationAdd(
-                    weatherState: self.weatherState,
+                let module = PackageModule(
                     location: location,
-                    section: section,
-                    currentPackage: self.currentPackage) { _ in
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
+                    transportation: Transportation(
+                        transpIcon: "plus.viewfinder",
+                        travelTime: 0.0),
+                    day: section)
                 
+                if self.weatherState == .sunny {
+                    self.sunnyModules.append(module)
+                    
+                } else {
+                    self.rainyModules.append(module)
+                }
+                
+                currentPackage.weatherModules.sunny = sunnyModules
+                currentPackage.weatherModules.rainy = rainyModules
+                viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                            
             case .edit(let targetIndex):
-                
-//                viewModel.locationEdit(
-//                    weatherState: weatherState,
-//                    targetIndex: targetIndex,
-//                    location: location,
-//                    currentPackage: self.currentPackage)
 
                 if self.weatherState == .sunny {
                     if let index = self.viewModel.findModuleIndex(
