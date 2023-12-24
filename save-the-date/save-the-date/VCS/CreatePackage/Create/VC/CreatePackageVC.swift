@@ -109,7 +109,6 @@ class CreatePackageViewController: PackageBaseViewController {
         )
         
         let items = [
-            /// Use this when you need to demo
             /*
             HoverItem(
                 title: "Demo session",
@@ -332,8 +331,6 @@ extension CreatePackageViewController {
                         print("publish failed: \(error)")
                     }
                 }
-                
-                
                 
             }
     }

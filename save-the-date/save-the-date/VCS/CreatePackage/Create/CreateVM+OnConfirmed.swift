@@ -18,9 +18,9 @@ extension CreateViewModel {
         location: Location,
         section: Int,
         currentPackage: Package,
-        completion: (PackageModule) -> Void?
+        completion: ((PackageModule) -> Void)?
     ) {
-            
+        
         let module = PackageModule(
             location: location,
             transportation: Transportation(
@@ -28,23 +28,29 @@ extension CreateViewModel {
                 travelTime: 0.0),
             day: section)
         
-        switch weatherState {
+        var copyCurrentPackage = currentPackage
+        var sunnyModules = currentPackage.weatherModules.sunny
+        var rainyModules = currentPackage.weatherModules.rainy
+        
+        if weatherState == .sunny {
+            sunnyModules.append(module)
             
-        case .sunny:
-            var copyPackage = currentPackage
-            self.sunnyModules.value.append(module)
-            copyPackage.weatherModules.sunny = self.sunnyModules.value
-            self.currentPackage.value = copyPackage
-            
-        case .rainy:
-            var copyPackage = currentPackage
-            self.rainyModules.value.append(module)
-            copyPackage.weatherModules.rainy = self.rainyModules.value
-            self.currentPackage.value = copyPackage
+        } else {
+            rainyModules.append(module)
         }
         
-        fetchPhotosHelperFunction(when: weatherState, with: self.currentPackage.value)
-        completion(module)
+        copyCurrentPackage.weatherModules.sunny = sunnyModules
+        copyCurrentPackage.weatherModules.rainy = rainyModules
+        
+        self.currentPackage.value = copyCurrentPackage
+        self.sunnyModules.value = sunnyModules
+        self.rainyModules.value = rainyModules
+        
+        fetchPhotosHelperFunction(
+            when: weatherState,
+            with: copyCurrentPackage)
+        
+        completion?(module)
     }
     
     func locationEdit(
@@ -53,7 +59,7 @@ extension CreateViewModel {
         location: Location,
         id: String,
         time: TimeInterval,
-        completion: (Int) -> Void?
+        completion: ((Int) -> Void)?
     ) {
         
         var modules = weatherState == .sunny ?
@@ -80,7 +86,38 @@ extension CreateViewModel {
             }
             
             fetchPhotosHelperFunction(when: weatherState, with: self.currentPackage.value)
-            completion(rawIndex)
+            completion?(rawIndex)
         }
     }
+    
+    func locationEditLocal(
+        weatherState: WeatherState,
+        targetIndex: IndexPath,
+        location: Location,
+        currentPackage: Package) {
+            
+            var modules = weatherState == .sunny ?
+            currentPackage.weatherModules.sunny:
+            currentPackage.weatherModules.rainy
+            
+            let index = findModuleIndex(modules: modules, from: targetIndex)
+            
+            switch weatherState {
+            case .sunny:
+                modules[index ?? 0].location = location
+                self.sunnyModules.value = modules
+                self.currentPackage.value.weatherModules.sunny =
+                self.sunnyModules.value
+                
+            case .rainy:
+                modules[index ?? 0].location = location
+                self.rainyModules.value = modules
+                self.currentPackage.value.weatherModules.rainy =
+                self.rainyModules.value
+            }
+            
+            fetchPhotosHelperFunction(
+                when: weatherState,
+                with: self.currentPackage.value)
+        }
 }

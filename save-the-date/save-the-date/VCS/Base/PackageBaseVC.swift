@@ -549,7 +549,11 @@ extension PackageBaseViewController {
     func setupOnComfirm() {
         
         onLocationComfirmMU = { [weak self] location, id, time, actionKind in
+            
             guard let self = self else { return }
+            self.currentPackage.weatherModules.sunny = self.sunnyModules
+            self.currentPackage.weatherModules.rainy = self.rainyModules
+            
             switch actionKind {
                 
             case .add( let section ):
@@ -559,39 +563,10 @@ extension PackageBaseViewController {
                     location: location,
                     section: section,
                     currentPackage: self.currentPackage) { module in
-                        self.afterAppendComfirmed?(module) }
+                        self.afterAppendComfirmed?(module)}
                 
             case .edit(let index):
                 print("edit index: \(index)")
-//                
-//                if self.weatherState == .sunny {
-//                    
-//                    if let rawIndex = self.sunnyModules.firstIndex(where: {
-//                        if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
-//                            return true
-//                        } else { return false }
-//                        
-//                    }) {
-//                        self.sunnyModules[rawIndex].location = location
-//                        self.afterEditComfirmed?(rawIndex, time)
-//                    }
-//                    
-//                } else {
-//                    
-//                    if let rawIndex = self.rainyModules.firstIndex(where: {
-//                        if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
-//                            return true
-//                        } else { return false }
-//                        
-//                    }) {
-//                        self.rainyModules[rawIndex].location = location
-//                        self.afterEditComfirmed?(rawIndex, time)
-//                    }
-//                }
-//                
-//                currentPackage.weatherModules.sunny = sunnyModules
-//                currentPackage.weatherModules.rainy = rainyModules
-//                viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
                 
                 viewModel.locationEdit(
                     weatherState: weatherState,
@@ -607,33 +582,51 @@ extension PackageBaseViewController {
         onLocationComfirm = { [weak self] location, action in
             
             guard let self = self else { return }
+            self.currentPackage.weatherModules.sunny = self.sunnyModules
+            self.currentPackage.weatherModules.rainy = self.rainyModules
             
             switch action {
             case .add(let section):
                 
-                let module = PackageModule(
+//                let module = PackageModule(
+//                    location: location,
+//                    transportation: Transportation(
+//                        transpIcon: "plus.viewfinder",
+//                        travelTime: 0.0),
+//                    day: section)
+//                
+//                if self.weatherState == .sunny {
+//                    self.sunnyModules.append(module)
+//                    
+//                } else {
+//                    self.rainyModules.append(module)
+//                }
+//                
+//                currentPackage.weatherModules.sunny = sunnyModules
+//                currentPackage.weatherModules.rainy = rainyModules
+//                viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
+//                
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+                
+                viewModel.locationAdd(
+                    weatherState: self.weatherState,
                     location: location,
-                    transportation: Transportation(
-                        transpIcon: "plus.viewfinder",
-                        travelTime: 0.0),
-                    day: section)
-                
-                if self.weatherState == .sunny {
-                    self.sunnyModules.append(module)
-                    
-                } else {
-                    self.rainyModules.append(module)
-                }
-                
-                currentPackage.weatherModules.sunny = sunnyModules
-                currentPackage.weatherModules.rainy = rainyModules
-                viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+                    section: section,
+                    currentPackage: self.currentPackage) { _ in
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
                 
             case .edit(let targetIndex):
+                
+//                viewModel.locationEdit(
+//                    weatherState: weatherState,
+//                    targetIndex: targetIndex,
+//                    location: location,
+//                    currentPackage: self.currentPackage)
 
                 if self.weatherState == .sunny {
                     if let index = self.viewModel.findModuleIndex(
