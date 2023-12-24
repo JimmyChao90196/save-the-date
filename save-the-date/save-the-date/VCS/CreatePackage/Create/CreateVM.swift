@@ -234,12 +234,10 @@ class CreateViewModel {
         else if currentSection < totalSections - 1 {
             return IndexPath(row: 0, section: currentSection + 1)
         }
-        
-        // No next cell (current cell is the last cell of the last section)
         return nil
     }
     
-    // MARK: - delete functions -
+    // MARK: - delete function -
     func deleteModule(
         docPath: String?,
         currentPackage: Package,
@@ -272,6 +270,47 @@ class CreateViewModel {
                     docPath: docPath ?? "",
                     time: time,
                     targetIndex: rawIndex ?? 0,
+                    with: currentPackage,
+                    when: weatherState) { newPackage in
+                        self.currentPackage.value = newPackage
+                    }
+            }
+        }
+    
+    // MARK: - Move module function -
+    func swapModule(
+        docPath: String?,
+        currentPackage: Package,
+        source: IndexPath,
+        dest: IndexPath,
+        weatherState: WeatherState) {
+            
+            var modules = weatherState == .sunny ?
+            currentPackage.weatherModules.sunny:
+            currentPackage.weatherModules.rainy
+            
+            // First find out the "raw" index of the module
+            guard let sourceRowIndex = findModuleIndex(
+                modules: modules,
+                from: source) else { return }
+            guard let destRowIndex = findModuleIndex(
+                modules: modules,
+                from: dest) else { return }
+            
+            switch weatherState {
+            case .sunny:
+                modules.swapAt(sourceRowIndex, destRowIndex)
+                self.sunnyModules.value = modules
+            case .rainy:
+                modules.swapAt(sourceRowIndex, destRowIndex)
+                self.rainyModules.value = modules
+            }
+            
+            if docPath != "" {
+                firestoreManager.swapModulesWithTrans(
+                    docPath: docPath ?? "",
+                    sourceIndex: sourceRowIndex,
+                    destIndex: destRowIndex,
                     with: currentPackage,
                     when: weatherState) { newPackage in
                         self.currentPackage.value = newPackage
