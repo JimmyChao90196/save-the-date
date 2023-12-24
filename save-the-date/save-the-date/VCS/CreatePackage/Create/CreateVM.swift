@@ -33,6 +33,8 @@ class CreateViewModel {
     let regionTags = Box<[String]>([])
     var sunnyPhotos = Box<[String: UIImage]>([:])
     var rainyPhotos = Box<[String: UIImage]>([:])
+    var sunnyPhotoReferences = [String: String]()
+    var rainyPhotoReferences = [String: String]()
     
     var currentPackage = Box<Package>(Package())
     var sunnyModules = Box<[PackageModule]>([])
@@ -380,6 +382,7 @@ class CreateViewModel {
         regionTags.value = Array(tagSet)
     }
     
+    // MARK: - Fetch photos -
     func mapToDictionary(module: [PackageModule]) -> [String: String] {
         
         var dict = [String: String]()
@@ -413,4 +416,30 @@ class CreateViewModel {
                     }
                 }
         }
+    
+    func fetchPhotosHelperFunction(when weatherState: WeatherState, with currentPackage: Package) {
+        
+        var refs = [String: String]()
+        
+        let modules = weatherState == .sunny ?
+        currentPackage.weatherModules.sunny:
+        currentPackage.weatherModules.rainy
+        
+        switch weatherState {
+        case .sunny:
+            self.sunnyPhotoReferences = mapToDictionary(module: modules)
+            refs = self.sunnyPhotoReferences
+        case .rainy:
+            self.rainyPhotoReferences = mapToDictionary(module: modules)
+            refs = self.rainyPhotoReferences
+        }
+        
+        fetchSitePhotos(
+            weatherState: weatherState,
+            photoReferences: refs)
+    }
+    
+    func locationAdd(location: Location) {
+        
+    }
 }
