@@ -1,3 +1,6 @@
+function_parameter_count:
+  warning: 6  # triggers a warning if more than 5 parameters
+  error: 8    # triggers an error if more than 8 parameters
 excluded:
   - Pods
 disabled_rules:

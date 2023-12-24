@@ -110,7 +110,7 @@ class CreateViewModel {
     func configureCellAppearance(
         cell: UITableViewCell,
         config: CellClaimingProtocol) {
-        
+            
             if let cell = cell as? ModuleTableViewCell {
                 cell.userIdLabel.isHidden = config.userIdIsHidden
                 cell.userIdLabel.setbackgroundColor(config.userIdBackgroundColor)
@@ -122,7 +122,7 @@ class CreateViewModel {
                 cell.googleRating.setTextColor(config.arrivedTimeLabelTextColor)
                 cell.contentView.setBoarderColor(config.contentViewBoarderColor)
             }
-    }
+        }
     
     // Fake rating system.
     func ratingForIndexPath(indexPath: IndexPath, minimumRating: Double = 3.0) -> String {
@@ -223,21 +223,21 @@ class CreateViewModel {
     func findNextIndexPath(
         currentIndex indexPath: IndexPath,
         in tableView: UITableView) -> IndexPath? {
-        
-        let currentSection = indexPath.section
-        let currentRow = indexPath.row
-        let totalSections = tableView.numberOfSections
-
-        // Check if the next cell is in the same section
-        if currentRow < tableView.numberOfRows(inSection: currentSection) - 1 {
-            return IndexPath(row: currentRow + 1, section: currentSection)
+            
+            let currentSection = indexPath.section
+            let currentRow = indexPath.row
+            let totalSections = tableView.numberOfSections
+            
+            // Check if the next cell is in the same section
+            if currentRow < tableView.numberOfRows(inSection: currentSection) - 1 {
+                return IndexPath(row: currentRow + 1, section: currentSection)
+            }
+            // Check if there's another section
+            else if currentSection < totalSections - 1 {
+                return IndexPath(row: 0, section: currentSection + 1)
+            }
+            return nil
         }
-        // Check if there's another section
-        else if currentSection < totalSections - 1 {
-            return IndexPath(row: 0, section: currentSection + 1)
-        }
-        return nil
-    }
     
     // MARK: - delete function -
     func deleteModule(
@@ -437,9 +437,5 @@ class CreateViewModel {
         fetchSitePhotos(
             weatherState: weatherState,
             photoReferences: refs)
-    }
-    
-    func locationAdd(location: Location) {
-        
     }
 }

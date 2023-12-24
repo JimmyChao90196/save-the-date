@@ -549,63 +549,58 @@ extension PackageBaseViewController {
     func setupOnComfirm() {
         
         onLocationComfirmMU = { [weak self] location, id, time, actionKind in
-            
             guard let self = self else { return }
-            
             switch actionKind {
                 
             case .add( let section ):
                 
-                let module = PackageModule(
+                viewModel.locationAdd(
+                    weatherState: weatherState,
                     location: location,
-                    transportation: Transportation(
-                        transpIcon: "plus.viewfinder",
-                        travelTime: 0.0),
-                    day: section)
-                
-                switch weatherState {
-                case .sunny:
-                    self.sunnyModules.append(module)
-                    
-                case .rainy:
-                    self.rainyModules.append(module)
-                }
-                
-                currentPackage.weatherModules.sunny = sunnyModules
-                currentPackage.weatherModules.rainy = rainyModules
-                self.viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
-                self.afterAppendComfirmed?(module)
+                    section: section,
+                    currentPackage: self.currentPackage) { module in
+                        self.afterAppendComfirmed?(module) }
                 
             case .edit(let index):
                 print("edit index: \(index)")
-                if self.weatherState == .sunny {
-                    
-                    if let rawIndex = self.sunnyModules.firstIndex(where: {
-                        if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
-                            return true
-                        } else { return false }
-                        
-                    }) {
-                        self.sunnyModules[rawIndex].location = location
-                        self.afterEditComfirmed?(rawIndex, time)
-                    }
-                    
-                } else {
-                    
-                    if let rawIndex = self.rainyModules.firstIndex(where: {
-                        if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
-                            return true
-                        } else { return false }
-                        
-                    }) {
-                        self.rainyModules[rawIndex].location = location
-                        self.afterEditComfirmed?(rawIndex, time)
-                    }
-                }
+//                
+//                if self.weatherState == .sunny {
+//                    
+//                    if let rawIndex = self.sunnyModules.firstIndex(where: {
+//                        if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
+//                            return true
+//                        } else { return false }
+//                        
+//                    }) {
+//                        self.sunnyModules[rawIndex].location = location
+//                        self.afterEditComfirmed?(rawIndex, time)
+//                    }
+//                    
+//                } else {
+//                    
+//                    if let rawIndex = self.rainyModules.firstIndex(where: {
+//                        if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
+//                            return true
+//                        } else { return false }
+//                        
+//                    }) {
+//                        self.rainyModules[rawIndex].location = location
+//                        self.afterEditComfirmed?(rawIndex, time)
+//                    }
+//                }
+//                
+//                currentPackage.weatherModules.sunny = sunnyModules
+//                currentPackage.weatherModules.rainy = rainyModules
+//                viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
                 
-                currentPackage.weatherModules.sunny = sunnyModules
-                currentPackage.weatherModules.rainy = rainyModules
-                viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
+                viewModel.locationEdit(
+                    weatherState: weatherState,
+                    currentPackage: self.currentPackage,
+                    location: location,
+                    id: id,
+                    time: time) { rawIndex in
+                        self.afterEditComfirmed?(rawIndex, time)
+                    }
             }
         }
         

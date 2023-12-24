@@ -68,6 +68,7 @@
 		744B57252B0609DE00B3ABAA /* TranspTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57242B0609DE00B3ABAA /* TranspTableViewCell.swift */; };
 		744B57272B060C9200B3ABAA /* TranspManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744B57262B060C9200B3ABAA /* TranspManager.swift */; };
 		745503B52B37F2EA001188AD /* CellConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745503B42B37F2EA001188AD /* CellConfig.swift */; };
+		745503B72B383329001188AD /* CreateVM+OnConfirmed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745503B62B383329001188AD /* CreateVM+OnConfirmed.swift */; };
 		7474AC132B303A2100F673C7 /* ProfileVC+Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7474AC122B303A2100F673C7 /* ProfileVC+Constraint.swift */; };
 		747AF5CE2B08BD0000091CD9 /* ExploreBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */; };
 		748023E82B09EC3C00878B12 /* DayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748023E72B09EC3C00878B12 /* DayHeaderView.swift */; };
@@ -173,6 +174,7 @@
 		744B57242B0609DE00B3ABAA /* TranspTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspTableViewCell.swift; sourceTree = "<group>"; };
 		744B57262B060C9200B3ABAA /* TranspManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspManager.swift; sourceTree = "<group>"; };
 		745503B42B37F2EA001188AD /* CellConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfig.swift; sourceTree = "<group>"; };
+		745503B62B383329001188AD /* CreateVM+OnConfirmed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreateVM+OnConfirmed.swift"; sourceTree = "<group>"; };
 		7474AC122B303A2100F673C7 /* ProfileVC+Constraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileVC+Constraint.swift"; sourceTree = "<group>"; };
 		747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreBaseVC.swift; sourceTree = "<group>"; };
 		748023E72B09EC3C00878B12 /* DayHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayHeaderView.swift; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 		747EDCB22B0DF9C900B0FA58 /* Create */ = {
 			isa = PBXGroup;
 			children = (
+				745503B62B383329001188AD /* CreateVM+OnConfirmed.swift */,
 				74A8F9162B18379600AE63F5 /* CreateVM.swift */,
 				747EDCB42B0DF9DE00B0FA58 /* VC */,
 				747EDCB32B0DF9D800B0FA58 /* View */,
@@ -876,6 +879,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74B828562B04DB7700A42850 /* ModuleTableViewCell.swift in Sources */,
+				745503B72B383329001188AD /* CreateVM+OnConfirmed.swift in Sources */,
 				747AF5CE2B08BD0000091CD9 /* ExploreBaseVC.swift in Sources */,
 				7432EFE72B207439008D2280 /* ChatLeftTableViewCell.swift in Sources */,
 				7432EFEB2B20775F008D2280 /* ChatModel.swift in Sources */,
