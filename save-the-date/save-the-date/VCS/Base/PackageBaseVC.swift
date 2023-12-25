@@ -563,24 +563,39 @@ extension PackageBaseViewController {
                 
             case .add( let section ):
                 
-                viewModel.locationAddMU(
+                viewModel.locationAddLocal(
                     weatherState: weatherState,
                     location: location,
                     section: section,
-                    currentPackage: self.currentPackage) { module in
-                        self.afterAppendComfirmed?(module)}
+                    oldPackage: self.currentPackage) { newPackage, module, _ in
+                        self.currentPackage = newPackage
+                        self.sunnyModules = newPackage.weatherModules.sunny
+                        self.rainyModules = newPackage.weatherModules.rainy
+                        self.afterAppendComfirmed?(module ?? PackageModule())
+                    }
                 
             case .edit(let index):
                 print("edit index: \(index)")
                 
-                viewModel.locationEditMU(
+                viewModel.locationEditLocal(
                     weatherState: weatherState,
-                    currentPackage: self.currentPackage,
                     location: location,
-                    id: id,
-                    time: time) { rawIndex in
-                        self.afterEditComfirmed?(rawIndex, time)
+                    targetIndex: index,
+                    oldPackage: self.currentPackage) { newPackage, _, rawIndex in
+                        self.currentPackage = newPackage
+                        self.sunnyModules = newPackage.weatherModules.sunny
+                        self.rainyModules = newPackage.weatherModules.rainy
+                        self.afterEditComfirmed?(rawIndex ?? 0, time)
                     }
+                
+//                viewModel.locationEditMU(
+//                    weatherState: weatherState,
+//                    currentPackage: self.currentPackage,
+//                    location: location,
+//                    id: id,
+//                    time: time) { rawIndex in
+//                        self.afterEditComfirmed?(rawIndex, time)
+//                    }
             }
         }
         
@@ -590,31 +605,15 @@ extension PackageBaseViewController {
             self.currentPackage.weatherModules.sunny = self.sunnyModules
             self.currentPackage.weatherModules.rainy = self.rainyModules
             
-            switch action {
-            case .add(let section):
-                
-                viewModel.locationAddLocal(
-                    weatherState: weatherState,
-                    location: location,
-                    section: section,
-                    oldPackage: self.currentPackage) { newPackage, newSunnyMods, newRainyMods in
-                        self.currentPackage = newPackage
-                        self.sunnyModules = newSunnyMods
-                        self.rainyModules = newRainyMods
-                    }
-                            
-            case .edit(let targetIndex):
-                
-                viewModel.locationEditLocal(
-                    weatherState: weatherState,
-                    location: location,
-                    targetIndex: targetIndex,
-                    oldPackage: self.currentPackage) { newPackage, newSunnyMods, newRainyMods in
-                        self.currentPackage = newPackage
-                        self.sunnyModules = newSunnyMods
-                        self.rainyModules = newRainyMods
-                    }
-            }
+            viewModel.locationChangeLocal(
+                weatherState: weatherState,
+                location: location,
+                action: action,
+                oldPackage: self.currentPackage) { newPackage, _, _ in
+                    self.currentPackage = newPackage
+                    self.sunnyModules = newPackage.weatherModules.sunny
+                    self.rainyModules = newPackage.weatherModules.rainy
+                }
         }
         
         onTranspComfirm = { [weak self] transp, action, time in
