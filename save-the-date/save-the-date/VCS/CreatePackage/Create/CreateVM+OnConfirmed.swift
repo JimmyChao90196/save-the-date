@@ -34,7 +34,51 @@ extension CreateViewModel {
             return time
     }
     
-    func handleTranspTapped(
+    func handleLocationTapped(
+        docPath: String,
+        userId: String,
+        userName: String,
+        time: TimeInterval,
+        when: WeatherState,
+        completion: ((Package?, TimeInterval?, String?) -> Void)?
+    ) {
+        
+        if docPath == "" {
+            completion?(nil, nil, nil)
+            
+        } else {
+            
+            self.firestoreManager.lockModuleWithTrans(
+                docPath: docPath,
+                userId: userId,
+                userName: userName,
+                time: time,
+                when: when) { newPackage, newIndex, isLate in
+                    
+                    let sunnyModules = newPackage.weatherModules.sunny
+                    let rainyModules = newPackage.weatherModules.rainy
+                    var newTime = TimeInterval()
+                    var id = ""
+                    
+                    if when == .sunny {
+                        id = sunnyModules[newIndex].lockInfo.userId
+                        newTime = sunnyModules[newIndex].lockInfo.timestamp
+                    } else {
+                        id = rainyModules[newIndex].lockInfo.userId
+                        newTime = rainyModules[newIndex].lockInfo.timestamp
+                    }
+                    
+                    if isLate {
+                        LKProgressHUD.dismiss()
+                        return
+                    } else {
+                        completion?(newPackage, newTime, id)
+                    }
+                }
+        }
+    }
+    
+    func handleTanspTapped(
         docPath: String,
         userId: String,
         userName: String,
