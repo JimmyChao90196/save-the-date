@@ -360,7 +360,12 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         
         // Set BG photos
         if photos != [String: UIImage]() {
-            cell.bgImageView.image = photos[id]
+            if photos[id] == nil {
+                cell.bgImageView.image = UIImage(resource: .site04)
+            } else {
+                cell.bgImageView.image = photos[id]
+            }
+            
             cell.bgImageView.contentMode = .scaleAspectFill
         }
         
@@ -558,7 +563,7 @@ extension PackageBaseViewController {
                 
             case .add( let section ):
                 
-                viewModel.locationAdd(
+                viewModel.locationAddMU(
                     weatherState: weatherState,
                     location: location,
                     section: section,
@@ -568,7 +573,7 @@ extension PackageBaseViewController {
             case .edit(let index):
                 print("edit index: \(index)")
                 
-                viewModel.locationEdit(
+                viewModel.locationEditMU(
                     weatherState: weatherState,
                     currentPackage: self.currentPackage,
                     location: location,
@@ -588,52 +593,27 @@ extension PackageBaseViewController {
             switch action {
             case .add(let section):
                 
-                let module = PackageModule(
+                viewModel.locationAddLocal(
+                    weatherState: weatherState,
                     location: location,
-                    transportation: Transportation(
-                        transpIcon: "plus.viewfinder",
-                        travelTime: 0.0),
-                    day: section)
-                
-                if self.weatherState == .sunny {
-                    self.sunnyModules.append(module)
-                    
-                } else {
-                    self.rainyModules.append(module)
-                }
-                
-                currentPackage.weatherModules.sunny = sunnyModules
-                currentPackage.weatherModules.rainy = rainyModules
-                viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+                    section: section,
+                    oldPackage: self.currentPackage) { newPackage, newSunnyMods, newRainyMods in
+                        self.currentPackage = newPackage
+                        self.sunnyModules = newSunnyMods
+                        self.rainyModules = newRainyMods
+                    }
                             
             case .edit(let targetIndex):
-
-                if self.weatherState == .sunny {
-                    if let index = self.viewModel.findModuleIndex(
-                        modules: self.sunnyModules,
-                        from: targetIndex) {
-                        self.sunnyModules[index].location = location
-                    }
-                    
-                } else {
-                    if let index = self.viewModel.findModuleIndex(
-                        modules: self.rainyModules,
-                        from: targetIndex) {
-                        self.rainyModules[index].location = location
-                    }
-                }
                 
-                currentPackage.weatherModules.sunny = sunnyModules
-                currentPackage.weatherModules.rainy = rainyModules
-                viewModel.fetchPhotosHelperFunction(when: weatherState, with: currentPackage)
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+                viewModel.locationEditLocal(
+                    weatherState: weatherState,
+                    location: location,
+                    targetIndex: targetIndex,
+                    oldPackage: self.currentPackage) { newPackage, newSunnyMods, newRainyMods in
+                        self.currentPackage = newPackage
+                        self.sunnyModules = newSunnyMods
+                        self.rainyModules = newRainyMods
+                    }
             }
         }
         

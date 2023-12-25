@@ -13,7 +13,7 @@ import GooglePlaces
 extension CreateViewModel {
     
     // MARK: - Append -
-    func locationAdd(
+    func locationAddMU(
         weatherState: WeatherState,
         location: Location,
         section: Int,
@@ -53,7 +53,7 @@ extension CreateViewModel {
         completion?(module)
     }
     
-    func locationEdit(
+    func locationEditMU(
         weatherState: WeatherState,
         currentPackage: Package,
         location: Location,
@@ -90,22 +90,52 @@ extension CreateViewModel {
         }
     }
     
-    func locationEdit(
+    func locationAddLocal(
         weatherState: WeatherState,
-        targetIndex: IndexPath,
         location: Location,
-        currentPackage: Package, completion: (() -> Void)?) {
+        section: Int,
+        oldPackage: Package,
+        completion: ((Package, [PackageModule], [PackageModule]) -> Void)? ) {
+            let module = PackageModule(
+                location: location,
+                transportation: Transportation(
+                    transpIcon: "plus.viewfinder",
+                    travelTime: 0.0),
+                day: section)
             
-            var copyCurrentPackage = currentPackage
-            var sunnyModules = currentPackage.weatherModules.sunny
-            var rainyModules = currentPackage.weatherModules.rainy
+            var copyPackage = oldPackage
+            var sunnyModules = oldPackage.weatherModules.sunny
+            var rainyModules = oldPackage.weatherModules.rainy
+            
+            if weatherState == .sunny {
+                sunnyModules.append(module)
+                
+            } else {
+                rainyModules.append(module)
+            }
+            
+            copyPackage.weatherModules.sunny = sunnyModules
+            copyPackage.weatherModules.rainy = rainyModules
+            completion?(copyPackage, sunnyModules, rainyModules)
+            fetchPhotosHelperFunction(when: weatherState, with: copyPackage)
+        }
+    
+    func locationEditLocal(
+        weatherState: WeatherState,
+        location: Location,
+        targetIndex: IndexPath,
+        oldPackage: Package,
+        completion: ((Package, [PackageModule], [PackageModule]) -> Void)? ) {
+            
+            var copyPackage = oldPackage
+            var sunnyModules = oldPackage.weatherModules.sunny
+            var rainyModules = oldPackage.weatherModules.rainy
             
             if weatherState == .sunny {
                 if let index = findModuleIndex(
                     modules: sunnyModules,
                     from: targetIndex) {
                     sunnyModules[index].location = location
-                    self.sunnyModules.value = sunnyModules
                 }
                 
             } else {
@@ -113,21 +143,13 @@ extension CreateViewModel {
                     modules: rainyModules,
                     from: targetIndex) {
                     rainyModules[index].location = location
-                    self.rainyModules.value = rainyModules
                 }
             }
             
-            copyCurrentPackage.weatherModules.sunny = sunnyModules
-            copyCurrentPackage.weatherModules.rainy = rainyModules
-            
-            self.currentPackage.value = copyCurrentPackage
-            self.sunnyModules.value = sunnyModules
-            self.rainyModules.value = rainyModules
-            
-            fetchPhotosHelperFunction(
-                when: weatherState,
-                with: copyCurrentPackage)
-            
-            completion?()
+            copyPackage.weatherModules.sunny = sunnyModules
+            copyPackage.weatherModules.rainy = rainyModules
+            completion?(copyPackage, sunnyModules, rainyModules)
+            fetchPhotosHelperFunction(when: weatherState, with: copyPackage)
         }
+   
 }
