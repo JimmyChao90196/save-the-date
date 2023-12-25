@@ -34,16 +34,12 @@ class PackageBaseViewController: UIViewController {
         }
     }
     
-    // User
+    // User data
     var userManager = UserManager.shared
+    var userID: String { return userManager.currentUser.uid }
+    var userName: String { return userManager.currentUser.name }
     
-    var userID: String {
-        return userManager.currentUser.uid
-    }
-    
-    var userName: String {
-        return userManager.currentUser.name
-    }
+    var regionTags = [String]()
     
     // Current package
     var currentPackage = Package()
@@ -88,8 +84,6 @@ class PackageBaseViewController: UIViewController {
     var bgView = UIView()
     
     // View model
-    var regionTags = [String]()
-        
     let viewModel = CreateViewModel()
     
     // Manager
@@ -102,7 +96,6 @@ class PackageBaseViewController: UIViewController {
     var onLocationComfirm: ( (Location, ActionKind) -> Void )?
     var onLocationComfirmMU: ( (Location, String, TimeInterval, ActionKind) -> Void )?
     var onLocationComfirmWithAddress: ( ([GMSAddressComponent]? ) -> Void )?
-    
     var onLocationTapped: ((UITableViewCell) -> Void)?
     var onTranspTapped: ((UITableViewCell) -> Void)?
     var onTranspComfirm: ((TranspManager, ActionKind, TimeInterval) -> Void)?
@@ -136,6 +129,7 @@ class PackageBaseViewController: UIViewController {
         return button
     }()
     
+    // MARK: - View will appear & view did load -
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewModel.fetchPhotosHelperFunction( when: weatherState, with: self.currentPackage)
@@ -163,7 +157,7 @@ class PackageBaseViewController: UIViewController {
     
     func setup() {
         
-        // Data binding
+        // Data binding for sunny modules
         viewModel.sunnyModules.bind { modules in
             
             self.sunnyModules = modules
@@ -172,7 +166,7 @@ class PackageBaseViewController: UIViewController {
                 self.tableView.reloadData()
             }
         }
-        
+        // Data binding for rainy modules
         viewModel.rainyModules.bind { modules in
             self.rainyModules = modules
             
@@ -180,7 +174,7 @@ class PackageBaseViewController: UIViewController {
                 self.tableView.reloadData()
             }
         }
-        
+        // Data binding for overall package
         viewModel.currentPackage.bind { newPackage in
             if newPackage != Package() {
                 
@@ -194,10 +188,12 @@ class PackageBaseViewController: UIViewController {
             }
         }
         
+        // Data binding for regionTags
         viewModel.regionTags.bind { tags in
             self.regionTags = tags
         }
         
+        // Data binding for sunnyPhotos
         viewModel.sunnyPhotos.bind { photos in
             self.sunnyPhotos = photos
             
@@ -206,6 +202,7 @@ class PackageBaseViewController: UIViewController {
             }
         }
         
+        // Data binding for rainyPhotos
         viewModel.rainyPhotos.bind { photos in
             self.rainyPhotos = photos
             
@@ -218,9 +215,9 @@ class PackageBaseViewController: UIViewController {
         sunnyModules = currentPackage.weatherModules.sunny
         rainyModules = currentPackage.weatherModules.rainy
         
+        // Configure tableView
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.setEditing(false, animated: false)
         tableView.sectionHeaderTopPadding = 0.0
         
@@ -454,359 +451,5 @@ extension PackageBaseViewController: UITableViewDelegate, UITableViewDataSource 
         _ tableView: UITableView,
         heightForFooterInSection section: Int) -> CGFloat {
         CGFloat.leastNormalMagnitude
-    }
-}
-
-// MARK: - Additional method -
-extension PackageBaseViewController {
-    
-    func changeBGImage() {
-        
-        self.bgImageView.contentMode = .scaleAspectFill
-        self.bgView.backgroundColor = .hexToUIColor(hex: "#E5E5E5")
-        self.tableView.contentMode = .scaleAspectFit
-        
-        switch self.weatherState {
-        case .sunny:
-            if self.sunnyModules.isEmpty {
-                self.bgImageView.image = UIImage(resource: .createBG02)
-                
-            } else {
-                self.bgImageView.image = UIImage(resource: .createBG03)
-            }
-        case .rainy:
-            if self.rainyModules.isEmpty {
-                self.bgImageView.image = UIImage(resource: .createBG02)
-                
-            } else {
-                self.bgImageView.image = UIImage(resource: .createBG03)
-            }
-            
-        }
-    }
-    // Logic to swap module
-    func movePackage(from source: IndexPath, to destination: IndexPath) {
-        
-        currentPackage.weatherModules.sunny = sunnyModules
-        currentPackage.weatherModules.rainy = rainyModules
-        
-        viewModel.swapModule(
-            docPath: documentPath,
-            currentPackage: self.currentPackage,
-            source: source,
-            dest: destination,
-            weatherState: weatherState)
-    }
-    // Interval formatter
-    func formatTimeInterval(_ interval: TimeInterval) -> String {
-        let hours = Int(interval) / 3600
-        let minutes = Int(interval) % 3600 / 60
-        
-        if hours > 0 {
-            return "\(hours)hr \(minutes)min"
-        } else if minutes > 0 {
-            return "\(minutes)min"
-        } else {
-            return "0 min"
-        }
-    }
-    
-    // Segment control changed
-    @objc func segmentChanged(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            print("It's sunny")
-            weatherState = .sunny
-            
-        case 1:
-            weatherState = .rainy
-            print("It's rainy")
-        default:
-            break
-        }
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    // Show route button pressed
-    @objc func showRouteButtonPressed() {
-        // Go to routeVC
-        
-        let locations = weatherState == .sunny ?
-        sunnyModules.map { $0.location}: rainyModules.map { $0.location }
-        
-        let coords = locations.map {
-            let coord = CLLocationCoordinate2D(
-                latitude: $0.coordinate["lat"] ?? 0.0,
-                longitude: $0.coordinate["lng"] ?? 0.0)
-            return coord }
-        
-        let routeVC = RouteViewController()
-        routeVC.coords = coords
-        self.navigationController?.pushViewController(routeVC, animated: true)
-    }
-    
-    // MARK: - Setup onEvents -
-    func setupOnComfirm() {
-        
-        onLocationComfirmMU = { [weak self] location, _, time, action in
-            
-            guard let self = self else { return }
-            self.currentPackage.weatherModules.sunny = self.sunnyModules
-            self.currentPackage.weatherModules.rainy = self.rainyModules
-            
-            viewModel.locationChanged(
-                weatherState: weatherState,
-                location: location,
-                action: action,
-                oldPackage: self.currentPackage) { newPackage, module, rawIndex in
-                    self.currentPackage = newPackage
-                    self.sunnyModules = newPackage.weatherModules.sunny
-                    self.rainyModules = newPackage.weatherModules.rainy
-                    
-                    if module == nil {
-                        self.afterEditComfirmed?(rawIndex ?? 0, time)
-                    } else {
-                        self.afterAppendComfirmed?(module ?? PackageModule())
-                    }
-                }
-        }
-        
-        onLocationComfirm = { [weak self] location, action in
-            
-            guard let self = self else { return }
-            self.currentPackage.weatherModules.sunny = self.sunnyModules
-            self.currentPackage.weatherModules.rainy = self.rainyModules
-            
-            viewModel.locationChanged(
-                weatherState: weatherState,
-                location: location,
-                action: action,
-                oldPackage: self.currentPackage) { newPackage, _, _ in
-                    self.currentPackage = newPackage
-                    self.sunnyModules = newPackage.weatherModules.sunny
-                    self.rainyModules = newPackage.weatherModules.rainy
-                }
-        }
-        
-        onTranspComfirm = { [weak self] transp, action, time in
-            
-            // Show loading
-            LKProgressHUD.show()
-            
-            // Dictate action
-            switch action {
-                
-            case .add:
-                print("this shouldn't be triggered")
-                
-            case .edit( let targetIndex ):
-                
-                guard let self else { return }
-                self.currentPackage.weatherModules.sunny = self.sunnyModules
-                self.currentPackage.weatherModules.rainy = self.rainyModules
-                
-                var sourceRawIndex = 0
-                var coords = [CLLocationCoordinate2D]()
-                
-                viewModel.transpChanged(
-                    weatherState: weatherState,
-                    targetIndex: targetIndex,
-                    tableView: self.tableView,
-                    oldPackage: self.currentPackage) { sourceIndex, newCoords in
-                        sourceRawIndex = sourceIndex
-                        coords = newCoords
-                    }
-                
-                viewModel.fetchTravelTime(
-                    with: transp,
-                    and: sourceRawIndex,
-                    by: coords,
-                    weatherState: weatherState,
-                    oldPackage: self.currentPackage) { sourceRawIndex in
-                        if self.isMultiUser {
-                            self.afterEditComfirmed?(sourceRawIndex, time)
-                        }
-                    }
-            }
-        }
-    }
-    
-    func setupOnTapped() {
-        
-        onAddModulePressed = { section in
-            print("orig: \(section)")
-            
-            let exploreVC = ExploreSiteViewController()
-            
-            if self.isMultiUser {
-                exploreVC.actionKind = .add(section)
-                exploreVC.onLocationComfirmMU = self.onLocationComfirmMU
-            } else {
-                exploreVC.onLocationComfirm = self.onLocationComfirm
-            }
-            
-            exploreVC.actionKind = .add(section)
-            exploreVC.onLocationComfirmWithAddress = self.onLocationComfirmWithAddress
-            self.navigationController?.pushViewController(exploreVC, animated: true)
-        }
-        
-        onTranspTapped = { [weak self] cell in
-            guard let indexPath = self?.tableView.indexPath(for: cell),
-                  let self = self else { return }
-            self.currentPackage.weatherModules.sunny = self.sunnyModules
-            self.currentPackage.weatherModules.rainy = self.rainyModules
-            
-            // Show loading
-            LKProgressHUD.show()
-            
-            var rawIndex = 0
-            var time = 0.0
-            
-            // Find time first
-            time = viewModel.extractTime(
-                weatherState: weatherState,
-                indexPath: indexPath,
-                oldPackage: self.currentPackage)
-            
-            viewModel.handleTanspTapped(
-                docPath: self.documentPath,
-                userId: userID,
-                userName: userName,
-                time: time,
-                when: weatherState) { newPackage, newTime in
-                    self.currentPackage = newPackage ?? self.currentPackage
-                    self.sunnyModules = self.currentPackage.weatherModules.sunny
-                    self.rainyModules = self.currentPackage.weatherModules.rainy
-                    
-                    // Dismiss loading
-                    LKProgressHUD.dismiss()
-                    
-                    // Jump to transpVC
-                    let transpVC = TranspViewController()
-                    transpVC.onTranspComfirm = self.onTranspComfirm
-                    transpVC.timeStamp = self.isMultiUser ? newTime : time
-                    transpVC.actionKind = .edit(indexPath)
-                    self.navigationController?.pushViewController(transpVC, animated: true)
-                }
-        }
-        
-        onLocationTapped = { [weak self] cell in
-            
-            guard let indexPath = self?.tableView.indexPath(for: cell),
-                  let self = self else { return }
-            self.currentPackage.weatherModules.sunny = self.sunnyModules
-            self.currentPackage.weatherModules.rainy = self.rainyModules
-            
-            // Show loading
-            LKProgressHUD.show()
-            
-            var time = viewModel.extractTime(
-                weatherState: weatherState,
-                indexPath: indexPath,
-                oldPackage: self.currentPackage)
-            
-            viewModel.handleLocationTapped(
-                docPath: self.documentPath,
-                userId: userID,
-                userName: userName,
-                time: time,
-                when: weatherState) { newPackage, newTime, newId in
-                    
-                    LKProgressHUD.dismiss()
-                    
-                    self.currentPackage = newPackage ?? self.currentPackage
-                    self.sunnyModules = self.currentPackage.weatherModules.sunny
-                    self.rainyModules = self.currentPackage.weatherModules.rainy
-                    
-                    // Go to explore
-                    DispatchQueue.main.async {
-                        let exploreVC = ExploreSiteViewController()
-                        exploreVC.onLocationComfirmMU = self.onLocationComfirmMU
-                        exploreVC.onLocationComfirmWithAddress = self.onLocationComfirmWithAddress
-                        exploreVC.actionKind = .edit(indexPath)
-                        exploreVC.id = newId ?? ""
-                        exploreVC.time = newTime ?? TimeInterval()
-                        self.navigationController?.pushViewController(exploreVC, animated: true)
-                        
-                    }
-                    
-                    //            if isMultiUser {
-                    //
-                    //                var time = 0.0
-                    //                var id = ""
-                    //                if weatherState == .sunny {
-                    //
-                    //                    guard let rawIndex = viewModel.findModuleIndex(
-                    //                        modules: sunnyModules,
-                    //                        from: indexPath) else { return }
-                    //
-                    //                    time = self.sunnyModules[rawIndex].lockInfo.timestamp
-                    //
-                    //                } else {
-                    //
-                    //                    guard let rawIndex = viewModel.findModuleIndex(
-                    //                        modules: rainyModules,
-                    //                        from: indexPath) else { return }
-                    //
-                    //                    time = self.rainyModules[rawIndex].lockInfo.timestamp
-                    //                }
-                    //
-                    //                self.firestoreManager.lockModuleWithTrans(
-                    //                    docPath: self.documentPath,
-                    //                    userId: userID,
-                    //                    userName: userName,
-                    //                    time: time,
-                    //                    when: weatherState
-                    //                ) { newPackage, newIndex, isLate in
-                    //
-                    //                    // Dismiss loading
-                    //                    LKProgressHUD.dismiss()
-                    //
-                    //                    self.currentPackage = newPackage
-                    //                    self.sunnyModules = newPackage.weatherModules.sunny
-                    //                    self.rainyModules = newPackage.weatherModules.rainy
-                    //
-                    //                    if self.weatherState == .sunny {
-                    //                        id = self.sunnyModules[newIndex].lockInfo.userId
-                    //                        time = self.sunnyModules[newIndex].lockInfo.timestamp
-                    //                    } else {
-                    //                        id = self.rainyModules[newIndex].lockInfo.userId
-                    //                        time = self.rainyModules[newIndex].lockInfo.timestamp
-                    //                    }
-                    //
-                    //                    if isLate {
-                    //                        return
-                    //
-                    //                    } else {
-                    //
-                    //                        // Go to explore
-                    //                        DispatchQueue.main.async {
-                    //                            let exploreVC = ExploreSiteViewController()
-                    //                            exploreVC.onLocationComfirmMU = self.onLocationComfirmMU
-                    //                            exploreVC.onLocationComfirmWithAddress = self.onLocationComfirmWithAddress
-                    //                            exploreVC.actionKind = .edit(indexPath)
-                    //                            exploreVC.id = id
-                    //                            exploreVC.time = time
-                    //                            self.navigationController?.pushViewController(exploreVC, animated: true)
-                    //                        }
-                    //                    }
-                    //                }
-                    //
-                    //            } else {
-                    //
-                    //                // Dismiss loading
-                    //                LKProgressHUD.dismiss()
-                    //
-                    //                // Go to explore
-                    //                let exploreVC = ExploreSiteViewController()
-                    //                exploreVC.onLocationComfirm = self.onLocationComfirm
-                    //                exploreVC.onLocationComfirmWithAddress = self.onLocationComfirmWithAddress
-                    //                exploreVC.actionKind = .edit(indexPath)
-                    //                self.navigationController?.pushViewController(exploreVC, animated: true)
-                    //            }
-                }
-        }
     }
 }

@@ -133,6 +133,8 @@
 		74E209522B2D7B9600477E13 /* TabbarVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E209512B2D7B9600477E13 /* TabbarVM.swift */; };
 		74E453A12B0F16780017BDCD /* FirestoreManager+Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E453A02B0F16780017BDCD /* FirestoreManager+Transaction.swift */; };
 		74E453A42B0F22CB0017BDCD /* MultiUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */; };
+		74F364B42B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F364B32B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift */; };
+		74F364B62B39EE32008969DF /* ExplorePackageVC+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints.swift */; };
 		74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F796BE2B0CA4E40055E72F /* ScrollView.swift */; };
 		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
@@ -233,6 +235,8 @@
 		74E209512B2D7B9600477E13 /* TabbarVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarVM.swift; sourceTree = "<group>"; };
 		74E453A02B0F16780017BDCD /* FirestoreManager+Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreManager+Transaction.swift"; sourceTree = "<group>"; };
 		74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiUserVC.swift; sourceTree = "<group>"; };
+		74F364B32B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreatePackageVC+OnTappedEvent.swift"; sourceTree = "<group>"; };
+		74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExplorePackageVC+Constraints.swift"; sourceTree = "<group>"; };
 		74F796BE2B0CA4E40055E72F /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
 		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -449,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				74B828552B04DB7700A42850 /* CreatePackageVC.swift */,
+				74F364B32B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -521,6 +526,7 @@
 			children = (
 				74DE46732B08B35300B6F648 /* PackageDetailVC.swift */,
 				74DE46662B089B9800B6F648 /* ExplorePackageVC.swift */,
+				74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -953,6 +959,7 @@
 				7432EFEB2B20775F008D2280 /* ChatModel.swift in Sources */,
 				74DE46642B08995700B6F648 /* TabbarController.swift in Sources */,
 				74DE46372B087B2E00B6F648 /* UserModel.swift in Sources */,
+				74F364B42B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift in Sources */,
 				744B57182B05D7AF00B3ABAA /* PackageModel.swift in Sources */,
 				7486BCF92B25B4EF008808B4 /* RequestModel.swift in Sources */,
 				74363FE52B1B2072000AE762 /* ProfileVM.swift in Sources */,
@@ -970,6 +977,7 @@
 				74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */,
 				748023ED2B0B390100878B12 /* SelectionModel.swift in Sources */,
 				74E453A12B0F16780017BDCD /* FirestoreManager+Transaction.swift in Sources */,
+				74F364B62B39EE32008969DF /* ExplorePackageVC+Constraints.swift in Sources */,
 				74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */,
 				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,
 				74363FE72B1B4AA3000AE762 /* UserManager.swift in Sources */,
