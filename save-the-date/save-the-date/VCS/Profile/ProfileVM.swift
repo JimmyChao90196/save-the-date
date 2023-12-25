@@ -37,7 +37,7 @@ class ProfileViewModel {
     
     // Should dismiss or not
     func shouldDismiss(list: [WaitingList: Bool]) {
-        var copyList = list.enumerated()
+        let copyList = list.enumerated()
         
         copyList.forEach { _, element in
             if element.value == false {

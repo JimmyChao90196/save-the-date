@@ -56,7 +56,6 @@ class MultiUserViewController: CreatePackageViewController {
         
         // Data binding
         viewModle.currentChatBundle.bind { [weak self] bundle in
-                
             guard let self = self else { return }
             
             if self.count >= 1 {
@@ -129,7 +128,6 @@ class MultiUserViewController: CreatePackageViewController {
         
         hoverButton = HoverView(with: config, items: itemsMU)
         hoverButton.tintColor = .white
-        
         view.addSubviews([hoverButton])
     }
     
@@ -293,9 +291,7 @@ class MultiUserViewController: CreatePackageViewController {
     }
     
     @objc func enterSesstionTapped() {
-        
         var id = "sessionPackages/"
-        
         switch self.enterKind {
             
         case .demo(let demoId):
@@ -303,7 +299,6 @@ class MultiUserViewController: CreatePackageViewController {
             enterSessionHelper(id: id)
             
         default:
-            
             presentAlertWithTextField(
                 title: "Warning",
                 message: "Please enter the session ID",
@@ -318,7 +313,6 @@ class MultiUserViewController: CreatePackageViewController {
     }
     
     @objc func enterSesstionWithLinkTapped(docPath: String) {
-        
         Task {
             
             let sessionPackage = try? await self.firestoreManager.fetchPackage(withID: docPath)
@@ -483,7 +477,6 @@ class MultiUserViewController: CreatePackageViewController {
                                 dispatchGroup.leave()
                             }
                         }
-                        
                         dispatchGroup.notify(queue: .main) {
                             self?.sunnyModules = []
                             self?.rainyModules = []

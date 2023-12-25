@@ -31,7 +31,7 @@ final class GooglePlacesManager {
             var images = [String: UIImage]()
             let dispatchGroup = DispatchGroup()
 
-            for (index, photoReference) in photoReferences.enumerated() {
+            for (_, photoReference) in photoReferences.enumerated() {
             var components = URLComponents()
             components.scheme = "https"
             components.host = "maps.googleapis.com"
@@ -71,7 +71,7 @@ final class GooglePlacesManager {
         query: String,
         completion: @escaping (Result<[Location], Error>) -> Void
     ) {
-        var filter = GMSAutocompleteFilter()
+        let filter = GMSAutocompleteFilter()
         filter.accessibilityLanguage = "en"
         
         client.findAutocompletePredictions(
@@ -100,7 +100,7 @@ final class GooglePlacesManager {
     public func resolvePhoto(from photoMetaData: GMSPlacePhotoMetadata) async throws -> UIImage {
         return try await withCheckedThrowingContinuation { continuation in
             
-            var copyMetaData = photoMetaData
+            _ = photoMetaData
             
             client.loadPlacePhoto(photoMetaData) { photo, error in
                 if let error = error {

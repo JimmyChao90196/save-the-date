@@ -622,10 +622,6 @@ extension PackageBaseViewController {
                         coords = newCoords
                     }
                 
-//                let sourceCoord = coords[0]
-//                let destCoord = coords[1]
-//                if sourceCoord.latitude == 0 || destCoord.latitude == 0 { LKProgressHUD.dismiss(); return }
-                
                 viewModel.fetchTravelTime(
                     with: transp,
                     and: sourceRawIndex,
@@ -636,47 +632,7 @@ extension PackageBaseViewController {
                             self.afterEditComfirmed?(sourceRawIndex, time)
                         }
                     }
-                
-//                self.routeManager.fetchTravelTime(
-//                    with: transp.transpType,
-//                    from: sourceCoord,
-//                    to: destCoord,
-//                    completion: { travelTime in
-//                        print(travelTime)
-//                        
-//                        let transportation = Transportation(
-//                            transpIcon: transp.transIcon,
-//                            travelTime: travelTime)
-//                        
-//                        // Replace with new transporation
-//                        if self.weatherState == .sunny {
-//                            
-//                            self.sunnyModules[sourceRawIndex].transportation = transportation
-//                            
-//                            // When in multi-user
-//                            if self.isMultiUser {
-//                                self.afterEditComfirmed?(sourceRawIndex, time)
-//                            }
-//                            
-//                        } else {
-//                            
-//                            self.rainyModules[sourceRawIndex].transportation = transportation
-//                            
-//                            // When in multi-user
-//                            if self.isMultiUser {
-//                                self.afterEditComfirmed?(sourceRawIndex, time)
-//                            }
-//                        }
-//                        
-//                        // Dissmiss loading
-//                        LKProgressHUD.dismiss()
-//                        
-//                        DispatchQueue.main.async {
-//                            self.tableView.reloadData()
-//                        }
-//                    })
             }
-            
         }
     }
     

@@ -16,7 +16,7 @@ extension CreateViewModel {
     
     // MARK: - Transp changed -
     func fetchTravelTime(
-        with transp: TranspManager ,
+        with transp: TranspManager,
         and sourceRawIndex: Int,
         by coords: [CLLocationCoordinate2D],
         weatherState: WeatherState,
@@ -40,8 +40,6 @@ extension CreateViewModel {
                     transpIcon: transp.transIcon,
                     travelTime: travelTime)
                 
-                sunnyModules[sourceRawIndex]
-                
                 // Replace with new transporation
                 if weatherState == .sunny {
                     
@@ -49,10 +47,6 @@ extension CreateViewModel {
                     self.sunnyModules.value = sunnyModules
                     copyPackage.weatherModules.sunny = sunnyModules
                     completion?(sourceRawIndex)
-                    // When in multi-user
-//                    if self.isMultiUser {
-//                        self.afterEditComfirmed?(sourceRawIndex, time)
-//                    }
                     
                 } else {
                     
@@ -60,18 +54,11 @@ extension CreateViewModel {
                     self.rainyModules.value = rainyModules
                     copyPackage.weatherModules.rainy = rainyModules
                     completion?(sourceRawIndex)
-                    // When in multi-user
-//                    if self.isMultiUser {
-//                        self.afterEditComfirmed?(sourceRawIndex, time)
-//                    }
                 }
                 
                 // Dissmiss loading
                 LKProgressHUD.dismiss()
-                
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
+
             })
     }
     
