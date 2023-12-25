@@ -31,7 +31,7 @@ final class GooglePlacesManager {
             var images = [String: UIImage]()
             let dispatchGroup = DispatchGroup()
 
-            for (_, photoReference) in photoReferences.enumerated() {
+            for (photoReference) in photoReferences {
             var components = URLComponents()
             components.scheme = "https"
             components.host = "maps.googleapis.com"

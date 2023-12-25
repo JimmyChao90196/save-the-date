@@ -7,15 +7,12 @@
 
 import Foundation
 import UIKit
-
 import SnapKit
 import CoreLocation
-
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseCore
 import Lottie
-
 import QuartzCore
 
 class ExplorePackageViewController: ExploreBaseViewController, ResultViewControllerDelegate {
@@ -31,19 +28,13 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         uid: "",
         token: nil)
     
-    // Stack view
-    let dynamicStackView = UIStackView()
-    
-    // ScrollView
-    var recommandedScrollView = HorizontalImageScrollView()
-    
-    // Search bar
-    var searchController = UISearchController()
-    
     // Manager
     var userManager = UserManager.shared
     
     // UI
+    let dynamicStackView = UIStackView()
+    var recommandedScrollView = HorizontalImageScrollView()
+    var searchController = UISearchController()
     var tagGuide = UILabel()
     lazy var applyButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
@@ -162,7 +153,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         ])
         
         view.sendSubviewToBack(animateBGView)
-        
         foldedView.addSubviews([
             chooseCityLabel,
             chooseDistrictLabel,
@@ -203,7 +193,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
             textfield.backgroundColor = UIColor.hexToUIColor(hex: "#DDDDDD").withAlphaComponent(0.75)
             textfield.textColor = UIColor.black
-            
             // Color of the placeholder text
             let placeholderAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.gray]
             let attributedPlaceholder = NSAttributedString(string: "Search...", attributes: placeholderAttributes)
@@ -213,16 +202,14 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             textfield.tintColor = UIColor.red
         }
         
-        // Setup picker
+        // Setup picker delegation
         cityPicker.dataSource = self
         cityPicker.delegate = self
-        
         districtPicker.dataSource = self
         districtPicker.delegate = self
         
         // Binding
         viewModel.fetchedPackages.bind { [weak self] packages in
-            
             self?.fetchedPackages = packages
             self?.viewModel.fetchUserProfileImages(from: packages)
             
@@ -232,7 +219,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
             }
             
             if type(of: self) == ExplorePackageViewController.self {
-                
                 LKProgressHUD.dismiss()
             }
         }
@@ -266,13 +252,7 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
         searchController.searchResultsUpdater = self
         fetchPackages()
         recommandedScrollView.addImages(
-            named: ["crown",
-                    "crown-silver",
-                    "3rd",
-                    "3rd",
-                    "3rd",
-                    "3rd"
-                   ])
+            named: ["crown", "crown-silver", "3rd", "3rd", "3rd", "3rd" ])
         
         // Add gesture recognition
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
@@ -354,10 +334,8 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
 
 // MARK: - Additional method -
 extension ExplorePackageViewController {
-    
     @objc func handleCredentialsUpdate(notification: Notification) {
         if let credentials = notification.object as? UserCredentialsPack {
-            // Handle the credentials update
             print("Received new credentials: \(credentials)")
             
             self.userCredentialsPack = credentials
@@ -377,9 +355,7 @@ extension ExplorePackageViewController {
         dynamicStackView.arrangedSubviews.forEach {
             $0.removeFromSuperview()
         }
-        
         self.fetchPackages()
-        
         clearButton.isHidden = true
         tagGuide.isHidden = false
     }
@@ -418,12 +394,7 @@ extension ExplorePackageViewController {
     
     @objc func filterButtonTapped() {
         isFolded.toggle()
-        
-        if isFolded {
-            animateConstraint(newConstant: -200)
-        } else {
-            animateConstraint(newConstant: 0)
-        }
+        animateConstraint(newConstant: isFolded ? -200 : 0)
     }
     
     @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
@@ -460,7 +431,6 @@ extension ExplorePackageViewController {
             let token = self.userManager.userCredentialsPack.token
             
             if token == nil || token == "" {
-                
                 let loginVC = LoginViewController()
                 loginVC.modalPresentationStyle = .automatic
                 loginVC.modalTransitionStyle = .coverVertical

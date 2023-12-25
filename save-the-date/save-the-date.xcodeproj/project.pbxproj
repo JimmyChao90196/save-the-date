@@ -134,6 +134,7 @@
 		74E453A42B0F22CB0017BDCD /* MultiUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */; };
 		74F364B42B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F364B32B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift */; };
 		74F364B62B39EE32008969DF /* ExplorePackageVC+Constraints&Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints&Delegate.swift */; };
+		74F364BA2B39F686008969DF /* ChatVC+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F364B92B39F686008969DF /* ChatVC+Constraints.swift */; };
 		74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F796BE2B0CA4E40055E72F /* ScrollView.swift */; };
 		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
@@ -235,6 +236,7 @@
 		74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiUserVC.swift; sourceTree = "<group>"; };
 		74F364B32B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreatePackageVC+OnTappedEvent.swift"; sourceTree = "<group>"; };
 		74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints&Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExplorePackageVC+Constraints&Delegate.swift"; sourceTree = "<group>"; };
+		74F364B92B39F686008969DF /* ChatVC+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatVC+Constraints.swift"; sourceTree = "<group>"; };
 		74F796BE2B0CA4E40055E72F /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
 		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -403,6 +405,7 @@
 			children = (
 				7432EFEE2B215907008D2280 /* ChatVM.swift */,
 				7432EFE32B207439008D2280 /* ChatVC.swift */,
+				74F364B92B39F686008969DF /* ChatVC+Constraints.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -1000,6 +1003,7 @@
 				74A8F91C2B18391F00AE63F5 /* Box.swift in Sources */,
 				74DE46762B08B4D000B6F648 /* ExploreTableView.swift in Sources */,
 				74A8F9202B186FF000AE63F5 /* FirestoreManager+Search.swift in Sources */,
+				74F364BA2B39F686008969DF /* ChatVC+Constraints.swift in Sources */,
 				74DE46782B08B4E500B6F648 /* ExploreTableViewCell.swift in Sources */,
 				748023E82B09EC3C00878B12 /* DayHeaderView.swift in Sources */,
 				74A8F9152B182C3500AE63F5 /* ExploreVM.swift in Sources */,

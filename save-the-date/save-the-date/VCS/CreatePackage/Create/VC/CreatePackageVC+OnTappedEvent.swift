@@ -135,10 +135,8 @@ extension PackageBaseViewController {
             // Show loading
             LKProgressHUD.show()
             
-            var time = 0.0
-            
             // Find time first
-            time = viewModel.extractTime(
+            let time = viewModel.extractTime(
                 weatherState: weatherState,
                 indexPath: indexPath,
                 oldPackage: self.currentPackage)
