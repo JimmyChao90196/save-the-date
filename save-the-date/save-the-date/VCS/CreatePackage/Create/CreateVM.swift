@@ -8,6 +8,7 @@
 import Foundation
 import GoogleMaps
 import GooglePlaces
+import CoreLocation
 
 // This is a cell configuration protocol
 protocol CellClaimingProtocol {
@@ -39,6 +40,11 @@ class CreateViewModel {
     var currentPackage = Box<Package>(Package())
     var sunnyModules = Box<[PackageModule]>([])
     var rainyModules = Box<[PackageModule]>([])
+    
+    var coords = Box<[CLLocationCoordinate2D]>([
+    CLLocationCoordinate2D(latitude: 0, longitude: 0),
+    CLLocationCoordinate2D(latitude: 0, longitude: 0)
+    ])
     
     // MARK: - Configure cell -
     // Configure last cell

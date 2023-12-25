@@ -12,86 +12,61 @@ import GooglePlaces
 
 extension CreateViewModel {
     
-    // MARK: - Append -
-    func locationAddMU(
+    // MARK: - Transp changed -
+    func transpChanged(
         weatherState: WeatherState,
-        location: Location,
-        section: Int,
-        currentPackage: Package,
-        completion: ((PackageModule) -> Void)?
+        targetIndex: IndexPath,
+        tableView: UITableView,
+        oldPackage: Package,
+        completion: (Int, [CLLocationCoordinate2D]) -> Void?
     ) {
         
-        let module = PackageModule(
-            location: location,
-            transportation: Transportation(
-                transpIcon: "plus.viewfinder",
-                travelTime: 0.0),
-            day: section)
+        var copyPackage = oldPackage
+        var sunnyModules = oldPackage.weatherModules.sunny
+        var rainyModules = oldPackage.weatherModules.rainy
         
-        var copyCurrentPackage = currentPackage
-        var sunnyModules = currentPackage.weatherModules.sunny
-        var rainyModules = currentPackage.weatherModules.rainy
+        let modules = weatherState == .sunny ? sunnyModules: rainyModules
         
-        if weatherState == .sunny {
-            sunnyModules.append(module)
+        let rawDestIndexPath = findNextIndexPath(
+            currentIndex: targetIndex,
+            in: tableView)
+        
+        let sourceRawIndex = findModuleIndex(
+            modules: modules,
+            from: targetIndex) ?? 0
+        
+        let destRawIndex = findModuleIndex(
+            modules: modules,
+            from: rawDestIndexPath ?? IndexPath()) ?? 0
+        
+        let sourceCoordDic = modules[sourceRawIndex].location.coordinate
+        let destCoordDic = modules[destRawIndex].location.coordinate
+        
+        // Fetch travel time
+        let sourceCoord = CLLocationCoordinate2D(
+            latitude: sourceCoordDic["lat"] ?? 0,
+            longitude: sourceCoordDic["lng"] ?? 0)
+        
+        let destCoord = CLLocationCoordinate2D(
+            latitude: destCoordDic["lat"] ?? 0,
+            longitude: destCoordDic["lng"] ?? 0)
+        
+        // Breaking system
+        if sourceCoord.latitude == 0 || destCoord.latitude == 0 {
+            LKProgressHUD.dismiss()
             
-        } else {
-            rainyModules.append(module)
-        }
-        
-        copyCurrentPackage.weatherModules.sunny = sunnyModules
-        copyCurrentPackage.weatherModules.rainy = rainyModules
-        
-        self.currentPackage.value = copyCurrentPackage
-        self.sunnyModules.value = sunnyModules
-        self.rainyModules.value = rainyModules
-        
-        fetchPhotosHelperFunction(
-            when: weatherState,
-            with: copyCurrentPackage)
-        
-        completion?(module)
-    }
-    
-    func locationEditMU(
-        weatherState: WeatherState,
-        currentPackage: Package,
-        location: Location,
-        id: String,
-        time: TimeInterval,
-        completion: ((Int) -> Void)?
-    ) {
-        
-        var modules = weatherState == .sunny ?
-        currentPackage.weatherModules.sunny:
-        currentPackage.weatherModules.rainy
-        
-        if let rawIndex = modules.firstIndex(where: {
-            if $0.lockInfo.userId == id && $0.lockInfo.timestamp == time {
-                return true
-            } else { return false }
-        }) {
-            
-            modules[rawIndex].location = location
-            
-            switch weatherState {
-            case .sunny:
-                self.sunnyModules.value = modules
-                self.currentPackage.value.weatherModules.sunny =
-                self.sunnyModules.value
-            case .rainy:
-                self.rainyModules.value = modules
-                self.currentPackage.value.weatherModules.rainy =
-                self.rainyModules.value
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                LKProgressHUD.showFailure(text: "Not enough data provided")
             }
-            
-            fetchPhotosHelperFunction(when: weatherState, with: self.currentPackage.value)
-            completion?(rawIndex)
+            completion(sourceRawIndex, [sourceCoord, destCoord])
+            return
         }
+        
+        completion(sourceRawIndex, [sourceCoord, destCoord])
     }
     
-    // MARK: - Location changed locally -
-    func locationChangeLocal(
+    // MARK: - Location changed -
+    func locationChanged(
         weatherState: WeatherState,
         location: Location,
         action: ActionKind,
@@ -101,7 +76,7 @@ extension CreateViewModel {
             switch action {
             case .add(let section):
                 
-                locationAddLocal(
+                locationAdd(
                     weatherState: weatherState,
                     location: location,
                     section: section,
@@ -111,7 +86,7 @@ extension CreateViewModel {
                 
             case .edit(let targetIndex):
                 
-                locationEditLocal(
+                locationEdit(
                     weatherState: weatherState,
                     location: location,
                     targetIndex: targetIndex,
@@ -121,7 +96,7 @@ extension CreateViewModel {
             }
         }
     
-    func locationAddLocal(
+    func locationAdd(
         weatherState: WeatherState,
         location: Location,
         section: Int,
@@ -151,7 +126,7 @@ extension CreateViewModel {
             fetchPhotosHelperFunction(when: weatherState, with: copyPackage)
         }
     
-    func locationEditLocal(
+    func locationEdit(
         weatherState: WeatherState,
         location: Location,
         targetIndex: IndexPath,

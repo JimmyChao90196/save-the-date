@@ -553,50 +553,27 @@ extension PackageBaseViewController {
     // MARK: - Setup onEvents -
     func setupOnComfirm() {
         
-        onLocationComfirmMU = { [weak self] location, id, time, actionKind in
+        onLocationComfirmMU = { [weak self] location, _, time, action in
             
             guard let self = self else { return }
             self.currentPackage.weatherModules.sunny = self.sunnyModules
             self.currentPackage.weatherModules.rainy = self.rainyModules
             
-            switch actionKind {
-                
-            case .add( let section ):
-                
-                viewModel.locationAddLocal(
-                    weatherState: weatherState,
-                    location: location,
-                    section: section,
-                    oldPackage: self.currentPackage) { newPackage, module, _ in
-                        self.currentPackage = newPackage
-                        self.sunnyModules = newPackage.weatherModules.sunny
-                        self.rainyModules = newPackage.weatherModules.rainy
+            viewModel.locationChanged(
+                weatherState: weatherState,
+                location: location,
+                action: action,
+                oldPackage: self.currentPackage) { newPackage, module, rawIndex in
+                    self.currentPackage = newPackage
+                    self.sunnyModules = newPackage.weatherModules.sunny
+                    self.rainyModules = newPackage.weatherModules.rainy
+                    
+                    if module == nil {
+                        self.afterEditComfirmed?(rawIndex ?? 0, time)
+                    } else {
                         self.afterAppendComfirmed?(module ?? PackageModule())
                     }
-                
-            case .edit(let index):
-                print("edit index: \(index)")
-                
-                viewModel.locationEditLocal(
-                    weatherState: weatherState,
-                    location: location,
-                    targetIndex: index,
-                    oldPackage: self.currentPackage) { newPackage, _, rawIndex in
-                        self.currentPackage = newPackage
-                        self.sunnyModules = newPackage.weatherModules.sunny
-                        self.rainyModules = newPackage.weatherModules.rainy
-                        self.afterEditComfirmed?(rawIndex ?? 0, time)
-                    }
-                
-//                viewModel.locationEditMU(
-//                    weatherState: weatherState,
-//                    currentPackage: self.currentPackage,
-//                    location: location,
-//                    id: id,
-//                    time: time) { rawIndex in
-//                        self.afterEditComfirmed?(rawIndex, time)
-//                    }
-            }
+                }
         }
         
         onLocationComfirm = { [weak self] location, action in
@@ -605,7 +582,7 @@ extension PackageBaseViewController {
             self.currentPackage.weatherModules.sunny = self.sunnyModules
             self.currentPackage.weatherModules.rainy = self.rainyModules
             
-            viewModel.locationChangeLocal(
+            viewModel.locationChanged(
                 weatherState: weatherState,
                 location: location,
                 action: action,
@@ -623,75 +600,99 @@ extension PackageBaseViewController {
             
             // Dictate action
             switch action {
+                
             case .add:
                 print("this shouldn't be triggered")
                 
             case .edit( let targetIndex ):
                 
                 guard let self else { return }
-
+                self.currentPackage.weatherModules.sunny = self.sunnyModules
+                self.currentPackage.weatherModules.rainy = self.rainyModules
+                
                 // Prepare source and dest
-                var sourceCoordDic = [String: Double]()
-                var destCoordDic = [String: Double]()
+                //                var sourceCoordDic = [String: Double]()
+                //                var destCoordDic = [String: Double]()
+                //
+                //                var sunnySourceRawIndex = 0
+                //                var sunnyDestRawIndex = 0
+                //
+                //                var rainySourceRawIndex = 0
+                //                var rainyDestRawIndex = 0
+                //
+                //                var sourceRawIndex = 0
+                //                var destRawIndex = 0
+                //
+                //                if self.weatherState == .sunny {
+                //
+                //                    let rawDestIndexPath = viewModel.findNextIndexPath(
+                //                        currentIndex: targetIndex,
+                //                        in: self.tableView)
+                //
+                //                    sunnySourceRawIndex = viewModel.findModuleIndex(
+                //                        modules: self.sunnyModules,
+                //                        from: targetIndex) ?? 0
+                //
+                //                    sunnyDestRawIndex = viewModel.findModuleIndex(
+                //                        modules: self.sunnyModules,
+                //                        from: rawDestIndexPath ?? IndexPath()) ?? 0
+                //
+                //                    sourceCoordDic = self.sunnyModules[sunnySourceRawIndex].location.coordinate
+                //                    destCoordDic = self.sunnyModules[sunnyDestRawIndex].location.coordinate
+                //
+                //                } else {
+                //
+                //                    let rawDestIndexPath = viewModel.findNextIndexPath(
+                //                        currentIndex: targetIndex,
+                //                        in: self.tableView)
+                //
+                //                    rainySourceRawIndex = viewModel.findModuleIndex(
+                //                        modules: self.rainyModules,
+                //                        from: targetIndex) ?? 0
+                //
+                //                    rainyDestRawIndex = viewModel.findModuleIndex(
+                //                        modules: self.rainyModules,
+                //                        from: rawDestIndexPath ?? IndexPath()) ?? 0
+                //
+                //                    sourceCoordDic = self.rainyModules[rainySourceRawIndex].location.coordinate
+                //                    destCoordDic = self.rainyModules[rainyDestRawIndex].location.coordinate
+                //                }
+                //
+                //                // Fetch travel time
+                //                let sourceCoord = CLLocationCoordinate2D(
+                //                    latitude: sourceCoordDic["lat"] ?? 0,
+                //                    longitude: sourceCoordDic["lng"] ?? 0)
+                //
+                //                let destCoord = CLLocationCoordinate2D(
+                //                    latitude: destCoordDic["lat"] ?? 0,
+                //                    longitude: destCoordDic["lng"] ?? 0)
+                //
+                //                // Breaking system
+                //                if sourceCoord.latitude == 0 || destCoord.latitude == 0 {
+                //                    LKProgressHUD.dismiss()
+                //
+                //                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                //                        LKProgressHUD.showFailure(text: "Not enough data provided")
+                //                    }
+                //
+                //                    return
+                //                }
+                var sourceRawIndex = 0
+                var coords = [CLLocationCoordinate2D]()
                 
-                var sunnySourceRawIndex = 0
-                var sunnyDestRawIndex = 0
+                viewModel.transpChanged(
+                    weatherState: weatherState,
+                    targetIndex: targetIndex,
+                    tableView: self.tableView,
+                    oldPackage: self.currentPackage) { sourceIndex, newCoords in
+                        sourceRawIndex = sourceIndex
+                        coords = newCoords
+                    }
                 
-                var rainySourceRawIndex = 0
-                var rainyDestRawIndex = 0
-                
-                if self.weatherState == .sunny {
-                    
-                    let rawDestIndexPath = viewModel.findNextIndexPath(
-                        currentIndex: targetIndex,
-                        in: self.tableView)
-                    
-                    sunnySourceRawIndex = viewModel.findModuleIndex(
-                        modules: self.sunnyModules,
-                        from: targetIndex) ?? 0
-                    
-                    sunnyDestRawIndex = viewModel.findModuleIndex(
-                        modules: self.sunnyModules,
-                        from: rawDestIndexPath ?? IndexPath()) ?? 0
-                    
-                    sourceCoordDic = self.sunnyModules[sunnySourceRawIndex].location.coordinate
-                    destCoordDic = self.sunnyModules[sunnyDestRawIndex].location.coordinate
-                    
-                } else {
-                    
-                    let rawDestIndexPath = viewModel.findNextIndexPath(
-                        currentIndex: targetIndex,
-                        in: self.tableView)
-                    
-                    rainySourceRawIndex = viewModel.findModuleIndex(
-                        modules: self.rainyModules,
-                        from: targetIndex) ?? 0
-                    
-                    rainyDestRawIndex = viewModel.findModuleIndex(
-                        modules: self.rainyModules,
-                        from: rawDestIndexPath ?? IndexPath()) ?? 0
-                    
-                    sourceCoordDic = self.rainyModules[rainySourceRawIndex].location.coordinate
-                    destCoordDic = self.rainyModules[rainyDestRawIndex].location.coordinate
-                }
-                
-                // Fetch travel time
-                let sourceCoord = CLLocationCoordinate2D(
-                    latitude: sourceCoordDic["lat"] ?? 0,
-                    longitude: sourceCoordDic["lng"] ?? 0)
-                
-                let destCoord = CLLocationCoordinate2D(
-                    latitude: destCoordDic["lat"] ?? 0,
-                    longitude: destCoordDic["lng"] ?? 0)
-                
-                // Breaking system
+                let sourceCoord = coords[0]
+                let destCoord = coords[1]
                 if sourceCoord.latitude == 0 || destCoord.latitude == 0 {
                     LKProgressHUD.dismiss()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        LKProgressHUD.showFailure(text: "Not enough data provided")
-                    }
-                    
                     return
                 }
                 
@@ -709,20 +710,20 @@ extension PackageBaseViewController {
                         // Replace with new transporation
                         if self.weatherState == .sunny {
                             
-                            self.sunnyModules[sunnySourceRawIndex].transportation = transportation
+                            self.sunnyModules[sourceRawIndex].transportation = transportation
                             
                             // When in multi-user
                             if self.isMultiUser {
-                                self.afterEditComfirmed?(sunnySourceRawIndex, time)
+                                self.afterEditComfirmed?(sourceRawIndex, time)
                             }
                             
                         } else {
                             
-                            self.rainyModules[rainySourceRawIndex].transportation = transportation
+                            self.rainyModules[sourceRawIndex].transportation = transportation
                             
                             // When in multi-user
                             if self.isMultiUser {
-                                self.afterEditComfirmed?(rainySourceRawIndex, time)
+                                self.afterEditComfirmed?(sourceRawIndex, time)
                             }
                         }
                         
@@ -734,6 +735,7 @@ extension PackageBaseViewController {
                         }
                     })
             }
+            
         }
     }
     
