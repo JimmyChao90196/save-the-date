@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		74225BF12B19B1BE00D408C1 /* ExploreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74225BF02B19B1BE00D408C1 /* ExploreModel.swift */; };
-		7427B20F2B27F0B100B10EDA /* TranspVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427B20E2B27F0B100B10EDA /* TranspVM.swift */; };
 		7427B2152B28011800B10EDA /* Weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 7427B2142B28011800B10EDA /* Weather.json */; };
 		742AB19E2B39642200EC69B6 /* SaveTheDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742AB19D2B39642200EC69B6 /* SaveTheDateTests.swift */; };
 		742CD0702B04C36C00CA3011 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742CD06F2B04C36C00CA3011 /* AppDelegate.swift */; };
@@ -134,7 +133,7 @@
 		74E453A12B0F16780017BDCD /* FirestoreManager+Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E453A02B0F16780017BDCD /* FirestoreManager+Transaction.swift */; };
 		74E453A42B0F22CB0017BDCD /* MultiUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */; };
 		74F364B42B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F364B32B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift */; };
-		74F364B62B39EE32008969DF /* ExplorePackageVC+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints.swift */; };
+		74F364B62B39EE32008969DF /* ExplorePackageVC+Constraints&Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints&Delegate.swift */; };
 		74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F796BE2B0CA4E40055E72F /* ScrollView.swift */; };
 		BBD4622B9ECDCDBFD3DA8338 /* Pods_save_the_date.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */; };
 /* End PBXBuildFile section */
@@ -152,7 +151,6 @@
 /* Begin PBXFileReference section */
 		0C21406B870A2F9BBBD75184 /* Pods-save-the-date.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.debug.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.debug.xcconfig"; sourceTree = "<group>"; };
 		74225BF02B19B1BE00D408C1 /* ExploreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreModel.swift; sourceTree = "<group>"; };
-		7427B20E2B27F0B100B10EDA /* TranspVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspVM.swift; sourceTree = "<group>"; };
 		7427B2142B28011800B10EDA /* Weather.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Weather.json; sourceTree = "<group>"; };
 		742AB19B2B39642200EC69B6 /* SaveTheDateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SaveTheDateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		742AB19D2B39642200EC69B6 /* SaveTheDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveTheDateTests.swift; sourceTree = "<group>"; };
@@ -236,7 +234,7 @@
 		74E453A02B0F16780017BDCD /* FirestoreManager+Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreManager+Transaction.swift"; sourceTree = "<group>"; };
 		74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiUserVC.swift; sourceTree = "<group>"; };
 		74F364B32B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreatePackageVC+OnTappedEvent.swift"; sourceTree = "<group>"; };
-		74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExplorePackageVC+Constraints.swift"; sourceTree = "<group>"; };
+		74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints&Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExplorePackageVC+Constraints&Delegate.swift"; sourceTree = "<group>"; };
 		74F796BE2B0CA4E40055E72F /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		976304C3E129BD30346D3EE6 /* Pods-save-the-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-save-the-date.release.xcconfig"; path = "Target Support Files/Pods-save-the-date/Pods-save-the-date.release.xcconfig"; sourceTree = "<group>"; };
 		BF3C3244F20A7471CA3A602F /* Pods_save_the_date.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_save_the_date.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -374,7 +372,6 @@
 			isa = PBXGroup;
 			children = (
 				74710CE82B34215C005899F7 /* VC */,
-				74363FE22B1B166A000AE762 /* LoginVM.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -397,7 +394,6 @@
 			children = (
 				74A8F91A2B18380D00AE63F5 /* View */,
 				744B57202B06092500B3ABAA /* TranspVC.swift */,
-				7427B20E2B27F0B100B10EDA /* TranspVM.swift */,
 			);
 			path = Transp;
 			sourceTree = "<group>";
@@ -405,6 +401,7 @@
 		74710CE62B34211B005899F7 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				7432EFEE2B215907008D2280 /* ChatVM.swift */,
 				7432EFE32B207439008D2280 /* ChatVC.swift */,
 			);
 			path = VC;
@@ -413,6 +410,7 @@
 		74710CE72B34213F005899F7 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				74363FE42B1B2072000AE762 /* ProfileVM.swift */,
 				7474AC122B303A2100F673C7 /* ProfileVC+Constraint.swift */,
 				74DE466C2B089C2400B6F648 /* ProfileVC.swift */,
 			);
@@ -422,6 +420,7 @@
 		74710CE82B34215C005899F7 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				74363FE22B1B166A000AE762 /* LoginVM.swift */,
 				74C63D112B1AED8F0053030B /* LoginVC.swift */,
 			);
 			path = VC;
@@ -430,8 +429,6 @@
 		747EDCB22B0DF9C900B0FA58 /* Create */ = {
 			isa = PBXGroup;
 			children = (
-				745503B62B383329001188AD /* CreateVM+OnConfirmed.swift */,
-				74A8F9162B18379600AE63F5 /* CreateVM.swift */,
 				747EDCB42B0DF9DE00B0FA58 /* VC */,
 				747EDCB32B0DF9D800B0FA58 /* View */,
 			);
@@ -452,6 +449,8 @@
 		747EDCB42B0DF9DE00B0FA58 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				745503B62B383329001188AD /* CreateVM+OnConfirmed.swift */,
+				74A8F9162B18379600AE63F5 /* CreateVM.swift */,
 				74B828552B04DB7700A42850 /* CreatePackageVC.swift */,
 				74F364B32B39EB7F008969DF /* CreatePackageVC+OnTappedEvent.swift */,
 			);
@@ -469,6 +468,7 @@
 		7484C0E62B3530CC00ED641A /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				74A8F91D2B18407E00AE63F5 /* ExploreSiteVM.swift */,
 				74B8285C2B04DF8800A42850 /* ExploreSiteVC.swift */,
 				744B57122B05C57800B3ABAA /* ResultVC.swift */,
 			);
@@ -524,9 +524,11 @@
 		74A8F9182B1837C500AE63F5 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				74A8F9142B182C3500AE63F5 /* ExploreVM.swift */,
+				7486BCF42B246452008808B4 /* PackageDetailVM.swift */,
 				74DE46732B08B35300B6F648 /* PackageDetailVC.swift */,
 				74DE46662B089B9800B6F648 /* ExplorePackageVC.swift */,
-				74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints.swift */,
+				74F364B52B39EE32008969DF /* ExplorePackageVC+Constraints&Delegate.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -554,7 +556,6 @@
 		74B8284D2B04D99300A42850 /* VCS */ = {
 			isa = PBXGroup;
 			children = (
-				74A8F91B2B18391F00AE63F5 /* Box.swift */,
 				7484C0E92B353BBF00ED641A /* General */,
 				74363FE12B1B1654000AE762 /* Login */,
 				74DE466B2B089C1900B6F648 /* Profile */,
@@ -611,7 +612,6 @@
 			children = (
 				7484C0E72B3530E000ED641A /* View */,
 				7484C0E62B3530CC00ED641A /* VC */,
-				74A8F91D2B18407E00AE63F5 /* ExploreSiteVM.swift */,
 			);
 			path = ExploreSite;
 			sourceTree = "<group>";
@@ -621,8 +621,6 @@
 			children = (
 				74A8F9182B1837C500AE63F5 /* VC */,
 				74A8F9192B1837EC00AE63F5 /* View */,
-				74A8F9142B182C3500AE63F5 /* ExploreVM.swift */,
-				7486BCF42B246452008808B4 /* PackageDetailVM.swift */,
 			);
 			path = ExplorePackage;
 			sourceTree = "<group>";
@@ -632,7 +630,6 @@
 			children = (
 				74710CE62B34211B005899F7 /* VC */,
 				7432EFF02B21CD39008D2280 /* View */,
-				7432EFEE2B215907008D2280 /* ChatVM.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -642,7 +639,6 @@
 			children = (
 				74710CE72B34213F005899F7 /* VC */,
 				7484C0E82B353AA000ED641A /* View */,
-				74363FE42B1B2072000AE762 /* ProfileVM.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -650,6 +646,7 @@
 		74DE46702B08AD1000B6F648 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				74A8F91B2B18391F00AE63F5 /* Box.swift */,
 				74DE46712B08AD4600B6F648 /* PackageBaseVC.swift */,
 				747AF5CD2B08BD0000091CD9 /* ExploreBaseVC.swift */,
 				745503B42B37F2EA001188AD /* CellConfig.swift */,
@@ -660,10 +657,18 @@
 		74E453A22B0F22AC0017BDCD /* Multi-user */ = {
 			isa = PBXGroup;
 			children = (
+				74F364B82B39F1C5008969DF /* VC */,
+			);
+			path = "Multi-user";
+			sourceTree = "<group>";
+		};
+		74F364B82B39F1C5008969DF /* VC */ = {
+			isa = PBXGroup;
+			children = (
 				74E453A32B0F22CB0017BDCD /* MultiUserVC.swift */,
 				74A60FBF2B22EB8700398A10 /* MultiUserVM.swift */,
 			);
-			path = "Multi-user";
+			path = VC;
 			sourceTree = "<group>";
 		};
 		EC1F0C4677D36EE4ADBC45E2 /* Pods */ = {
@@ -977,7 +982,7 @@
 				74DE46742B08B35300B6F648 /* PackageDetailVC.swift in Sources */,
 				748023ED2B0B390100878B12 /* SelectionModel.swift in Sources */,
 				74E453A12B0F16780017BDCD /* FirestoreManager+Transaction.swift in Sources */,
-				74F364B62B39EE32008969DF /* ExplorePackageVC+Constraints.swift in Sources */,
+				74F364B62B39EE32008969DF /* ExplorePackageVC+Constraints&Delegate.swift in Sources */,
 				74F796BF2B0CA4E40055E72F /* ScrollView.swift in Sources */,
 				744B57212B06092500B3ABAA /* TranspVC.swift in Sources */,
 				74363FE72B1B4AA3000AE762 /* UserManager.swift in Sources */,
@@ -1001,7 +1006,6 @@
 				7486BCFB2B25B6F9008808B4 /* FirestoreManager+Request.swift in Sources */,
 				7432EFEF2B215907008D2280 /* ChatVM.swift in Sources */,
 				74B828582B04DB7700A42850 /* CreatePackageVC.swift in Sources */,
-				7427B20F2B27F0B100B10EDA /* TranspVM.swift in Sources */,
 				74DE46672B089B9800B6F648 /* ExplorePackageVC.swift in Sources */,
 				74B828522B04DB2300A42850 /* UIColorExtension.swift in Sources */,
 				7432EFE92B207439008D2280 /* CustomShape.swift in Sources */,

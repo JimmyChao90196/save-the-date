@@ -19,9 +19,6 @@ class TranspViewController: UIViewController {
     // AnimationView
     var weatherAnimationView = LottieAnimationView()
     
-    // VM
-    let viewModel = TranspViewModel()
-
     var delgate: TranspViewControllerDelegate?
     var tableView = TranspTableView()
     var onTranspTapped: ((UITableViewCell) -> Void)?

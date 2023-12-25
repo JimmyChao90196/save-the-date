@@ -24,7 +24,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     var url: URL?
     
     // VM
-    var count = 0
     let viewModel = ExploreViewModel()
     var userCredentialsPack = UserCredentialsPack(
         name: "",
@@ -107,7 +106,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     var fetchedPackages = [Package]()
     var fetchedProfileImages = [UIImage]()
     var fetchedProfileImagesDic = [String: UIImage]()
-    
     var packageAuthorLabel = UILabel()
     var onLike: ((UITableViewCell, Bool) -> Void)?
     var onTapped: ((Int) -> Void)?
@@ -250,7 +248,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
                 }
                 
                 if type(of: self) == ExplorePackageViewController.self {
-                    
                     LKProgressHUD.dismiss()
                 }
             }
@@ -355,7 +352,6 @@ class ExplorePackageViewController: ExploreBaseViewController, ResultViewControl
     }
 }
 
-
 // MARK: - Additional method -
 extension ExplorePackageViewController {
     
@@ -441,78 +437,10 @@ extension ExplorePackageViewController {
     }
 }
 
-// MARK: - Data Source method -
-extension ExplorePackageViewController {
-    
-    override func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int) -> Int {
-            fetchedPackages.count
-        }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ExploreTableViewCell.reuseIdentifier,
-                for: indexPath) as? ExploreTableViewCell else { return UITableViewCell() }
-            
-            let likedByArray = fetchedPackages[indexPath.row].info.likedBy
-            let isInFavorite = likedByArray.contains { uid in
-                uid == userManager.currentUser.uid
-            }
-            
-            // Handle isLike logic
-            cell.isLike = isInFavorite
-            
-            switch isInFavorite {
-            case true: cell.heartImageView.image = UIImage(
-                systemName: "heart.fill")
-                
-            case false: cell.heartImageView.image = UIImage(
-                systemName: "heart")
-            }
-            
-            let authorNameArray = fetchedPackages[indexPath.row].info.author
-            let authorName = authorNameArray.joined(separator: " ")
-            let authorPhotoURL = fetchedPackages[indexPath.row].photoURL
-            
-            let tags = viewModel.createTagsView(
-                for: indexPath,
-                packages: fetchedPackages)
-            
-            cell.configureStackView(with: tags)
-            cell.packageAuthor.text = " by \(authorName) "
-            cell.packageTitleLabel.text = fetchedPackages[indexPath.row].info.title
-            
-            if fetchedProfileImagesDic == [:] {
-                cell.authorPicture.image = UIImage(systemName: "person.circle")
-            } else {
-                cell.authorPicture.image = fetchedProfileImagesDic[authorPhotoURL]
-            }
-            cell.authorPicture.tintColor = .customUltraGrey
-            cell.onLike = self.onLike
-            
-            return cell
-        }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath) {
-            
-            let packageDetailVC = PackageDetailViewController()
-            packageDetailVC.enterFrom = .explore
-            packageDetailVC.currentPackage = fetchedPackages[indexPath.row]
-            navigationController?.pushViewController(packageDetailVC, animated: true)
-        }
-}
-
 // MARK: - Additional method -
 extension ExplorePackageViewController {
     
     @objc func applyButtonTapped() {
-        
         viewModel.fetchedSearchedPackages(by: self.inputTags)
     }
     
@@ -540,9 +468,7 @@ extension ExplorePackageViewController {
                 loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
                     context.maximumDetentValue * 0.35
                 })]
-                
                 self.navigationController?.present(loginVC, animated: true)
-                
                 return
             }
             
@@ -551,107 +477,17 @@ extension ExplorePackageViewController {
             
             let docPath = self.fetchedPackages[indexPathToEdit.row].docPath
             
-            switch isLike {
-            case true:
-                
-                self.viewModel.afterLiked(
-                    userId: self.userManager.currentUser.uid,
-                    docPath: docPath,
-                    perform: .add) {
-                        self.presentSimpleAlert(
-                            title: "Success",
-                            message: "Successfully added to favorite",
-                            buttonText: "Ok")
-                    }
-                
-            case false:
-                
-                self.viewModel.afterLiked(
-                    userId: self.userManager.currentUser.uid,
-                    docPath: docPath,
-                    perform: .remove) {
-                        self.presentSimpleAlert(
-                            title: "Success",
-                            message: "Successfully delete from favorite",
-                            buttonText: "Ok")
-                    }
-            }
+            self.viewModel.afterLiked(
+                userId: self.userManager.currentUser.uid,
+                docPath: docPath,
+                perform: isLike ? .add : .remove) {
+                    self.presentSimpleAlert(
+                        title: "Success",
+                        message: "Successfully \(isLike ? "added": "remove") to favorite",
+                        buttonText: "Ok")
+                }
         }
     }
-}
-
-// MARK: - Search Delegate method -
-
-extension ExplorePackageViewController: UISearchResultsUpdating, UIPickerViewDataSource, UIPickerViewDelegate {
-    
-    // Did tap protocol
-    func didTapPlace<T>(
-        with coordinate: CLLocationCoordinate2D,
-        and input: T) {
-        }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        
-        guard let text = searchController.searchBar.text else { return }
-        self.viewModel.fetchedSearchedPackages(by: text)
-    }
-    
-    // MARK: - UIPickerViewDelegate methods -
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(
-        _ pickerView: UIPickerView,
-        numberOfRowsInComponent component: Int) -> Int {
-            
-            if pickerView == self.cityPicker {
-                return TaiwanCityModel.allCases.count
-            } else {
-                return currentCity.districts.count
-            }
-        }
-    
-    func pickerView(
-        _ pickerView: UIPickerView,
-        titleForRow row: Int,
-        forComponent component: Int) -> String? {
-            
-            if pickerView == self.cityPicker {
-                return TaiwanCityModel.allCases[row].rawValue
-            } else {
-                return currentCity.districts[row]
-            }
-        }
-    
-    func pickerView(
-        _ pickerView: UIPickerView,
-        didSelectRow row: Int,
-        inComponent component: Int) {
-            
-            if pickerView == self.cityPicker {
-                currentCity = TaiwanCityModel.allCases[row]
-                self.inputTags[0] = self.currentCity.rawValue
-                self.districtPicker.reloadAllComponents()
-                self.inputTags[1] = self.currentCity.districts[0]
-                
-            } else {
-                currentDistrict = currentCity.districts[row]
-                self.inputTags[1] = currentDistrict
-            }
-            
-            print(self.inputTags)
-            let tags = viewModel.createTagsView(inputTags: inputTags)
-            DispatchQueue.main.async {
-                self.configureStackView(with: tags)
-            }
-            
-            self.tagGuide.isHidden = true
-            self.clearButton.isHidden = false
-            
-            viewModel.fetchedSearchedPackages(by: self.inputTags)
-        }
 }
 
 // Configure stackView for city and district tags

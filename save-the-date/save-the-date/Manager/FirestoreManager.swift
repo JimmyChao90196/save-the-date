@@ -346,10 +346,8 @@ class FirestoreManager {
         withID docPath: String) async throws -> Package? {
             
             do {
-                var newPath = docPath
+                // var newPath = docPath
                 let documentRef = fdb.document("sessionPackages/\(docPath)")
-
-                // let documentRef = fdb.document(docPath)
                 
                 let document = try await documentRef.getDocument()
                 

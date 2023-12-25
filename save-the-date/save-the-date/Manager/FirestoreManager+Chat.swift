@@ -96,7 +96,7 @@ extension FirestoreManager {
             // Convert Firestore data to JSON and then deserialize
             guard let messageData = userDocument.data(),
                   let jsonData = try? JSONSerialization.data(withJSONObject: messageData, options: []),
-                  var chatBundle = try? JSONDecoder().decode(ChatBundle.self, from: jsonData) else {
+                  let chatBundle = try? JSONDecoder().decode(ChatBundle.self, from: jsonData) else {
                 let error = NSError(domain: "AppErrorDomain", code: -1, userInfo: [
                     NSLocalizedDescriptionKey: "Unable to deserialize package data."
                 ])
@@ -118,7 +118,7 @@ extension FirestoreManager {
         }, completion: { (transactionResult, error) in
             if let error = error {
                 completion(.failure(error))
-            } else if let message = transactionResult as? ChatMessage {
+            } else if transactionResult is ChatMessage {
                 completion(.success(latestMessages))
             } else {
                 completion(.failure(NSError(
