@@ -301,13 +301,13 @@ class ProfileViewController: ExplorePackageViewController {
         let loginVC = LoginViewController()
         
         presentSimpleAlert(
-            by: ["Switch account", "Delete account"],
+            by: ["Login again", "Delete account"],
             title: "Account setting",
             message: "Please choose the following operation",
             buttonText: "Okay") { alertAction in
                 
                 switch alertAction.title {
-                case "Switch account":
+                case "Login again":
                     
                     loginVC.onLoggedIn = self.onLoggedIn
                     loginVC.modalPresentationStyle = .automatic
@@ -339,8 +339,9 @@ class ProfileViewController: ExplorePackageViewController {
                                         self.profileCoverImageView.image = UIImage(resource: .placeholder04)
                                     }
                                     
-                                case .failure(let failure):
-                                    LKProgressHUD.showFailure(text: "Sensitive operation, login again if failed.")
+                                case .failure:
+                                    LKProgressHUD.showFailure(
+                                        text: "Sensitive operation, tap more and login again in order to proceed")
                                 }
                             }
                         }
