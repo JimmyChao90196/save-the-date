@@ -14,6 +14,65 @@ import CoreLocation
 
 extension CreateViewModel {
     
+    func extractTime(
+        weatherState: WeatherState,
+        indexPath: IndexPath,
+        oldPackage: Package) -> TimeInterval {
+        
+            var time = TimeInterval()
+            let sunnyModules = oldPackage.weatherModules.sunny
+            let rainyModules = oldPackage.weatherModules.rainy
+            
+            if weatherState == .sunny {
+                let rawIndex = findModuleIndex(modules: sunnyModules, from: indexPath) ?? 0
+                time = sunnyModules[rawIndex].lockInfo.timestamp
+            } else {
+                let rawIndex = findModuleIndex(modules: rainyModules, from: indexPath) ?? 0
+                time = rainyModules[rawIndex].lockInfo.timestamp
+            }
+            
+            return time
+    }
+    
+    func handleTranspTapped(
+        docPath: String,
+        userId: String,
+        userName: String,
+        time: TimeInterval,
+        when: WeatherState,
+        completion: ((Package?, TimeInterval) -> Void)?
+    ) {
+        
+        if docPath == "" {
+            completion?(nil, time)
+        } else {
+            
+            self.firestoreManager.lockModuleWithTrans(
+                docPath: docPath,
+                userId: userId,
+                userName: userName,
+                time: time,
+                when: when) { newPackage, newIndex, isLate in
+                    
+                    let sunnyModules = newPackage.weatherModules.sunny
+                    let rainyModules = newPackage.weatherModules.rainy
+                    var newTime = TimeInterval()
+                    
+                    if when == .sunny {
+                        newTime = sunnyModules[newIndex].lockInfo.timestamp
+                    } else {
+                        newTime = rainyModules[newIndex].lockInfo.timestamp
+                    }
+                    
+                    if isLate {
+                        return
+                    } else {
+                        completion?(newPackage, newTime)
+                    }
+                }
+        }
+    }
+    
     // MARK: - Transp changed -
     func fetchTravelTime(
         with transp: TranspManager,

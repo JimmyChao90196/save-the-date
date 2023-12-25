@@ -336,7 +336,6 @@
 		742CD06E2B04C36C00CA3011 /* save-the-date */ = {
 			isa = PBXGroup;
 			children = (
-				745EDAA12B3957E00008632F /* Test */,
 				7486BCF32B242933008808B4 /* save-the-date.entitlements */,
 				748728262B15B3E900EB347F /* ThirdPartyWrapper */,
 				74B8284E2B04DA8B00A42850 /* Extension */,
@@ -397,13 +396,6 @@
 				7427B20E2B27F0B100B10EDA /* TranspVM.swift */,
 			);
 			path = Transp;
-			sourceTree = "<group>";
-		};
-		745EDAA12B3957E00008632F /* Test */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Test;
 			sourceTree = "<group>";
 		};
 		74710CE62B34211B005899F7 /* VC */ = {

@@ -484,7 +484,6 @@ extension PackageBaseViewController {
             
         }
     }
-    
     // Logic to swap module
     func movePackage(from source: IndexPath, to destination: IndexPath) {
         
@@ -498,7 +497,6 @@ extension PackageBaseViewController {
             dest: destination,
             weatherState: weatherState)
     }
-    
     // Interval formatter
     func formatTimeInterval(_ interval: TimeInterval) -> String {
         let hours = Int(interval) / 3600
@@ -512,7 +510,6 @@ extension PackageBaseViewController {
             return "0 min"
         }
     }
-    
     // Segment control changed
     @objc func segmentChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -531,7 +528,6 @@ extension PackageBaseViewController {
             self.tableView.reloadData()
         }
     }
-    
     // Show route button pressed
     @objc func showRouteButtonPressed() {
         // Go to routeVC
@@ -639,96 +635,119 @@ extension PackageBaseViewController {
     func setupOnTapped() {
         
         onAddModulePressed = { section in
-            // Go to Explore site and choose one
             print("orig: \(section)")
             
             let exploreVC = ExploreSiteViewController()
             
             if self.isMultiUser {
-                
                 exploreVC.actionKind = .add(section)
                 exploreVC.onLocationComfirmMU = self.onLocationComfirmMU
-                
             } else {
-                
                 exploreVC.onLocationComfirm = self.onLocationComfirm
             }
             
             exploreVC.actionKind = .add(section)
             exploreVC.onLocationComfirmWithAddress = self.onLocationComfirmWithAddress
             self.navigationController?.pushViewController(exploreVC, animated: true)
-            
         }
         
         onTranspTapped = { [weak self] cell in
             guard let indexPath = self?.tableView.indexPath(for: cell),
             let self = self else { return }
+            self.currentPackage.weatherModules.sunny = self.sunnyModules
+            self.currentPackage.weatherModules.rainy = self.rainyModules
             
             // Show loading
             LKProgressHUD.show()
             
             var rawIndex = 0
             var time = 0.0
-            // var id = ""
             
             // Find time first
-            if weatherState == .sunny {
-                rawIndex = viewModel.findModuleIndex(modules: sunnyModules, from: indexPath) ?? 0
-                time = self.sunnyModules[rawIndex].lockInfo.timestamp
-            } else {
-                rawIndex = viewModel.findModuleIndex(modules: rainyModules, from: indexPath) ?? 0
-                time = self.rainyModules[rawIndex].lockInfo.timestamp
-            }
+            time = viewModel.extractTime(
+                weatherState: weatherState,
+                indexPath: indexPath,
+                oldPackage: self.currentPackage)
             
-            if isMultiUser {
-                self.firestoreManager.lockModuleWithTrans(
-                    docPath: self.documentPath,
-                    userId: userID,
-                    userName: userName,
-                    time: time,
-                    when: weatherState) { newPackage, newIndex, isLate in
-                        
-                        self.currentPackage = newPackage
-                        self.sunnyModules = newPackage.weatherModules.sunny
-                        self.rainyModules = newPackage.weatherModules.rainy
-                        
-                        if self.weatherState == .sunny {
-                            // id = self.sunnyModules[newIndex].lockInfo.userId
-                            time = self.sunnyModules[newIndex].lockInfo.timestamp
-                        } else {
-                            // id = self.rainyModules[newIndex].lockInfo.userId
-                            time = self.rainyModules[newIndex].lockInfo.timestamp
-                        }
-                        
-                        if isLate {
-                            return
-                            
-                        } else {
-                            
-                            // Dismiss loading
-                            LKProgressHUD.dismiss()
-                            
-                            // Jump to transpVC
-                            let transpVC = TranspViewController()
-                            transpVC.onTranspComfirm = self.onTranspComfirm
-                            transpVC.timeStamp = time
-                            transpVC.actionKind = .edit(indexPath)
-                            self.navigationController?.pushViewController(transpVC, animated: true)
-                        }
-                    }
-                
-            } else {
-                
-                // Dismiss loading
-                LKProgressHUD.dismiss()
-                
-                // Jump to transpVC
-                let transpVC = TranspViewController()
-                transpVC.onTranspComfirm = onTranspComfirm
-                transpVC.timeStamp = time
-                transpVC.actionKind = .edit(indexPath)
-                self.navigationController?.pushViewController(transpVC, animated: true)
-            }
+            viewModel.handleTranspTapped(
+                docPath: self.documentPath,
+                userId: userID,
+                userName: userName,
+                time: time,
+                when: weatherState) { newPackage, newTime in
+                    self.currentPackage = newPackage ?? self.currentPackage
+                    self.sunnyModules = self.currentPackage.weatherModules.sunny
+                    self.rainyModules = self.currentPackage.weatherModules.rainy
+                    
+                    // Dismiss loading
+                    LKProgressHUD.dismiss()
+                    
+                    // Jump to transpVC
+                    let transpVC = TranspViewController()
+                    transpVC.onTranspComfirm = self.onTranspComfirm
+                    transpVC.timeStamp = self.isMultiUser ? newTime : time
+                    transpVC.actionKind = .edit(indexPath)
+                    self.navigationController?.pushViewController(transpVC, animated: true)
+                }
+            
+//            if weatherState == .sunny {
+//                rawIndex = viewModel.findModuleIndex(modules: sunnyModules, from: indexPath) ?? 0
+//                time = self.sunnyModules[rawIndex].lockInfo.timestamp
+//            } else {
+//                rawIndex = viewModel.findModuleIndex(modules: rainyModules, from: indexPath) ?? 0
+//                time = self.rainyModules[rawIndex].lockInfo.timestamp
+//            }
+            
+//            if isMultiUser {
+//                self.firestoreManager.lockModuleWithTrans(
+//                    docPath: self.documentPath,
+//                    userId: userID,
+//                    userName: userName,
+//                    time: time,
+//                    when: weatherState) { newPackage, newIndex, isLate in
+//                        
+//                        self.currentPackage = newPackage
+//                        self.sunnyModules = newPackage.weatherModules.sunny
+//                        self.rainyModules = newPackage.weatherModules.rainy
+//                        
+//                        if self.weatherState == .sunny {
+//                            time = self.sunnyModules[newIndex].lockInfo.timestamp
+//                        } else {
+//                            time = self.rainyModules[newIndex].lockInfo.timestamp
+//                        }
+//                        
+//                        if isLate {
+//                            return
+//                            
+//                        } else {
+//                            
+//                            // Dismiss loading
+//                            LKProgressHUD.dismiss()
+//                            
+//                            // Jump to transpVC
+//                            let transpVC = TranspViewController()
+//                            transpVC.onTranspComfirm = self.onTranspComfirm
+//                            transpVC.timeStamp = time
+//                            transpVC.actionKind = .edit(indexPath)
+//                            self.navigationController?.pushViewController(transpVC, animated: true)
+//                        }
+//                    }
+//                
+//            } else {
+//                
+//                // Dismiss loading
+//                LKProgressHUD.dismiss()
+//                
+//                // Jump to transpVC
+//                let transpVC = TranspViewController()
+//                transpVC.onTranspComfirm = onTranspComfirm
+//                transpVC.timeStamp = time
+//                transpVC.actionKind = .edit(indexPath)
+//                self.navigationController?.pushViewController(transpVC, animated: true)
+//            }
+            
+            
+            
         }
         
         onLocationTapped = { [weak self] cell in
