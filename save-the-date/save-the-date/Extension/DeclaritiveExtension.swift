@@ -227,7 +227,10 @@ extension UIViewController {
             buttonAction?()
         }
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
         alert.addAction(action)
+        alert.addAction(cancelAction)
         
         DispatchQueue.main.async {
             self.present(alert, animated: true, completion: nil)

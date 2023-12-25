@@ -175,7 +175,7 @@ class ProfileViewController: ExplorePackageViewController {
     // Discard old constraint
     override func setupConstraint() { }
     
- // MARK: - Additional function -
+    // MARK: - Additional function -
     
     func presentPicker() {
         let imagePickerController = UIImagePickerController()
@@ -300,16 +300,52 @@ class ProfileViewController: ExplorePackageViewController {
     @objc func loginButtonPressed() {
         let loginVC = LoginViewController()
         
-        loginVC.onLoggedIn = self.onLoggedIn
-        loginVC.modalPresentationStyle = .automatic
-        loginVC.modalTransitionStyle = .coverVertical
-        loginVC.enteringKind = .create
-        loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
-            context.maximumDetentValue * 0.35
-        })]
-        
-        present(loginVC, animated: true)
-        
+        presentSimpleAlert(
+            by: ["Switch account", "Delete account"],
+            title: "Account setting",
+            message: "Please choose the following operation",
+            buttonText: "Okay") { alertAction in
+                
+                switch alertAction.title {
+                case "Switch account":
+                    
+                    loginVC.onLoggedIn = self.onLoggedIn
+                    loginVC.modalPresentationStyle = .automatic
+                    loginVC.modalTransitionStyle = .coverVertical
+                    loginVC.enteringKind = .create
+                    loginVC.sheetPresentationController?.detents = [.custom(resolver: { context in
+                        context.maximumDetentValue * 0.35
+                    })]
+                    self.present(loginVC, animated: true)
+                    
+                default:
+                    self.presentSimpleAlert(
+                        title: "Warning",
+                        message: "You are about to delete your account",
+                        buttonText: "Okay") {
+                            self.profileVM.deleteAccount { result in
+                                switch result {
+                                case .success(let credPack):
+                                    
+                                    NotificationCenter.default.post(
+                                        name: .userCredentialsUpdated,
+                                        object: credPack)
+                                    
+                                    let nvc = self.navigationController
+                                    nvc?.popToRootViewController(animated: false)
+                                    nvc?.tabBarController?.selectedIndex = 0
+                                    
+                                    DispatchQueue.main.async {
+                                        self.profileCoverImageView.image = UIImage(resource: .placeholder04)
+                                    }
+                                    
+                                case .failure(let failure):
+                                    LKProgressHUD.showFailure(text: "Sensitive operation, login again if failed.")
+                                }
+                            }
+                        }
+                }
+            }
     }
 }
 
@@ -340,13 +376,9 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
         selectionView: SelectionView,
         displayColor: UIColor,
         selectionIndex: Int) {
-            
             switch selectionIndex {
-                
             case 0: stateOfPackages = .favoriteState
-                
             case 1: stateOfPackages = .publishedState
-                
             case 2: stateOfPackages = .draftState
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     LKProgressHUD.showFailure(text: "Not available yet")
@@ -355,7 +387,6 @@ extension ProfileViewController: SelectionViewDataSource, SelectionViewProtocol 
             }
             
             waitingList[.profileImages] = false
-            
             self.fetchOperation()
             LKProgressHUD.show()
         }
@@ -367,7 +398,6 @@ extension ProfileViewController {
     override func tableView(
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath) {
-            
             let packageDetailVC = PackageDetailViewController()
             packageDetailVC.enterFrom = .profile
             packageDetailVC.currentPackage = currentPackages[indexPath.row]
@@ -382,7 +412,6 @@ extension ProfileViewController {
     override func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int) -> Int {
-            
             self.currentPackages.count
         }
     
@@ -409,9 +438,7 @@ extension ProfileViewController {
             if currentProfileImages.isEmpty == false {
                 cell.authorPicture.image = currentProfileImages[indexPath.row]
             }
-            
             cell.authorPicture.tintColor = .customUltraGrey
-            
             return cell
         }    
 }
@@ -428,7 +455,6 @@ extension ProfileViewController:
             picker.dismiss(animated: true, completion: nil)
             
             if let selectedImage = info[.originalImage] as? UIImage {
-                
                 var targetSize = profileVM.calculateAspectRatioSize(
                     for: selectedImage,
                     maxWidth: 100,
@@ -436,14 +462,14 @@ extension ProfileViewController:
                 
                 switch self.imageType {
                     
-                case .profileImage: print("do nothing")
+                case .profileImage:
+                    print("do nothing")
                 case .profileCover:
                     targetSize = profileVM.calculateAspectRatioSize(
                         for: selectedImage,
                         maxWidth: 256,
                         maxHeight: 256)
                 }
-                
                 profileVM.downsample(
                     image: selectedImage,
                     to: targetSize) { image in

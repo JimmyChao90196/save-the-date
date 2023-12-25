@@ -12,6 +12,11 @@ import SnapKit
 import FirebaseStorage
 import FirebaseCore
 import FirebaseFirestoreSwift
+import FirebaseAuthInterop
+import FirebaseAuth
+
+import AuthenticationServices
+import CryptoKit
 
 import ImageIO
 
@@ -70,6 +75,36 @@ class ProfileViewModel {
                          email: user.email,
                          photoURL: user.photoURL,
                          uid: user.uid)) {}
+            }
+        }
+    }
+    
+    // Account deletion
+    func deleteAccount(completion: @escaping (Result<UserCredentialsPack, Error>) -> Void) {
+        let user = Auth.auth().currentUser
+        user?.delete { error in
+            if let error = error {
+                print("Delete account error: \(error)")
+                completion(.failure(error))
+            } else {
+                print("Delete account success")
+                self.firestoreManager.deleteUser(
+                    docPath: user?.uid ?? "") { result in
+                        switch result {
+                        case .success:
+                            print("Success")
+                        case .failure(let error):
+                            print("Delete user faild: \(error)")
+                        }
+                    }
+                
+                let userCredPack = UserCredentialsPack(
+                    name: "",
+                    email: "",
+                    uid: "",
+                    token: "")
+                
+                completion(.success(userCredPack))
             }
         }
     }

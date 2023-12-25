@@ -155,7 +155,7 @@ class FirestoreManager {
         completion: @escaping () -> Void) {
             
             let ref = fdb.collection("users").document(userId)
-            var fieldPath = "name"
+            let fieldPath = "name"
             
             ref.updateData([fieldPath: newName]) { error in
                 if let error = error {
@@ -193,6 +193,24 @@ class FirestoreManager {
         }
     }
     
+    func deleteUser(
+        docPath: String,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        let documentRef = fdb.collection("users").document(docPath)
+
+        documentRef.delete { error in
+            if let error = error {
+                // Handle the error here
+                print("Error deleting document: \(error)")
+                completion(.failure(error))
+            } else {
+                // Document successfully deleted
+                completion(.success(()))
+            }
+        }
+    }
+
     // MARK: - Update package -
     func updatePackage(
         infoToUpdate newValue: String,

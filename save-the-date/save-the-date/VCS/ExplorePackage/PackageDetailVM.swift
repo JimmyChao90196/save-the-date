@@ -50,7 +50,14 @@ class PackageDetailViewModel {
                 
                     switch result {
                     case .success(let images):
-                        self.authorImages.value = images
+                        if images == [] {
+                            self.authorImages.value = [
+                                UIImage(systemName: "person.circle")!
+                                    .withTintColor(.customUltraGrey)
+                            ]
+                        } else {
+                            self.authorImages.value = images
+                        }
                     case .failure(let error):
                         print("failed to fetch images \(error)")
                     }
