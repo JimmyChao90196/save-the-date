@@ -9,10 +9,72 @@ import Foundation
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import MapKit
+import CoreLocation
 
 extension CreateViewModel {
     
     // MARK: - Transp changed -
+    func fetchTravelTime(
+        with transp: TranspManager ,
+        and sourceRawIndex: Int,
+        by coords: [CLLocationCoordinate2D],
+        weatherState: WeatherState,
+        oldPackage: Package,
+        completion: ((Int) -> Void)?
+    ) {
+        let sourceCoord = coords[0]
+        let destCoord = coords[1]
+        if sourceCoord.latitude == 0 || destCoord.latitude == 0 { LKProgressHUD.dismiss(); return }
+        var copyPackage = oldPackage
+        var sunnyModules = oldPackage.weatherModules.sunny
+        var rainyModules = oldPackage.weatherModules.rainy
+        
+        self.routeManager.fetchTravelTime(
+            with: transp.transpType,
+            from: sourceCoord,
+            to: destCoord,
+            completion: { travelTime in
+                
+                let transportation = Transportation(
+                    transpIcon: transp.transIcon,
+                    travelTime: travelTime)
+                
+                sunnyModules[sourceRawIndex]
+                
+                // Replace with new transporation
+                if weatherState == .sunny {
+                    
+                    sunnyModules[sourceRawIndex].transportation = transportation
+                    self.sunnyModules.value = sunnyModules
+                    copyPackage.weatherModules.sunny = sunnyModules
+                    completion?(sourceRawIndex)
+                    // When in multi-user
+//                    if self.isMultiUser {
+//                        self.afterEditComfirmed?(sourceRawIndex, time)
+//                    }
+                    
+                } else {
+                    
+                    rainyModules[sourceRawIndex].transportation = transportation
+                    self.rainyModules.value = rainyModules
+                    copyPackage.weatherModules.rainy = rainyModules
+                    completion?(sourceRawIndex)
+                    // When in multi-user
+//                    if self.isMultiUser {
+//                        self.afterEditComfirmed?(sourceRawIndex, time)
+//                    }
+                }
+                
+                // Dissmiss loading
+                LKProgressHUD.dismiss()
+                
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+            })
+    }
+    
     func transpChanged(
         weatherState: WeatherState,
         targetIndex: IndexPath,
@@ -21,9 +83,8 @@ extension CreateViewModel {
         completion: (Int, [CLLocationCoordinate2D]) -> Void?
     ) {
         
-        var copyPackage = oldPackage
-        var sunnyModules = oldPackage.weatherModules.sunny
-        var rainyModules = oldPackage.weatherModules.rainy
+        let sunnyModules = oldPackage.weatherModules.sunny
+        let rainyModules = oldPackage.weatherModules.rainy
         
         let modules = weatherState == .sunny ? sunnyModules: rainyModules
         

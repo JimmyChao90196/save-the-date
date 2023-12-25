@@ -30,6 +30,7 @@ class CreateViewModel {
     
     let googlePlaceManger = GooglePlacesManager.shared
     let firestoreManager = FirestoreManager.shared
+    let routeManager = RouteManager.shared
     
     let regionTags = Box<[String]>([])
     var sunnyPhotos = Box<[String: UIImage]>([:])

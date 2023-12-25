@@ -610,73 +610,6 @@ extension PackageBaseViewController {
                 self.currentPackage.weatherModules.sunny = self.sunnyModules
                 self.currentPackage.weatherModules.rainy = self.rainyModules
                 
-                // Prepare source and dest
-                //                var sourceCoordDic = [String: Double]()
-                //                var destCoordDic = [String: Double]()
-                //
-                //                var sunnySourceRawIndex = 0
-                //                var sunnyDestRawIndex = 0
-                //
-                //                var rainySourceRawIndex = 0
-                //                var rainyDestRawIndex = 0
-                //
-                //                var sourceRawIndex = 0
-                //                var destRawIndex = 0
-                //
-                //                if self.weatherState == .sunny {
-                //
-                //                    let rawDestIndexPath = viewModel.findNextIndexPath(
-                //                        currentIndex: targetIndex,
-                //                        in: self.tableView)
-                //
-                //                    sunnySourceRawIndex = viewModel.findModuleIndex(
-                //                        modules: self.sunnyModules,
-                //                        from: targetIndex) ?? 0
-                //
-                //                    sunnyDestRawIndex = viewModel.findModuleIndex(
-                //                        modules: self.sunnyModules,
-                //                        from: rawDestIndexPath ?? IndexPath()) ?? 0
-                //
-                //                    sourceCoordDic = self.sunnyModules[sunnySourceRawIndex].location.coordinate
-                //                    destCoordDic = self.sunnyModules[sunnyDestRawIndex].location.coordinate
-                //
-                //                } else {
-                //
-                //                    let rawDestIndexPath = viewModel.findNextIndexPath(
-                //                        currentIndex: targetIndex,
-                //                        in: self.tableView)
-                //
-                //                    rainySourceRawIndex = viewModel.findModuleIndex(
-                //                        modules: self.rainyModules,
-                //                        from: targetIndex) ?? 0
-                //
-                //                    rainyDestRawIndex = viewModel.findModuleIndex(
-                //                        modules: self.rainyModules,
-                //                        from: rawDestIndexPath ?? IndexPath()) ?? 0
-                //
-                //                    sourceCoordDic = self.rainyModules[rainySourceRawIndex].location.coordinate
-                //                    destCoordDic = self.rainyModules[rainyDestRawIndex].location.coordinate
-                //                }
-                //
-                //                // Fetch travel time
-                //                let sourceCoord = CLLocationCoordinate2D(
-                //                    latitude: sourceCoordDic["lat"] ?? 0,
-                //                    longitude: sourceCoordDic["lng"] ?? 0)
-                //
-                //                let destCoord = CLLocationCoordinate2D(
-                //                    latitude: destCoordDic["lat"] ?? 0,
-                //                    longitude: destCoordDic["lng"] ?? 0)
-                //
-                //                // Breaking system
-                //                if sourceCoord.latitude == 0 || destCoord.latitude == 0 {
-                //                    LKProgressHUD.dismiss()
-                //
-                //                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                //                        LKProgressHUD.showFailure(text: "Not enough data provided")
-                //                    }
-                //
-                //                    return
-                //                }
                 var sourceRawIndex = 0
                 var coords = [CLLocationCoordinate2D]()
                 
@@ -689,51 +622,59 @@ extension PackageBaseViewController {
                         coords = newCoords
                     }
                 
-                let sourceCoord = coords[0]
-                let destCoord = coords[1]
-                if sourceCoord.latitude == 0 || destCoord.latitude == 0 {
-                    LKProgressHUD.dismiss()
-                    return
-                }
+//                let sourceCoord = coords[0]
+//                let destCoord = coords[1]
+//                if sourceCoord.latitude == 0 || destCoord.latitude == 0 { LKProgressHUD.dismiss(); return }
                 
-                self.routeManager.fetchTravelTime(
-                    with: transp.transpType,
-                    from: sourceCoord,
-                    to: destCoord,
-                    completion: { travelTime in
-                        print(travelTime)
-                        
-                        let transportation = Transportation(
-                            transpIcon: transp.transIcon,
-                            travelTime: travelTime)
-                        
-                        // Replace with new transporation
-                        if self.weatherState == .sunny {
-                            
-                            self.sunnyModules[sourceRawIndex].transportation = transportation
-                            
-                            // When in multi-user
-                            if self.isMultiUser {
-                                self.afterEditComfirmed?(sourceRawIndex, time)
-                            }
-                            
-                        } else {
-                            
-                            self.rainyModules[sourceRawIndex].transportation = transportation
-                            
-                            // When in multi-user
-                            if self.isMultiUser {
-                                self.afterEditComfirmed?(sourceRawIndex, time)
-                            }
+                viewModel.fetchTravelTime(
+                    with: transp,
+                    and: sourceRawIndex,
+                    by: coords,
+                    weatherState: weatherState,
+                    oldPackage: self.currentPackage) { sourceRawIndex in
+                        if self.isMultiUser {
+                            self.afterEditComfirmed?(sourceRawIndex, time)
                         }
-                        
-                        // Dissmiss loading
-                        LKProgressHUD.dismiss()
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    })
+                    }
+                
+//                self.routeManager.fetchTravelTime(
+//                    with: transp.transpType,
+//                    from: sourceCoord,
+//                    to: destCoord,
+//                    completion: { travelTime in
+//                        print(travelTime)
+//                        
+//                        let transportation = Transportation(
+//                            transpIcon: transp.transIcon,
+//                            travelTime: travelTime)
+//                        
+//                        // Replace with new transporation
+//                        if self.weatherState == .sunny {
+//                            
+//                            self.sunnyModules[sourceRawIndex].transportation = transportation
+//                            
+//                            // When in multi-user
+//                            if self.isMultiUser {
+//                                self.afterEditComfirmed?(sourceRawIndex, time)
+//                            }
+//                            
+//                        } else {
+//                            
+//                            self.rainyModules[sourceRawIndex].transportation = transportation
+//                            
+//                            // When in multi-user
+//                            if self.isMultiUser {
+//                                self.afterEditComfirmed?(sourceRawIndex, time)
+//                            }
+//                        }
+//                        
+//                        // Dissmiss loading
+//                        LKProgressHUD.dismiss()
+//                        
+//                        DispatchQueue.main.async {
+//                            self.tableView.reloadData()
+//                        }
+//                    })
             }
             
         }
