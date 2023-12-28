@@ -19,7 +19,8 @@ Save the date is an app designed to simplify planning dates or trips at any time
   - [Planing the trip(Package)](#planing-the-trip)
   - [Planing the trip(Package) with other user](#planing-the-trip-with-other-user)
   - [Publish the package](#publish-and-brwose))
-  - [Chat with others](#chat-with-other-user)
+  - [Chat with others](#chat-with-other-user)  
+- [App](#app)
 - [License](#license)
 - [Contact](#contact)
 
@@ -123,6 +124,12 @@ Pressing the `chat button` on the bottom tab, select the multi-user session you'
   </div>
 
   ---
+
+## App
+
+Welcom to download my app on [Appstore](https://apps.apple.com/tw/app/save-the-date/id6473776997?l=en-GB).
+
+---
 
 ## License
 
