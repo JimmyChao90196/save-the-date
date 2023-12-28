@@ -127,7 +127,7 @@ Pressing the `chat button` on the bottom tab, select the multi-user session you'
 
 ## App
 
-Welcom to download my app on [Appstore](https://apps.apple.com/tw/app/save-the-date/id6473776997?l=en-GB).
+Welcome to download my app on [Appstore](https://apps.apple.com/tw/app/save-the-date/id6473776997?l=en-GB).
 
 ---
 
