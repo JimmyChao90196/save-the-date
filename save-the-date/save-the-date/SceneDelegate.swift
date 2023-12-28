@@ -13,8 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var pendingDeepLink: URL?
     var test: Int?
     
-    // swiftlint: disable force_cast
-    static let shared = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+    // static let shared = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
     
     func scene(
         _ scene: UIScene,

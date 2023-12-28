@@ -54,7 +54,7 @@ class LKProgressHUD {
         shared.hud.textLabel.text = text
         shared.hud.indicatorView = JGProgressHUDErrorIndicatorView()
         shared.hud.show(in: shared.view)
-        shared.hud.dismiss(afterDelay: 1.5)
+        shared.hud.dismiss(afterDelay: 2)
     }
 
     static func show() {

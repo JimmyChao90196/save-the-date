@@ -13,7 +13,7 @@ extension FirestoreManager {
     
     // MARK: - SubmitReport -
     func submitRequest(
-        targetDocPath docPath : String,
+        targetDocPath docPath: String,
         _ requestType: RequestType,
         completion: @escaping (Result<String, Error>) -> Void) {
             

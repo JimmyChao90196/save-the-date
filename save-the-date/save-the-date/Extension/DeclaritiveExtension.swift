@@ -227,7 +227,10 @@ extension UIViewController {
             buttonAction?()
         }
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
         alert.addAction(action)
+        alert.addAction(cancelAction)
         
         DispatchQueue.main.async {
             self.present(alert, animated: true, completion: nil)
@@ -331,5 +334,13 @@ extension TimeInterval {
 
         // Format the Date object into a string
         return dateFormatter.string(from: date)
+    }
+}
+
+// MARK: - Array extension - 
+extension Array where Element: Hashable {
+    func unique() -> [Element] {
+        var seen = Set<Element>()
+        return filter { seen.insert($0).inserted }
     }
 }

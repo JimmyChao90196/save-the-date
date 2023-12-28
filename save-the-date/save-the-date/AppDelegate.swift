@@ -24,6 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             // Override point for customization after application launch.
             
+            // Force setting languege
+            UserDefaults.standard.set(["en"], forKey: "AppleLanguages")
+            UserDefaults.standard.synchronize()
+            
             GMSPlacesClient.provideAPIKey("AIzaSyDKpRUS5pK0qBRxosBaXhazzsyWING1GxY")
             GMSServices.provideAPIKey("AIzaSyDKpRUS5pK0qBRxosBaXhazzsyWING1GxY")
             
