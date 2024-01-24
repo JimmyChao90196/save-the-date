@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import UIKit
+import FirebaseFirestore
+
 import GoogleMaps
 import GooglePlaces
 import CoreLocation
@@ -423,6 +426,23 @@ class CreateViewModel {
                     }
                 }
         }
+    
+    func settingUpListener(
+        weatherState: WeatherState,
+        docPath: String,
+        completion: @escaping ((Package) -> Void) ) -> ListenerRegistration? {
+            
+        let listenerRegisteration =  self.firestoreManager.modulesListener(docPath: docPath) { newPackage in
+            
+            self.fetchPhotosHelperFunction(
+                when: weatherState,
+                with: newPackage)
+            
+            completion(newPackage)
+        }
+        
+        return listenerRegisteration
+    }
     
     func fetchPhotosHelperFunction(when weatherState: WeatherState, with currentPackage: Package) {
         

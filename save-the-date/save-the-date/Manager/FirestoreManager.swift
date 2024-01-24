@@ -397,7 +397,7 @@ class FirestoreManager {
                 do {
                     // Convert the document data to JSON Data
                     let jsonData = try JSONSerialization.data(withJSONObject: document.data(), options: [])
-//                    // Decode the JSON Data to a Package02 object
+                    // Decode the JSON Data to a Package02 object
                     let package = try decoder.decode(Package.self, from: jsonData)
                     
                     packages.append(package)

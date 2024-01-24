@@ -65,4 +65,31 @@ class MultiUserViewModel {
                 print("Successfully append chatDocPath to session package")
             }
     }
+    
+    func updatePackageAndUserInfo(sessionId: String, name: String, uid: String) {
+        // Add user name and userId to package
+        self.firestoreManager.updatePackage(
+            infoToUpdate: name,
+            docPath: sessionId,
+            toPath: .author,
+            perform: .add) {}
+        
+        self.firestoreManager.updatePackage(
+            infoToUpdate: uid,
+            docPath: sessionId,
+            toPath: .authorId,
+            perform: .add) {}
+        
+        self.firestoreManager.updateUserPackages(
+            userId: uid,
+            packageType: .sessionColl,
+            docPath: sessionId,
+            perform: .add) { }
+    }
+    
+    func fetchPackages(id: String) async -> Package? {
+        
+        let sessionPackage = try? await self.firestoreManager.fetchPackage(withID: id)
+        return sessionPackage
+    }
 }

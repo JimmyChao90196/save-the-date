@@ -48,20 +48,20 @@ class MultiUserViewController: CreatePackageViewController {
     
     // VM
     var count = 0
-    var viewModle = MultiUserViewModel()
+    var multiUserViewModel = MultiUserViewModel()
     
     // MARK: - Common function -
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Data binding
-        viewModle.currentChatBundle.bind { [weak self] bundle in
+        multiUserViewModel.currentChatBundle.bind { [weak self] bundle in
             guard let self = self else { return }
             
             if self.count >= 1 {
             self.currentBundle = bundle
             
-                viewModle.updatePackage(
+                multiUserViewModel.updatePackage(
                     pathToUpdate: bundle.roomID,
                     packageToUpdate: documentPath)
             }
@@ -132,21 +132,6 @@ class MultiUserViewController: CreatePackageViewController {
     }
     
     // MARK: - Additional function -
-    // Firestore function implementation
-    func updateNameAndUid(sessionId: String, name: String, uid: String) {
-        // Add user name and userId to package
-        self.firestoreManager.updatePackage(
-            infoToUpdate: self.userName,
-            docPath: sessionId,
-            toPath: .author,
-            perform: .add) {}
-        
-        self.firestoreManager.updatePackage(
-            infoToUpdate: self.userID,
-            docPath: sessionId,
-            toPath: .authorId,
-            perform: .add) {}
-    }
     
     // after Event
     func setupAfterEvent(docPath: String) {
@@ -253,7 +238,8 @@ class MultiUserViewController: CreatePackageViewController {
                         ) {
                             
                             // Setup listener
-                            self?.listenerRegisteration = self?.firestoreManager.modulesListener(docPath: docPath) { newPackage in
+                            self?.listenerRegisteration = self?.firestoreManager.modulesListener(
+                                docPath: docPath) { newPackage in
                                 self?.currentPackage = newPackage
                                 self?.sunnyModules = newPackage.weatherModules.sunny
                                 self?.rainyModules = newPackage.weatherModules.rainy
@@ -276,7 +262,7 @@ class MultiUserViewController: CreatePackageViewController {
                             
                             // Create chatroom
                             guard let currentId = self?.userManager.currentUser.uid else { return }
-                            self?.viewModle.createChatRoom(with: [currentId])
+                            self?.multiUserViewModel.createChatRoom(with: [currentId])
                             
                         }
                         
@@ -315,35 +301,28 @@ class MultiUserViewController: CreatePackageViewController {
     @objc func enterSesstionWithLinkTapped(docPath: String) {
         Task {
             
-            let sessionPackage = try? await self.firestoreManager.fetchPackage(withID: docPath)
+            let sessionPackage = await self.multiUserViewModel.fetchPackages(id: docPath)
+            
+            LKProgressHUD.showSuccess(text: "Successfully enter the session")
             
             self.currentPackage = sessionPackage ?? Package()
             self.sunnyModules = self.currentPackage.weatherModules.sunny
             self.rainyModules = self.currentPackage.weatherModules.rainy
             
             // Add name and id
-            self.updateNameAndUid(
+            self.multiUserViewModel.updatePackageAndUserInfo(
                 sessionId: docPath,
                 name: self.userName,
                 uid: self.userID)
             
-            // Update user packages
-            self.firestoreManager.updateUserPackages(
-                userId: self.userID,
-                packageType: .sessionColl,
-                docPath: docPath,
-                perform: .add) { }
-            
             // Setup listener
-            self.listenerRegisteration = self.firestoreManager.modulesListener(docPath: docPath) { newPackage in
+            self.listenerRegisteration = self.viewModel.settingUpListener(
+                weatherState: self.weatherState,
+                docPath: docPath) { newPackage in
                 
                 self.currentPackage = newPackage
                 self.sunnyModules = newPackage.weatherModules.sunny
                 self.rainyModules = newPackage.weatherModules.rainy
-
-                self.viewModel.fetchPhotosHelperFunction(
-                    when: self.weatherState,
-                    with: self.currentPackage)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -361,7 +340,7 @@ class MultiUserViewController: CreatePackageViewController {
             // Update chatroom at the end
             let currentUid = self.userManager.currentUser.uid
             let chatDocPath = self.self.currentPackage.chatDocPath
-            self.viewModle.updateChatRoom(newId: currentUid, docPath: chatDocPath)
+            self.multiUserViewModel.updateChatRoom(newId: currentUid, docPath: chatDocPath)
         }
     }
     
@@ -370,8 +349,7 @@ class MultiUserViewController: CreatePackageViewController {
         
         Task {
             
-            let sessionPackage = try? await
-            self.firestoreManager.fetchPackage(withID: id)
+            let sessionPackage = await self.multiUserViewModel.fetchPackages(id: id)
             
             if sessionPackage == nil {
                 
@@ -380,33 +358,26 @@ class MultiUserViewController: CreatePackageViewController {
                 return
             }
             
+            LKProgressHUD.showSuccess(text: "Successfully enter the session")
+            
             self.currentPackage = sessionPackage ?? Package()
             self.sunnyModules = self.currentPackage.weatherModules.sunny
             self.rainyModules = self.currentPackage.weatherModules.rainy
             
             // Add name and uid
-            self.updateNameAndUid(
+            self.multiUserViewModel.updatePackageAndUserInfo(
                 sessionId: id,
                 name: self.userName,
                 uid: self.userID)
             
-            // Update user packages
-            self.firestoreManager.updateUserPackages(
-                userId: self.userID,
-                packageType: .sessionColl,
-                docPath: id,
-                perform: .add) { }
-            
             // Setup listener
-            self.listenerRegisteration = self.firestoreManager.modulesListener(docPath: id) { newPackage in
+            self.listenerRegisteration = self.viewModel.settingUpListener(
+                weatherState: self.weatherState,
+                docPath: id) { newPackage in
                 
                 self.currentPackage = newPackage
                 self.sunnyModules = newPackage.weatherModules.sunny
                 self.rainyModules = newPackage.weatherModules.rainy
-                
-                self.viewModel.fetchPhotosHelperFunction(
-                    when: self.weatherState,
-                    with: self.currentPackage)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -424,7 +395,7 @@ class MultiUserViewController: CreatePackageViewController {
             // Update chatroom at the end
             let currentUid = self.userManager.currentUser.uid
             let chatDocPath = self.self.currentPackage.chatDocPath
-            self.viewModle.updateChatRoom(newId: currentUid, docPath: chatDocPath)
+            self.multiUserViewModel.updateChatRoom(newId: currentUid, docPath: chatDocPath)
         }
     }
     
