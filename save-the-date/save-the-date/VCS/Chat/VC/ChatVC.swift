@@ -31,7 +31,7 @@ class ChatViewController: UIViewController {
     var userManager = UserManager.shared
     var currentBundle = ChatBundle(messages: [], participants: [], roomID: "")
     var sessionPackages = [Package]()
-    var LRG: ListenerRegistration?
+    var listenerRegisteration: ListenerRegistration?
     
     let footerView = UIView()
     var inputField = UITextField()
@@ -125,8 +125,8 @@ class ChatViewController: UIViewController {
         }
         
         // Binding for listener
-        viewModel.LRG.bind { listenerRegistration in
-            self.LRG = listenerRegistration
+        viewModel.listenerRegisteration.bind { listenerRegistration in
+            self.listenerRegisteration = listenerRegistration
         }
         
         // Bind for profile photos
@@ -424,9 +424,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             
         case sessionsTableView:
             
-            // Remove previous LRG
-            if LRG != nil {
-                LRG?.remove()
+            // Remove previous listener registeration
+            if listenerRegisteration != nil {
+                listenerRegisteration?.remove()
             }
             
             // Find docpath

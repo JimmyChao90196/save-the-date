@@ -36,7 +36,7 @@ class MultiUserViewController: CreatePackageViewController {
     var isEnteringWithLink = false
     
     // Store listener
-    var LSG: ListenerRegistration?
+    var listenerRegisteration: ListenerRegistration?
     
     var enterKind = EnterKind.enter
     
@@ -204,7 +204,7 @@ class MultiUserViewController: CreatePackageViewController {
                     self.sunnyModules = []
                     self.rainyModules = []
                     self.currentPackage = Package()
-                    self.LSG?.remove()
+                    self.listenerRegisteration?.remove()
                     
                     self.navigationController?.popViewController(animated: true)
                     
@@ -253,7 +253,7 @@ class MultiUserViewController: CreatePackageViewController {
                         ) {
                             
                             // Setup listener
-                            self?.LSG = self?.firestoreManager.modulesListener(docPath: docPath) { newPackage in
+                            self?.listenerRegisteration = self?.firestoreManager.modulesListener(docPath: docPath) { newPackage in
                                 self?.currentPackage = newPackage
                                 self?.sunnyModules = newPackage.weatherModules.sunny
                                 self?.rainyModules = newPackage.weatherModules.rainy
@@ -335,7 +335,7 @@ class MultiUserViewController: CreatePackageViewController {
                 perform: .add) { }
             
             // Setup listener
-            self.LSG = self.firestoreManager.modulesListener(docPath: docPath) { newPackage in
+            self.listenerRegisteration = self.firestoreManager.modulesListener(docPath: docPath) { newPackage in
                 
                 self.currentPackage = newPackage
                 self.sunnyModules = newPackage.weatherModules.sunny
@@ -367,6 +367,7 @@ class MultiUserViewController: CreatePackageViewController {
     
     // Helper function when entering the session
     func enterSessionHelper(id: String) {
+        
         Task {
             
             let sessionPackage = try? await
@@ -397,7 +398,7 @@ class MultiUserViewController: CreatePackageViewController {
                 perform: .add) { }
             
             // Setup listener
-            self.LSG = self.firestoreManager.modulesListener(docPath: id) { newPackage in
+            self.listenerRegisteration = self.firestoreManager.modulesListener(docPath: id) { newPackage in
                 
                 self.currentPackage = newPackage
                 self.sunnyModules = newPackage.weatherModules.sunny
@@ -481,7 +482,7 @@ class MultiUserViewController: CreatePackageViewController {
                             self?.sunnyModules = []
                             self?.rainyModules = []
                             self?.currentPackage = Package()
-                            self?.LSG?.remove()
+                            self?.listenerRegisteration?.remove()
                             
                             DispatchQueue.main.async {
                                 self?.tableView.reloadData()

@@ -74,7 +74,6 @@ class PackageDetailViewModel {
         isInEditMode.value = false
         
         let copyPackage = package
-        // copyPackage.photoURL = self.userManager.currentUser.photoURL
         
         self.firestoreManager.overridePackage(copyPackage) { result in
             switch result {
@@ -109,8 +108,5 @@ class PackageDetailViewModel {
             }
             
             self.shouldEdit.value = shouldEdit
-            
-            // Output result
-            // completion(shouldEdit)
         }
 }

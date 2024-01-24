@@ -109,12 +109,11 @@ class CreatePackageViewController: PackageBaseViewController {
         )
         
         let items = [
-            /*
+            
             HoverItem(
                 title: "Demo session",
                 image: UIImage(systemName: "door.left.hand.open"),
                 onTap: { self.enterDemoSessionPressed() }),
-             */
             
             HoverItem(
                 title: "Enter multi-user session",
@@ -350,12 +349,6 @@ extension CreatePackageViewController {
             buttonAction?(LeaveKind.publish)
         }
         alert.addAction(pubAction)
-        
-        // Save as draft action
-//        let draftAction = UIAlertAction(title: "Save as draft", style: .default) { _ in
-//            buttonAction?(LeaveKind.saveAsDraft)
-//        }
-//        alert.addAction(draftAction)
         
             let leaveWithoutSaveAction = UIAlertAction(title: "Leave without saving", style: .destructive) { _ in
             buttonAction?(LeaveKind.discardChanges)

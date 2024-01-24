@@ -17,7 +17,7 @@ class ChatViewModel {
     var isFold = Box(true)
     var currentUser = Box(User())
     var profileImages = Box<[String: UIImage?]>([:])
-    var LRG = Box<ListenerRegistration?>(nil)
+    var listenerRegisteration = Box<ListenerRegistration?>(nil)
     var sessionPackages = Box<[Package]>([])
     var currentBundle = Box(ChatBundle(
         messages: [],
@@ -59,12 +59,12 @@ class ChatViewModel {
     
     // Chat listener
     func setupChatListener(docPath: String) {
-        let LRG = firestoreManager.chatListener(
+        let listenerRegisteration = firestoreManager.chatListener(
             docPath: docPath) { bundle in
                 self.currentBundle.value = bundle
             }
         
-        self.LRG.value = LRG
+        self.listenerRegisteration.value = listenerRegisteration
     }
     
     // Create chatroom

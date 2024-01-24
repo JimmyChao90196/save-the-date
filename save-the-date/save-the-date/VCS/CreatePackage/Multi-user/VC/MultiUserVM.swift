@@ -19,7 +19,6 @@ class MultiUserViewModel {
                    participants: [],
                    roomID: ""))
     
-    // Create chatroom
     func createChatRoom(
         with participants: [String] = ["participant1",
                                        "participant2"]) {
