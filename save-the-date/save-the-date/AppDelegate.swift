@@ -64,6 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         // Called when the user discards a scene session.
     }
+    
 }
 
 // MARK: - Notification -
